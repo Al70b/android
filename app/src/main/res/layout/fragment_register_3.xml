@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/register_info_simple_data"
+                android:textSize="17sp"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/dark_red"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layoutDirection="rtl">
+
+                <TextView
+                    android:id="@+id/text_view_register_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:padding="6dp"
+                    android:text="@string/gender"
+                    android:textColor="@color/dark_red"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group_register_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:textColor="@color/dark_red"
+                    android:textStyle="bold">
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_register_gender_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="male"
+                        android:text="@string/male"
+                        android:textColor="@color/dark_red" />
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_register_gender_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:tag="female"
+                        android:text="@string/female"
+                        android:textColor="@color/dark_red" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl">
+
+                <TextView
+                    android:id="@+id/text_view_register_social_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_horizontal"
+                    android:padding="3dp"
+                    android:text="@string/social_status"
+                    android:textColor="@color/dark_red"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_register_social_status"
+                    android:layout_width="200dp"
+                    android:layout_height="38dp"
+                    android:gravity="center_horizontal"
+                     />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl">
+
+                <TextView
+                    android:id="@+id/text_view_register_birthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:padding="9dp"
+                    android:text="@string/register_birthdate"
+                    android:textColor="@color/dark_red"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_stam"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/dark_red"
+                    android:paddingBottom="1dp">
+
+                    <TextView
+                        android:id="@+id/text_view_register_birthdate_pick"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shadowed_white"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:minHeight="32dp"
+                        android:text="@string/register_choose_date"
+                        android:textColor="@color/dark_red"
+                        android:textSize="19sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layoutDirection="rtl"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_register_prev_3"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/red_button"
+            android:minWidth="120dp"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/btn_register_next_3"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/red_button"
+            android:minWidth="120dp"
+            android:text="@string/next" />
+    </LinearLayout>
+
+</LinearLayout>

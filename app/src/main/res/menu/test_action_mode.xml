@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_bar_toggle" android:actionLayout="@layout/layout_test"
+        android:orderInCategory="3" android:showAsAction="always" android:title="Toggle  Button" />
+
+</menu>

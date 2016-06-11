@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="src.res.core.activities.UserHomeActivity">
+
+    <item
+    android:id="@+id/action_friends"
+    android:icon="@drawable/ic_action_group"
+    android:showAsAction="always"
+    app:showAsAction="always"
+    android:title="@string/friends"/>
+
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/settings" />
+</menu>

@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_bar_login" android:orderInCategory="1"
+        android:showAsAction="always|withText"
+
+        android:title="@string/login_actionbarItem" />
+
+    <item android:id="@+id/action_bar_register" android:orderInCategory="2"
+        android:showAsAction="always|withText" android:title="@string/register_actionbarItem" />
+
+</menu>

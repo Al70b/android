@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:background="@color/bright_gray"
+    android:layoutDirection="rtl">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/messages_with"
+        android:textSize="22sp"
+        android:layout_margin="7dp"
+        android:padding="5dp"
+        android:textColor="@color/red_focused_action_bar_item"
+        android:gravity="right"
+        android:layout_gravity="center_vertical|right" />
+
+    <TextView
+        android:id="@+id/text_view_list_header_messages_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Naseem"
+        android:textSize="22sp"
+        android:layout_margin="7dp"
+        android:padding="5dp"
+        android:textColor="@color/red_focused_action_bar_item"
+        android:gravity="right"
+        android:layout_gravity="center_vertical|right" />
+</LinearLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Al70b </string>
+
+    <!-- A c t i v i t i e s   T i t e l s  -->
+
+    <string name="title_activity_very_first">al70b الحب</string>
+    <string name="title_activity_user_home">דף הבית</string>
+    <string name="settings">הגדרות</string>
+    <string name="edTxtEmail">דוא"ל</string>
+    <string name="password">סיסמה</string>
+    <string name="retype_password">אישור סיסמה</string>
+    <string name="itemAboutUs">מי אנחנו</string>
+    <string name="itemPolicy">מדיניות</string>
+    <string name="logoNotShown">T h e l o g o p i c t u r e</string>
+    <string name="empty_string"></string>
+    <string name="welcome_message">ברוך הבא לאפלקציית "אהבה"</string>
+    <string name="welcomeSubtitle">אפלקציית הצט הראשונה</string>
+    <string name="register_i_am">אני</string>
+    <string name="male">זכר</string>
+    <string name="female">נקבה</string>
+    <string name="register_name">שם</string>
+    <string name="register_city">עיר</string>
+    <string name="register_date_of_birth">תאריך לידה</string>
+    <string name="register_choose_date">לחץ לבחור</string>
+    <string name="register_header_message">נא למלא את השדות הבאים</string>
+    <string name="register_looking_for">מחפש</string>
+    <string name="register_looking_for_relation">מטרת החיפוש</string>
+    <string name="register_chat">צט</string>
+    <string name="register_friendship">חברות</string>
+    <string name="register_marriage">נישואין</string>
+    <string name="register_love">אהבה</string>
+    <string name="register_dating">לצאת ביחד</string>
+    <string name="register_account_info">על החשבון</string>
+    <string name="register_personal_info">פרטי</string>
+    <string name="register_interest_info">מטרת חיפוש</string>
+    <string name="register_successfully">ההרשמה הסתימה בהצלחה</string>
+    <string name="register_message_personel">בסיסי</string>
+    <string name="register_message_account">על החשבון</string>
+    <string name="register_birthdate">תאריך לידה</string>
+
+    <!--  A c t i o n B a r   I t e m s  -->
+    <string name="login_actionbarItem">כנס לחשבון</string>
+    <string name="register_actionbarItem">הרשמה</string>
+    <string name="privacy_actionbarItem">מדיניות פרטיות</string>
+
+    <!--  E r r o r   M e s s a g e s  -->
+    <string name="error_invalid_email_pass_syntax">הדוא"ל או הסיסמה שהזנת לא חוקיים
+    </string>
+    <string name="error_invalid_email_syntax">אנא הזן דוא"ל חוקי</string>
+    <string name="error_invalid_password_syntax">אנא הזן סיסמה בת 5 אותיות לפחות
+    </string>
+    <string name="error_invalid_email_or_password">הדוא"ל ו/או הסיסמה שהזנת אינם נכונים    </string>
+    <string name="error_server_connection_falied">לא היתה אפשרות לתקשר עם הסירבר, אנא בדוק את התחברותך לרשת
+     </string>
+    <string name="error_general">Error:</string>
+    <string name="error_red_icon">אנא מלא את הנתונים כפי שנדרש</string>
+    <string name="error_choose_date">אנא בחר תאריך לידה</string>
+    <string name="error_should_be_above_18">ההרשמה אסורה למי שטרם לא מלאו לו 18 שנים</string>
+    <string name="error_choose_interest">אנא בחר מה אתה מחפש</string>
+    <string name="error_choose_social_status">אנא בחר את המצב המשפחתי</string>
+    <string name="error_choose_interest_purpose">אנא בחר מטרת היכרות אחת לפחות</string>
+    <!-- Buttons -->
+    <string name="done">סיים</string>
+    <string name="edit">עדכן</string>
+    <string name="cancel">בטל</string>
+    <string name="button_ok">אוקי</string>
+    <string name="button_cancel">בטל</string>
+    <string name="edit_user_data">עדכן נתונים</string>
+
+    <string name="welcome_user"> ברוך שובך %1$s,\nכניסה לחשבון...</string>
+    <string name="loading_data">נכנס לחשבון שלך</string>
+
+    <!-- Misc -->
+    <string name="please_wait">אנא המתן</string>
+    <string name="friends">חברים</string>
+    <string name="messages">הודעות שלי</string>
+    <string name="logout_message">יוצא מן החשבון</string>
+    <string name="press_back_again_to_exit">לחץ "חזור" שוב לצאת מהאפליקציה</string>
+    <string name="your_status">מצבך</string>
+    <string name="search_for_friend">חפש חבר</string>
+    <string name="choose_from_list">בחר מרשימה</string>
+    <string name="open_drawer">פתח</string>
+    <string name="close_drawer">סגור</string>
+    <string name="social_status">מצב משפחתי</string>
+    <string name="country">מדינה</string>
+    <string name="location_gps">GPS</string>
+    <string name="location_manual">ידני</string>
+    <string name="messages_with">הודעות עם</string>
+    <string name="copy">העתק</string>
+    <string name="delete">מחק</string>
+    <string name="follow_steps_to_register">אנא בצע את הצעדים הבאים להרשמה</string>
+
+    <!-- lost more in list view -->
+    <string name="pull_to_refresh_pull_label">משוך לראות עוד הודעות</string>
+    <string name="pull_to_refresh_release_label"></string>
+    <string name="pull_to_refresh_refreshing_label">מוריד הודעות מהשרת...</string>
+    <string name="pull_to_refresh_tap_label">לחץ כן לראות הודעות ישנות</string>
+    <string name="no_more_loads_label">אין יותר הודעות עם חבר זה</string>
+    <!-- Countries Names -->
+
+    <string name="btnLogin">כנס</string>
+
+    <string-array name="drawer_values">
+        <item>דף ראשי</item>
+        <item>החשבון שלי</item>
+        <item>חברים</item>
+        <item>חיפוש מתקדם</item>
+        <item>מצא בן/בת זוג</item>
+        <item>צא</item>
+    </string-array>
+
+    <string-array name="user_data_titles">
+        <item>תמונות שלי</item>
+        <item>מתקדם</item>
+        <item>בסיסי</item>
+        <item>נתוני חשבון</item>
+    </string-array>
+
+    <string-array name="register_titles">
+        <item>סיים</item>
+        <item>נתוני חשבון</item>
+        <item>בסיסי</item>
+    </string-array>
+
+</resources>

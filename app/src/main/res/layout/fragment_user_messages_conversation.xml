@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView
+        android:id="@+id/listview_user_messages_conversation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:paddingBottom="5dp"
+        android:clickable="false"
+        android:background="@color/white"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        android:maxHeight="52dp"
+        android:background="@color/black"
+        android:alpha="0.6"
+        android:paddingTop="0.5dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutDirection="rtl"
+            android:background="@color/white"
+            android:padding="4dp">
+
+            <EditText
+                android:id="@+id/edit_text_user_messages_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="32dp"
+                android:maxHeight="52dp"
+                android:layout_weight="8"
+                android:inputType="textMultiLine"
+                android:layoutDirection="rtl"
+                />
+
+            <ImageButton
+                android:id="@+id/image_button_user_messages_send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_send"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="3dp"
+                android:paddingRight="3dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

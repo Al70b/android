@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/transparent"
+    android:layoutDirection="rtl">
+
+    <ImageButton
+        android:id="@+id/actionbar_member_profile_imgbtn_back"
+        android:layout_width="24dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_action_forward"
+        android:layout_marginRight="4dp"
+        android:background="@color/transparent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/actionbar_member_profile_circleimg_profile"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_toLeftOf="@id/actionbar_member_profile_imgbtn_back"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:padding="8dp"
+        android:src="@drawable/default_user_photo"
+        />
+
+    <TextView
+        android:id="@+id/actionbar_member_profile_txtview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/actionbar_member_profile_circleimg_profile"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="4dp"
+        android:text="الإسم الكامل هنا"
+        android:maxWidth="160dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="21sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/actionbar_member_profile_txtview_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="160dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_below="@id/actionbar_member_profile_txtview_title"
+        android:layout_alignRight="@id/actionbar_member_profile_txtview_title"
+
+        android:text="الإسم الكامل هنا"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        />
+
+</RelativeLayout>

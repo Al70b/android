@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/left_drawer_profile_picture"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:src="@drawable/failed_sad_face"
+            app:border_color="#bfbfbf"
+            app:border_width="0.1dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_view_drawer_left_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="2dp"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:ellipsize="middle"
+                android:gravity="center_vertical|right"
+                android:text="نسيم حجوج"
+                android:textColor="@color/dark_slate_gray"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:clickable="false"
+                android:selectAllOnFocus="false"
+                />
+
+            <TextView
+                android:id="@+id/text_view_drawer_left_list_status_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="2dp"
+                android:background="?android:attr/activatedBackgroundIndicator"
+                android:ellipsize="middle"
+                android:gravity="center_vertical|right"
+                android:text="نسيم حجوج"
+                android:textColor="@color/brighter_slate_gray"
+                android:textSize="12sp"
+                android:clickable="false"
+                android:selectAllOnFocus="false"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/left_drawer_status"
+                android:layout_width="@dimen/status_circle_friends"
+                android:layout_height="@dimen/status_circle_friends"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="7dp"
+                android:src="@drawable/status_online" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:background="@color/dark_red" />
+</LinearLayout>

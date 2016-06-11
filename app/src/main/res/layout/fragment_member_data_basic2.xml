@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:isScrollContainer="true">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layoutDirection="rtl"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="15dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_genderA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/gender"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_genderB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:minWidth="160dp"
+                android:padding="4dp"
+                android:textSize="20sp" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_birthdateA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/register_date_of_birth"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_birthdateB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_socialA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="@string/social_status"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_socialB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:textSize="20sp"
+                />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_countryA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/country"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_countryB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_user_data_basic_cityA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/register_city"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_cityB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_basic_interestedInA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/register_looking_for"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_member_data_basic_interestedInB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkBox_member_data_basic_interestedIn_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="@string/male"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkBox_member_data_basic_interestedIn_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:enabled="false"
+                    android:text="@string/female" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/text_view_member_data_lookForRelationA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:text="@string/register_interest_info"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_view_member_data_lookForRelationB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="4dp"
+                android:textSize="20sp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</ScrollView>

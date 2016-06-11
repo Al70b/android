@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:layout_marginTop="9dp"
+    android:layoutDirection="ltr"
+    android:paddingRight="4dp"
+    android:paddingLeft="4dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_image_list_item_messages_profile_picture_member"
+        android:layout_width="@dimen/small_member_profile_picture"
+        android:layout_height="@dimen/small_member_profile_picture"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/text_view_list_item_messages_last_member"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/status_online" />
+
+
+    <EmojiconTextView
+        android:id="@+id/text_view_list_item_messages_last_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/circle_image_list_item_messages_profile_picture_member"
+        android:background="@drawable/message_gray"
+        android:padding="10dp"
+        android:textColor="#313131"
+        android:layout_marginRight="45dp"
+        android:layout_marginEnd="45dp"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/text_view_list_item_messages_date_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/text_view_list_item_messages_last_member"
+        android:layout_below="@id/text_view_list_item_messages_last_member"
+        android:layout_marginTop="3dp"
+        android:padding="3dp"
+        android:text="date here"
+        android:textColor="@color/bright_gray"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

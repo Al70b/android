@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:layoutDirection="rtl"
+    android:orientation="horizontal"
+    android:padding="5dp"
+>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_image_list_item_messages_profile_picture"
+        android:layout_width="@dimen/small_member_profile_picture"
+        android:layout_height="@dimen/small_member_profile_picture"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="4dp"
+        android:clickable="true"
+        android:src="@drawable/status_online" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layoutDirection="inherit"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="4dp"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/text_view_list_item_messages_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:padding="1dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/text_view_list_item_messages_last"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#313131"
+            android:textSize="13sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:padding="1dp"
+            />
+
+        <TextView
+            android:id="@+id/text_view_list_item_messages_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#4f4f4f"
+            android:textSize="12sp"
+            android:padding="1dp"/>
+    </LinearLayout>
+
+</LinearLayout>

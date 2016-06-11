@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">al70b الحب</string>
+
+    <!-- A c t i v i t i e s   T i t e l s -->
+
+    <string name="title_activity_very_first">al70b الحب</string>
+    <string name="title_activity_user_home">الرئيسية</string>
+    <string name="title_activity_member_profile">صفحة العضو</string>
+    <string name="settings">خصائص</string>
+    <string name="edTxtEmail">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="retype_password">تأكيد كلمة المرور</string>
+    <string name="itemAboutUs">من نحن</string>
+    <string name="itemPolicy">سياسة</string>
+    <string name="rememberMe">تذكرني</string>
+    <string name="automaticLogin">دخول تلقائي</string>
+    <string name="logoNotShown">T h e l o g o p i c t u r e</string>
+    <string name="empty_string"></string>
+    <string name="welcome_message">أهلًا وسهلًا بكم في تطبيق التعارف الأول \"الحُب\"</string>
+    <string name="welcomeSubtitle">وُلد تطبيق \"الحُب\" من الحاجة للعثور على حبٍ حقيقيٍ، حيثُ أن في عصرنا الحالي معظمُنا يعملُ حتى الساعات المتأخرة، فلا تتسنى لنا الفرصة للعثور على شريكِ حياتنا الملائم.\nيأتي تطبيقُ \"الحُب\" ليوفّر لك بديلًا بسيطًا وسهل الإستعمال للعثور على الحب بلمسة زر من أي جهاز حاسوبٍ أو هاتفٍ نقالٍ متصلٍ بالإنترنيت.\nيمكنك أن تبدأ برحلة إيجاد شريك حياتك عبر تطبيقنا هذا، أو عبر موقعنا Al7ob.com</string>
+    <string name="register_i_am">أنا</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
+    <string name="register_name">الإسم</string>
+    <string name="register_city">المدينة</string>
+    <string name="register_date_of_birth">تاريخ الميلاد</string>
+    <string name="register_choose_date">إضغط للإختيار</string>
+    <string name="register_header_message">قم بتعبئة البيانات التالية من فضلك</string>
+    <string name="register_looking_for">أبحث عن</string>
+    <string name="register_looking_for_relation">أبحث عن علاقة</string>
+    <string name="register_chat">محادثة</string>
+    <string name="register_friendship">صداقة</string>
+    <string name="register_marriage">زواج</string>
+    <string name="register_love">حب</string>
+    <string name="register_dating">مواعدة</string>
+    <string name="register_account_info">معلومات الحساب</string>
+    <string name="register_personal_info">معلومات شخصية</string>
+    <string name="register_interest_info">إهتمامات</string>
+    <string name="register_successfully">تمت عملية التسجيل بنجاح\nتم إرسال رسالة تأكيد إلى صندوق بريدك، من فضلك قم بتأكيد التسجيل، ثم عد للبدء بالدردشة</string>
+    <string name="register_message_personel">معلومات أساسية</string>
+    <string name="register_message_account">معلومات الحساب</string>
+    <string name="register_birthdate">تاريخ الولادة</string>
+    <string name="register_in_progress">إنتظر من فضلك، جاري التسجيل...</string>
+
+    <!--  A c t i o n B a r   I t e m s -->
+    <string name="login_actionbarItem">دخول</string>
+    <string name="register_actionbarItem">إشتراك</string>
+    <string name="privacy_actionbarItem">سياسة الخصوصية</string>
+
+    <!--  E r r o r   M e s s a g e s -->
+        <string name="error_invalid_email_pass_syntax">صيغة البريد الإلكتروني أو كلمة المرور غير صحيحة
+        </string>
+        <string name="error_invalid_password_syntax">من فضلك قم بإدخال كلمة مرور من 5 أحرف على الأقل
+        </string>
+        <string name="error_invalid_email_or_password">البريد الإلكتروني و/أو كلمة المرور غير صحيحة
+        </string>
+        <string name="error_server_connection_falied">لم نتمكن من الإتصال بالخادم، الرجاء فحص إتصالك
+            بالإنترنيت
+        </string>
+    <string name="error_please_enter_valid_email">من فضلك قم بإدخال بريد إلكتروني بالصيغة الملائمة</string>
+    <string name="error_general">Error:</string>
+    <string name="error_red_icon">عليك بملئ البيانات كما هو مطلوب منك</string>
+    <string name="error_choose_date">عليك إختيار تاريخ الولادة</string>
+    <string name="error_should_be_above_18">مسموح التسجيل لمن هم في سن الـ18 وما فوق</string>
+    <string name="error_choose_interest">عليك إختيار جنس من تبحث عنه</string>
+    <string name="error_choose_social_status">عليك إختيار الحالة الإجتماعية</string>
+    <string name="error_choose_interest_purpose">عليك إختيار إهتمام واحد على الأقل</string>
+    <string name="error_choose_proper_values_for_date">على الأجيال المدخلة أن تكون بين %1$d و %2$d</string>
+    <string name="error_downloading_profile_picture">لا نتمكن من تحميل صورتك الشخصية، قم بإعادة تشغيل التطبيق، إذا لم تحل المشكلة إتصل بنا</string>
+    <string name="error_fill_your_name">من فضلك قم بتعبئة إسمك، حرفين على الأقل</string>
+    <string name="error_fill_your_city">من فضلك قم بتعبئة مدينتك/منطقتك، 3 حروف على الأقل</string>
+    <!-- Buttons -->
+    <string name="done">تم</string>
+    <string name="edit">تعديل</string>
+    <string name="cancel">إلغاء</string>
+    <string name="button_ok">أوكي</string>
+    <string name="button_cancel">إلغاء</string>
+    <string name="edit_user_data">تعديل البيانات</string>
+
+    <string name="welcome_user"> أهلًا بعودتك %1$s,\nجاري الدخول لحسابك...</string>
+    <string name="loading_data">جاري الدخول لحسابك</string>
+
+
+    <!-- Misc -->
+    <string name="error">رسالة خطأ</string>
+    <string name="caution">رسالة تحذير</string>
+    <string name="please_wait">إنتظر من فضلك</string>
+    <string name="friends">أصدقاء</string>
+    <string name="messages">رسائلي</string>
+    <string name="logout_message">جاري الخروج من حسابك</string>
+    <string name="press_back_again_to_exit">إضغط "رجوع" مرة أخرى للخروج من التطبيق</string>
+    <string name="your_status">حالتك</string>
+    <string name="search_for_friend">إبحث عن صديق</string>
+    <string name="choose_from_list">إختر من القائمة</string>
+    <string name="open_drawer">إفتح الجرار</string>
+    <string name="close_drawer">أغلق الجرار</string>
+    <string name="social_status">الحالة الإجتماعية</string>
+    <string name="country">الدولة</string>
+    <string name="location_gps">إفتراضي GPS</string>
+    <string name="location_manual">تحديد يدوي</string>
+    <string name="messages_with">رسائلك مع</string>
+    <string name="copy">نسخ</string>
+    <string name="delete">حذف</string>
+    <string name="send">أرسل</string>
+    <string name="follow_steps_to_register">إملأ بياناتك كاملةً ثم إتبع الخطوة التالية للتسجيل</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="forgot_password_header_message">من فضلك قم بإدخال بريدك الإلكتروني لإرسال رسالة إلى حسابك لتغيير كلمة المرور</string>
+    <string name="forgot_password_title">إستعادة كلمة المرور</string>
+    <string name="loading_conversations">جاري تحميل محادثاتك...</string>
+    <string name="failed_loading_conversations">تحميل المحادثات لم ينجح، إضغط للمحاولة مرة أخرى</string>
+    <string name="empty_conversations">لا يوجد لديك محادثات</string>
+    <string name="complete_register">إتمام التسجيل</string>
+    <string name="register_message_success">رسالة</string>
+    <string name="register_oops">رسالة خطأ</string>
+    <string name="logging_in">جاري فحص البيانات المدخلة...</string>
+    <string name="success_message_title">رسالة نجاح</string>
+    <string name="age">العمر</string>
+    <string name="from">من</string>
+    <string name="to">إلى</string>
+    <string name="year">سنة</string>
+    <string name="search">بحث</string>
+    <string name="current_search">البحث الحالي</string>
+    <string name="members_with_pictures_only">أعضاء مع صور فقط</string>
+    <string name="members_online_only">أعضاء متواجدون فقط</string>
+    <string name="members_close_by">أعضاء في منطقتي فقط</string>
+    <string name="search_in_members">بحث عن أعضاء</string>
+    <string name="members_search_query_gender">الجنس: %1$s</string>
+    <string name="members_search_query_age">الجيل: </string>
+    <string name="members_search_query_age_from">من %1$dسنة فما فوق </string>
+    <string name="members_search_query_age_to">حتى %1$d سنة</string>
+    <string name="members_search_query_age_between">ما بين %1$d و %2$d سنة</string>
+    <string name="members_search_query_options">خيارات إضافية: </string>
+    <string name="no_more_search_options">لا خيارات أخرى</string>
+    <string name="not_specified">غير محدد</string>
+    <string name="age_of">%1$d سنة</string>
+    <string name="search_in_process">جاري البحث...</string>
+    <string name="no_members_were_found">لم نجد أعضاءً بالوصف المطلوب</string>
+
+    <string name="members_age_help">يمكنك عدم تحديد عمر معين وسيتم تجاهل القيمة الناقصة</string>
+    <string name="cm">سم</string>
+    <string name="none">لا يوجد</string>
+
+    <string name="message_was_sent">تم إرسال رسالة للمستخدم %1$s</string>
+
+    <!-- lost more in list view -->
+    <string name="pull_to_refresh_pull_label">إسحب لتحميل المزيد من الرسائل</string>
+    <string name="pull_to_refresh_release_label"></string>
+    <string name="pull_to_refresh_refreshing_label">جاري التحميل...</string>
+    <string name="pull_to_refresh_tap_label">إضغط هنا لمشاهدة الرسائل القديمة</string>
+    <string name="no_more_loads_label">لا يوجد رسائل أخرى</string>
+    <!-- Countries Names -->
+    <string-array name="countries">
+        <item>الأردن</item>
+        <item>سوريا</item>
+        <item>السودان</item>
+        <item>ليبيا</item>
+        <item>مصر</item>
+        <item>اليمن</item>
+        <item>فلسطين</item>
+    </string-array>
+
+    <string-array name="mStatus">
+        <item>أعزب/عزباء</item>
+        <item>متزوج/ة</item>
+        <item>آخر</item>
+    </string-array>
+    <string name="btnLogin">دخول</string>
+    <string name="gender">الجنس</string>
+    <string name="height">الطول</string>
+    <string name="body_shape">شكل الجسم</string>
+    <string name="eyes_colors">لون العينين</string>
+    <string name="work">العمل</string>
+    <string name="education">التعليم</string>
+    <string name="religion">الديانة</string>
+    <string name="alcohol">المشروبات الروحية</string>
+    <string name="smoking_habit">عادات التدخين</string>
+    <string name="about_me">شرح عني</string>
+
+    <string-array name="drawer_values">
+        <item>الرئيسية</item>
+        <item>حسابي</item>
+        <item>محادثات</item>
+        <item>بحث عن أعضاء</item>
+        <item>بحث متقدم</item>
+        <item>نظام الملائمة</item>
+        <item>خروج</item>
+    </string-array>
+
+    <string-array name="user_data_titles">
+        <item>  صور  </item>
+        <item>معلومات متقدمة</item>
+        <item>معلومات أساسية</item>
+        <item>معلومات الدخول</item>
+    </string-array>
+
+    <string-array name="register_titles">
+        <item>معلومات الدخول</item>
+        <item>معلومات متقدمة</item>
+        <item>معلومات أساسية</item>
+    </string-array>
+
+    <string-array name="translation_social_status">
+        <item>متزوج/ة</item>
+        <item>أعزب/عزباء</item>
+        <item>أرمل/ة</item>
+        <item>مطلق/ة</item>
+    </string-array>
+
+    <string-array name="translation_relationship">
+        <item>دردشة</item>
+        <item>صداقة</item>
+        <item>زواج</item>
+        <item>حب</item>
+        <item>مواعدة</item>
+    </string-array>
+
+    <string-array name="picture_commands">
+        <item>ضبط الصورة كصورة شخصية</item>
+        <item>حذف الصورة</item>
+        <item>تحميل الصورة</item>
+        <item>تتفاصيل أخرى</item>
+    </string-array>
+
+    <string-array name="profile_picture_commands">
+        <item>ضبط الصورة كصورة شخصية</item>
+        <item>حذف الصورة</item>
+        <item>تحميل الصورة</item>
+        <item>تتفاصيل أخرى</item>
+    </string-array>
+
+    <string name="visit_user_profile">عرض الصفحة الشخصية للمستخدم \"%1$s\"</string>
+    <string name="block_user">حظر المستخدم \"%1$s\"</string>
+    <string name="a_very_long_text">هذا نص الي هو كثير كثير كثير كبير، الهدف منه فحص كيف التيكس بوكس بتتجاوب مع النصوص الكبيرة لما يتم إدخال هذه النصوص عليها، الدنيا إسا رمضان أول يوم برمضان وبركة والحمد لله المهم الناس كلها تكون مبسوطه، رمضان كريم والسلام عليكم ورحمة الله وبركاته إخواني وأخواتي اي اييييو ههيييييو اه إلا كيف، مهو بنفعش</string>
+    <string name="send_message">أرسل رسالة</string>
+    <string name="send_friend_request">أرسل طلب صداقة</string>
+    <string name="accept_friend_request">قبول طلب الصداقة</string>
+    <string name="remove_friend_request">إلغاء طلب الصداقة</string>
+
+    <string name="cancel_friend_request">إلغاء طلب الصداقة</string>
+    <string name="unfriend">ولّع طوشه</string>
+
+    <string name="unfriend_user_caution_message">هل أنت متأكد من أنك تريد حذف \"%1$s\" من قائمة أصدقاءك؟</string>
+    <string name="friend_request_was_sent">تم إرسال طلب صداقة للمستخدم \"%1$s\"</string>
+    <string name="friend_request_was_approved">تم قبول طلب الصداقة من المستخدم \"%1$s\"</string>
+    <string name="friend_request_was_canceled">تم إلغاء طلب صداقة المستخدم \"%1$s\"</string>
+    <string name="friend_was_removed">تم حذف المستخدم \"%1$s\" من قائمة الأصدقاء</string>
+    <string name="what_to_do">إختر من فضلك العملية التي تريد القيام بها</string>
+    <string name="please_choose">إخنر من فضلك</string>
+    <string name="approve">قبول</string>
+    <string name="decline">رفض</string>
+    <string name="height_higher_than">أكثر من %1$d</string>
+    <string name="height_lower_than">أقل من %1$d</string>
+    <string name="updating_your_info">جاري تعديل بياناتك...</string>
+    <string name="error_fill_your_password">من فضلك قم بإدخال كلمة مرور جديدة من خمس أحرف على الأقل</string>
+    <string name="passwords_dont_match">كلمة المرور المدخلة وتأكيدها مختلفين</string>
+    <string name="error_fill_your_retype_password">من فضلك قم بتأكيد كلمة المرور</string>
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="click_photo_to_enlarge">أنقر على الصورة لرؤيتها بالحجم الكامل، أو نقرة طويلة لخصائص أخرى.</string>
+    <string name="profile_picture_change_successfully">تم تغيير الصورة الشخصية بنجاح</string>
+    <string name="capture_photo">إلتقاط صورة</string>
+    <string name="upload_photo_from_device">تحميل صورة من جهازك</string>
+    <string name="set_as_profile_picture">هل توّد ضبط الصورة كصورة شخصية ؟</string>
+    <string name="question">إستعلام</string>
+    <string name="yes">نعم</string>
+    <string name="no">كلا</string>
+    <string name="uploading_your_photo_to_server">جاري رفع الصورة للمخدم...</string>
+    <string name="error_fill_your_email">من فضلك إملأ بريدك الإلكتروني</string>
+    <string name="save_as_fitting">حفظ لنظام الملائمة</string>
+    <string name="advanced_search_header">هذه صفحة البحث المتقدم، يمكنك عمل \"بحث\" والحصول على النتائج بشكل فوريّ، أو يمكنك حفظ البحث المرغوب في خدمة نظام الملائمة الذي نقدمه.\nإن خدمة نظام الملائمة يسمح لك بحفظ بحث معيّن، وسيقوم النظام بإرسال بريد إلكتروني دوري كل أسبوع يحوي الأعضاء الملائمين لبحثك المحفوظ، كما وبإمكانك تعديل هذا البحث متى شئت  ليناسب مطلوبك.</string>
+    <string name="audio_call">إتصال هاتفي</string>
+    <string name="video_call">إتصال فيديو</string>
+    <string name="register_info_name">أدخل إسمك لكي يتعرف عليك الآخرون</string>
+    <string name="next">التالي</string>
+    <string name="register_info_address">قد يكون الحب أقرب من ما تتخيل</string>
+    <string name="register_info_simple_data">بعض المعلومات الأساسية قد تقّرب القلوب</string>
+    <string name="register_info_advanced_data">قل لنا عن ماذا تبحث لنساعدك بمسيرتك</string>
+    <string name="register_info_account">وآخيرًا، بَقيَ أن تزوّدنا بمعلومات دخولك</string>
+    <string name="start">إبدأ</string>
+    <string name="register_intro_title">الانضمام إلى Al70b  هو أمر بسيط, سهل، ومجاني. بعد عملية التسجيل القصيرة ستفتح أبواب موقعنا للبحث عن نصفك الآخر في رحاب البلدان العربية.</string>
+    <string name="register_intro_subtitle">إضغط على إبدأ لكي تبدأ بالتسجيل</string>
+    <string name="error_email_already_exists">البريد الإلكتروني الذي أدخلت غير متوفّر</string>
+    <string name="error_server_email_exists">Logic error: Could not create user. Email exists.</string>
+    <string name="wait_few_seconds">إنتظر ثوانٍ قليلة</string>
+    <string name="sending_email_to">تم إرسال بريد إلكتروني لإسترجاع كلمة المرور إلى البريد الإلكتروني %1$s</string>
+    <string name="error_please_enter_email">من فضلك قم بإدخال بريدك الإلكتروني</string>
+    <string name="error_please_enter_password">من فضلك قم بإدخال كلمة المرور</string>
+    <string name="error_please_enter_valid_password">من فضلك قم بإدخال كلمة مرور من 5 حروف على الأقل</string>
+    <string name="and_password">وكلمة المرور</string>
+    <string name="error_something_went_wrong_try_again_later">لم نتمكن من الإتصال بالمخدم، من فضلك حاول مرة أخرى لاحقًا</string>
+    <string name="error_please_enter_retyped_password">من فضلك قم بتاكيد كلمة المرور</string>
+    <string name="error_passwords_dont_match">كلمة المرور وتأكيدها غير متطابقتين</string>
+    <string name="previous">السابق</string>
+    <string name="clickable_text_view_change_email">تغيير البريد الإلكتروني</string>
+    <string name="clickable_text_view_change_password">تغيير كلمة المرور</string>
+    <string name="done_changing_email_successfully">تم تغيير البريد الإلكتروني بنجاح</string>
+    <string name="error_changing_status">تم حدوث خطأ عند تغيير الحالة، من فضلك قم بالمحاولة مرة أخرى</string>
+    <string name="operation_taking_too_long">يبدو أن الإتصال غير مستقر، تأكد من إتصالك بالإنترنيت جيدًا وعاود محاولة الدخول</string>
+    <string name="sign_in_with_a_different_email">للدخول لحساب آخر إضغط هنا</string>
+    <string name="press_here_to_try_again">إضغط هنا للمحاولة مرة أخرى</string>
+    <string name="error_no_response_time_out">للأسف لم نستطع الإتصال بالمخدم، الرجاء فحص إتصالك بالإنترنيت</string>
+    <string name="no_friends_were_found">لا يوجد أصدقاء</string>
+    <string name="powered_by">Powered By WeaScripts</string>
+    <string name="title_activity_members_list">عرض أعضاء</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="close">إغلاق</string>
+    <string name="friends_requests">يوجد لديك %1$d طلبات صداقة</string>
+    <string name="one_friends_requests">يوجد لديك طلب صداقة واحد</string>
+    <string name="two_friends_requests">يوجد لديك طلبيّ صداقة</string>
+    <string name="error_fill_password_to_change_email">من فضلك قم بإدخال كلمة المرور لتغيير البريد الإلكتروني</string>
+    <string name="error_fill_password_to_change_it">من فضلك قم بإدخال كلمة المرور الحالية</string>
+    <string name="your_album">ألبوم الصور الخاص بك</string>
+    <string name="accept">قبول</string>
+    <string name="reject">رفض</string>
+    <string name="video_chat_call_recieved">يود المستخدم "%1$s" أن يبدأ معك محادثة فيديو</string>
+    <string name="video_chat_request_was_sent">تم إرسال طلب لبدء محادثة فيديو، إنتظر ريثما يقوم الطرف الآخر بالقبول</string>
+    <string name="you_rejected_video_call">قمت برفض طلب محادثة الفيديو</string>
+    <string name="video_call_was_canceled">تم إلغاء طلب محادثة الفيديو الذي أرسلت</string>
+    <string name="end_user_rejected_video_call">الطرف الآخر رفض قبول طلب محادثة الفيديو</string>
+    <string name="end_user_accepted_video_call">تم قبول طلب محادثة الفيديو</string>
+    <string name="end_user_canceled_video_call">الطرف الآخر قام بإلغاء طلب محادثة الفيديو</string>
+    <string name="you_accepted_video_call">تم قبول طلب محادثة الفيديو</string>
+    <string name="end_user_requested_video_call">الطرف الآخر يوّد أن يبدأ بمحادثة فيديو معك</string>
+    <string name="end_call">إنهاء الإتصال</string>
+    <string name="switch_camera">تغيير الكاميرا</string>
+    <string name="turn_off_video">غلق الكاميرا</string>
+    <string name="turn_off_audio">غلق المايكروفون</string>
+    <string name="turn_on_audio">تفعيل المايكروفون</string>
+    <string name="turn_on_video">تفعيل الكاميرا</string>
+    <string name="switch_to_back_camera">الكاميرا الخلفية</string>
+    <string name="switch_to_front_camera">الكاميرا الأمامية</string>
+    <string name="set">تغيير</string>
+    <string name="status_message_changed_successfully">تم تغيير الحالة بنجاح</string>
+    <string name="your_status_message">رسالة عامة</string>
+    <string name="status_message_change_failed">فشل التطبيق في محاولة تغيير الرسالة العامة</string>
+    <string name="user_has_been_blocked">تم حظر المستخدم /\"%1$s\\\"</string>
+    <string name="unblock_user">تم رفع الحظر عن المستخدم \\\"%1$s\\\"</string>
+    <string name="no_blocked_users">لا يوجد أي مستخدمين محظورين</string>
+    <string name="error_logging_to_chat">لم يتمكن التطبيق من الإتصال بخادم التشات، الرجاء إعادة تشغيل التطبيق</string>
+    <string name="title_activity_friends_list">الأصدقاء</string>
+    <string name="fatal_error_restarting">شيء خطير جدًأ</string>
+    <string name="sending_request">جاري إرسال الطلب...</string>
+    <string name="you_have_not_uploaded_photo">لم تقُم برفع أية صورة بعد!</string>
+    <string name="friends_requests_str">طلبات الصداقة</string>
+    <string name="collapse_friends">غلق</string>
+    <string name="expand_friends">عرض</string>
+    <string name="reject_friend_request">رفض طلب الصداقة</string>
+    <string name="failed_loading_friends">فش طلبات صداقة</string>
+    <string name="no_friends_requests">لا يوجد لديك طلبات صداقة</string>
+    <string name="not_connected_status">غير متصل</string>
+    <string name="blocked_users">مستخدمون محظورون</string>
+    <string name="blocked_users_list">قائمة المستخدمون المحظورون</string>
+    <string name="report_a_user">أبلِغ عن مستخدم</string>
+    <string name="video_call_other_user_tried_calling_you">حاول المستخدم الإتصال بك</string>
+    <string name="video_call_no_answer">لا يوجد رد</string>
+    <string name="video_call_other_user_busy">المستخدم الذي تحاول الإتصال به مشغول حاليًا، حاول في وقت آخر</string>
+    <string name="end_user_ended_call">المستخدم أغلق المحادثة</string>
+    <string name="connecting">جاري الإتصال...</string>
+    <string name="could_not_connect_to_chat">لم نتمكن من الإتصال بخادم المحادثات الفورية.</string>
+    <string name="email_was_sent_with_password">تم إرسال رسالة إلى صندوق بريدك الإلكتروني مع كلمة سر جديدة</string>
+    <string name="all_countries">جميع الدول</string>
+    <string name="error_18_and_above">العمر الأدنى هو 18 عامًا على الأقل</string>
+    <string name="not_important">غير مهم</string>
+    <string name="error_age_is_not_correct">العمر المُدخل غير صحيح، من فضلك أدخل عمر صحيح</string>
+    <string name="chat_with">محادثة مع %1$s</string>
+    <string name="clear_history">حذف المحادثة</string>
+    <string name="error_video_call">حدث خطأ بمحادثة الفيديو، حاول مجددا لاحقًا</string>
+    <string name="history_was_cleared">تم حذف المحادثة بنجاح</string>
+    <string name="error_clearing_conversations">حدث خطأ في محو المحادثة، حاول مجددًا</string>
+    <string name="user_sent_you_video_call">أرسل لك المسنخدم محادثة فيديو</string>
+    <string name="video_chat_call_recieved_fetched">محادثة صوتيه مع المستخدم %1$s</string>
+    <string name="new_friend_request">طلب صداقة جديد</string>
+    <string name="person_sent_you_friend_request">قام المستخدم %1$s بإرسال طلب صداقة</string>
+    <string name="friend_request_approved">موافقة على طلب صداقة</string>
+    <string name="person_approved_your_friend_request">قام المستخدم %1$s بالموافقة على طلب الصداقة الذي أرسلت</string>
+    <string name="new_message">رسالة جديدة</string>
+    <string name="person_sent_you_message">قام المستخدم %1$s بإرسال رسالة جديدة</string>
+    <string name="error_couldnt_send_message">لم نتمكن من إرسال رسالتك، حاول مرةً أخرى</string>
+    <string name="error_empty_message">لا يمكن إرسال رسالة فارغة</string>
+    <string name="report_user_was_successfull">تم الإبلاغ عن المستخدم %1$s بنجاح</string>
+    <string name="error_couldnt_report">حدث خطأ ما بالإبلاغ ، حاول مجددًا لاحقًا</string>
+    <string name="error_report_cant_be_empty">عليك كتابة توضيح عن سبب الإبلاغ</string>
+    <string name="users_photos">مستخدمين سبقوك</string>
+    <string name="pictures_limit_reach">وصلت للحد الأقصى من الصور المسموح به للمستخدم وهو %1$d</string>
+    <string name="uploading_photo_was_successfull">تم رفع الصورة بنجاح</string>
+    <string name="uploading_photo_was_failure">فشل النظام برفع الصورة، حاول مجددًا من فضلك</string>
+    <string name="profile_picture_change_failed">فشل النظام بتغيير صورتك الشخصية، حاول مرةً أخرى من فضلك</string>
+    <string name="picture_was_removed">تم حذف الصورة المطلوبة</string>
+    <string name="profile_picture_delete_failed">فشل النظام بحذف الصورة المطلوبة، حاول مرةً أخرى من فضلك</string>
+    <string name="done_changing_password_successfully">تم تغيير كلمة المرور بنجاح</string>
+    <string name="accept_terms_of_use_message">قرأت وأوافق على شروط الإستخدام وسياسة الخصوصية في الموقع</string>
+    <string name="you_have_to_accept_terms_of_use">لم تقم بالموافقة على شروط الإستخدام</string>
+    <string name="users_already_registered">مستخدمين مسجلين:</string>
+
+</resources>

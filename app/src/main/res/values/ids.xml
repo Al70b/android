@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_user_data_edit" type="id" />
+    <item name="menu_item_user_picture_capture" type="id" />
+    <item name="menu_item_user_picture_upload" type="id" />
+    <item name="menu_item_user_conversation_audio" type="id" />
+    <item name="menu_item_user_conversation_video" type="id" />
+    <item name="menu_item_user_conversations_clear_history" type="id" />
+    <item name="menu_item_user_picture_pick" type="id" />
+
+</resources>

@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Fonts sizes -->
+    <dimen name="action_bar_tabs_text_size">28sp</dimen>
+    <dimen name="actionbar_subtitle">40sp</dimen>
+    <dimen name="actionbar_button_text">19sp</dimen>
+
+    <!-- Status Circle Dimensions -->
+    <dimen name="status_circle_user">19dp</dimen>
+    <dimen name="status_circle_friends">12dp</dimen>
+
+    <!-- Profile Picture -->
+    <dimen name="small_member_profile_picture">38dp</dimen>
+    <dimen name="medium_member_profile_picture">85dp</dimen>
+    <dimen name="large_member_profile_picture">250dp</dimen>
+
+</resources>

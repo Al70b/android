@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true">
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layoutDirection="rtl"
+            android:paddingBottom="15dp"
+            android:paddingEnd="15dp"
+            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="15dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_heightA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/height"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_heightB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_bodyShapeA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/body_shape"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_bodyShapeB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_eyesColorsA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/eyes_colors"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_eyesColorsB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_workA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/work"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_workB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_educationA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/education"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_educationB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_religionA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/religion"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_religionB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_alcoholA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/alcohol"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_alcoholB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_smokingA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/smoking_habit"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_smokingB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:text="@string/not_specified"
+                    android:textSize="20sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_moreA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/about_me"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:background="@color/bright_gray"
+                android:padding="2dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/shadowed_white">
+
+                    <TextView
+                        android:id="@+id/text_view_member_data_advanced_moreB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="center_horizontal"
+                        android:maxHeight="400dp"
+                        android:paddingTop="3dp"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/none"
+                        android:textSize="18sp"
+                        android:minHeight="100dp"/>
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+</LinearLayout>

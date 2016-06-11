@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_user_picture_capture"
+        android:title="@string/capture_photo"
+        android:icon="@drawable/ic_action_camera"
+        android:showAsAction="always"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_item_user_picture_upload"
+        android:title="@string/upload_photo_from_device"
+        android:icon="@drawable/ic_action_upload"
+        android:showAsAction="always"
+        app:showAsAction="always"/>
+
+</menu>

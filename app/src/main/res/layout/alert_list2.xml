@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_view_alert_list2_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="4dp"
+            android:src="@drawable/_8ball"/>
+
+        <TextView
+            android:id='@+id/text_view_alert_list2_title'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_view_alert_list2_icon"
+            android:text="name here"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_view_alert_list2_status"
+            android:layout_width="@dimen/status_circle_user"
+            android:layout_height="@dimen/status_circle_user"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:src="@drawable/status_online"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_view_alert_list2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

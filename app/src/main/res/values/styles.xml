@@ -1,0 +1,103 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--     T  H  E  M  E  S     -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarStyles.ActionBarStyleNoTitle</item>
+        <item name="android:actionMenuTextAppearance">@style/TextAppearance.ActionBarButton</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_red_light</item>
+        <item name="android:actionBarItemBackground">@drawable/actionbutton_red</item>
+    </style>
+
+    <!-- First Activity Theme. -->
+    <style name="FirstActivityTheme" parent="@android:style/Theme.Holo.NoActionBar"></style>
+
+    <style name="AppTheme.AppThemeUserMode">
+        <item name="android:actionBarStyle">@style/ActionBarStyles</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_action_cancel</item>
+        <item name="android:icon">@android:color/transparent</item>
+
+    </style>
+
+
+    <style name="Theme.FloatingWindow.Popup" parent="@android:style/Theme.Holo.Light" >
+
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
+
+    <!--     E  N  D     O  F     T  H  E  M  E  S     -->
+
+
+    <style name="red_button" parent="@android:style/Widget.ActionButton">
+        <item name="android:background">@color/shadowed_white</item>
+    </style>
+
+    <style name="ActionBarStyles" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/action_bar</item>
+        <item name="android:titleTextStyle">@style/MyTitleTextAppearance</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:subtitleTextStyle">@style/MySubtitleTextAppearance</item>
+    </style>
+
+    <style name="ActionBarStyles.ActionBarStyleNoTitle">
+        <item name="android:displayOptions">none</item>
+    </style>
+
+
+    <style name="MyTitleTextAppearance" parent="@android:style/TextAppearance.Holo.Medium">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MySubtitleTextAppearance" parent="@android:style/TextAppearance.Holo.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+
+    <!-- Action Bar Button Text Appearance -->
+    <style name="TextAppearance.ActionBarButton"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/actionbar_button_text</item>
+    </style>
+
+    <!-- Edit Text - red line -->
+    <style name="editTextRed">
+        <item name="android:background">@drawable/edit_text_red</item>
+        <item name="android:textColor">@color/very_dark_red</item>
+    </style>
+
+    <!-- Red Button Style -->
+    <style name="button_text">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <!-- Constant Integers -->
+    <integer name="rightMostScreenSlide">2</integer>
+    <integer name="centerScreenSlide">1</integer>
+    <integer name="leftMostScreenSlide">0</integer>
+
+
+    <style name="ListView" parent="@android:style/Widget.ListView">
+        <item name="android:listSelector">@drawable/selector_list_item</item>
+
+    </style>
+
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="friend_item_operations" >
+        <item >عرض الملف الشخصي</item>
+        <item >حظر المستخدم</item>
+    </string-array>
+
+    <string-array name="navigation_drawer_values">
+        <item>عام</item>
+        <item>حسابي</item>
+        <item>محادثات</item>
+        <item>بحث سريع</item>
+        <item>بحث متقدم</item>
+        <item>آخر</item>
+        <item>إعدادات</item>
+        <item>إغلاق الحساب</item>
+        <item>خروج</item>
+    </string-array>
+</resources>
