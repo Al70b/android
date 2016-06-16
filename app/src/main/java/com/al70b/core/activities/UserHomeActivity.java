@@ -138,7 +138,7 @@ public class UserHomeActivity extends FragmentActivity {
     private MenuItem chatItem;                                  // menu item that is highlighted when message received
     private LinearLayout layoutChatOk, layoutChatFailed;
     private ProgressBar chatConnectionProgress;
-    private RelativeLayout leftDrawer;
+
     private ImageButton imgBtnSetStatus, btnSettings;
     /**
      * * Current User Declarations ***
@@ -215,7 +215,10 @@ public class UserHomeActivity extends FragmentActivity {
 
         thisUser = null;
 
-        ((MyApplication)thisActivity.getApplication()).setCurrentUser(null);
+        MyApplication myApp = ((MyApplication)thisActivity.getApplication());
+        if (myApp != null)
+            myApp.setCurrentUser(null);
+
         thisActivity = null;
     }
 
@@ -299,7 +302,7 @@ public class UserHomeActivity extends FragmentActivity {
                         getActionBar().setTitle(getResources().getString(R.string.choose_from_list));
 
                         // set a custom shadow that overlays the src content when the drawer opens
-                    } else if (drawerLayout.isDrawerOpen(leftDrawer)) {
+                    } else if (drawerLayout.isDrawerOpen(chatDrawerLayout)) {
                         // set a custom shadow that overlays the src content when the drawer opens
                     }
 
@@ -699,7 +702,7 @@ public class UserHomeActivity extends FragmentActivity {
 
         if (hasJustLoggedIn) {
             // open drawer on start so thisUser sees friend requests and messages
-            drawerLayout.openDrawer(navDrawerList);
+            drawerLayout.openDrawer(navDrawerLayout);
             hasJustLoggedIn = false;
         }
 
@@ -763,21 +766,21 @@ public class UserHomeActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // The action bar home/up action should open or close the drawer.
-                if (drawerLayout.isDrawerOpen(leftDrawer)) {
-                    drawerLayout.closeDrawer(leftDrawer);
+                if (drawerLayout.isDrawerOpen(chatDrawerLayout)) {
+                    drawerLayout.closeDrawer(chatDrawerLayout);
                 }
                 // the other situations are handled here
                 mDrawerToggle.onOptionsItemSelected(item);
                 return true;
             case R.id.action_friends:
-                if (drawerLayout.isDrawerOpen(navDrawerList)) {
-                    drawerLayout.closeDrawer(navDrawerList);
-                } else if (drawerLayout.isDrawerOpen(leftDrawer)) {
-                    drawerLayout.closeDrawer(leftDrawer);
+                if (drawerLayout.isDrawerOpen(navDrawerLayout)) {
+                    drawerLayout.closeDrawer(navDrawerLayout);
+                } else if (drawerLayout.isDrawerOpen(chatDrawerLayout)) {
+                    drawerLayout.closeDrawer(chatDrawerLayout);
 
                     return true;
                 }
-                drawerLayout.openDrawer(leftDrawer);
+                drawerLayout.openDrawer(chatDrawerLayout);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -808,10 +811,10 @@ public class UserHomeActivity extends FragmentActivity {
     public void onBackPressed() {
 
         // if a drawer is open probably thisUser meant to close it
-        if (drawerLayout.isDrawerOpen(navDrawerList))
-            drawerLayout.closeDrawer(navDrawerList);
-        else if (drawerLayout.isDrawerOpen(leftDrawer))
-            drawerLayout.closeDrawer(leftDrawer);
+        if (drawerLayout.isDrawerOpen(navDrawerLayout))
+            drawerLayout.closeDrawer(navDrawerLayout);
+        else if (drawerLayout.isDrawerOpen(chatDrawerLayout))
+            drawerLayout.closeDrawer(chatDrawerLayout);
         else {
             if (currentShownFragment.getTag().compareTo(UserConversationsFragment.INTERNAL_CONVERSATION_TAG) == 0) {
                 boolean handled = ((BackPressedFragment) currentShownFragment).onBackPressed();
@@ -921,7 +924,7 @@ public class UserHomeActivity extends FragmentActivity {
                     .commit();
 
             // close the drawer
-            drawerLayout.closeDrawer(navDrawerList);
+            drawerLayout.closeDrawer(navDrawerLayout);
         } else {
             // preLogout was clicked
 
@@ -1111,19 +1114,19 @@ public class UserHomeActivity extends FragmentActivity {
     }
 
     public void closeDrawers() {
-        if (drawerLayout.isDrawerOpen(navDrawerList))
-            drawerLayout.closeDrawer(navDrawerList);
+        if (drawerLayout.isDrawerOpen(navDrawerLayout))
+            drawerLayout.closeDrawer(navDrawerLayout);
 
-        if (drawerLayout.isDrawerOpen(leftDrawer))
-            drawerLayout.closeDrawer(leftDrawer);
+        if (drawerLayout.isDrawerOpen(chatDrawerLayout))
+            drawerLayout.closeDrawer(chatDrawerLayout);
     }
 
     public boolean isNavigationDrawerOpen() {
-        return drawerLayout.isDrawerOpen(navDrawerList);
+        return drawerLayout.isDrawerOpen(navDrawerLayout);
     }
 
     public boolean isFriendsDrawerOpen() {
-        return drawerLayout.isDrawerOpen(leftDrawer);
+        return drawerLayout.isDrawerOpen(chatDrawerLayout);
     }
 
     public void lockDrawers(boolean flag) {

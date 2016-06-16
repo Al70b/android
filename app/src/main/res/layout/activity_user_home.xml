@@ -42,14 +42,13 @@
         android:orientation="vertical"
         android:layout_gravity="end"
         >
-        <LinearLayout
+
+        <include
             android:id="@+id/layout_chat_drawer_header"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:orientation="horizontal"
-            android:background="@color/red">
-        </LinearLayout>
+            layout="@layout/friends_drawer_header"/>
 
         <LinearLayout
             android:id="@+id/layout_friends_drawer_failed_connecting"
