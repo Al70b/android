@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Alerts;
+package com.al70b.core.fragments.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;

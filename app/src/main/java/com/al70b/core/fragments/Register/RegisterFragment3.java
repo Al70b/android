@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.User;
@@ -110,7 +110,7 @@ public class RegisterFragment3 extends Fragment {
                     CurrentUser.Gender gender;
                     String socialStatus;
 
-                    CurrentUser user = RegisterFragment.getRegisteringUser();
+                    CurrentUser user = GuestRegisterFragment.getRegisteringUser();
 
                     // user gender
                     if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male)
@@ -127,7 +127,7 @@ public class RegisterFragment3 extends Fragment {
                     user.setSocialStatus(socialStatus);
 
 
-                    RegisterFragment.pickFragment(new RegisterFragment4(), true);
+                    GuestRegisterFragment.pickFragment(new RegisterFragment4(), true);
                 } else {
                     String message = "";
                     if (!validSocialStatus)

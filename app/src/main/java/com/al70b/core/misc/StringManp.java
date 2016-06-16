@@ -22,7 +22,7 @@ public class StringManp {
      * @param email
      * @return boolean true for valid false for invalid
      */
-    public static boolean isEmailValid(final String email) {
+    public static boolean isValidEmail(final String email) {
         boolean isValid = false;
 
         Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);

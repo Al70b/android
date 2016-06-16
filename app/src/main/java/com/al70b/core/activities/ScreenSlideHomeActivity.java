@@ -12,9 +12,9 @@ import android.view.MenuItem;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
-import com.al70b.core.fragments.LoginFragment;
-import com.al70b.core.fragments.RegisterFragment;
-import com.al70b.core.fragments.WelcomeFragment;
+import com.al70b.core.fragments.GuestLoginFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
+import com.al70b.core.fragments.GuestWelcomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,8 @@ public class ScreenSlideHomeActivity extends FragmentActivity {
 
     public void goToLogin(String email) {
         mViewPager.setCurrentItem(getResources().getInteger(R.integer.centerScreenSlide));
-        LoginFragment loginFragment = (LoginFragment) mPagerAdapter.getItem(getResources().getInteger(R.integer.centerScreenSlide));
-        loginFragment.setEmailEditText(email);
+        GuestLoginFragment guestLoginFragment = (GuestLoginFragment) mPagerAdapter.getItem(getResources().getInteger(R.integer.centerScreenSlide));
+        guestLoginFragment.setEmailEditText(email);
     }
 
 
@@ -123,9 +123,9 @@ public class ScreenSlideHomeActivity extends FragmentActivity {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
             this.fragments = new ArrayList<Fragment>();
-            fragments.add(new RegisterFragment());
-            fragments.add(new LoginFragment());
-            fragments.add(new WelcomeFragment());
+            fragments.add(new GuestRegisterFragment());
+            fragments.add(new GuestLoginFragment());
+            fragments.add(new GuestWelcomeFragment());
         }
 
         @Override

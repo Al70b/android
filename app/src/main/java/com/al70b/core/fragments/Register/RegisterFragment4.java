@@ -16,7 +16,7 @@ import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.User;
@@ -116,9 +116,9 @@ public class RegisterFragment4 extends Fragment {
                     userInterest = new UserInterest(gender, list);
 
                     // set user interest object
-                    RegisterFragment.getRegisteringUser().setUserInterest(userInterest);
+                    GuestRegisterFragment.getRegisteringUser().setUserInterest(userInterest);
 
-                    RegisterFragment.pickFragment(new RegisterFragment5(), true);
+                    GuestRegisterFragment.pickFragment(new RegisterFragment5(), true);
                 } else {
                     Toast.makeText(getActivity(), R.string.error_choose_interest_purpose, Toast.LENGTH_SHORT).show();
                 }
@@ -230,7 +230,7 @@ public class RegisterFragment4 extends Fragment {
         super.onStart();
 
         /*if(interestPurposeRetrieve == null && !prevWasClicked) {
-            UserInterest userInterest = RegisterFragment.getRegisteringUser().getUserInterest();
+            UserInterest userInterest = GuestRegisterFragment.getRegisteringUser().getUserInterest();
 
             if(userInterest != null) {
                 List<String> list = userInterest.getPurposesOfInterest();

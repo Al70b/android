@@ -9,7 +9,7 @@ import android.util.Log;
 import com.al70b.R;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.fragments.Items.ConversationItem;
-import com.al70b.core.fragments.WelcomeFragment;
+import com.al70b.core.fragments.GuestWelcomeFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.JSONHelper;
 import com.al70b.core.misc.StorageOperations;
@@ -561,7 +561,7 @@ public class RequestsInterface {
                         });
 
                         if (sr != null && sr.isSuccess()) {
-                            WelcomeFragment.addImageViewToLayout(sr.getResult());
+                            GuestWelcomeFragment.addImageViewToLayout(sr.getResult());
                         }
                     } catch (JSONException ex) {
                         Log.d("JSON - Requests", ex.toString());

@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Alerts;
+package com.al70b.core.fragments.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,7 +19,7 @@ import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 
 /**
- * Created by nasee on 6/14/2016.
+ * Created by Naseem on 6/14/2016.
  */
 public class ForgotPasswordDialog extends Dialog {
 
@@ -58,8 +58,6 @@ public class ForgotPasswordDialog extends Dialog {
         final Button btnCancel = (Button) findViewById(R.id.dialog_cancel);
         final Button btnOk = (Button) findViewById(R.id.dialog_ok);
 
-        //final RelativeLayout layout = (RelativeLayout) viewGroup.findViewById(R.id.relative_layout_alert_forgot_password);
-        //final ProgressBar sendingProgressBar = (ProgressBar) viewGroup.findViewById(R.id.progress_bar_alert_forgot_password);
         emailClearableEditTextDialog.setEditTextHint(R.string.edTxtEmail);
 
         // handle email syntax validation
@@ -74,7 +72,7 @@ public class ForgotPasswordDialog extends Dialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validEmailSyntaxDialog = StringManp.isEmailValid(s.toString());
+                validEmailSyntaxDialog = StringManp.isValidEmail(s.toString());
 
                 if (s.length() == 0) {
                     validEmailInDialog.setVisibility(View.INVISIBLE);
@@ -93,15 +91,14 @@ public class ForgotPasswordDialog extends Dialog {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(emailClearableEditTextDialog.getText().toString().isEmpty()) {
+                String email = emailClearableEditTextDialog.getEditText().getText().toString();
+
+                if(email.isEmpty()) {
                     Toast.makeText(context, context.getString(R.string.need_to_provide_email), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (validEmailSyntaxDialog) {
-
-                    //layout.setVisibility(View.GONE);
-                    //sendingProgressBar.setVisibility(View.VISIBLE);
                     // Disable buttons
                     btnOk.setEnabled(false);
                     btnCancel.setEnabled(false);
@@ -109,23 +106,20 @@ public class ForgotPasswordDialog extends Dialog {
 
                     RequestsInterface requestsInterface = new RequestsInterface(context);
 
-                    String email = emailClearableEditTextDialog.getEditText().getText().toString();
+                    String msg;
+                    try {
+                        ServerResponse<String> sr = requestsInterface.forgotPassword(email);
 
-
-                            String msg;
-                            try {
-                                ServerResponse<String> sr = requestsInterface.forgotPassword(email);
-
-                                if (sr.isSuccess()) {
-                                    msg = context.getString(R.string.email_was_sent_with_password);
-                                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                                    thisDialog.dismiss();
-                                } else {
-                                    msg = sr.getErrorMsg();
-                                }
-                            } catch (ServerResponseFailedException ex) {
-                                msg = ex.toString();
-                            }
+                        if (sr.isSuccess()) {
+                            msg = context.getString(R.string.email_was_sent_with_password);
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                            thisDialog.dismiss();
+                        } else {
+                            msg = sr.getErrorMsg();
+                        }
+                    } catch (ServerResponseFailedException ex) {
+                        msg = ex.toString();
+                    }
 
                     // re-enable buttons
                     btnOk.setEnabled(true);
@@ -139,7 +133,6 @@ public class ForgotPasswordDialog extends Dialog {
                 }
             }
         });
-
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

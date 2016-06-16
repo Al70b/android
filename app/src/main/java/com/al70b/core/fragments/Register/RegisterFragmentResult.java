@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.ScreenSlideHomeActivity;
-import com.al70b.core.fragments.Alerts.DisplayInfoAlert;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.Dialogs.DisplayInfoAlert;
+import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
@@ -33,7 +33,7 @@ public class RegisterFragmentResult extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentUser = RegisterFragment.getRegisteringUser();
+        currentUser = GuestRegisterFragment.getRegisteringUser();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class RegisterFragmentResult extends Fragment {
                                     ((ScreenSlideHomeActivity) getActivity()).goToLogin(currentUser.getEmail());
 
                                     // reload register fragment
-                                    RegisterFragment.pickFragment(new RegisterFragmentIntro(), true);
+                                    GuestRegisterFragment.pickFragment(new RegisterFragmentIntro(), true);
 
                                     if (displayInfoAlert != null)
                                         displayInfoAlert.dismiss();
@@ -158,7 +158,7 @@ public class RegisterFragmentResult extends Fragment {
                                             ((ScreenSlideHomeActivity) getActivity()).goToLogin(currentUser.getEmail());
 
                                             // reload register fragment
-                                            RegisterFragment.pickFragment(new RegisterFragmentIntro());
+                                            GuestRegisterFragment.pickFragment(new RegisterFragmentIntro());
                                         }
                                     });
                         } else {
@@ -182,10 +182,10 @@ public class RegisterFragmentResult extends Fragment {
                                                 fragment.setArguments(bundle);
 
                                                 // get the user back to the account info fragment
-                                                RegisterFragment.pickFragment(fragment);
+                                                GuestRegisterFragment.pickFragment(fragment);
                                             } else {
                                                 // reload register fragment
-                                                RegisterFragment.pickFragment(new RegisterFragmentIntro());
+                                                GuestRegisterFragment.pickFragment(new RegisterFragmentIntro());
                                             }
 
                                             Toast.makeText(getActivity(), finalResult, Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.Address;
 
@@ -118,14 +118,14 @@ public class RegisterFragment2 extends Fragment {
                 if (validCity) {    // and surely valid country because a default is set
                     String city = clearableCity.getEditText().getText().toString();
                     Address address = new Address(city, country);
-                    RegisterFragment.getRegisteringUser().setAddress(address);
+                    GuestRegisterFragment.getRegisteringUser().setAddress(address);
 
                     // hide keyboard
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(clearableCity.getWindowToken(), 0);
 
-                    RegisterFragment.pickFragment(new RegisterFragment3(), true);
+                    GuestRegisterFragment.pickFragment(new RegisterFragment3(), true);
                 } else {
                     Toast.makeText(getActivity(), R.string.error_fill_your_city, Toast.LENGTH_SHORT).show();
                 }

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 
 /**
  * Created by Naseem on 6/30/2015.
@@ -87,9 +87,9 @@ public class RegisterFragment1 extends Fragment {
             public void onClick(View view) {
                 if (validName) {
                     String name = clearableName.getEditText().getText().toString();
-                    RegisterFragment.getRegisteringUser().setName(name);
+                    GuestRegisterFragment.getRegisteringUser().setName(name);
 
-                    RegisterFragment.pickFragment(new RegisterFragment2(), true);
+                    GuestRegisterFragment.pickFragment(new RegisterFragment2(), true);
                 } else {
                     Toast.makeText(getActivity(), R.string.error_fill_your_name, Toast.LENGTH_SHORT).show();
                 }

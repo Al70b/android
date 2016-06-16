@@ -14,7 +14,7 @@ import com.al70b.core.objects.CurrentUser;
 /**
  * Created by Naseem on 5/30/2015.
  */
-public class RegisterFragment extends Fragment {
+public class GuestRegisterFragment extends Fragment {
 
 
     private static FragmentActivity activity;

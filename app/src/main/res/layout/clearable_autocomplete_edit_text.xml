@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layoutDirection="rtl">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <AutoCompleteTextView
         android:id="@+id/clearable_autocomplete_edit"
-        android:layout_width="wrap_content"
+        style="@style/editTextRed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minWidth="200dp"
-        />
+        android:paddingBottom="2dp"
+        android:paddingRight="30dp"
+        android:paddingEnd="30dp"
+        android:paddingTop="5dp"
+        android:overScrollMode="never"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:maxLength="254"
+        android:textAlignment="center"
+        android:textColor="@color/dark_red"
+        android:textCursorDrawable="@null"
 
+        />
     <Button
         android:id="@+id/clearable_autocomplete_button_clear"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/ic_clear_text"/>
-</LinearLayout>
+        android:layout_width="18dip"
+        android:layout_height="18dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dip"
+        android:background="@drawable/ic_clear_text" />
+
+</RelativeLayout>

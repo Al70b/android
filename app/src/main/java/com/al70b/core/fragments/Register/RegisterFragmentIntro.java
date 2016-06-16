@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.al70b.R;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 
 /**
  * Created by Naseem on 7/1/2015.
@@ -26,7 +26,7 @@ public class RegisterFragmentIntro extends Fragment {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegisterFragment.pickFragment(new RegisterFragment1(), true);
+                GuestRegisterFragment.pickFragment(new RegisterFragment1(), true);
             }
         });
 

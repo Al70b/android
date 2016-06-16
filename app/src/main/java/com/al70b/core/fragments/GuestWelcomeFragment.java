@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by Naseem on 4/27/2015.
  */
-public class WelcomeFragment extends Fragment {
+public class GuestWelcomeFragment extends Fragment {
 
     private static final int NUMBER_OF_PICTURES_TO_SHOW = 10;
     private static final int DEFAULT_DURATION = 10; // 250 milliseconds

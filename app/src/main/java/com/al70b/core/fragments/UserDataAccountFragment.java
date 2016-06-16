@@ -133,7 +133,7 @@ public class UserDataAccountFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validEmailSyntax = StringManp.isEmailValid(s.toString());
+                validEmailSyntax = StringManp.isValidEmail(s.toString());
 
                 if (s.length() == 0)
                     btnValidEmailSyntax.setVisibility(View.INVISIBLE);

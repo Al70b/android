@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.fragments.Alerts.SendMessageAlert;
+import com.al70b.core.fragments.Dialogs.SendMessageAlert;
 import com.al70b.core.misc.StorageOperations;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;

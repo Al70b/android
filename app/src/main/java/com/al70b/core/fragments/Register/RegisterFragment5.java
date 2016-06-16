@@ -4,24 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.RegisterFragment;
+import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.StringManp;
 import com.al70b.core.objects.CurrentUser;
 
@@ -74,7 +69,7 @@ public class RegisterFragment5 extends Fragment {
         chkBoxAcceptAdvertisement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                CurrentUser user = RegisterFragment.getRegisteringUser();
+                CurrentUser user = GuestRegisterFragment.getRegisteringUser();
 
                 user.setAcceptAdvertisement(isChecked);
             }
@@ -116,7 +111,7 @@ public class RegisterFragment5 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validEmailSyntax = StringManp.isEmailValid(s.toString());
+                validEmailSyntax = StringManp.isValidEmail(s.toString());
                 validEmailUsage = validEmailSyntax && !emailAlreadyExists;
 
                 if (s.length() == 0)
@@ -200,7 +195,7 @@ public class RegisterFragment5 extends Fragment {
             public void onClick(View view) {
                 if (validEmailUsage && validPasswordSyntax && validRetypePassword && acceptedTermsOfUse) {
 
-                    CurrentUser user = RegisterFragment.getRegisteringUser();
+                    CurrentUser user = GuestRegisterFragment.getRegisteringUser();
 
                     // set email and password
                     user.setEmail(clearableEmail.getText().toString());
@@ -213,7 +208,7 @@ public class RegisterFragment5 extends Fragment {
 
                     nextClicked = true;
 
-                    RegisterFragment.pickFragment(new RegisterFragmentResult(), true);
+                    GuestRegisterFragment.pickFragment(new RegisterFragmentResult(), true);
                 } else {
                     String message = null;
 
@@ -265,7 +260,7 @@ public class RegisterFragment5 extends Fragment {
 
         if (nextClicked) {
 
-            clearableEmail.getEditText().setText(RegisterFragment.getRegisteringUser().getEmail());
+            clearableEmail.getEditText().setText(GuestRegisterFragment.getRegisteringUser().getEmail());
             clearablePassword.getEditText().setText("");
             clearableRetypePassword.getEditText().setText("");
 
