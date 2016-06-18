@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_chat_drawer"
+    android:layout_width="225dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <include
+        android:id="@+id/layout_chat_drawer_header"
+        layout="@layout/friends_drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5" />
+
+    <LinearLayout
+        android:id="@+id/layout_friends_drawer_failed_connecting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_friends_drawer_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_friends_drawer_connecting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_friends_in_chat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp">
+
+        <EditText
+            android:id="@+id/et_friends_drawer_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="8dp"
+            android:singleLine="true"
+            android:hint="@string/search_for_friend"
+            android:gravity="center_horizontal"
+            />
+
+        <ListView
+            android:id="@+id/list_view_friends_in_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/drawer_right_background"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="2dp"
+            android:layoutDirection="ltr" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_chat_drawer_footer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/red">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <EditText
+                android:id="@+id/et_friends_drawer_footer_status"
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+
+            <ImageButton
+                android:id="@+id/img_btn_friends_drawer_footer_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_accept"
+                android:src="@android:color/transparent"/>
+        </LinearLayout>
+
+     <ImageButton
+            android:id="@+id/img_btn_friends_drawer_footer_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+         android:visibility="gone"/>
+
+
+
+    </RelativeLayout>
+</LinearLayout>

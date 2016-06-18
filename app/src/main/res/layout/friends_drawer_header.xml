@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
     <LinearLayout
         android:id="@+id/friends_drawer_header_upper"
         android:layout_width="match_parent"
@@ -30,7 +28,7 @@
             android:layout_weight="7"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="5dp" />
+            android:layout_marginEnd="5dp" />
 
         <ImageButton
             android:id="@+id/img_btn_friends_drawer_header_settings"
@@ -89,27 +87,5 @@
         android:layout_height="0.8dp"
         android:layout_margin="9dp"
         android:background="@color/dark_red" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/friends_drawer_header_status"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/et_friends_drawer_header_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:singleLine="true"
-            android:hint="@string/search_for_friend"
-            android:gravity="center_horizontal"
-            />
-    </LinearLayout>
-
 
 </LinearLayout>

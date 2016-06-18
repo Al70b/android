@@ -15,6 +15,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,7 +39,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,7 +136,7 @@ public class UserHomeActivity extends FragmentActivity {
     private TextView txtViewMessages, txtViewFriendsRequests, txtViewFriendEmpty;   // text to display messages and friends requests
     private EditText statusEditText, searchFriendEditText;                            // text to show thisUser's status message
     private MenuItem chatItem;                                  // menu item that is highlighted when message received
-    private LinearLayout layoutChatOk, layoutChatFailed;
+    private LinearLayout layoutChatContacts, layoutChatFailed;
     private ProgressBar chatConnectionProgress;
 
     private ImageButton imgBtnSetStatus, btnSettings;
@@ -261,9 +261,9 @@ public class UserHomeActivity extends FragmentActivity {
 
             /*          P R E P A R E    D R A W E R    L A Y O U T   */
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawerLayout.setScrimColor(Color.parseColor("#44000000"));
-            drawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, Gravity.RIGHT);
-            drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
+            drawerLayout.setScrimColor(Color.parseColor("#33000000"));
+            drawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, GravityCompat.END);
+            drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
             if (getActionBar() != null) {
                 // enable ActionBar app icon to behave as action to toggle navigation drawer
@@ -463,22 +463,23 @@ public class UserHomeActivity extends FragmentActivity {
             chatDrawerLayout = (LinearLayout) findViewById(R.id.layout_chat_drawer);
 
             // // chat layout
-            chatListView = (ListView) findViewById(R.id.list_view_chat);
-
+            layoutChatContacts = (LinearLayout) findViewById(R.id.layout_friends_in_chat);
+            chatListView = (ListView) layoutChatContacts.findViewById(R.id.list_view_friends_in_chat);
+            searchFriendEditText = (EditText) layoutChatContacts.findViewById(R.id.et_friends_drawer_search);
             layoutChatFailed = (LinearLayout) findViewById(R.id.layout_friends_drawer_failed_connecting);
             txtViewFriendEmpty = (TextView) findViewById(R.id.tv_friends_drawer_message);
             chatConnectionProgress = (ProgressBar) findViewById(R.id.progress_bar_friends_drawer_connecting);
 
             //  header
             ViewGroup chatDrawerHeader = (ViewGroup) findViewById(R.id.layout_chat_drawer_header);
-            searchFriendEditText = (EditText) chatDrawerHeader.findViewById(R.id.et_friends_drawer_header_search);
+            statusList = (StatusList) chatDrawerHeader.findViewById(R.id.drawer_header_status_list);
 
             //  footer
             final ViewGroup friendsFooter = (ViewGroup) findViewById(R.id.layout_chat_drawer_footer);
             statusEditText = (EditText) friendsFooter.findViewById(R.id.et_friends_drawer_footer_status);
             imgBtnSetStatus = (ImageButton) friendsFooter.findViewById(R.id.img_btn_friends_drawer_footer_set);
             btnSettings = (ImageButton) friendsFooter.findViewById(R.id.img_btn_friends_drawer_footer_settings);
-            statusList = (StatusList) friendsFooter.findViewById(R.id.drawer_footer_status_list);
+
 
             statusEditText.setText(getString(R.string.not_connected_status));
             imgBtnSetStatus.setVisibility(View.INVISIBLE);
@@ -1081,9 +1082,9 @@ public class UserHomeActivity extends FragmentActivity {
 
         }
 
-        if (chatListView.getVisibility() == View.GONE) {
+        if (layoutChatContacts.getVisibility() == View.GONE) {
             layoutChatFailed.setVisibility(View.GONE);
-            chatListView.setVisibility(View.VISIBLE);
+            layoutChatContacts.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1229,7 +1230,11 @@ public class UserHomeActivity extends FragmentActivity {
                         // get thisUser status and status message
                         getUserInfo(userID);
 
+                        layoutChatFailed.setOnClickListener(null);
+                        layoutChatFailed.setVisibility(View.GONE);
+                        layoutChatContacts.setVisibility(View.VISIBLE);
                         enableChatComponents(true);
+
                         statusEditText.clearFocus();
                         searchFriendEditText.requestFocus();
                     }
@@ -1239,10 +1244,12 @@ public class UserHomeActivity extends FragmentActivity {
                         txtViewFriendEmpty.setVisibility(View.VISIBLE);
                         txtViewFriendEmpty.setText(getString(R.string.could_not_connect_to_chat));
                         chatConnectionProgress.setVisibility(View.GONE);
+                        layoutChatContacts.setVisibility(View.GONE);
                         layoutChatFailed.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 chatConnectionProgress.setVisibility(View.VISIBLE);
+                                layoutChatContacts.setVisibility(View.GONE);
                                 txtViewFriendEmpty.setText(getString(R.string.connecting));
                                 layoutChatFailed.setOnClickListener(null);
                                 cometChat.login(ServerConstants.CHAT_URL, String.valueOf(userID), thisCallback);
