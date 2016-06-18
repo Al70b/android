@@ -73,12 +73,12 @@
             android:theme="@style/AppTheme.AppThemeUserMode"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_members_list"></activity>
-<!--
+
         <activity
             android:name=".core.activities.FriendsListActivity"
             android:theme="@style/AppTheme.AppThemeUserMode"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_friends_list"></activity>-->
+            android:label="@string/title_activity_friends_list"></activity>
 
         <activity
             android:name=".core.activities.DisplayPictureActivity"

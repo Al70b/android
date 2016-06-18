@@ -312,10 +312,10 @@ public class UserHomeActivity extends FragmentActivity {
                 @Override
                 public boolean onOptionsItemSelected(MenuItem item) {
                     if (item != null && item.getItemId() == android.R.id.home) {
-                        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                            drawerLayout.closeDrawer(Gravity.RIGHT);
+                        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                            drawerLayout.closeDrawer(GravityCompat.START);
                         } else {
-                            drawerLayout.openDrawer(Gravity.RIGHT);
+                            drawerLayout.openDrawer(GravityCompat.START);
                         }
                     }
                     return false;
@@ -335,10 +335,10 @@ public class UserHomeActivity extends FragmentActivity {
 
             // relate navigation drawer components to xml elements
             navDrawerLayout = (LinearLayout) findViewById(R.id.layout_navigation_drawer);
-            navDrawerList = (ListView) findViewById(R.id.list_navigation_drawer);
 
-            // create header for navigation drawer and add it to the drawer list
-            ViewGroup navHeader = (ViewGroup) getLayoutInflater().inflate(R.layout.navigation_drawer_header, null, false);
+
+            // HEADER
+            ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_header);
             cmUserProfilePicture = (CircleImageView) navHeader.findViewById(R.id.circle_image_view_drawer_profile_image);
             TextView txtViewName = (TextView) navHeader.findViewById(R.id.text_view_drawer_header_name);
             TextView txtViewEmail = (TextView) navHeader.findViewById(R.id.text_view_drawer_header_email);
@@ -346,6 +346,15 @@ public class UserHomeActivity extends FragmentActivity {
             txtViewMessages = (TextView) navHeader.findViewById(R.id.text_view_navigation_header_messages);
             ImageView imgViewFriendsRequests = (ImageView) navHeader.findViewById(R.id.img_view_navigation_header_friends_request);
             ImageView imgViewMessages = (ImageView) navHeader.findViewById(R.id.img_view_navigation_header_messages);
+
+            // LIST
+            navDrawerList = (ListView) navDrawerLayout.findViewById(R.id.list_navigation_drawer);
+
+            // FOOTER
+            ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_footer);
+            navFooter.setEnabled(false);
+            navFooter.setClickable(false);
+            navFooter.setOnClickListener(null);
 
             imgViewFriendsRequests.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -437,15 +446,6 @@ public class UserHomeActivity extends FragmentActivity {
             navHeader.setEnabled(false);
             navHeader.setClickable(false);
             navHeader.setOnClickListener(null);
-
-            // add the header that was created to the navigation drawer list view
-            navDrawerLayout.addView(navHeader);
-
-            ViewGroup navFooter = (ViewGroup) getLayoutInflater().inflate(R.layout.navigation_drawer_footer, navDrawerLayout, false);
-            navFooter.setEnabled(false);
-            navFooter.setClickable(false);
-            navFooter.setOnClickListener(null);
-            navDrawerLayout.addView(navFooter);
 
             // set the adapter for the navigation drawer list view
             navDrawerAdapter = new NavigationDrawerAdapter(this, buildNavigationDrawerItems());
@@ -663,7 +663,7 @@ public class UserHomeActivity extends FragmentActivity {
             // create new list for online friends
             onlineFriends = new ArrayList<>();
 
-            friendsDrawerAdapter = new FriendsDrawerAdapter(this, R.layout.friends_drawer_list_item, onlineFriends);
+            friendsDrawerAdapter = new FriendsDrawerAdapter(this, R.layout.list_item_chat_contacts, onlineFriends);
 
             // set the adapter for the friends drawer list view
             chatListView.setAdapter(friendsDrawerAdapter);
@@ -1596,12 +1596,12 @@ public class UserHomeActivity extends FragmentActivity {
                 holder = new DrawerItemHolder();
 
                 if(item.isSection) {
-                    row = inflater.inflate(R.layout.navigation_drawer_list_section, parent, false);
+                    row = inflater.inflate(R.layout.list_item_navigation_drawer_list_section, parent, false);
                     holder.txtTitle = (TextView) row.findViewById(R.id.text_view_drawer_list_section);
 
                     row.setOnClickListener(null);
                 } else {
-                    row = inflater.inflate(R.layout.navigation_drawer_list_item, parent, false);
+                    row = inflater.inflate(R.layout.list_item_navigation_drawer, parent, false);
                     holder.imgIcon = (ImageView) row.findViewById(R.id.image_view_drawer_list);
                     holder.txtTitle = (TextView) row.findViewById(R.id.text_view_drawer_list);
                 }

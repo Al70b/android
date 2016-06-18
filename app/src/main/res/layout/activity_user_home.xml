@@ -14,10 +14,10 @@
 
     <!-- The navigation drawer -->
     <include
-        layout="@layout/navigation_drawer"/>
+        layout="@layout/drawer_navigation"/>
 
     <!-- The friends drawer -->
     <include
-        layout="@layout/friends_chat_drawer" />
+        layout="@layout/drawer_friends_and_chat" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -394,5 +394,6 @@
     <string name="you_have_to_accept_terms_of_use">لم تقم بالموافقة على شروط الإستخدام</string>
     <string name="users_already_registered">مستخدمين مسجلين:</string>
     <string name="need_to_provide_email">عليك إدخال البريد الإلكتروني</string>
+    <string name="user_name">إسم المستخدم</string>
 
 </resources>
