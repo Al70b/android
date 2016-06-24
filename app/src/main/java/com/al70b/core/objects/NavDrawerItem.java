@@ -5,21 +5,64 @@ package com.al70b.core.objects;
  */
 public class NavDrawerItem {
 
-    public String title;
-    public int icon, icon_focused;
-    public boolean isSection;
-
     public NavDrawerItem(String title) {
         this.title = title;
         isSection = true;
+        isHighlighted = false;
     }
 
-    public NavDrawerItem(String title, int icon, int icon_focused) {
+    public NavDrawerItem(String title, int icon, int iconFocused) {
         this.title = title;
         this.icon = icon;
-        this.icon_focused = icon_focused;
+        this.iconFocused = iconFocused;
         isSection = false;
+        isHighlighted = false;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
+
+    public int getIconFocused() {
+        return iconFocused;
+    }
+
+    public void setIconFocused(int iconFocused) {
+        this.iconFocused = iconFocused;
+    }
+
+    public boolean isSection() {
+        return isSection;
+    }
+
+    public void setSection(boolean section) {
+        isSection = section;
+    }
+
+    public boolean isHighlighted() {
+        return isHighlighted;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        if(isSection)
+            return;
+        isHighlighted = highlighted;
+    }
+
+    private String title;
+    private int icon, iconFocused;
+    private boolean isSection;
+    private boolean isHighlighted;
 }

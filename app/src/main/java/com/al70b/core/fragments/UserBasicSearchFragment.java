@@ -139,8 +139,6 @@ public class UserBasicSearchFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // update shown fragment to this
-        ((UserHomeActivity) getActivity()).updateCurrentShownFragment(this);
     }
 
 

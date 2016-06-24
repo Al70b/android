@@ -441,7 +441,7 @@ public class UserDataPicturesFragment extends Fragment {
 
                                             imgViewProfile.invalidate();
 
-                                            activity.updateProfilePicture(bitmap);
+                                            //activity.updateProfilePicture(bitmap);
 
                                             Toast.makeText(activity, activity.getString(R.string.profile_picture_change_successfully), Toast.LENGTH_SHORT).show();
                                         }
@@ -528,7 +528,7 @@ public class UserDataPicturesFragment extends Fragment {
 
                                             imgViewProfile.invalidate();
 
-                                            activity.updateProfilePicture(bitmap);
+                                            //activity.updateProfilePicture(bitmap);
 
                                             Toast.makeText(activity, activity.getString(R.string.profile_picture_change_successfully), Toast.LENGTH_SHORT).show();
                                         }
@@ -563,7 +563,7 @@ public class UserDataPicturesFragment extends Fragment {
                                         if (profilePicture != null && profilePicture.getId() == pic.getId()) {
                                             imgViewProfile.setImageResource(R.drawable.default_user_photo);
                                             imgViewProfile.invalidate();
-                                            activity.updateProfilePicture(R.drawable.default_user_photo);
+                                            //activity.updateProfilePicture(R.drawable.default_user_photo);
                                             user.removeProfilePicture();
                                         }
 

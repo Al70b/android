@@ -395,5 +395,6 @@
     <string name="users_already_registered">مستخدمين مسجلين:</string>
     <string name="need_to_provide_email">عليك إدخال البريد الإلكتروني</string>
     <string name="user_name">إسم المستخدم</string>
+    <string name="email">البريد الإلكتروني</string>
 
 </resources>

@@ -25,6 +25,17 @@ public class CurrentUser extends User implements Serializable {
     // accept advertisements to email
     private boolean acceptAdvertisement;
 
+    public int getNumOfFriendsRequests() {
+        return numOfFriendsRequests;
+    }
+
+    public void setNumOfFriendsRequests(int numOfFriendsRequests) {
+        this.numOfFriendsRequests = numOfFriendsRequests;
+    }
+
+    // num of friends requests
+    private int numOfFriendsRequests;
+
     public CurrentUser(Context context) {
         this.context = context;
     }

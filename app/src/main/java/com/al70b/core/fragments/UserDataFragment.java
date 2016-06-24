@@ -99,9 +99,6 @@ public class UserDataFragment extends Fragment {
             viewPager.setCurrentItem(PAGE_COUNT - 1);
         }
 
-        // update shown fragment to be this fragment
-        ((UserHomeActivity) getActivity()).updateCurrentShownFragment(this);
-
         Log.d("A7%StartFragment-Data", "UserDataFragment: " + this.getId());
     }
 

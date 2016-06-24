@@ -263,9 +263,6 @@ public class UserConversationsFragment extends Fragment {
                 });
             }
         }).start();
-
-        // update shown fragment to this
-        ((UserHomeActivity) getActivity()).updateCurrentShownFragment(this);
     }
 
     public void onStop() {

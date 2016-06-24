@@ -526,8 +526,6 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             // scroll to the latest message sent
             listView.setSelection(mListMessages.size() - 1);
         }
-
-        ((UserHomeActivity) getActivity()).updateCurrentShownFragment(this);
     }
 
     @Override

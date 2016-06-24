@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_navigation_drawer_header"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:clickable="false"
     android:layoutDirection="rtl">
 
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:text="@string/edTxtEmail"
+            android:text="@string/email"
             android:textColor="@android:color/black"
             android:textDirection="ltr"
             android:textSize="13sp"
@@ -116,5 +116,10 @@
 
     </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/circle_image_view_drawer_profile_image"
+        android:layout_marginTop="4dp"
+        android:background="@color/dark_red" />
 </RelativeLayout>

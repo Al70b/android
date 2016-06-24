@@ -21,7 +21,7 @@
     android:background="@drawable/selector_list_item_background">
 
     <ImageView
-        android:id="@+id/image_view_drawer_list"
+        android:id="@+id/image_view_navigation_drawer_list"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="center_vertical"
