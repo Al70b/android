@@ -26,8 +26,8 @@ import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.AutocompleteClearableEditText;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.Dialogs.ForgotPasswordDialog;
-import com.al70b.core.fragments.Dialogs.PleaseWaitAlert;
+import com.al70b.core.activities.Dialogs.ForgotPasswordDialog;
+import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.JSONHelper;
 import com.al70b.core.misc.StringManp;
@@ -169,7 +169,7 @@ public class GuestLoginFragment extends Fragment {
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(emailClearableEditText.getWindowToken(), 0);
 
-                    final PleaseWaitAlert alert = new PleaseWaitAlert(getActivity(),
+                    final PleaseWaitDialog alert = new PleaseWaitDialog(getActivity(),
                             R.string.logging_in);
                     alert.show();
 

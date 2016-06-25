@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Dialogs;
+package com.al70b.core.activities.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -28,20 +28,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * a progress bar on the right side and a var message to the left of the progress bar
  * no buttons or icons
  */
-public class SendMessageAlert extends Dialog {
+public class SendMessageDialog extends Dialog {
 
     private Context context;
     private int otherUserID;
     private String otherUserName, thumbnailPath;
     private WindowManager.LayoutParams lp;
 
-    public SendMessageAlert(Context context) {
+    public SendMessageDialog(Context context) {
         super(context);
 
         this.context = context;
     }
 
-    public SendMessageAlert(Context context, OtherUser otherUser) {
+    public SendMessageDialog(Context context, OtherUser otherUser) {
         this(context);
 
         this.otherUserID = otherUser.getUserID();
@@ -56,7 +56,7 @@ public class SendMessageAlert extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(true);
 
-        setContentView(R.layout.alert_send_message);
+        setContentView(R.layout.dialog_send_message);
         TextView txtViewName = (TextView) findViewById(R.id.text_view_alert_send_message_name);
         CircleImageView imgView = (CircleImageView) findViewById(R.id.circle_image_alert_send_message);
         final EditText editText = (EditText) findViewById(R.id.edit_text_alert_send_message_message);

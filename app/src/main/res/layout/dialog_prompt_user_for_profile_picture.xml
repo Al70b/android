@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:layout_margin="4dp">
+
+
+    <TextView
+        android:id="@+id/text_view_dialog_question_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/please_set_a_profile_picture"
+        android:textSize="18sp"/>
+
+
+    <CheckBox
+        android:id="@+id/chk_box_dialog_question_dont_ask_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/dont_ask_me_again"
+        android:textSize="16sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layoutDirection="inherit">
+
+        <Button
+            android:id="@+id/btn_dialog_question_positive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yes"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:background="@drawable/red_button"
+            style="@style/button_text"/>
+
+        <Button
+            android:id="@+id/btn_dialog_question_negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:background="@drawable/red_button"
+            style="@style/button_text"/>
+    </LinearLayout>
+</LinearLayout>

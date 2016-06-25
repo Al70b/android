@@ -4,12 +4,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_view_alert_question_title"
+        android:id="@+id/text_view_dialog_question_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/text_view_alert_question_message"
+        android:id="@+id/text_view_dialog_question_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -19,18 +19,18 @@
         android:layout_height="wrap_content" />
 
     <CheckBox
-        android:id="@+id/chk_box_alert_question_dont_ask_me"
+        android:id="@+id/chk_box_dialog_question_dont_ask_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_alert_question_positive"
+        android:id="@+id/btn_dialog_question_positive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/yes"/>
 
     <Button
-        android:id='@+id/btn_alert_question_negative'
+        android:id="@+id/btn_dialog_question_negative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no"/>

@@ -24,8 +24,8 @@ import com.al70b.core.MyApplication;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.CustomViewPager;
 import com.al70b.core.extended_widgets.SlidingTabLayout;
-import com.al70b.core.fragments.Dialogs.PleaseWaitAlert;
-import com.al70b.core.fragments.Dialogs.SendMessageAlert;
+import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
+import com.al70b.core.activities.Dialogs.SendMessageDialog;
 import com.al70b.core.fragments.MemberDataAdvancedFragment;
 import com.al70b.core.fragments.MemberDataBasicFragment;
 import com.al70b.core.fragments.MemberDataPicturesFragment;
@@ -304,7 +304,7 @@ public class MemberProfileActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_member_profile_friend:
 
-                final PleaseWaitAlert alertWait = new PleaseWaitAlert(thisActivity, getString(R.string.sending_request ));
+                final PleaseWaitDialog alertWait = new PleaseWaitDialog(thisActivity, getString(R.string.sending_request ));
                 alertWait.show();
 
                 new Thread(new Runnable() {
@@ -332,7 +332,7 @@ public class MemberProfileActivity extends FragmentActivity {
                 return true;
             case R.id.menu_item_member_profile_send_message:
 
-                SendMessageAlert alert = new SendMessageAlert(thisActivity, otherUser);
+                SendMessageDialog alert = new SendMessageDialog(thisActivity, otherUser);
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();
                 return true;

@@ -16,6 +16,7 @@ public class AppConstants {
     public static final String SHARED_PREF_FILE = "com.al70b.bo7la";
     public static final String TRANSLATION_SHARED_PREF_KEY = "translation";
     public static final String CACHED_EMAILS_SHARED_PREF = "cachedEmails";
+    public static final String DONT_ASK_FOR_PROFILE_PICTURE = "Dont.ask.for.profile.picture";
 
 
     public static final int MAX_NUMBER_OF_PICTURES_PER_USER = 5;

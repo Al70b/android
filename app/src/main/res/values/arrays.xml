@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="friend_item_operations" >
+    <string-array name="friend_item_commands" >
         <item >عرض الملف الشخصي</item>
         <item >حظر المستخدم</item>
     </string-array>

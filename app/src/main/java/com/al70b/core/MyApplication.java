@@ -1,5 +1,6 @@
 package com.al70b.core;
 
+import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class MyApplication extends MultiDexApplication { // MultiDexApplication
     }
 
 
+    ///////   U S E R   ///////
+
     private CurrentUser currentUser;
 
     public void setCurrentUser(CurrentUser user) {
@@ -43,8 +46,7 @@ public class MyApplication extends MultiDexApplication { // MultiDexApplication
     }
 
 
-
-
+    ///////   T R A N S L A T O R   ///////
     private Translator myTranslator;
 
     public void setTranslator(Translator translator) {

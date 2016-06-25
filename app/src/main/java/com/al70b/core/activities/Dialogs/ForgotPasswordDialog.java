@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Dialogs;
+package com.al70b.core.activities.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -49,7 +49,7 @@ public class ForgotPasswordDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(true);
 
-        setContentView(R.layout.alert_forgot_password);
+        setContentView(R.layout.dialog_forgot_password);
 
         emailClearableEditTextDialog = (ClearableEditText)findViewById(
                 R.id.dialog_forgot_password_clearable_edit_text);

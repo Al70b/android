@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
-import com.al70b.core.activities.user_home_activity_underlying.ChatHandler;
 import com.al70b.core.activities.user_home_activity_underlying.FriendsAndChatDrawer;
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawer;
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawerController;
@@ -163,14 +162,12 @@ public class UserHomeActivity extends FragmentActivity {
 
         /*        P R E P A R E     U S E R ' S     D A T A        */
         // if activity is reloaded, restore user from savedInstanceState
-        if (savedInstanceState != null && savedInstanceState.containsKey(THIS_USER))
+        if (savedInstanceState != null && savedInstanceState.containsKey(THIS_USER)) {
             currentUser = (CurrentUser) savedInstanceState.getSerializable(THIS_USER);
+        }
 
         // get passed bundle to get currentUser object
         Bundle bundle = getIntent().getExtras();
-
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_home);
 
         // check if currentUser login is valid, otherwise jump to guest mode
         if (bundle == null) {
@@ -273,7 +270,7 @@ public class UserHomeActivity extends FragmentActivity {
     public void onStop() {
         super.onStop();
 
-        navigationDrawerController.activityStopCleanup();
+        navigationDrawerController.activityStop();
 
         ((MyApplication) getApplication()).setAppInvisible();
     }
@@ -362,6 +359,7 @@ public class UserHomeActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         Fragment currentShownFragment = navigationDrawerController.getVisibleFragment();
+
         // if a drawer is open probably currentUser meant to close it
         if (drawerLayout.isDrawerOpen(navigationDrawerController.getDrawerLayout()))
             drawerLayout.closeDrawer(navigationDrawerController.getDrawerLayout());
@@ -399,62 +397,13 @@ public class UserHomeActivity extends FragmentActivity {
         }
     }
 
-    private AlertDialog userCommandsAlert(String titleStr, String path, String[] list, ListView.OnItemClickListener itemClickListener) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(thisActivity);
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.alert_list2, null);
-        TextView title = (TextView) convertView.findViewById(R.id.text_view_alert_list2_title);
-        CircleImageView imgView = (CircleImageView) convertView.findViewById(R.id.image_view_alert_list2_icon);
-        title.setText(titleStr);
-
-        Glide.with(getApplicationContext())
-                .load(path)
-                .asBitmap()
-                .into(imgView);
-
-        alertDialog.setView(convertView);
-        ListView lv = (ListView) convertView.findViewById(R.id.list_view_alert_list2);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(thisActivity, android.R.layout.simple_list_item_1, list);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(itemClickListener);
-        final AlertDialog ad = alertDialog.create();
-        ad.setCanceledOnTouchOutside(true);
-        /*((Button) convertView.findViewById(R.id.btn_alert_list2_cancel)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ad.dismiss();
-            }
-        });*/
-
-        return ad;
+    public void navigateTo(int position) {
+        navigationDrawerController.navigateTo(position);
     }
 
-    private AlertDialog buildAlertDialogWithList(String titleStr, String[] list, ListView.OnItemClickListener itemClickListener) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(thisActivity);
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.alert_list, null);
-        TextView title = (TextView) convertView.findViewById(R.id.text_view_alert_list_title);
-
-        title.setText(titleStr);
-
-        alertDialog.setView(convertView);
-        ListView lv = (ListView) convertView.findViewById(R.id.list_view_alert_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(thisActivity, android.R.layout.simple_list_item_1, list);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(itemClickListener);
-
-
-        TextView view = new TextView(getApplicationContext());
-        view.setText(getString(R.string.close));
-        view.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ListView.LayoutParams.WRAP_CONTENT));
-        lv.addFooterView(view);
-
-        final AlertDialog ad = alertDialog.create();
-        ad.setCanceledOnTouchOutside(true);
-
-        return ad;
+    public Fragment getVisibleFragment() {
+        return navigationDrawerController.getVisibleFragment();
     }
-
 
     public void closeDrawers() {
         if (drawerLayout.isDrawerOpen(navigationDrawerController.getDrawerLayout()))
@@ -592,12 +541,12 @@ public class UserHomeActivity extends FragmentActivity {
     @Override
     public void onPause() {
         super.onPause();
-        navigationDrawerController.activityPauseCleanup();
+        navigationDrawerController.activityPause();
     }
 
     @Override
     public void onDestroy() {
-        navigationDrawerController.activityDestroyCleanup();
+        navigationDrawerController.activityDestroy();
         /*if (getUserHomeActivity().cometChat != null && CometChat.isLoggedIn())
             thisActivity.cometChat.logout(new Callbacks() {
                 @Override

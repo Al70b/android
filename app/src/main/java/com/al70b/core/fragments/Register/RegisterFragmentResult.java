@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.ScreenSlideHomeActivity;
-import com.al70b.core.fragments.Dialogs.DisplayInfoAlert;
+import com.al70b.core.activities.Dialogs.DisplayInfoAlert;
 import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.ServerResponse;

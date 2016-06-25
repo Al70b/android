@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.fragments.Dialogs.SendMessageAlert;
+import com.al70b.core.activities.Dialogs.SendMessageDialog;
 import com.al70b.core.misc.StorageOperations;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;
@@ -91,7 +91,7 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
         holder.imgViewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendMessageAlert alert = new SendMessageAlert((Activity) context, otherUser);
+                SendMessageDialog alert = new SendMessageDialog((Activity) context, otherUser);
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();
             }

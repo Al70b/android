@@ -16,13 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
 import com.al70b.core.activities.FriendsListActivity;
 import com.al70b.core.activities.MembersListActivity;
 import com.al70b.core.activities.ScreenSlideHomeActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
-import com.al70b.core.fragments.Dialogs.QuestionAlert2;
+import com.al70b.core.activities.Dialogs.QuestionAlert2;
 import com.al70b.core.fragments.UserAdvancedSearchFragment;
 import com.al70b.core.fragments.UserBasicSearchFragment;
 import com.al70b.core.fragments.UserCloseAccountFragment;
@@ -52,7 +53,7 @@ public class NavigationDrawer implements NavigationDrawerController{
     private UserHomeActivity activity;
     private DrawerLayout root;
     private CurrentUser currentUser;
-    private Timer fetchRequestsAndMessagesTimer;
+
     public NavigationDrawer(UserHomeActivity activity, DrawerLayout root,
                             CurrentUser currentUser) {
         this.activity = activity;
@@ -62,19 +63,19 @@ public class NavigationDrawer implements NavigationDrawerController{
         init();
     }
 
-
+    // ui
     private LinearLayout navDrawerLayout;
     private ListView navDrawerList;
 
     // navigation drawer items array
     private NavDrawerItem[] navDrawerItems;
 
-
-    // track current item & fragment
+    // track current item & visible fragment
     private int selectedItem = -1;
     private Fragment currentShownFragment;
 
-    // every 10 seconds
+    // declare timer task running every 10 seconds
+    private Timer fetchRequestsAndMessagesTimer;
     private static final int RATE_TO_FETCH_REQUESTS = 10 * 1000; // in milliseconds
 
     private void init() {
@@ -120,9 +121,12 @@ public class NavigationDrawer implements NavigationDrawerController{
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // go to user's fragment
                 selectItem(1);
-                //goToUserPage();
-                //((UserDataFragment) activity.currentShownFragment).goToUserPictures();
+
+                if (currentShownFragment instanceof UserDataFragment) {
+                    ((UserDataFragment) currentShownFragment).goToUserPictures();
+                }
             }
         });
 
@@ -158,13 +162,12 @@ public class NavigationDrawer implements NavigationDrawerController{
             }
         });
         navDrawerList.setOnItemLongClickListener(null);
-
-        startTimer();
     }
 
     // build navigation drawer items depending on the array of drawerItems
     private NavDrawerItem[] buildNavigationDrawerItems() {
-        String[] drawerValues = activity.getResources().getStringArray(R.array.navigation_drawer_values);
+        String[] drawerValues = activity.getResources()
+                .getStringArray(R.array.navigation_drawer_values);
 
         navDrawerItems = new NavDrawerItem[drawerValues.length];
 
@@ -205,6 +208,7 @@ public class NavigationDrawer implements NavigationDrawerController{
 
         return navDrawerItems;
     }
+
 
     private void selectItem(int position) {
 
@@ -287,6 +291,36 @@ public class NavigationDrawer implements NavigationDrawerController{
         activity.finish();
     }
 
+    private void promptUserForProfilePictureUpdate(){
+        SharedPreferences sharedPref = activity.getSharedPreferences(
+                AppConstants.SHARED_PREF_FILE,
+                Context.MODE_PRIVATE);
+        boolean dontAsk = sharedPref.getBoolean(
+                AppConstants.DONT_ASK_FOR_PROFILE_PICTURE, false);
+
+        if (!dontAsk) {
+            PromptUserForProfilePictureDialog dialog = new
+                    PromptUserForProfilePictureDialog(activity);
+            dialog.show();
+        }
+
+    }
+
+    private boolean startTimer() {
+        TextView txtViewFriendsRequests = (TextView) navDrawerLayout.findViewById(
+                R.id.text_view_navigation_header_friends_request);
+        TextView txtViewMessages = (TextView) navDrawerLayout.findViewById(
+                R.id.text_view_navigation_header_messages);
+
+        fetchRequestsAndMessagesTimer = new Timer("FetchRequestsAndMessagesTimer", true);
+        fetchRequestsAndMessagesTimer.scheduleAtFixedRate(
+                new FetchRequestsAndMessagesTask(txtViewFriendsRequests, txtViewMessages),
+                0,
+                RATE_TO_FETCH_REQUESTS);
+
+        return true;
+    }
+
     private class FetchRequestsAndMessagesTask extends TimerTask {
         int friendRequestsVisibility, messagesVisibility;
 
@@ -355,63 +389,6 @@ public class NavigationDrawer implements NavigationDrawerController{
         }
     }
 
-    private void promptUserForProfilePictureUpdate(){
-        SharedPreferences sharedPref = activity.getSharedPreferences(
-                AppConstants.SHARED_PREF_FILE,
-                Context.MODE_PRIVATE);
-        boolean dontAsk = sharedPref.getBoolean("DONT_ASK", false);
-
-        if (!dontAsk) {
-            final QuestionAlert2 alert = new QuestionAlert2(activity, activity.getString(R.string.question),
-                    activity.getString(R.string.you_have_not_uploaded_photo), -1, R.string.yes, R.string.no);
-            alert.show();
-            alert.setCanceledOnTouchOutside(false);
-
-            alert.setNegativeButton(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (alert.dontAskMeChecked()) {
-                        SharedPreferences sharedPref = activity.getSharedPreferences(AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putBoolean("DONT_ASK", true);
-                        editor.apply();
-                    }
-
-                    alert.dismiss();
-                }
-            });
-            alert.setPositiveButton(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //cmUserProfilePicture.callOnClick();
-
-                    if (alert.dontAskMeChecked()) {
-                        SharedPreferences sharedPref = activity.getSharedPreferences(AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putBoolean("DONT_ASK", true);
-                        editor.apply();
-                    }
-
-                    alert.dismiss();
-                }
-            });
-        }
-
-    }
-
-    private void startTimer() {
-        TextView txtViewFriendsRequests = (TextView) navDrawerLayout.findViewById(
-                R.id.text_view_navigation_header_friends_request);
-        TextView txtViewMessages = (TextView) navDrawerLayout.findViewById(
-                R.id.text_view_navigation_header_messages);
-
-        fetchRequestsAndMessagesTimer = new Timer("FetchRequestsAndMessagesTimer", true);
-        fetchRequestsAndMessagesTimer.scheduleAtFixedRate(
-                new FetchRequestsAndMessagesTask(txtViewFriendsRequests, txtViewMessages),
-                0,
-                RATE_TO_FETCH_REQUESTS);
-    }
 
     @Override
     public ViewGroup getDrawerLayout() {
@@ -432,6 +409,7 @@ public class NavigationDrawer implements NavigationDrawerController{
     public void navigateTo(int position) {
         selectItem(position);
         selectedItem = position;
+        // visible fragment updated in selectItem function
     }
 
     @Override
@@ -444,24 +422,23 @@ public class NavigationDrawer implements NavigationDrawerController{
 
     @Override
     public boolean activityStart() {
-        startTimer();
+        return startTimer();
+    }
+
+    @Override
+    public boolean activityPause() {
         return true;
     }
 
     @Override
-    public boolean activityPauseCleanup() {
-        return true;
-    }
-
-    @Override
-    public boolean activityStopCleanup() {
+    public boolean activityStop() {
         if (fetchRequestsAndMessagesTimer != null)
             fetchRequestsAndMessagesTimer.cancel();
         return true;
     }
 
     @Override
-    public boolean activityDestroyCleanup() {
+    public boolean activityDestroy() {
         // canceling the thread is done in the stop cleanup
         return true;
     }

@@ -45,11 +45,15 @@ public class UserDataFragment extends Fragment {
     private boolean infoUpdated;
 
 
-    public void goToUserPictures() {
+    public boolean goToUserPictures() {
         goToMyPictures = true;
 
-        if (viewPager != null)
+        if (viewPager != null) {
             viewPager.setCurrentItem(0);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

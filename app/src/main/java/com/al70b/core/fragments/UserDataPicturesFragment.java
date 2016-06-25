@@ -31,8 +31,8 @@ import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.activities.DisplayPictureActivity;
 import com.al70b.core.activities.UserHomeActivity;
-import com.al70b.core.fragments.Dialogs.PleaseWaitAlert;
-import com.al70b.core.fragments.Dialogs.QuestionAlert;
+import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
+import com.al70b.core.activities.Dialogs.QuestionAlert;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.ImageHandler;
 import com.al70b.core.objects.CurrentUser;
@@ -325,7 +325,7 @@ public class UserDataPicturesFragment extends Fragment {
 
     private void prepareForPictureUpload(final String fileName, final String picturePath) {
 
-        final PleaseWaitAlert alert = new PleaseWaitAlert(getActivity(), R.string.uploading_your_photo_to_server);
+        final PleaseWaitDialog alert = new PleaseWaitDialog(getActivity(), R.string.uploading_your_photo_to_server);
         alert.show();
 
         // thread to upload picture to server

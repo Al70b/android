@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Dialogs;
+package com.al70b.core.activities.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * a progress bar on the right side and a var message to the left of the progress bar
  * no buttons or icons
  */
-public class ReportUserAlert extends Dialog {
+public class ReportUserDialog extends Dialog {
 
     private Context context;
     private CurrentUser user;
@@ -41,13 +41,13 @@ public class ReportUserAlert extends Dialog {
     private String otherUserName, thumbnailPath;
     private WindowManager.LayoutParams lp;
 
-    public ReportUserAlert(Context context) {
+    public ReportUserDialog(Context context) {
         super(context);
 
         this.context = context;
     }
 
-    public ReportUserAlert(Context context, CurrentUser user, OtherUser otherUser) {
+    public ReportUserDialog(Context context, CurrentUser user, OtherUser otherUser) {
         this(context);
 
         this.user = user;
@@ -63,7 +63,7 @@ public class ReportUserAlert extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(true);
 
-        setContentView(R.layout.alert_report_user);
+        setContentView(R.layout.dialog_report_user);
         TextView txtViewName = (TextView) findViewById(R.id.text_view_alert_report_user_name);
         CircleImageView imgView = (CircleImageView) findViewById(R.id.circle_image_alert_report_user);
         final EditText editText = (EditText) findViewById(R.id.edit_text_alert_report_user_message);

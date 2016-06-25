@@ -1,4 +1,4 @@
-package com.al70b.core.fragments.Dialogs;
+package com.al70b.core.activities.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,25 +16,25 @@ import com.al70b.R;
  * a progress bar on the right side and a var message to the left of the progress bar
  * no buttons or icons
  */
-public class PleaseWaitAlert extends Dialog {
+public class PleaseWaitDialog extends Dialog {
 
     private Context context;
     private String message;
     private WindowManager.LayoutParams lp;
 
-    public PleaseWaitAlert(Context context) {
+    public PleaseWaitDialog(Context context) {
         super(context);
 
         this.context = context;
     }
 
-    public PleaseWaitAlert(Context context, String message) {
+    public PleaseWaitDialog(Context context, String message) {
         this(context);
 
         this.message = message;
     }
 
-    public PleaseWaitAlert(Context context, int stringID) {
+    public PleaseWaitDialog(Context context, int stringID) {
         this(context, context.getString(stringID));
     }
 
@@ -45,7 +45,7 @@ public class PleaseWaitAlert extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(true);
 
-        setContentView(R.layout.alert_please_wait);
+        setContentView(R.layout.dialog_please_wait);
         TextView txtViewMessage = (TextView) findViewById(R.id.text_view_alert_please_wait_message);
 
         if (message == null)

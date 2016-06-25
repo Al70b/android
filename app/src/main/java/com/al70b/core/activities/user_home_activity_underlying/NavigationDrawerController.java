@@ -5,29 +5,61 @@ import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
 /**
- * Created by nasee on 6/24/2016.
+ * Created by Naseem on 6/24/2016.
  */
 public interface NavigationDrawerController {
 
+    /*
+       Summary: get current selected item position
+       Returns: enum:NavigationTarget
+      */
     int getSelectedItem();
 
+    /*
+       Summary: get current visible fragment
+       Returns: Fragment object of the current shown fragment
+      */
     Fragment getVisibleFragment();
 
+    /*
+       Summary: navigate\show fragment in position 'position'
+      */
     void navigateTo(int position);
+
 
     //void navigateTo(Fragment fragment);
 
+    /*
+       Summary: get main drawer layout of the navigation drawer
+       Returns: ViewGroup object representing the drawer layout
+      */
     ViewGroup getDrawerLayout();
+
 
     void updateProfilePicture(Bitmap bitmap);
 
-    // do some cleanup when stopping
 
+    /*
+       Summary: a callback when activity executes onStart method
+       Returns: boolean, if method executed with no errors
+      */
     boolean activityStart();
 
-    boolean activityPauseCleanup();
+    /*
+       Summary: a callback when activity executes onPause method
+       Returns: boolean, if method executed with no errors
+      */
+    boolean activityPause();
 
-    boolean activityStopCleanup();
+    /*
+       Summary: a callback when activity executes onStop method
+       Returns: boolean, if method executed with no errors
+      */
+    boolean activityStop();
 
-    boolean activityDestroyCleanup();
+    /*
+       Summary: a callback when activity executes onDestroy method
+       Returns: boolean, if method executed with no errors
+      */
+    boolean activityDestroy();
 }

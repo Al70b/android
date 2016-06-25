@@ -1,14 +1,10 @@
 package com.al70b.core.activities.user_home_activity_underlying;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -18,23 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.activities.MemberProfileActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
-import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.StatusList;
-import com.al70b.core.fragments.Dialogs.ReportUserAlert;
-import com.al70b.core.fragments.UserConversationsFragment;
-import com.al70b.core.fragments.UserConversationsInternalFragment;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendsDrawerItem;
-import com.al70b.core.objects.OtherUser;
-import com.al70b.core.objects.Pair;
-import com.al70b.core.objects.Picture;
-import com.inscripts.callbacks.Callbacks;
-import com.inscripts.cometchat.sdk.CometChat;
 import com.inscripts.keys.StatusOption;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -358,7 +342,7 @@ public class FriendsAndChatDrawer {
                         case 2:
                             ad.dismiss();
 
-                            ReportUserAlert alert = new ReportUserAlert(thisActivity, thisUser, otherUser);
+                            ReportUserDialog alert = new ReportUserDialog(thisActivity, thisUser, otherUser);
                             alert.show();
                             break;
                         case 3:
@@ -415,5 +399,34 @@ public class FriendsAndChatDrawer {
                 }
             }).start();
         }
+    }*/
+
+
+
+/*
+    private AlertDialog buildAlertDialogWithList(String titleStr, String[] list, ListView.OnItemClickListener itemClickListener) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(thisActivity);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.dialog_list, null);
+        TextView title = (TextView) convertView.findViewById(R.id.text_view_alert_list_title);
+
+        title.setText(titleStr);
+
+        alertDialog.setView(convertView);
+        ListView lv = (ListView) convertView.findViewById(R.id.list_view_alert_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(thisActivity, android.R.layout.simple_list_item_1, list);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(itemClickListener);
+
+
+        TextView view = new TextView(getApplicationContext());
+        view.setText(getString(R.string.close));
+        view.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ListView.LayoutParams.WRAP_CONTENT));
+        lv.addFooterView(view);
+
+        final AlertDialog ad = alertDialog.create();
+        ad.setCanceledOnTouchOutside(true);
+
+        return ad;
     }*/
 }

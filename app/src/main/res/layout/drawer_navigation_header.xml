@@ -116,10 +116,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!--LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/circle_image_view_drawer_profile_image"
         android:layout_marginTop="4dp"
-        android:background="@color/dark_red" />
+        android:background="@color/dark_red" /-->
 </RelativeLayout>
