@@ -2,7 +2,6 @@ package com.al70b.core.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,16 +15,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
@@ -39,22 +34,18 @@ import com.al70b.core.fragments.UserDataFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.JSONHelper;
 import com.al70b.core.objects.CurrentUser;
-import com.bumptech.glide.Glide;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Naseem on 5/7/2015.1
  */
 public class UserHomeActivity extends FragmentActivity {
 
-    public static final String TAG_EXIT = "EXIT";   // used for identifying when to exit the application
     // Static Declarations
-    private static final String LAST_ITEM_SELECTED = "com.al70b.core.activities.UserHomeActivity.selectedItem";
-    private static final String THIS_USER = "com.al70b.core.activities.UserHomeActivity.currentUser";
+    public static final String TAG_EXIT = "EXIT";   // used for identifying when to exit the application
+    public static final String KEY_LAST_ITEM_SELECTED = "com.al70b.core.activities.UserHomeActivity.selectedItem";
+    public static final String KEY_CURRENT_USER = "com.al70b.core.activities.UserHomeActivity.currentUser";
 
-    // TODO change this to a more realistic time
-    private static final int TIME_TO_REQUEST_USER_STATISTICS = 30 * 1000; // ten seconds for test
+
     private static UserHomeActivity thisActivity;   // currentUser running activity
     private static CurrentUser currentUser;            // current currentUser
 
@@ -105,7 +96,7 @@ public class UserHomeActivity extends FragmentActivity {
     /**
      * Delete currentUser's data from the shared pref
      */
-    public static void preLogout(Context c) {
+    public static void logout(Context c) {
         SharedPreferences sharedPref = c.getSharedPreferences(AppConstants.SHARED_PREF_FILE,
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -162,8 +153,8 @@ public class UserHomeActivity extends FragmentActivity {
 
         /*        P R E P A R E     U S E R ' S     D A T A        */
         // if activity is reloaded, restore user from savedInstanceState
-        if (savedInstanceState != null && savedInstanceState.containsKey(THIS_USER)) {
-            currentUser = (CurrentUser) savedInstanceState.getSerializable(THIS_USER);
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_CURRENT_USER)) {
+            currentUser = (CurrentUser) savedInstanceState.getSerializable(KEY_CURRENT_USER);
         }
 
         // get passed bundle to get currentUser object
@@ -173,7 +164,7 @@ public class UserHomeActivity extends FragmentActivity {
         if (bundle == null) {
             // something went wrong with loading the bundle
             Toast.makeText(this, "FATAL ERROR!! BUNDLE WAS NOT SET, LOGGING OUT", Toast.LENGTH_SHORT).show();
-            preLogout(this);
+            logout(this);
             return;
         }
 
@@ -185,7 +176,7 @@ public class UserHomeActivity extends FragmentActivity {
             // if still no user
             if (currentUser == null) {
                 Toast.makeText(this, "FATAL ERROR!! NO USER, LOGGING OUT", Toast.LENGTH_SHORT).show();
-                preLogout(this);
+                logout(this);
                 return;
             }
         }
@@ -193,8 +184,8 @@ public class UserHomeActivity extends FragmentActivity {
         /*        P R E P A R E     D R A W E R     L A Y O U T        */
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.parseColor("#33000000"));
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, GravityCompat.END);
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.END);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, GravityCompat.START);
 
         /*        I N I T I A L I Z E     N A V I G A T I O N     D R A W E R        */
         navigationDrawerController = new NavigationDrawer(this, drawerLayout, currentUser);
@@ -226,7 +217,7 @@ public class UserHomeActivity extends FragmentActivity {
 
         int selectedItem;
         if (savedInstanceState != null) {
-            selectedItem = savedInstanceState.getInt(LAST_ITEM_SELECTED, 1);
+            selectedItem = savedInstanceState.getInt(KEY_LAST_ITEM_SELECTED, 1);
         } else {
             // choose the fragment to be shown at first
             selectedItem = 1;
@@ -279,8 +270,8 @@ public class UserHomeActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
 
-        bundle.putInt(LAST_ITEM_SELECTED, navigationDrawerController.getSelectedItem());
-        bundle.putSerializable(THIS_USER, currentUser);
+        bundle.putInt(KEY_LAST_ITEM_SELECTED, navigationDrawerController.getSelectedItem());
+        bundle.putSerializable(KEY_CURRENT_USER, currentUser);
     }
 
     @Override

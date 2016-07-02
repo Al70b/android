@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
                 threadYield = true;
 
                 // remove data
-                UserHomeActivity.preLogout(context);
+                UserHomeActivity.logout(context);
 
                 startAppInGuestMode();
             }

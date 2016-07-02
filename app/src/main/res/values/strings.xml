@@ -400,5 +400,6 @@
     <string name="set_profile_picture">ضبط صورة شخصية</string>
     <string name="dont_ask_me_again">لا تسألني مرةً أخرى</string>
     <string name="please_set_a_profile_picture">تفيد الإحصائيات لدينا أن من لديهم صورة شخصية يجذبون إهتمام الآخرين أكثر. هل تودّ أن تضبط صورتك الشخصية ?</string>
+    <string name="set_status">شعورك الآن..</string>
 
 </resources>

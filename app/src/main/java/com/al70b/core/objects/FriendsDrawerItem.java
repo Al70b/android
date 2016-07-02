@@ -13,7 +13,8 @@ public class FriendsDrawerItem implements Serializable, Comparable {
     public String status, statusMessage;
     public boolean unreadMessage;
 
-    public FriendsDrawerItem(int id, long timestamp, String name, String profilePicture, String status, String statusMessage) {
+    public FriendsDrawerItem(int id, long timestamp, String name, String profilePicture,
+                             String status, String statusMessage) {
         this.id = id;
         this.timestamp = timestamp;
         this.name = name;

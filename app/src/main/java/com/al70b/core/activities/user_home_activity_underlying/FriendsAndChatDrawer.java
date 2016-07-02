@@ -1,6 +1,5 @@
 package com.al70b.core.activities.user_home_activity_underlying;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
 import com.al70b.core.extended_widgets.StatusList;
 import com.al70b.core.objects.CurrentUser;
+import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.inscripts.keys.StatusOption;
 
@@ -26,118 +27,100 @@ import java.util.List;
 /**
  * Created by Naseem on 6/20/2016.
  */
-public class FriendsAndChatDrawer {
+public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     private static String TAG = "FriendsAndChatDrawer";
 
     // context is the activity this drawer in
-    private Context context;
+    private UserHomeActivity activity;
 
     // the drawer parent in activity
     private ViewGroup root;
-    private ViewGroup friendsAndChatDrawerLayout;
 
     private CurrentUser currentUser;
 
-    private ChatHandler chatHandler;
-
-    private FriendsAndChatDrawerAdapter friendsAndChatDrawerAdapter;
-
-    public FriendsAndChatDrawer(Context context, ViewGroup root, CurrentUser currentUser) {
-        this.context = context;
+    public FriendsAndChatDrawer(UserHomeActivity activity, ViewGroup root, CurrentUser currentUser) {
+        this.activity = activity;
         this.root = root;
         this.currentUser = currentUser;
 
         init();
     }
 
-    public ViewGroup getDrawerLayout() {
-        return friendsAndChatDrawerLayout;
-    }
+    private ChatHandler chatHandler;
+
+    private ViewGroup friendsAndChatDrawerLayout;
+    private FriendsAndChatDrawerAdapter friendsAndChatDrawerAdapter;
+
+    // declare widgets
+    private ListView chatListView;
+    private EditText searchFriendEditText, statusEditText;
+    private StatusList statusList;
+    private LinearLayout layoutChatFailed;
+    private TextView txtViewChatServiceResponse;
+    private ProgressBar chatConnectionProgress;
+    private ImageButton imgBtnSetStatusMessage, imgBtnSettings;
 
     private void init() {
 
+        // relate widgets to xml
         friendsAndChatDrawerLayout = (LinearLayout) root.findViewById(R.id.layout_chat_drawer);
 
-        // chat layout
-        ListView chatListView = (ListView) friendsAndChatDrawerLayout.findViewById(R.id.list_view_friends_in_chat);
-        EditText searchFriendEditText = (EditText) friendsAndChatDrawerLayout.findViewById(R.id.et_friends_drawer_search);
+        // Chat layout
+        chatListView = (ListView) friendsAndChatDrawerLayout.findViewById(R.id.list_view_friends_in_chat);
+        searchFriendEditText = (EditText) friendsAndChatDrawerLayout.findViewById(R.id.et_friends_drawer_search);
 
-        // chat connection failed layout
-        LinearLayout layoutChatFailed = (LinearLayout) friendsAndChatDrawerLayout.findViewById(R.id.layout_friends_drawer_failed_connecting);
-        TextView txtViewFriendEmpty = (TextView) friendsAndChatDrawerLayout.findViewById(R.id.tv_friends_drawer_message);
-        ProgressBar chatConnectionProgress = (ProgressBar) friendsAndChatDrawerLayout.findViewById(R.id.progress_bar_friends_drawer_connecting);
-
+        // Chat connection failed layout
+        layoutChatFailed = (LinearLayout) friendsAndChatDrawerLayout.findViewById(R.id.layout_friends_drawer_failed_connecting);
+        txtViewChatServiceResponse = (TextView) friendsAndChatDrawerLayout.findViewById(R.id.tv_friends_drawer_message);
+        chatConnectionProgress = (ProgressBar) friendsAndChatDrawerLayout.findViewById(R.id.progress_bar_friends_drawer_connecting);
 
         //  header
         ViewGroup drawerHeader = (ViewGroup) friendsAndChatDrawerLayout.findViewById(R.id.layout_chat_drawer_header);
-        StatusList statusList = (StatusList) drawerHeader.findViewById(R.id.drawer_header_status_list);
-        EditText statusEditText = (EditText) drawerHeader.findViewById(R.id.et_friends_drawer_header_status);
-
-        //  footer
-        ViewGroup drawerFooter = (ViewGroup) friendsAndChatDrawerLayout.findViewById(R.id.layout_chat_drawer_footer);
-        //ImageButton imgBtnSetStatus = (ImageButton) drawerFooter.findViewById(R.id.img_btn_friends_drawer_footer_set);
-        ImageButton btnSettings = (ImageButton) drawerFooter.findViewById(R.id.img_btn_friends_drawer_footer_settings);
+        statusList = (StatusList) drawerHeader.findViewById(R.id.drawer_header_status_list);
+        imgBtnSettings = (ImageButton) drawerHeader.findViewById(R.id.img_btn_friends_drawer_header_settings);
+        imgBtnSetStatusMessage = (ImageButton) drawerHeader.findViewById(R.id.img_btn_friends_drawer_header_set);
+        statusEditText = (EditText) drawerHeader.findViewById(R.id.et_friends_drawer_header_status);
 
 
-        statusEditText.setText(context.getString(R.string.not_connected_status));
-        //imgBtnSetStatus.setVisibility(View.INVISIBLE);
+        // create new list for online friends, and adapter
+        final List<FriendsDrawerItem> onlineFriendsList = new ArrayList<>();
+        friendsAndChatDrawerAdapter = new FriendsAndChatDrawerAdapter(activity,
+                R.layout.list_item_chat_contacts, onlineFriendsList);
 
-        // initialize Comet chat
-        chatHandler = new ChatHandler();
-        //chatHandler.initChat();
+        // set the adapter for the friends drawer list view
+        chatListView.setAdapter(friendsAndChatDrawerAdapter);
 
-        // update status and status message
-        String str;
-        if (currentUser.getOnlineStatus().getStatus() == StatusOption.BUSY)
-            str = "center";
-        else if (currentUser.getOnlineStatus().getStatus() == StatusOption.OFFLINE
-                || currentUser.getOnlineStatus().getStatus() == StatusOption.INVISIBLE)
-            str = "left";
-        else
-            str = "right";
+        // initialize Comet chat and chat-events handler
+        chatHandler = new ChatHandler(activity.getApplicationContext(), currentUser, onlineFriendsList);
+        chatHandler.setOnChatConnectionEvents(new MyChatHandlerEvents());
 
-        statusList.updateStatus(str);
+        // update online status and status message
+        statusEditText.setText(activity.getString(R.string.not_connected_status));
+        updateOnlineStatusWidget();
 
         statusEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
-                    //imgBtnSetStatus.setVisibility(View.VISIBLE);
-                    //backupStatusMessage = statusEditText.getText().toString();
+                    imgBtnSetStatusMessage.setVisibility(View.VISIBLE);
                 } else {
-                    /*if (!statusBtnClicked) {
-                        statusEditText.setText(backupStatusMessage);
-                        statusBtnClicked = false;
-                    }
-                    imgBtnSetStatus.setVisibility(View.INVISIBLE);*/
+                    statusEditText.setText(currentUser.getStatusMessage());
+                    imgBtnSetStatusMessage.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        /*imgBtnSetStatus.setOnClickListener(new View.OnClickListener() {
+        imgBtnSetStatusMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                statusBtnClicked = true;
                 String message = statusEditText.getText().toString();
-                cometChat.setStatusMessage(message, new Callbacks() {
-                    @Override
-                    public void successCallback(JSONObject jsonObject) {
-                        Toast.makeText(getApplicationContext(), getString(R.string.status_message_changed_successfully), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void failCallback(JSONObject jsonObject) {
-                        statusEditText.setText(backupStatusMessage);
-                        Toast.makeText(getApplicationContext(), getString(R.string.status_message_change_failed), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                chatHandler.setStatusMessage(message);
                 statusEditText.clearFocus();
             }
-        });*/
+        });
 
-        /*btnSettings.setOnClickListener(new View.OnClickListener() {
+        /*imgBtnSettings.setOnClickListener(new View.OnClickListener() {
 
             private AlertDialog ad;
 
@@ -202,20 +185,11 @@ public class FriendsAndChatDrawer {
             }
         });*/
 
-
-
-        // create new list for online friends
-        final List<FriendsDrawerItem> onlineFriends = new ArrayList<>();
-
-        friendsAndChatDrawerAdapter = new FriendsAndChatDrawerAdapter(context, R.layout.list_item_chat_contacts, onlineFriends);
-
-        // set the adapter for the friends drawer list view
-        chatListView.setAdapter(friendsAndChatDrawerAdapter);
-
-        btnSettings.setOnLongClickListener(new View.OnLongClickListener() {
+        imgBtnSettings.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(context, context.getString(R.string.blocked_users_list), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.blocked_users_list),
+                        Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -229,7 +203,7 @@ public class FriendsAndChatDrawer {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (i1 > i2)
-                    friendsAndChatDrawerAdapter.setData(onlineFriends);
+                    friendsAndChatDrawerAdapter.setData(onlineFriendsList);
                 friendsAndChatDrawerAdapter.getFilter().filter(charSequence);
             }
 
@@ -239,40 +213,148 @@ public class FriendsAndChatDrawer {
             }
         });
 
-        //status = statusList.getVisibleStatusView();
-        /*status.setOnClickListener(new View.OnClickListener() {
-            // handle the status click, show other status for currentUser to pick from
-            @Override
-            public void onClick(View view) {
-                if (statusList.isListExpanded()) {
-                    // hide status list
-                    statusList.hideGradually();
-
-                    // remove all post delayed for the count starts from zero again
-                    handler.removeCallbacksAndMessages(null);
-                } else if (statusList.isEnabled()) {
-                    // show status list
-                    statusList.showGradually();
-
-                    // create a delayed job for closing the status list if it
-                    // is still open after 5 seconds
-                    handler.postDelayed(new Runnable() {
-
-                        public void run() {
-                            // check if after 5 seconds the currentUser didn't choose a status and close
-                            // status list if he didn't
-                            if (statusList.isListExpanded())
-                                statusList.hideGradually();
-                        }
-                    }, 5 * 1000);
-                }
-            }
-        });*/
-
-
         // and set the listener for item click event
         //chatListView.setOnItemClickListener(new FriendsDrawerItemClickListener());
         //chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
+    }
+
+    // update user status
+    private void updateOnlineStatusWidget() {
+        String str;
+        if (currentUser.getOnlineStatus().getStatus() == StatusOption.BUSY)
+            str = "center";
+        else if (currentUser.getOnlineStatus().getStatus() == StatusOption.OFFLINE
+                || currentUser.getOnlineStatus().getStatus() == StatusOption.INVISIBLE)
+            str = "left";
+        else
+            str = "right";
+
+        statusList.updateStatus(str);
+    }
+
+    private String getString(int resource) {
+        return activity.getResources().getString(resource);
+    }
+
+    private class MyChatHandlerEvents extends ChatHandler.ChatHandlerEvents {
+
+        private void enableChatComponents(boolean flag) {
+            // header
+            searchFriendEditText.setEnabled(flag);
+
+            // footer
+            statusEditText.setEnabled(flag);
+            statusList.setEnabled(flag);
+            imgBtnSetStatusMessage.setEnabled(flag);
+            imgBtnSettings.setEnabled(flag);
+        }
+
+        @Override
+        public void onChatConnectionSetup() {
+            enableChatComponents(false);
+        }
+
+        @Override
+        public void onChatConnectionFailed() {
+            enableChatComponents(false);
+
+            // show message of failed connection, hide irrelevant views
+            txtViewChatServiceResponse.setVisibility(View.VISIBLE);
+            txtViewChatServiceResponse.setText(
+                    getString(R.string.could_not_connect_to_chat));
+            chatConnectionProgress.setVisibility(View.GONE);
+            chatListView.setVisibility(View.GONE);
+
+            // enable onclick for retry
+            layoutChatFailed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chatConnectionProgress.setVisibility(View.VISIBLE);
+                    chatListView.setVisibility(View.GONE);
+                    txtViewChatServiceResponse.setText(
+                            getString(R.string.connecting));
+                    layoutChatFailed.setOnClickListener(null);
+
+                    chatHandler.login();
+                }
+            });
+
+            layoutChatFailed.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onChatConnectionSucceeded() {
+            layoutChatFailed.setOnClickListener(null);
+            layoutChatFailed.setVisibility(View.GONE);
+            chatListView.setVisibility(View.VISIBLE);
+            enableChatComponents(true);
+
+            statusEditText.clearFocus();
+            searchFriendEditText.requestFocus();
+        }
+
+        @Override
+        void onProfileInfoReceived(String status, String statusMessage) {
+            updateOnlineStatusWidget();
+
+            if (statusEditText != null)
+                statusEditText.setText(statusMessage);
+        }
+
+        @Override
+        public void onFriendsOnlineListUpdated() {
+            if (friendsAndChatDrawerAdapter != null) {
+                friendsAndChatDrawerAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        void onAVChatMessageReceived(int userId, EndMessage msg) {
+
+        }
+
+        @Override
+        void onMessageReceived(int userId, EndMessage msg) {
+
+        }
+
+        @Override
+        void onSetStatusMessageResponse(boolean statusChanged, String msg) {
+            if(statusChanged) {
+                Toast.makeText(activity, getString(R.string.status_message_changed_successfully),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // failed to change status, restore previous
+                statusEditText.setText(currentUser.getStatusMessage()); // TODO: verify message is restored
+                Toast.makeText(activity, getString(R.string.status_message_change_failed),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public ViewGroup getDrawerLayout() {
+        return friendsAndChatDrawerLayout;
+    }
+
+    @Override
+    public boolean activityStart() {
+        return false;
+    }
+
+    @Override
+    public boolean activityPause() {
+        return false;
+    }
+
+    @Override
+    public boolean activityStop() {
+        return false;
+    }
+
+    @Override
+    public boolean activityDestroy() {
+        return false;
     }
 
     /*private class FriendsDrawerItemLongClickListener implements ListView.OnItemLongClickListener {

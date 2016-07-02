@@ -16,8 +16,8 @@
     <include
         layout="@layout/drawer_navigation"/>
 
-    <!-- The friends drawer -->
+    <!-- The friends and chat drawer -->
     <include
-        layout="@layout/drawer_friends_and_chat" />
+        layout="@layout/drawer_friends_and_chat"/>
 
 </android.support.v4.widget.DrawerLayout>

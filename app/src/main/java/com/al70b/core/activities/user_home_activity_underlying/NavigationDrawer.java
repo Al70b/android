@@ -23,7 +23,6 @@ import com.al70b.core.activities.ScreenSlideHomeActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
-import com.al70b.core.activities.Dialogs.QuestionAlert2;
 import com.al70b.core.fragments.UserAdvancedSearchFragment;
 import com.al70b.core.fragments.UserBasicSearchFragment;
 import com.al70b.core.fragments.UserCloseAccountFragment;
@@ -276,9 +275,9 @@ public class NavigationDrawer implements NavigationDrawerController{
         fetchRequestsAndMessagesTimer.cancel();
 
         // remove saved data before logging out
-        UserHomeActivity.preLogout(activity);
+        UserHomeActivity.logout(activity);
 
-        // show a toast appropriate preLogout message
+        // show a toast appropriate logout message
         Toast.makeText(activity, activity.getResources().getString(R.string.logout_message),
                 Toast.LENGTH_SHORT).show();
 

@@ -1,6 +1,7 @@
 package com.al70b.core.extended_widgets;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,6 @@ public class StatusList extends LinearLayout {
     private final OnlineStatus[] STATUES = new OnlineStatus[3];
     private OnlineStatus currentStatus;
 
-    private LayoutInflater inflater = null;
     private CircleImageView imageRightSet, imageCenter, imageLeft;
     private Animation goVisibleAnimation, goInvisibleAnimation;
 
@@ -49,7 +49,7 @@ public class StatusList extends LinearLayout {
     }
 
     private void initViews() {
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.status_list, this, true);
 
         imageRightSet = (CircleImageView) v.findViewById(R.id.status_list_right);
@@ -66,6 +66,35 @@ public class StatusList extends LinearLayout {
         // create animation
         goVisibleAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.go_visible);
         goInvisibleAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.go_invisible);
+
+        imageRightSet.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Handler handler = new Handler();
+                if (isListExpanded()) {
+                    // hide status list
+                    hideGradually();
+
+                    // remove all post delayed for the count starts from zero again
+                    handler.removeCallbacksAndMessages(null);
+                } else if (isEnabled()) {
+                    // show status list
+                    showGradually();
+
+                    // create a delayed job for closing the status list if it
+                    // is still open after 5 seconds
+                    handler.postDelayed(new Runnable() {
+
+                        public void run() {
+                            // check if after 5 seconds the currentUser didn't choose a status and close
+                            // status list if he didn't
+                            if (isListExpanded())
+                                hideGradually();
+                        }
+                    }, 5 * 1000);
+                }
+            }
+        });
     }
 
 
@@ -151,6 +180,8 @@ public class StatusList extends LinearLayout {
         if (idx2 == CURRENT_STATUS_INDEX)
             currentStatus = STATUES[idx2];
     }
+
+
 
 
 }

@@ -5,15 +5,17 @@
     android:layout_height="match_parent"
     android:layout_gravity="end"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:layoutDirection="rtl">
 
     <include
         android:id="@+id/layout_chat_drawer_header"
         layout="@layout/drawer_friends_and_chat_header"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="inherit"/>
 
+    <!-- Chat Connection Failed Layout -->
     <LinearLayout
         android:id="@+id/layout_friends_drawer_failed_connecting"
         android:layout_width="match_parent"
@@ -23,13 +25,15 @@
         android:background="@android:color/white"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:paddingTop="5dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layoutDirection="inherit"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/tv_friends_drawer_message"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"/>
 
         <ProgressBar
             android:id="@+id/progress_bar_friends_drawer_connecting"
@@ -39,6 +43,7 @@
     </LinearLayout>
 
 
+    <!-- Chat Connection Succeeded, show friends -->
     <LinearLayout
         android:id="@+id/layout_friends_in_chat"
         android:layout_width="match_parent"
@@ -48,7 +53,8 @@
         android:background="@android:color/white"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:paddingTop="5dp">
+        android:visibility="visible"
+        android:layoutDirection="inherit">
 
         <EditText
             android:id="@+id/et_friends_drawer_search"
@@ -78,10 +84,10 @@
         android:id="@+id/layout_chat_drawer_footer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="0.5"
         android:background="@color/red">
 
-        <LinearLayout
+<!--        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -107,7 +113,7 @@
             android:id="@+id/img_btn_friends_drawer_footer_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-         android:visibility="gone"/>
+         android:visibility="gone"/>-->
 
 
 
