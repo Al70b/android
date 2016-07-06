@@ -39,13 +39,21 @@ public class ChatHandler {
     private ChatHandlerEvents chatHandlerEvents;
     private List<FriendsDrawerItem> onlineFriendsList;
 
-    public ChatHandler(Context context, CurrentUser currentUser, List<FriendsDrawerItem> onlineFriendsList) {
+    public ChatHandler(Context context, CurrentUser currentUser,
+                       List<FriendsDrawerItem> onlineFriendsList) {
+        this(context, currentUser, onlineFriendsList, null);
+    }
+
+    public ChatHandler(Context context, CurrentUser currentUser,
+                       List<FriendsDrawerItem> onlineFriendsList, ChatHandlerEvents e) {
         this.context = context;
         this.currentUser = currentUser;
 
         if(onlineFriendsList == null) {
             this.onlineFriendsList = new ArrayList<>();
         }
+
+        chatHandlerEvents = e;
 
         init();
     }
@@ -59,6 +67,10 @@ public class ChatHandler {
     private void init() {
         // get singleton instance of comet chat, and login
         cometChatInstance = CometChat.getInstance(context);
+
+        if(chatHandlerEvents != null) {
+            login();
+        }
     }
 
     private String getString(int resource) {
@@ -66,6 +78,9 @@ public class ChatHandler {
     }
 
     public void login() {
+        if(chatHandlerEvents == null) {
+            return;
+        }
 
         // invoke pre chat connection setup
         chatHandlerEvents.onChatConnectionSetup();
@@ -113,24 +128,39 @@ public class ChatHandler {
         });
     }
 
+    public void setStatus(StatusOption so) {
+        cometChatInstance.setStatus(so, new Callbacks() {
+            @Override
+            public void successCallback(JSONObject jsonObject) {
+                chatHandlerEvents.onSetStatusResponse(true, jsonObject.toString());
+            }
+
+            @Override
+            public void failCallback(JSONObject jsonObject) {
+                chatHandlerEvents.onSetStatusResponse(false, jsonObject.toString());
+            }
+        });
+    }
 
     public static abstract class ChatHandlerEvents {
 
-        abstract void onChatConnectionSetup();
+        void onAVChatMessageReceived(int userId, EndMessage msg) {}
+
+        void onMessageReceived(int userId, EndMessage msg) {}
+
+        void onChatConnectionSetup(){}
+
+        void onProfileInfoReceived(String status, String statusMessage){}
+
+        void onFriendsOnlineListUpdated(){}
+
+        void onSetStatusMessageResponse(boolean statusChanged, String msg){}
+
+        void onSetStatusResponse(boolean statusChanged, String msg) {}
 
         abstract void onChatConnectionFailed();
 
         abstract void onChatConnectionSucceeded();
-
-        abstract void onProfileInfoReceived(String status, String statusMessage);
-
-        abstract void onFriendsOnlineListUpdated();
-
-        abstract void onAVChatMessageReceived(int userId, EndMessage msg);
-
-        abstract void onMessageReceived(int userId, EndMessage msg);
-
-        abstract void onSetStatusMessageResponse(boolean statusChanged, String msg);
     }
 
     private void getBlockedUsers() {
@@ -159,7 +189,6 @@ public class ChatHandler {
             }
         });
     }
-
 
     public class MySubscribeCallbacks implements SubscribeCallbacks {
 

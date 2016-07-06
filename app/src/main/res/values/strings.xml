@@ -358,7 +358,8 @@
     <string name="video_call_other_user_busy">المستخدم الذي تحاول الإتصال به مشغول حاليًا، حاول في وقت آخر</string>
     <string name="end_user_ended_call">المستخدم أغلق المحادثة</string>
     <string name="connecting">جاري الإتصال...</string>
-    <string name="could_not_connect_to_chat">لم نتمكن من الإتصال بخادم المحادثات الفورية.</string>
+    <string name="could_not_connect_to_chat">لم نتمكن من الإتصال بخادم المحادثات الفورية</string>
+    <string name="could_not_connect_to_chat_press_to_try_again">لم نتمكن من الإتصال بخادم المحادثات الفورية, إضغط هنا للمحاولة مجددًا</string>
     <string name="email_was_sent_with_password">تم إرسال رسالة إلى صندوق بريدك الإلكتروني، إتبع الخطوات في الرسالة لتغيير كلمة المرور</string>
     <string name="all_countries">جميع الدول</string>
     <string name="error_18_and_above">العمر الأدنى هو 18 عامًا على الأقل</string>

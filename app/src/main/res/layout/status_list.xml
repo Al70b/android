@@ -6,43 +6,4 @@
     android:layoutDirection="rtl"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/status_list_right"
-        android:layout_width="@dimen/status_circle_user"
-        android:layout_height="@dimen/status_circle_user"
-        android:padding="12dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginLeft="7dp"
-        android:src="@drawable/status_online"
-        android:visibility="visible"
-        android:layout_gravity="center_vertical"
-        android:clickable="true"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/status_list_center"
-        android:layout_width="@dimen/status_circle_user"
-        android:layout_height="@dimen/status_circle_user"
-        android:padding="12dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginLeft="7dp"
-        android:src="@drawable/status_busy"
-        android:visibility="invisible"
-        android:layout_gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="changeStatus"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/status_list_left"
-        android:layout_width="@dimen/status_circle_user"
-        android:layout_height="@dimen/status_circle_user"
-        android:padding="12dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginLeft="7dp"
-        android:src="@drawable/status_offline"
-        android:visibility="invisible"
-        android:layout_gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="changeStatus"
-        />
-
 </LinearLayout>

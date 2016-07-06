@@ -426,7 +426,7 @@ public class User implements Serializable {
         }
     }
 
-    // class that represents gender
+    // class that represents status
     public static class OnlineStatus implements Serializable {
 
         private StatusOption status;
@@ -434,16 +434,24 @@ public class User implements Serializable {
 
         public OnlineStatus(StatusOption status) {
             this.status = status;
-
             setResourceID();
         }
 
-        public OnlineStatus(String valueStr) {
-            setStatus(valueStr);
+        public OnlineStatus(String status) {
+            this.status = stringToStatusOption(status);
+            setResourceID();
         }
 
-        public static StatusOption StringToStatusOption(String valueStr) {
-            StatusOption status = StatusOption.OFFLINE;
+        public StatusOption getStatus() {
+            return status;
+        }
+
+        public int getResourceID() {
+            return resID;
+        }
+
+        public static StatusOption stringToStatusOption(String valueStr) {
+            StatusOption status;
 
             if (valueStr.compareTo(JSONHelper.SERVER_STATUS_OFFLINE) == 0) {
                 status = StatusOption.OFFLINE;
@@ -453,18 +461,17 @@ public class User implements Serializable {
                 status = StatusOption.INVISIBLE;
             } else if (valueStr.compareTo(JSONHelper.SERVER_STATUS_BUSY) == 0) {
                 status = StatusOption.BUSY;
+            } else {
+                status = null;
             }
 
             return status;
         }
-
+/*
         public OnlineStatus duplicate() {
             return new OnlineStatus(status);
-        }
+        }*/
 
-        public StatusOption getStatus() {
-            return status;
-        }
 
         private void setStatus(StatusOption status) {
             this.status = status;
@@ -472,12 +479,7 @@ public class User implements Serializable {
         }
 
         private void setStatus(String statusStr) {
-            this.status = StringToStatusOption(statusStr);
-            setResourceID();
-        }
-
-        public int getResourceID() {
-            return resID;
+            setStatus(stringToStatusOption(statusStr));
         }
 
         private void setResourceID() {
