@@ -107,7 +107,6 @@ public class ChatHandler {
                         chatHandlerEvents.onChatConnectionFailed();
                     }
                 });
-
     }
 
     public void setOnChatConnectionEvents(ChatHandlerEvents onChatConnection) {
@@ -140,6 +139,11 @@ public class ChatHandler {
                 chatHandlerEvents.onSetStatusResponse(false, jsonObject.toString());
             }
         });
+    }
+
+    public boolean isLoggedIn() {
+        // TODO: find a better implementation since api is deprecated
+        return cometChatInstance.isLoggedIn();
     }
 
     public static abstract class ChatHandlerEvents {

@@ -18,13 +18,13 @@ import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
 import com.al70b.core.extended_widgets.StatusList;
 import com.al70b.core.objects.CurrentUser;
-import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.User;
-import com.inscripts.keys.StatusOption;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Naseem on 6/20/2016.
@@ -32,6 +32,7 @@ import java.util.List;
 public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     private static String TAG = "FriendsAndChatDrawer";
+    private static final long TIME_RETRY_CHAT_LOGIN = 2 * 60 * 1000; // 2 minutes, in milliseconds
 
     // context is the activity this drawer in
     private UserHomeActivity activity;
@@ -54,6 +55,8 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     private ViewGroup friendsAndChatDrawerLayout;
     private FriendsAndChatDrawerAdapter friendsAndChatDrawerAdapter;
 
+    private Timer retryChatLoginTimer;
+
     // declare widgets
     private EditText searchFriendEditText, statusEditText;
     private StatusList statusList;
@@ -68,12 +71,12 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         // relate widgets to xml
         friendsAndChatDrawerLayout = (LinearLayout) root.findViewById(R.id.layout_chat_drawer);
 
-        // Chat layout
+        // Connected Chat Layout
         layoutChatConnected = (LinearLayout) friendsAndChatDrawerLayout.findViewById(R.id.layout_friends_in_chat);
         ListView chatListView = (ListView) layoutChatConnected.findViewById(R.id.list_view_friends_in_chat);
         searchFriendEditText = (EditText) layoutChatConnected.findViewById(R.id.et_friends_drawer_search);
 
-        // Chat connection failed layout
+        // Disconnected Chat Layout
         layoutChatFailed = (LinearLayout) friendsAndChatDrawerLayout.findViewById(R.id.layout_friends_drawer_failed_connecting);
         txtViewChatServiceResponse = (TextView) friendsAndChatDrawerLayout.findViewById(R.id.tv_friends_drawer_message);
         chatConnectionProgress = (ProgressBar) friendsAndChatDrawerLayout.findViewById(R.id.progress_bar_friends_drawer_connecting);
@@ -99,22 +102,12 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 onlineFriendsList, new MyChatHandlerEvents());
 
         // update online status and status message
-        statusEditText.setText(activity.getString(R.string.not_connected_status));
+        statusEditText.setText(getString(R.string.not_connected_status));
         statusList.updateStatus(currentUser.getOnlineStatus().getStatus());
         statusList.setOnStatusChangeEvent(new StatusList.OnStatusChangeEvent() {
             @Override
             public void onStatusChange(User.OnlineStatus onlineStatus) {
                 chatHandler.setStatus(onlineStatus.getStatus());
-            }
-        });
-        statusList.setOnStatusListEnabledChangeEvent(new StatusList.OnStatusListEnabledChangeEvent() {
-            @Override
-            public void onStatusListEnabledChange(boolean b) {
-                if(!b) {
-                    Toast.makeText(activity.getApplicationContext(),
-                            getString(R.string.could_not_connect_to_chat),
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -129,7 +122,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 }
             }
         });
-        statusEditText.clearFocus();
 
         imgBtnSetStatusMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,6 +232,19 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         // and set the listener for item click event
         //chatListView.setOnItemClickListener(new FriendsDrawerItemClickListener());
         //chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
+
+        friendsAndChatDrawerLayout.requestFocus();
+
+        retryChatLoginTimer = new Timer();
+        retryChatLoginTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Log.d(TAG + ": Chat Login Timer", "Timer running..");
+                if(!chatHandler.isLoggedIn()) {
+                    chatHandler.login();
+                }
+            }
+        }, 0, TIME_RETRY_CHAT_LOGIN);
     }
 
     private String getString(int resource) {
@@ -258,6 +263,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             statusList.setEnabled(flag);
             imgBtnSetStatusMessage.setEnabled(flag);
             imgBtnSettings.setEnabled(flag);
+            imgBtnSetStatusMessage.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -267,13 +273,14 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
         @Override
         public void onChatConnectionFailed() {
-            enableChatComponents(false);
-
             // show message of failed connection, hide irrelevant views
             txtViewChatServiceResponse.setVisibility(View.VISIBLE);
             txtViewChatServiceResponse.setText(
                     getString(R.string.could_not_connect_to_chat_press_to_try_again));
+
             statusEditText.setText(activity.getString(R.string.not_connected_status));
+            currentUser.setStatusMessage(getString(R.string.not_connected_status));
+
             chatConnectionProgress.setVisibility(View.GONE);
             layoutChatConnected.setVisibility(View.GONE);
 
@@ -322,6 +329,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
         @Override
         void onSetStatusMessageResponse(boolean statusChanged, String msg) {
+            Log.d(TAG, msg);
             if(statusChanged) {
                 Toast.makeText(activity, getString(R.string.status_message_changed_successfully),
                         Toast.LENGTH_SHORT).show();
@@ -330,7 +338,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 statusEditText.setText(currentUser.getStatusMessage()); // TODO: verify message is restored
                 Toast.makeText(activity, getString(R.string.status_message_change_failed),
                         Toast.LENGTH_SHORT).show();
-                Log.d(TAG, msg);
             }
         }
     }
@@ -357,7 +364,11 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     @Override
     public boolean activityDestroy() {
-        return false;
+        if(retryChatLoginTimer != null) {
+            retryChatLoginTimer.cancel();
+        }
+
+        return true;
     }
 
     /*private class FriendsDrawerItemLongClickListener implements ListView.OnItemLongClickListener {

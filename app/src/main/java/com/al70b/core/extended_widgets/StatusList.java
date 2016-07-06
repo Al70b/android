@@ -173,6 +173,8 @@ public class StatusList extends LinearLayout{
     }
 
     public boolean updateStatus(StatusOption so) {
+        handler.removeCallbacksAndMessages(null);
+
         for (int i = 0; i < getChildCount(); i++) {
             CircleImageView v = (CircleImageView)getChildAt(i);
 
@@ -184,7 +186,9 @@ public class StatusList extends LinearLayout{
         }
 
         currentStatus = STATUES_MAPPED_SET.get(so);
+        fixedCircleImageView.setTag(currentStatus.getStatus());
         fixedCircleImageView.setImageResource(currentStatus.getResourceID());
+
 
         if(onStatusChangeEvent != null) {
             onStatusChangeEvent.onStatusChange(currentStatus);
