@@ -2,6 +2,7 @@ package com.al70b.core.activities.user_home_activity_underlying;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Adapter;
 import android.widget.Toast;
 
@@ -123,6 +124,20 @@ public class ChatHandler {
             @Override
             public void failCallback(JSONObject jsonObject) {
                 chatHandlerEvents.onSetStatusMessageResponse(false, jsonObject.toString());
+            }
+        });
+    }
+
+    public void logout() {
+        cometChatInstance.logout(new Callbacks() {
+            @Override
+            public void successCallback(JSONObject jsonObject) {
+                Log.d(TAG + ": Logout (Y)", jsonObject.toString());
+            }
+
+            @Override
+            public void failCallback(JSONObject jsonObject) {
+                Log.e(TAG + ": Logout (N)", jsonObject.toString());
             }
         });
     }

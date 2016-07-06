@@ -368,6 +368,10 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             retryChatLoginTimer.cancel();
         }
 
+        if(chatHandler != null) {
+            chatHandler.logout();
+        }
+
         return true;
     }
 
