@@ -2,47 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="rtl">
 
-
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:padding="15dp">
 
+        <TextView
+            android:id="@+id/tv_register_fragment_3_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/register_info_simple_data"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/sep_register_fragment_3"
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:layout_below="@id/tv_register_fragment_3_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/black"
+            android:orientation="horizontal" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/sep_register_fragment_3"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/register_info_simple_data"
-                android:textSize="17sp"
-                android:textColor="@color/dark_red"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0.6dp"
-                android:background="@color/dark_red"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:layoutDirection="rtl"
+                android:orientation="horizontal"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layoutDirection="rtl">
+                android:paddingRight="20dp">
 
                 <TextView
                     android:id="@+id/text_view_register_gender"
@@ -91,50 +96,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:layoutDirection="rtl"
                 android:orientation="horizontal"
-                android:layoutDirection="rtl">
-
-                <TextView
-                    android:id="@+id/text_view_register_social_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_horizontal"
-                    android:padding="3dp"
-                    android:text="@string/social_status"
-                    android:textColor="@color/dark_red"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_register_social_status"
-                    android:layout_width="200dp"
-                    android:layout_height="38dp"
-                    android:gravity="center_horizontal"
-                     />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:orientation="horizontal"
-                android:layoutDirection="rtl">
+                android:paddingRight="20dp">
 
                 <TextView
                     android:id="@+id/text_view_register_birthdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
                     android:padding="9dp"
                     android:text="@string/register_birthdate"
@@ -162,15 +136,67 @@
                         android:textSize="19sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/text_view_register_look_for_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/register_looking_for"
+                    android:textColor="@color/dark_red"
+                    android:textSize="18sp" />
+
+
+                <RadioGroup
+                    android:id="@+id/radio_group_register_gender_interest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:textColor="@color/dark_red"
+                    android:textStyle="bold">
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_register_gender_interest_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="male"
+                        android:text="@string/male"
+                        android:textColor="@color/dark_red" />
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_register_gender_interest_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:tag="female"
+                        android:text="@string/female"
+                        android:textColor="@color/dark_red" />
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
-    </FrameLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layoutDirection="rtl"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_register_prev_3"

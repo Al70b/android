@@ -3,11 +3,10 @@ package com.al70b.core.activities.user_home_activity_underlying;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.activities.AVCall.AVChatActivity;
+import com.al70b.core.activities.audio_video_call.AVChatActivity;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;

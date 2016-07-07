@@ -8,13 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +21,7 @@ import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.User;
+import com.al70b.core.objects.UserInterest;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,10 +34,11 @@ public class RegisterFragment3 extends Fragment {
     private static Boolean genderMale;
     private static String socialStatusRetrieve;
     private static Calendar birthdateRetrieve;
-    private boolean validSocialStatus, validBirthDate;
+    private static Boolean genderInterestMale;
+    private boolean validBirthDate;
     private TextView txtViewBirthDate;
     private RadioGroup rd;
-    private Spinner spinnerSocial;
+    private RadioGroup rdInterest;
     private Translator translator;
     // hold user's birth date
     private Calendar birthDate;
@@ -53,10 +53,10 @@ public class RegisterFragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_register_3, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_3, container, false);
         txtViewBirthDate = (TextView) viewGroup.findViewById(R.id.text_view_register_birthdate_pick);
         rd = (RadioGroup) viewGroup.findViewById(R.id.radio_group_register_gender);
-        spinnerSocial = (Spinner) viewGroup.findViewById(R.id.spinner_register_social_status);
+        rdInterest = (RadioGroup) viewGroup.findViewById(R.id.radio_group_register_gender_interest);
         Button btnNext = (Button) viewGroup.findViewById(R.id.btn_register_next_3);
         Button btnPrev = (Button) viewGroup.findViewById(R.id.btn_register_prev_3);
 
@@ -69,7 +69,10 @@ public class RegisterFragment3 extends Fragment {
                 else
                     genderMale = false;
 
-                socialStatusRetrieve = (String) spinnerSocial.getSelectedItem();
+                if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male)
+                    genderInterestMale = true;
+                else
+                    genderInterestMale = false;
 
                 birthdateRetrieve = birthDate;
 
@@ -80,6 +83,8 @@ public class RegisterFragment3 extends Fragment {
 
         // default
         ((RadioButton) rd.getChildAt(0)).setChecked(true);
+        // default
+        ((RadioButton) rdInterest.getChildAt(1)).setChecked(true);
 
         // set on click listener for both the button and the text view
         txtViewBirthDate.setClickable(true);
@@ -88,27 +93,15 @@ public class RegisterFragment3 extends Fragment {
         ArrayList<String> listOfSocial = (ArrayList<String>) translator.getValues(translator.getDictionary().SOCIAL_STATUS, false);
         listOfSocial.add(0, getString(R.string.choose_from_list));
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item_1, listOfSocial);
-        spinnerSocial.setAdapter(adapter);
-
-        spinnerSocial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onNothingSelected(AdapterView adapterView) {
-
-            }
-
-            @Override
-            public void onItemSelected(AdapterView adapterView, View view, int i, long j) {
-                validSocialStatus = ((String) spinnerSocial.getSelectedItem())
-                        .compareTo(getString(R.string.choose_from_list)) != 0;
-            }
-        });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validSocialStatus && validBirthDate) {
+                if (validBirthDate) {
                     CurrentUser.Gender gender;
+                    CurrentUser.Gender interestGender;
                     String socialStatus;
+                    UserInterest userInterest;
 
                     CurrentUser user = GuestRegisterFragment.getRegisteringUser();
 
@@ -119,33 +112,43 @@ public class RegisterFragment3 extends Fragment {
                         gender = new User.Gender(CurrentUser.Gender.FEMALE);
                     user.setGender(gender);
 
+
+
+                    // user gender interest
+                    if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male)
+                        interestGender = new User.Gender(CurrentUser.Gender.MALE);
+                    else
+                        interestGender = new User.Gender(CurrentUser.Gender.FEMALE);
+
+                    // create user interest object
+                    userInterest = new UserInterest(interestGender, null);
+
                     // set birth date
                     user.setDateOfBirth(birthDate);
 
                     // set social status
-                    socialStatus = (String) spinnerSocial.getSelectedItem();
-                    user.setSocialStatus(socialStatus);
+                    user.setUserInterest(userInterest);
 
 
                     GuestRegisterFragment.pickFragment(new RegisterFragment4(), true);
                 } else {
-                    String message = "";
-                    if (!validSocialStatus)
-                        message = getString(R.string.error_choose_social_status);
-                    else if (!validBirthDate)
-                        message = getString(R.string.error_choose_date);
+                    String message = getString(R.string.error_choose_date);
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        if (genderMale != null && socialStatusRetrieve != null && birthdateRetrieve != null) {
+        if (genderMale != null && birthdateRetrieve != null
+                && genderInterestMale != null) {
             if (genderMale)
                 rd.check(R.id.radiobutton_register_gender_male);
             else
                 rd.check(R.id.radiobutton_register_gender_female);
 
-            spinnerSocial.setSelection(adapter.getPosition(socialStatusRetrieve));
+            if (genderInterestMale)
+                rdInterest.check(R.id.radiobutton_register_gender_interest_male);
+            else
+                rdInterest.check(R.id.radiobutton_register_gender_interest_female);
 
             birthDate = birthdateRetrieve;
             if (birthDate == null)
@@ -158,7 +161,7 @@ public class RegisterFragment3 extends Fragment {
             }
 
             genderMale = null;
-            socialStatusRetrieve = null;
+            genderInterestMale=null;
             birthdateRetrieve = null;
         }
 

@@ -31,7 +31,7 @@ public class RegisterFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_register_1, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_1, container, false);
 
         clearableName = (ClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_register_name);
         btnEmptyName = (ImageButton) viewGroup.findViewById(R.id.btn_register_empty_name);

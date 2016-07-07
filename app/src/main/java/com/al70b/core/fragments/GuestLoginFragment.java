@@ -60,7 +60,7 @@ public class GuestLoginFragment extends Fragment {
         // requests interface handles the server requests
         final RequestsInterface requests = new RequestsInterface(getActivity().getApplicationContext());
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_login, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_login, container, false);
 
         // find views and bind
         emailClearableEditText = (AutocompleteClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_email);

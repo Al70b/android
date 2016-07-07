@@ -67,7 +67,7 @@ public class GuestWelcomeFragment extends Fragment {
 
         thisActivity = getActivity();
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_welcome, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_welcome, container, false);
         layout = (LinearLayout) viewGroup.findViewById(R.id.layout_fragment_welcome_images2);
         horizontalScrollView = (HorizontalScrollView) viewGroup.findViewById(R.id.horizontal_scrollview_fragment_welcome);
         dpToPx9 = (int) (9 * getActivity().getResources().getDisplayMetrics().density);

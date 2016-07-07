@@ -51,11 +51,11 @@ public class ScreenSlidePageFragment extends Fragment {
 
         // choose the appropriate layout
         if (mPageNumber == getResources().getInteger(com.al70b.R.integer.leftMostScreenSlide))
-            fragment_id = R.layout.fragment_register;
+            fragment_id = R.layout.fragment_general_register;
         else if (mPageNumber == getResources().getInteger(com.al70b.R.integer.centerScreenSlide))
-            fragment_id = R.layout.fragment_login;
+            fragment_id = R.layout.fragment_general_login;
         else
-            fragment_id = R.layout.fragment_welcome;
+            fragment_id = R.layout.fragment_general_welcome;
 
         viewGroup = (ViewGroup) inflater.inflate(fragment_id, container, false);
 

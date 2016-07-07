@@ -1,4 +1,4 @@
-package com.al70b.core.activities.AVCall;
+package com.al70b.core.activities.audio_video_call;
 
 import android.animation.Animator;
 import android.app.Activity;

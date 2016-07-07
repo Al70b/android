@@ -33,8 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.activities.AVCall.AVChatActivity;
-import com.al70b.core.activities.UserHomeActivity;
+import com.al70b.core.activities.audio_video_call.AVChatActivity;
 import com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.Message;

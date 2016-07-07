@@ -20,7 +20,7 @@ public class RegisterFragmentIntro extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_register_intro, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_intro, container, false);
         Button btnStart = (Button) viewGroup.findViewById(R.id.btn_register_start);
 
         btnStart.setOnClickListener(new View.OnClickListener() {

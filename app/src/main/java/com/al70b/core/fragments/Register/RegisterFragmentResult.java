@@ -39,7 +39,7 @@ public class RegisterFragmentResult extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_register_result, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_result, container, false);
         //textViewResult = (TextView) viewGroup.findViewById(R.id.text_view_register_result);
         progressBar = (ProgressBar) viewGroup.findViewById(R.id.progress_bar_register_done);
 
@@ -107,7 +107,7 @@ public class RegisterFragmentResult extends Fragment {
                                     boolean emailAlreadyExists = finalResult.compareTo(getString(R.string.error_server_email_exists)) == 0;
                                     if (emailAlreadyExists) {
                                         // back to account info fragment
-                                        //fragment = new RegisterFragment5();
+                                        //fragment = new RegisterFragment4();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("Email", currentUser.getEmail());
                                         getActivity().getSupportFragmentManager()
@@ -176,7 +176,7 @@ public class RegisterFragmentResult extends Fragment {
                                             boolean emailAlreadyExists = finalResult.compareTo(getString(R.string.error_server_email_exists)) == 0;
                                             if(emailAlreadyExists) {
                                                 // reload register fragment
-                                                Fragment fragment = new RegisterFragment5();
+                                                Fragment fragment = new RegisterFragment4();
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("Email", currentUser.getEmail());
                                                 fragment.setArguments(bundle);

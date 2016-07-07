@@ -278,8 +278,9 @@
     <string name="register_info_advanced_data">قل لنا عن ماذا تبحث لنساعدك بمسيرتك</string>
     <string name="register_info_account">وآخيرًا، بَقيَ أن تزوّدنا بمعلومات دخولك</string>
     <string name="start">إبدأ</string>
-    <string name="register_intro_title">الانضمام إلى Al70b  هو أمر بسيط, سهل، ومجاني. بعد عملية التسجيل القصيرة ستفتح أبواب موقعنا للبحث عن نصفك الآخر في رحاب البلدان العربية.</string>
-    <string name="register_intro_subtitle">إضغط على إبدأ لكي تبدأ بالتسجيل</string>
+    <string name="register_intro_title_free_registeration">الإشتراك مجاني !!</string>
+    <string name="register_intro_title">الانضمام إلى مُجتمع \"الحُب\" هو أمر بسيط, سهل، ومجاني. بعد عملية التسجيل القصيرة ستُفتح لك أبوابُ موقعنا للبحث عن نصفك الآخر في رحاب البلدان العربية.</string>
+    <string name="register_intro_press_start_to_proceed">إضغط على إبدأ لكي تبدأ بالتسجيل</string>
     <string name="error_email_already_exists">البريد الإلكتروني الذي أدخلت غير متوفّر</string>
     <string name="error_server_email_exists">Logic error: Could not create user. Email exists.</string>
     <string name="wait_few_seconds">إنتظر ثوانٍ قليلة</string>
@@ -384,14 +385,15 @@
     <string name="error_couldnt_report">حدث خطأ ما بالإبلاغ ، حاول مجددًا لاحقًا</string>
     <string name="error_report_cant_be_empty">عليك كتابة توضيح عن سبب الإبلاغ</string>
     <string name="users_photos">مستخدمين سبقوك</string>
-    <string name="pictures_limit_reach">وصلت للحد الأقصى من الصور المسموح به للمستخدم وهو %1$d</string>
+    <string name="accept_terms_of_use_message">قرأت وأوافق على %1$s في الموقع</string>
+    <string name="terms_of_use_and_privacy">شروط الإستخدام وسياسة الخصوصية</string>
+    <string name="pictures_limit_reach">الحد الأقصى للصور المسموح بها هو %1$d</string>
     <string name="uploading_photo_was_successfull">تم رفع الصورة بنجاح</string>
     <string name="uploading_photo_was_failure">فشل النظام برفع الصورة، حاول مجددًا من فضلك</string>
     <string name="profile_picture_change_failed">فشل النظام بتغيير صورتك الشخصية، حاول مرةً أخرى من فضلك</string>
     <string name="picture_was_removed">تم حذف الصورة المطلوبة</string>
     <string name="profile_picture_delete_failed">فشل النظام بحذف الصورة المطلوبة، حاول مرةً أخرى من فضلك</string>
     <string name="done_changing_password_successfully">تم تغيير كلمة المرور بنجاح</string>
-    <string name="accept_terms_of_use_message">قرأت وأوافق على شروط الإستخدام وسياسة الخصوصية في الموقع</string>
     <string name="you_have_to_accept_terms_of_use">لم تقم بالموافقة على شروط الإستخدام</string>
     <string name="users_already_registered">مستخدمين مسجلين:</string>
     <string name="need_to_provide_email">عليك إدخال البريد الإلكتروني</string>
@@ -402,5 +404,9 @@
     <string name="dont_ask_me_again">لا تسألني مرةً أخرى</string>
     <string name="please_set_a_profile_picture">تفيد الإحصائيات لدينا أن من لديهم صورة شخصية يجذبون إهتمام الآخرين أكثر. هل تودّ أن تضبط صورتك الشخصية ?</string>
     <string name="set_status">حالتك الآن..</string>
+    <string name="accept_to_receive_ad_messages">أوافق على إستقبال رسائل إلكترونية تسويقية من الحب دوت كوم</string>
+    <string name="terms">شروط</string>
+    <string name="privacy">الخصوصية</string>
+    <string name="title_activity_terms_and_privacy">شروط الإستخدام وسياسة الخصوصية</string>
 
 </resources>

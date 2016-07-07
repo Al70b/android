@@ -2,34 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="ltr">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp">
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_register_fragment_4_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/register_info_account"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+
+        <LinearLayout
+            android:id="@+id/sep_register_fragment_4"
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:layout_below="@id/tv_register_fragment_4_title"
+            android:background="@android:color/black"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sep_register_fragment_4"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/register_info_account"
-                android:textSize="17sp"
-                android:textColor="@color/dark_red"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0.6dp"
-                android:background="@color/dark_red"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -43,10 +51,9 @@
                     android:id="@+id/btn_register_invalid_email_syntax"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/clearable_edit_text_register_email"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:padding="4dp"
                     android:src="@drawable/attention_red_icon"
@@ -58,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="8dp"
-                    android:layout_toRightOf="@id/btn_register_invalid_email_syntax"
+                    android:layout_toEndOf="@id/btn_register_invalid_email_syntax"
                     android:focusable="true"
                     android:focusableInTouchMode="true">
 
@@ -71,7 +78,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/clearable_edit_text_register_password"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/attention_red_icon"
                     android:visibility="invisible" />
@@ -83,7 +90,8 @@
                     android:layout_below="@id/clearable_edit_text_register_email"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="8dp"
-                    android:layout_toRightOf="@id/btn_register_invalid_password_syntax" />
+                    android:layout_toRightOf="@id/btn_register_invalid_password_syntax"
+                    android:layout_toEndOf="@id/btn_register_invalid_password_syntax"/>
 
 
                 <ImageButton
@@ -93,7 +101,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/clearable_edit_text_register_retype_password"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/attention_red_icon"
                     android:visibility="invisible" />
@@ -105,12 +113,33 @@
                     android:layout_below="@id/clearable_edit_text_register_password"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="8dp"
-                    android:layout_toRightOf="@id/btn_register_invalid_retype_password_syntax" />
+                    android:layout_toRightOf="@id/btn_register_invalid_retype_password_syntax"
+                    android:layout_toEndOf="@id/btn_register_invalid_retype_password_syntax"/>
 
             </RelativeLayout>
 
+            <CheckBox
+                android:id="@+id/check_box_register_accept_terms_of_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_terms_of_use_message"
+                android:textSize="13sp"
+                android:textColor="@android:color/black"
+                android:padding="3dp"
+                android:layoutDirection="rtl"/>
+
+            <CheckBox
+                android:id="@+id/check_box_register_accept_advertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_to_receive_ad_messages"
+                android:textSize="13sp"
+                android:textColor="@android:color/black"
+                android:padding="3dp"
+                android:layoutDirection="rtl"/>
+
         </LinearLayout>
-    </FrameLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

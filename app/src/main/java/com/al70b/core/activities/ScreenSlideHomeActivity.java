@@ -55,7 +55,6 @@ public class ScreenSlideHomeActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(INITIAL_POSITION, true);
-
     }
 
 

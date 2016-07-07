@@ -72,19 +72,25 @@
             android:name=".core.activities.MembersListActivity"
             android:theme="@style/AppTheme.AppThemeUserMode"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_members_list"></activity>
+            android:label="@string/title_activity_members_list"/>
 
         <activity
             android:name=".core.activities.FriendsListActivity"
             android:theme="@style/AppTheme.AppThemeUserMode"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_friends_list"></activity>
+            android:label="@string/title_activity_friends_list"/>
+
+        <activity
+            android:name=".core.activities.TermsActivity"
+            android:theme="@style/AppTheme.AppThemeUserMode"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_terms_and_privacy"/>
 
         <activity
             android:name=".core.activities.DisplayPictureActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <activity
-            android:name=".core.activities.AVCall.AVChatActivity"
+            android:name=".core.activities.audio_video_call.AVChatActivity"
             android:screenOrientation="fullSensor"
             android:theme="@android:style/Theme.Holo.NoActionBar" />
 
