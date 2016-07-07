@@ -256,15 +256,14 @@ public class NavigationDrawer implements NavigationDrawerController{
         activity.setTitle(item.getTitle());
 
         // and show relevant page
-        if(fragment != null) {
-            currentShownFragment = fragment;
+        currentShownFragment = fragment;
 
-            // insert the fragment by replacing any existing fragment
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, fragment, position + "_" + UserHomeActivity.TAG_EXIT)
-                    .commit();
-        }
+        // insert the fragment by replacing any existing fragment
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, fragment, position + "_" + UserHomeActivity.TAG_EXIT)
+                .commit();
+
 
         // close the drawer
         root.closeDrawer(navDrawerLayout);

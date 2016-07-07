@@ -59,7 +59,7 @@ public class CurrentUser extends User implements Serializable {
 
     public CurrentUser(String name, String email, String password,
                        Address address, Gender gender, String socialStatus, Calendar dateOfBirth, UserInterest userInterest) {
-        super(name, email, address, gender, socialStatus, dateOfBirth, userInterest);
+        super(name, email, address, gender, dateOfBirth, userInterest);
         this.password = password;
     }
 

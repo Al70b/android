@@ -370,12 +370,7 @@ public class RequestsInterface {
             jsonArgs.put(JSONHelper.SERVER_NAME, user.getName());
             JSONArray jsonArray = new JSONArray();
 
-            for (String s : user.getUserInterest().getPurposesOfInterest()) {
-                jsonArray.put(translator.translate(s, translator.getDictionary().RELATIONSHIP));
-            }
-
             jsonArgs.put(JSONHelper.SERVER_INTERESTED_PURPOSE, jsonArray);
-            jsonArgs.put(JSONHelper.SERVER_SOCIAL_STATUS, translator.translate(user.getSocialStatus(), translator.getDictionary().SOCIAL_STATUS));
             jsonArgs.put(JSONHelper.SERVER_COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
             jsonArgs.put(JSONHelper.SERVER_CITY, user.getAddress().getCity());
             jsonArgs.put(JSONHelper.SERVER_DAY, user.getDateOfBirth().get(Calendar.DAY_OF_MONTH));
@@ -820,15 +815,11 @@ public class RequestsInterface {
             jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
             jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put(JSONHelper.SERVER_NAME, user.getName());
-            jsonArgs.put(JSONHelper.SERVER_SOCIAL_STATUS, translator.translate(user.getSocialStatus(), translator.getDictionary().SOCIAL_STATUS));
             jsonArgs.put(JSONHelper.SERVER_COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
             jsonArgs.put(JSONHelper.SERVER_CITY, user.getAddress().getCity());
 
             jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, user.getUserInterest().getGenderInterest().getValue());
             JSONArray jsonArray = new JSONArray();
-            for (String s : user.getUserInterest().getPurposesOfInterest()) {
-                jsonArray.put(translator.translate(s, translator.getDictionary().RELATIONSHIP));
-            }
             jsonArgs.put(JSONHelper.SERVER_INTERESTED_PURPOSE, jsonArray);
 
             sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_BASIC, jsonArgs, new ParseResultInterface<Boolean>() {

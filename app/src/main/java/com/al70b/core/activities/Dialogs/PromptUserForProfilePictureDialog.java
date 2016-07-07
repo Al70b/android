@@ -29,7 +29,7 @@ public class PromptUserForProfilePictureDialog extends Dialog {
     private WindowManager.LayoutParams lp;
 
     public PromptUserForProfilePictureDialog(UserHomeActivity activity) {
-        super(activity.getApplicationContext());
+        super(activity);
         this.activity = activity;
     }
 

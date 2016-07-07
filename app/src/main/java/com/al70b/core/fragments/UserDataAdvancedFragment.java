@@ -43,7 +43,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
         super.onCreate(savedInstanceState);
 
         user = ((MyApplication)getActivity().getApplication()).getCurrentUser();
-
     }
 
     @Override

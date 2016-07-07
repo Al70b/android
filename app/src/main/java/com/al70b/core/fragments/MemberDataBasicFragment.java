@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.MemberProfileActivity;
@@ -27,47 +28,41 @@ public class MemberDataBasicFragment extends Fragment {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_member_data_basic, container, false);
 
         TextView textViewGender = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_genderB);
-        TextView textViewBirthdate = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_birthdateB);
-        TextView textViewSocial = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_socialB);
+        TextView textViewBirthDate = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_birthdateB);
         TextView textViewCountry = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_countryB);
         TextView textViewCity = (TextView) viewGroup.findViewById(R.id.text_view_member_data_basic_cityB);
-        TextView textViewInterestedIn = (TextView) viewGroup.findViewById(R.id.text_view_member_data_lookForRelationB);
-        CheckBox chkboxMale = (CheckBox) viewGroup.findViewById(R.id.checkBox_member_data_basic_interestedIn_male);
-        CheckBox chkBoxFemale = (CheckBox) viewGroup.findViewById(R.id.checkBox_member_data_basic_interestedIn_female);
+        CheckBox checkBoxMale = (CheckBox) viewGroup.findViewById(R.id.checkBox_member_data_basic_interestedIn_male);
+        CheckBox checkBoxFemale = (CheckBox) viewGroup.findViewById(R.id.checkBox_member_data_basic_interestedIn_female);
 
 
         Bundle bundle = getArguments();
         OtherUser otherUser = (OtherUser) bundle.getSerializable(MemberProfileActivity.OTHER_USER);
 
-        String dateOfBirth;
-        Calendar c = otherUser.getDateOfBirth();
-        dateOfBirth = c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH);
-        textViewGender.setText(otherUser.getGender().toString(getActivity().getApplicationContext()));
-        textViewBirthdate.setText(dateOfBirth);
-        textViewSocial.setText(otherUser.getSocialStatus());
-        textViewCountry.setText(otherUser.getAddress().getCountry());
-        textViewCity.setText(otherUser.getAddress().getCity() == null ? getString(R.string.not_specified)
-                : otherUser.getAddress().getCity());
+        if(otherUser != null) {
+            String dateOfBirth;
+            Calendar c = otherUser.getDateOfBirth();
+            dateOfBirth = c.get(Calendar.YEAR) + "/" + c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH);
+            textViewGender.setText(otherUser.getGender().toString(getActivity().getApplicationContext()));
+            textViewBirthDate.setText(dateOfBirth);
+            textViewCountry.setText(otherUser.getAddress().getCountry());
+            textViewCity.setText(otherUser.getAddress().getCity() == null ? getString(R.string.not_specified)
+                    : otherUser.getAddress().getCity());
 
-        String interestPurposeStr = getString(R.string.not_specified);
-        List<String> list = otherUser.getUserInterest().getPurposesOfInterest();
-        if (list.size() > 0)
-            interestPurposeStr = otherUser.getUserInterest().myListToString();
+            User.Gender interestedInGender = otherUser.getUserInterest().getGenderInterest();
+            switch (interestedInGender.getValue()) {
+                case User.Gender.MALE:
+                    checkBoxMale.setChecked(true);
+                    break;
+                case User.Gender.FEMALE:
+                    checkBoxFemale.setChecked(true);
+                    break;
+                case User.Gender.BOTH:
+                    checkBoxMale.setChecked(true);
+                    checkBoxFemale.setChecked(true);
+                    break;
+            }
+        } else {
 
-        textViewInterestedIn.setText(interestPurposeStr);
-
-        User.Gender interestedInGender = otherUser.getUserInterest().getGenderInterest();
-        switch (interestedInGender.getValue()) {
-            case User.Gender.MALE:
-                chkboxMale.setChecked(true);
-                break;
-            case User.Gender.FEMALE:
-                chkBoxFemale.setChecked(true);
-                break;
-            case User.Gender.BOTH:
-                chkboxMale.setChecked(true);
-                chkBoxFemale.setChecked(true);
-                break;
         }
 
         return viewGroup;

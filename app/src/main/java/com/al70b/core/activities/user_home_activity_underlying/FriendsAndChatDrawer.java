@@ -32,7 +32,6 @@ import java.util.TimerTask;
 public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     private static String TAG = "FriendsAndChatDrawer";
-    private static final long TIME_RETRY_CHAT_LOGIN = 2 * 60 * 1000; // 2 minutes, in milliseconds
 
     // context is the activity this drawer in
     private UserHomeActivity activity;
@@ -54,8 +53,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     private ViewGroup friendsAndChatDrawerLayout;
     private FriendsAndChatDrawerAdapter friendsAndChatDrawerAdapter;
-
-    private Timer retryChatLoginTimer;
 
     // declare widgets
     private EditText searchFriendEditText, statusEditText;
@@ -234,17 +231,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         //chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
 
         friendsAndChatDrawerLayout.requestFocus();
-
-        retryChatLoginTimer = new Timer();
-        retryChatLoginTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Log.d(TAG + ": Chat Login Timer", "Timer running..");
-                if(!chatHandler.isLoggedIn()) {
-                    chatHandler.login();
-                }
-            }
-        }, 0, TIME_RETRY_CHAT_LOGIN);
     }
 
     private String getString(int resource) {
@@ -269,6 +255,12 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         @Override
         public void onChatConnectionSetup() {
             enableChatComponents(false);
+
+            chatConnectionProgress.setVisibility(View.VISIBLE);
+            layoutChatConnected.setVisibility(View.GONE);
+            txtViewChatServiceResponse.setText(
+                    getString(R.string.connecting));
+            layoutChatFailed.setOnClickListener(null);
         }
 
         @Override
@@ -288,12 +280,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             layoutChatFailed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chatConnectionProgress.setVisibility(View.VISIBLE);
-                    layoutChatConnected.setVisibility(View.GONE);
-                    txtViewChatServiceResponse.setText(
-                            getString(R.string.connecting));
-                    layoutChatFailed.setOnClickListener(null);
-
                     chatHandler.login();
                 }
             });
@@ -364,10 +350,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     @Override
     public boolean activityDestroy() {
-        if(retryChatLoginTimer != null) {
-            retryChatLoginTimer.cancel();
-        }
-
         if(chatHandler != null) {
             chatHandler.logout();
         }

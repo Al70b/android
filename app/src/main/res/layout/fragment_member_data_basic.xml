@@ -73,35 +73,6 @@
                 android:textSize="20sp" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/text_view_member_data_basic_socialA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical"
-                android:padding="4dp"
-                android:text="@string/social_status"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/text_view_member_data_basic_socialB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:textSize="20sp"
-                />
-        </TableRow>
-
 
         <TableRow
             android:layout_width="match_parent"
@@ -203,35 +174,6 @@
                     android:enabled="false"
                     android:text="@string/female" />
             </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/text_view_member_data_lookForRelationA"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:text="@string/register_interest_info"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/text_view_member_data_lookForRelationB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:textSize="20sp" />
 
         </TableRow>
 

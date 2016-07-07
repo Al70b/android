@@ -38,14 +38,10 @@ public class UserDataBasicFragment extends EditableDataFragment {
 
     private Context context;
 
-    private TextView textViewName, textViewCity, textViewCountry, textViewSocial;
+    private TextView textViewName, textViewCity, textViewCountry;
     private EditText editTextName, editTextCity;
-    private Spinner spinnerCountry, spinnerSocial;
+    private Spinner spinnerCountry;
     private RadioGroup rdGroupGenderInterest;
-
-    // list of check boxes in the interested purpose table
-    private List<CheckBox> listOfCheckBoxes = new ArrayList<CheckBox>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,14 +68,7 @@ public class UserDataBasicFragment extends EditableDataFragment {
         editTextCity = (EditText) viewGroup.findViewById(R.id.edit_text_user_data_basic_cityB);
         textViewCountry = (TextView) viewGroup.findViewById(R.id.text_view_user_data_basic_countryB);
         spinnerCountry = (Spinner) viewGroup.findViewById(R.id.spinner_user_data_basic_countryB);
-        textViewSocial = (TextView) viewGroup.findViewById(R.id.text_view_user_data_basic_socialB);
-        spinnerSocial = (Spinner) viewGroup.findViewById(R.id.spinner_user_data_basic_socialB);
         rdGroupGenderInterest = (RadioGroup) viewGroup.findViewById(R.id.radio_group_user_data_basic_genderInterestB);
-        TableLayout tableLayout = (TableLayout) viewGroup.findViewById(R.id.table_layout_user_data_basic_interestedPurposes);
-
-        // build contents of table
-        GeneralUI.buildInterestedPurposeLayout(getActivity(), tableLayout, 3, listOfCheckBoxes,
-                translator.getValues(translator.getDictionary().RELATIONSHIP, false));
 
         // add these views to the editable views list
         listOfEditableViews.add(textViewName);
@@ -88,28 +77,19 @@ public class UserDataBasicFragment extends EditableDataFragment {
         listOfEditableViews.add(editTextCity);
         listOfEditableViews.add(textViewCountry);
         listOfEditableViews.add(spinnerCountry);
-        listOfEditableViews.add(textViewSocial);
-        listOfEditableViews.add(spinnerSocial);
         listOfEditableViews.add(rdGroupGenderInterest.getChildAt(0));
         listOfEditableViews.add(rdGroupGenderInterest.getChildAt(1));
-        listOfEditableViews.addAll(listOfCheckBoxes);
-
 
         // spinners handle
         // create array adapters for spinners
         ArrayAdapter<String> countriesArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
                 translator.getValues(translator.getDictionary().COUNTRIES, true));
-        ArrayAdapter<String> socialArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().SOCIAL_STATUS, true));
 
         // set array adapters to spinners
         spinnerCountry.setAdapter(countriesArrayAdapter);
-        spinnerSocial.setAdapter(socialArrayAdapter);
-
 
         // set spinners value according to user's data
         spinnerCountry.setSelection(countriesArrayAdapter.getPosition(user.getAddress().getCountry()));
-        spinnerSocial.setSelection(socialArrayAdapter.getPosition(user.getSocialStatus()));
 
         // parse user's data to widgets
         textViewName.setText(user.getName());
@@ -118,13 +98,11 @@ public class UserDataBasicFragment extends EditableDataFragment {
         txtViewBirthdate.setText(dateOfBirth.get(Calendar.DAY_OF_MONTH) + "/"
                 + (dateOfBirth.get(Calendar.MONTH) + 1) + "/"
                 + dateOfBirth.get(Calendar.YEAR));
-        textViewSocial.setText(user.getSocialStatus());
         textViewCountry.setText(user.getAddress().getCountry());
         textViewCity.setText(user.getAddress().isCityEmpty() ? getString(R.string.not_specified) : user.getAddress().getCity());
 
         // retrieve user's interested in and purposes data
         CurrentUser.Gender userGenderInterest = user.getUserInterest().getGenderInterest();
-        List<String> userInterestPurpose = user.getUserInterest().getPurposesOfInterest();
 
         // check the appropriate check boxes
         switch (userGenderInterest.getValue()) {
@@ -134,16 +112,6 @@ public class UserDataBasicFragment extends EditableDataFragment {
             case User.Gender.FEMALE:
                 rdGroupGenderInterest.check(R.id.radio_button_user_data_basic_female);
                 break;
-        }
-
-        // check appropriate interest purpose checkboxes
-        for (String s : userInterestPurpose) {
-            for (CheckBox cb : listOfCheckBoxes) {
-                if (s.compareTo(cb.getText().toString()) == 0) {
-                    cb.setChecked(true);
-                    break;
-                }
-            }
         }
 
         // cache values
@@ -161,14 +129,12 @@ public class UserDataBasicFragment extends EditableDataFragment {
 
     @Override
     public void getData(CurrentUser user) {
-        String name, city, country, social;
+        String name, city, country;
         CurrentUser.Gender userGenderInterest;
-        List<String> userInterestPurpose = new ArrayList<>();
 
         name = editTextName.getText().toString();
         city = editTextCity.getText().toString();
         country = (String) spinnerCountry.getSelectedItem();
-        social = (String) spinnerSocial.getSelectedItem();
 
         switch (rdGroupGenderInterest.getCheckedRadioButtonId()) {
             case R.id.radio_button_user_data_basic_male:
@@ -184,20 +150,12 @@ public class UserDataBasicFragment extends EditableDataFragment {
         // parse data
         user.setName(name);
         user.setAddress(city, country);
-        user.setSocialStatus(social);
-        user.setUserInterest(new UserInterest(userGenderInterest, userInterestPurpose));
+        user.setUserInterest(new UserInterest(userGenderInterest));
 
         // display data on widgets
         textViewName.setText(name);
-        textViewSocial.setText(social);
         textViewCountry.setText(country);
         textViewCity.setText(city.isEmpty() ? getString(R.string.not_specified) : city);
-
-        // check appropriate interest purpose checkboxes
-        for (CheckBox cb : listOfCheckBoxes)
-            if (cb.isChecked())
-                userInterestPurpose.add(cb.getText().toString());
-
     }
 
     @Override
@@ -206,7 +164,6 @@ public class UserDataBasicFragment extends EditableDataFragment {
         editTextCity.setText(textViewCity.getText().toString());
 
         spinnerCountry.setSelection(((ArrayAdapter<String>) spinnerCountry.getAdapter()).getPosition(textViewCountry.getText().toString()));
-        spinnerSocial.setSelection(((ArrayAdapter<String>) spinnerSocial.getAdapter()).getPosition(textViewSocial.getText().toString()));
     }
 
     @Override
@@ -221,7 +178,7 @@ public class UserDataBasicFragment extends EditableDataFragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(JSONHelper.NAME);
             editor.putString(JSONHelper.NAME, user.getName());
-            editor.commit();
+            editor.apply();
         }
 
         return sr;
@@ -229,32 +186,21 @@ public class UserDataBasicFragment extends EditableDataFragment {
 
     @Override
     public boolean validData() {
-        boolean name, city, oneInterestAtLeast;
+        boolean isNameOk, isCityOk;
 
 
         if (editTextName.getText().toString().length() < 2) {
             validationErrors.add(getString(R.string.error_fill_your_name));
-            name = false;
+            isNameOk = false;
         } else
-            name = true;
+            isNameOk = true;
 
         if (editTextCity.getText().toString().length() < 3) {
             validationErrors.add(getString(R.string.error_fill_your_city));
-            city = false;
+            isCityOk = false;
         } else
-            city = true;
+            isCityOk = true;
 
-        oneInterestAtLeast = false;
-        for (CheckBox ch : listOfCheckBoxes) {
-            if (ch.isChecked()) {
-                oneInterestAtLeast = true;
-                break;
-            }
-        }
-
-        if (!oneInterestAtLeast)
-            validationErrors.add(getString(R.string.error_choose_interest_purpose));
-
-        return name && city && oneInterestAtLeast;
+        return isNameOk && isCityOk;
     }
 }

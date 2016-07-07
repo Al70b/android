@@ -90,10 +90,6 @@ public class RegisterFragment3 extends Fragment {
         txtViewBirthDate.setClickable(true);
         txtViewBirthDate.setOnClickListener(new OnBirthDateClickListener(txtViewBirthDate));
 
-        ArrayList<String> listOfSocial = (ArrayList<String>) translator.getValues(translator.getDictionary().SOCIAL_STATUS, false);
-        listOfSocial.add(0, getString(R.string.choose_from_list));
-        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item_1, listOfSocial);
-
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,14 +117,13 @@ public class RegisterFragment3 extends Fragment {
                         interestGender = new User.Gender(CurrentUser.Gender.FEMALE);
 
                     // create user interest object
-                    userInterest = new UserInterest(interestGender, null);
+                    userInterest = new UserInterest(interestGender);
 
                     // set birth date
                     user.setDateOfBirth(birthDate);
 
                     // set social status
                     user.setUserInterest(userInterest);
-
 
                     GuestRegisterFragment.pickFragment(new RegisterFragment4(), true);
                 } else {

@@ -37,9 +37,6 @@ public class User implements Serializable {
     // user's date of birth
     protected Calendar dateOfBirth;
 
-    // user's social status
-    protected String socialStatus;
-
     // object representing the characteristics of the user
     protected Characteristics userChar;
 
@@ -76,22 +73,22 @@ public class User implements Serializable {
         this.onlineStatus = new OnlineStatus(StatusOption.AVAILABLE);
     }
 
-    public User(String email, String password, String name, String country, Gender gender, Calendar dateOfBirth, Gender lookingFor) {
-        this(name, email, new Address("", country), gender, "", dateOfBirth, new UserInterest().setGenderInterest(lookingFor));
+    public User(String email, String password, String name, String country, Gender gender,
+                Calendar dateOfBirth, Gender lookingFor) {
+        this(name, email, new Address("", country), gender, dateOfBirth, new UserInterest().setGenderInterest(lookingFor));
     }
 
     public User(String name, String email, String password,
-                String city, String country, Gender gender, String socialStatus, Calendar dateOfBirth, UserInterest userInterest) {
-        this(name, email, new Address(city, country), gender, socialStatus, dateOfBirth, userInterest);
+                String city, String country, Gender gender, Calendar dateOfBirth, UserInterest userInterest) {
+        this(name, email, new Address(city, country), gender, dateOfBirth, userInterest);
     }
 
     public User(String name, String email, Address address, Gender gender,
-                String socialStatus, Calendar dateOfBirth, UserInterest userInterest) {
+                Calendar dateOfBirth, UserInterest userInterest) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.gender = gender;
-        this.socialStatus = socialStatus;
         this.dateOfBirth = dateOfBirth;
         this.userInterest = userInterest;
 
@@ -173,14 +170,6 @@ public class User implements Serializable {
         this.statusMessage = statusMessage;
     }
 
-    public String getSocialStatus() {
-        return socialStatus;
-    }
-
-    public void setSocialStatus(String socialStatus) {
-        this.socialStatus = socialStatus;
-    }
-
     public Picture getProfilePicture() {
         return profilePicture;
     }
@@ -234,7 +223,6 @@ public class User implements Serializable {
                 "\n" + address +
                 "\nGender: " + gender +
                 "\nDate of Birth: " + dateOfBirth +
-                "\nSocial Status: " + socialStatus +
                 "\nProfile picture: " + profilePicture +
                 "\nPhotos: " + (pictures == null ? "none" : pictures.toString()) +
                 "\nInterests\n" + userInterest +
@@ -248,13 +236,11 @@ public class User implements Serializable {
             jsonObject.put(JSONHelper.SERVER_NAME, name);
             jsonObject.put(JSONHelper.SERVER_GENDER, gender.getValue());
             jsonObject.put(JSONHelper.SERVER_BIRTH_DATE, dateOfBirth);
-            jsonObject.put(JSONHelper.SERVER_SOCIAL_STATUS, socialStatus);
             jsonObject.put(JSONHelper.SERVER_CITY, address.getCity());
             jsonObject.put(JSONHelper.SERVER_COUNTRY, address.getCountry());
 
             // put user interest
             jsonObject.put(JSONHelper.SERVER_MATCH_GENDER, userInterest.getGenderInterest().getValue());
-            jsonObject.put(JSONHelper.SERVER_INTERESTED_PURPOSE, userInterest.getPurposesOfInterest().toString());
 
             // put user advanced data
             jsonObject.put(JSONHelper.SERVER_HEIGHT, userChar.getHeight());
@@ -283,9 +269,6 @@ public class User implements Serializable {
             gender = new Gender(Integer.parseInt(jsonObject.getString(JSONHelper.SERVER_GENDER)));
             dateOfBirth = parseDate(jsonObject.getString(JSONHelper.SERVER_BIRTH_DATE));
 
-            if (jsonObject.has(JSONHelper.SERVER_SOCIAL_STATUS))
-                socialStatus = translator.translate(jsonObject.getString(JSONHelper.SERVER_SOCIAL_STATUS), translator.getDictionary().SOCIAL_STATUS);
-
             if (jsonObject.has(JSONHelper.SERVER_COUNTRY))
                 address = new Address(jsonObject.getString(JSONHelper.SERVER_CITY),
                         translator.translate(jsonObject.getString(JSONHelper.SERVER_COUNTRY), translator.getDictionary().COUNTRIES));
@@ -294,13 +277,6 @@ public class User implements Serializable {
             userInterest = new UserInterest();
             if (jsonObject.has(JSONHelper.SERVER_MATCH_GENDER))
                 userInterest.setGenderInterest(new Gender(jsonObject.getInt(JSONHelper.SERVER_MATCH_GENDER)));
-
-            if (jsonObject.has(JSONHelper.SERVER_INTERESTED_PURPOSE)) {
-                JSONArray jsonTemp = jsonObject.getJSONArray(JSONHelper.SERVER_INTERESTED_PURPOSE);
-                List<String> temp = JSONHelper.parseJSONArray(jsonTemp);
-                List<String> interestPurpose = translator.translate(temp, translator.getDictionary().RELATIONSHIP);
-                userInterest.setPurposesOfInterest(interestPurpose);
-            }
 
             // parse user's list of pictures
             if (jsonObject.has(JSONHelper.SERVER_PHOTOS)) {
@@ -343,7 +319,8 @@ public class User implements Serializable {
                 description = "";
             }
 
-            userChar = new Characteristics(context.getResources(), height, body, eyes, alcohol, smoking, work, education, religion, description);
+            userChar = new Characteristics(context.getResources(), height, body, eyes,
+                    alcohol, smoking, work, education, religion, description);
 
             if (onlineStatus == null) {
                 onlineStatus = new OnlineStatus(StatusOption.AVAILABLE);

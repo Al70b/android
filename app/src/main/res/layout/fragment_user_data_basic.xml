@@ -118,46 +118,6 @@
                 android:textSize="20sp" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/text_view_user_data_basic_socialA"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1.2"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:text="@string/social_status"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/text_view_user_data_basic_socialB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                android:layout_weight="2"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:textSize="20sp"  />
-
-            <Spinner
-                android:id="@+id/spinner_user_data_basic_socialB"
-                style="@android:style/Widget.Holo.Light.Spinner"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom|center"
-                android:layout_weight="2"
-                android:layoutDirection="rtl"
-                android:textAlignment="center"
-                android:visibility="gone"
-                android:textColor="@color/dark_red"/>
-        </TableRow>
-
 
         <TableRow
             android:layout_width="match_parent"
@@ -312,46 +272,6 @@
                     android:text="@string/female" />
             </RadioGroup>
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/text_view_register_look_for_relation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1.2"
-                android:gravity="center_horizontal|center_vertical"
-                android:padding="4dp"
-                android:text="@string/register_interest_info"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableLayout
-                android:id="@+id/table_layout_user_data_basic_interestedPurposes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="48dp"
-                android:paddingRight="48dp"
-                android:paddingBottom="10dp">
-
-                <!-- this is filled programmatically with rows and check boxes -->
-            </TableLayout>
         </TableRow>
 
     </TableLayout>

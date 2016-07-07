@@ -1,12 +1,17 @@
 package com.al70b.core.fragments.Register;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
@@ -57,7 +62,7 @@ public class RegisterFragmentResult extends Fragment {
                 String result = "Something went wrong";
                 RequestsInterface requestsInterface = new RequestsInterface(getActivity().getApplicationContext());
 
-                ServerResponse<String> sr = requestsInterface.registerUser(currentUser);
+                final ServerResponse<String> sr = requestsInterface.registerUser(currentUser);
 
                 if (sr != null && sr.isSuccess()) {
                     result = getString(R.string.register_successfully);
@@ -67,7 +72,6 @@ public class RegisterFragmentResult extends Fragment {
                 }
 
                 final String finalResult = result;
-                final boolean resultOK = sr.isSuccess();
                 handler.post(new Runnable() {
 
                     @Override
@@ -79,7 +83,7 @@ public class RegisterFragmentResult extends Fragment {
                         View.OnClickListener ocl;
 
 
-                        if (resultOK) {
+                        if (sr != null && sr.isSuccess()) {
                             title = getString(R.string.register_message_success);
                             message = getString(R.string.register_successfully);
                             iconResID = -1;
@@ -136,14 +140,15 @@ public class RegisterFragmentResult extends Fragment {
                         displayInfoAlert.setCanceledOnTouchOutside(false);
                         displayInfoAlert.setButtonOkFunction(ocl);
 
-                        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        /*
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                        //LinearLayout linearLayout = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.dialog, null, false);
+                        LinearLayout linearLayout = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.dialog, null, false);
 
-                        //ImageView imgView = (ImageView)linearLayout.findViewById(R.id.dialog_icon);
-                        //TextView textView = (TextView) linearLayout.findViewById(R.id.dialog_title);
+                        ImageView imgView = (ImageView)linearLayout.findViewById(R.id.dialog_icon);
+                        TextView textView = (TextView) linearLayout.findViewById(R.id.dialog_title);
 
-                        /*if (resultOK) {
+                        if (sr != null && sr.isSuccess()) {
                             imgView.setImageResource(R.drawable.green_check);
                             textView.setText(getString(R.string.success_message_title));
                             builder.setMessage(getString(R.string.register_successfully))

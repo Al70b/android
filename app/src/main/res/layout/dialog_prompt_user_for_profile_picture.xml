@@ -2,10 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_margin="4dp"
     android:layoutDirection="rtl"
-    android:layout_margin="4dp">
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="inherit"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="@string/info"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_red"
+        android:layoutDirection="inherit"
+        android:paddingTop="2dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:id="@+id/text_view_dialog_question_message"
@@ -13,7 +36,7 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:text="@string/please_set_a_profile_picture"
-        android:textSize="18sp"/>
+        android:textSize="15sp" />
 
 
     <CheckBox
@@ -22,34 +45,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/dont_ask_me_again"
-        android:textSize="16sp"
-        />
+        android:textSize="13sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center"
-        android:layoutDirection="inherit">
+        android:layoutDirection="inherit"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_dialog_question_positive"
+            style="@style/button_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yes"
             android:layout_margin="8dp"
-            android:gravity="center"
             android:background="@drawable/red_button"
-            style="@style/button_text"/>
+            android:gravity="center"
+            android:text="@string/yes" />
 
         <Button
             android:id="@+id/btn_dialog_question_negative"
+            style="@style/button_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no"
             android:layout_margin="8dp"
-            android:gravity="center"
             android:background="@drawable/red_button"
-            style="@style/button_text"/>
+            android:gravity="center"
+            android:text="@string/no" />
     </LinearLayout>
 </LinearLayout>
