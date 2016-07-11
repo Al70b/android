@@ -83,7 +83,7 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
 
         Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
                 .asBitmap()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
 
         holder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());

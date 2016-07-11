@@ -29,7 +29,6 @@ import java.util.concurrent.Callable;
  * The thread is unusable after his job is executed so is the thread's job. so there is
  * only one way to set the job's method which is via constructor
  */
-// TODO clear debugging logs
 public class UserServerRequestsCallable implements Callable<JSONObject> {
 
     // declare finals for user server requests

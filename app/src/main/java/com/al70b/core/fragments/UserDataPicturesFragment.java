@@ -120,7 +120,7 @@ public class UserDataPicturesFragment extends Fragment {
             // get user profile picture
             Glide.with(activity)
                     .load(profilePicture.getThumbnailFullPath())
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .into(imgViewProfile);
 
 
@@ -561,9 +561,9 @@ public class UserDataPicturesFragment extends Fragment {
                                     public void run() {
                                         // if delete picture is profile picture
                                         if (profilePicture != null && profilePicture.getId() == pic.getId()) {
-                                            imgViewProfile.setImageResource(R.drawable.default_user_photo);
+                                            imgViewProfile.setImageResource(R.drawable.avatar);
                                             imgViewProfile.invalidate();
-                                            //activity.updateProfilePicture(R.drawable.default_user_photo);
+                                            //activity.updateProfilePicture(R.drawable.avatar);
                                             user.removeProfilePicture();
                                         }
 
@@ -624,7 +624,7 @@ public class UserDataPicturesFragment extends Fragment {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(context);
-                imageView.setImageResource(R.drawable.default_user_photo);
+                imageView.setImageResource(R.drawable.avatar);
                 imageView.setLayoutParams(new GridView.LayoutParams(dp110, dp110));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
@@ -636,7 +636,7 @@ public class UserDataPicturesFragment extends Fragment {
                     .load(listOfPictures.get(position).getThumbnailFullPath())
                     .fitCenter()
                     .centerCrop()
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .into(imageView);
 
             return imageView;

@@ -72,7 +72,7 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
 
         Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
                 .asBitmap()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
 
         holder.more.setOnClickListener(new View.OnClickListener() {

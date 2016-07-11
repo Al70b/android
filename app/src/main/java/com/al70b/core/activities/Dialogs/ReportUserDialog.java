@@ -77,7 +77,7 @@ public class ReportUserDialog extends Dialog {
                 .asBitmap()
                 .fitCenter()
                 .centerCrop()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(imgView);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

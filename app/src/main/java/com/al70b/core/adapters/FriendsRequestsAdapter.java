@@ -12,14 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
-import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 import com.bumptech.glide.Glide;
 
-import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -85,7 +82,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
 
         Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
                 .asBitmap()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
 
         final ImageButton finalBtnAccept = holder.imgBtnAccept;

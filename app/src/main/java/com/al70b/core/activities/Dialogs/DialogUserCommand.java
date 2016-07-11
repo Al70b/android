@@ -71,7 +71,7 @@ public class DialogUserCommand extends Dialog {
                 .asBitmap()
                 .fitCenter()
                 .centerCrop()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(imgViewProfilePicture);
     }
 

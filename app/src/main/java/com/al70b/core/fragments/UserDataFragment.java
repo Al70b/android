@@ -77,11 +77,11 @@ public class UserDataFragment extends Fragment {
         // bind sliding tab layout with xml tag, and set the previously created view pager
         slidingTabLayout = (SlidingTabLayout) viewGroup.findViewById(R.id.sliding_tabs_user_data);
         slidingTabLayout.setDistributeEvenly(false);
-        slidingTabLayout.setCustomTabView(R.layout.tab, 0);
+        slidingTabLayout.setCustomTabView(R.layout.tab, R.id.);
         slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return Color.RED;
+                return Color.WHITE;
             }
         });
         slidingTabLayout.setViewPager(viewPager);

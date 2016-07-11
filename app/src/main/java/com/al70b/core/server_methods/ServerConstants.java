@@ -43,8 +43,8 @@ public class ServerConstants {
     public static final String THUMBNAILS_PATH = "data/uploads/thumbnail/";
     public static final String SERVER_DATA_PATH = "data/";
     public static final String SERVER_DATA_THUMBNAILS_PATH = SERVER_DATA_PATH + "uploads/thumbnail/";
-    public static final String SERVER_USER_DEFAULT_PHOTO = "default_user_photo.png";
-    public static final String SERVER_USER_DEFAULT_PHOTO_URL = "img/";
+    public static final String SERVER_USER_DEFAULT_PHOTO = "avatar";
+    public static final String SERVER_USER_DEFAULT_PHOTO_URL = "img/avatar.png";
     public static final String SERVER_TERMS_PAGE = "app-content/terms.php";
     // declare server finals
     protected static final String CONNECTION_PROTOCOL = "http://";

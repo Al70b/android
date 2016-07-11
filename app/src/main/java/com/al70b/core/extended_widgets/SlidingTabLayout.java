@@ -215,6 +215,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
 
             mTabStrip.addView(tabView);
+
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
@@ -259,7 +260,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 if (!prev.equals((TextView) selectedChild))
                     prev.setTextColor(getResources().getColor(android.R.color.darker_gray));
 
-                ((TextView) selectedChild).setTextColor(getResources().getColor(R.color.dark_red));
+                ((TextView) selectedChild).setTextColor(getResources().getColor(R.color.white));
+            } else if (selectedChild instanceof LinearLayout) {
+                return;
             }
         }
     }

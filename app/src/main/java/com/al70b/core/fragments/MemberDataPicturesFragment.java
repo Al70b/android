@@ -103,7 +103,7 @@ public class MemberDataPicturesFragment extends Fragment {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(context);
-                imageView.setImageResource(R.drawable.default_user_photo);
+                imageView.setImageResource(R.drawable.avatar);
                 imageView.setLayoutParams(new GridView.LayoutParams(dp110, dp110));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
@@ -115,7 +115,7 @@ public class MemberDataPicturesFragment extends Fragment {
                     .load(listOfPictures.get(position).getThumbnailFullPath())
                     .override(dp110, dp110)
                     .centerCrop()
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .into(imageView);
 
             return imageView;

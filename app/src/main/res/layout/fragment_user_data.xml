@@ -10,7 +10,8 @@
     <com.al70b.core.extended_widgets.SlidingTabLayout
         android:id="@+id/sliding_tabs_user_data"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/dark_red"/>
 
     <com.al70b.core.extended_widgets.CustomViewPager
         android:id="@+id/view_pager_user_data"

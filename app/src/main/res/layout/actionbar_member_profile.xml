@@ -23,7 +23,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:padding="8dp"
-        android:src="@drawable/default_user_photo"
+        android:src="@drawable/avatar"
         />
 
     <TextView

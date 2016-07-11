@@ -6,25 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.User;
-import com.al70b.core.server_methods.ServerConstants;
 import com.bumptech.glide.Glide;
-import com.inscripts.callbacks.Callbacks;
-import com.inscripts.keys.StatusOption;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -86,7 +75,7 @@ public class FriendsAndChatDrawerAdapter extends ArrayAdapter<FriendsDrawerItem>
                 .asBitmap()
                 .fitCenter()
                 .centerCrop()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
 
         User.OnlineStatus status = new User.OnlineStatus(friendsDrawerItem.status);

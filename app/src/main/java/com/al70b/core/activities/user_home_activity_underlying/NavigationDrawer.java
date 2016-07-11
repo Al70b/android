@@ -137,7 +137,7 @@ public class NavigationDrawer implements NavigationDrawerController{
                     .asBitmap()
                     .fitCenter()
                     .centerCrop()
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .into(cmUserProfilePicture);
         } else {
             // prompt user to add a profile picture

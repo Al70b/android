@@ -68,7 +68,7 @@ public class SendMessageDialog extends Dialog {
         Glide.with(context)
                 .load(thumbnailPath)
                 .asBitmap()
-                .placeholder(R.drawable.default_user_photo)
+                .placeholder(R.drawable.avatar)
                 .into(imgView);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

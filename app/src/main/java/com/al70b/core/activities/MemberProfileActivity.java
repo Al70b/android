@@ -102,7 +102,7 @@ public class MemberProfileActivity extends FragmentActivity {
             Glide.with(thisActivity)
                     .load(otherUser.getProfilePicture().getThumbnailFullPath())
                     .asBitmap()
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .centerCrop()
                     .into(circleImageProfilePicture);
 

@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
-import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView;
 import com.al70b.core.fragments.Items.ConversationItem;
@@ -402,7 +401,7 @@ public class UserConversationsFragment extends Fragment {
                     .asBitmap()
                     .fitCenter()
                     .centerCrop()
-                    .placeholder(R.drawable.default_user_photo)
+                    .placeholder(R.drawable.avatar)
                     .override(110, 110)
                     .into(holder.profilePicture);
 
