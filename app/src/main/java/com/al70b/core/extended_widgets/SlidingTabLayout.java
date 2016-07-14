@@ -257,7 +257,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
                 TextView prev = (TextView) mTabStrip.getChildAt(mTabStrip.getPreviousPosition());
 
-                if (!prev.equals((TextView) selectedChild))
+                if (!prev.equals(selectedChild))
                     prev.setTextColor(getResources().getColor(android.R.color.darker_gray));
 
                 ((TextView) selectedChild).setTextColor(getResources().getColor(R.color.white));

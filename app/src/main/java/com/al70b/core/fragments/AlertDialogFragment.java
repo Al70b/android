@@ -88,7 +88,7 @@ public class AlertDialogFragment extends DialogFragment {
 
 
     public enum Type {
-        OK_CANCEL, OK;
+        OK_CANCEL, OK
     }
 
     /*@Override

@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.inscripts.callbacks.Callbacks;
 import com.inscripts.cometchat.sdk.AVChat;
+import com.inscripts.interfaces.Callbacks;
 import com.inscripts.utils.Logger;
 
 import org.json.JSONObject;
@@ -119,11 +119,7 @@ public class AVChatActivity extends Activity {
         imgBtnSwitchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (frontCamera) {
-                    frontCamera = false;
-                } else {
-                    frontCamera = true;
-                }
+                frontCamera = !frontCamera;
             }
         });
         imgBtnSwitchCamera.setOnLongClickListener(new View.OnLongClickListener() {
@@ -256,7 +252,8 @@ public class AVChatActivity extends Activity {
     }
 
     public void endCall() {
-        avchat.endAVChatCall(friendId, new Callbacks() {
+        // TODO: check the api and fix it
+        avchat.endAVChatCall("", friendId, new Callbacks() {
             @Override
             public void successCallback(JSONObject response) {
                 Logger.error("success end callback " + response);

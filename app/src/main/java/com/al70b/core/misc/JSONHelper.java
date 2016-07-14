@@ -19,6 +19,7 @@ public class JSONHelper {
     public static final String USER = "user";
     public static final String USERNAME = "username";
     public static final String NAME = "name";
+    public static final String PASSWORD = "password";
     public static final String CONNECTION_FAILED = "connection to server failed!";
     public static final String PROFILE_PICTURE = "profile_picture";
     public static final String GENDER_MALE = "Male";
@@ -109,4 +110,5 @@ public class JSONHelper {
 
         return result;
     }
+
 }

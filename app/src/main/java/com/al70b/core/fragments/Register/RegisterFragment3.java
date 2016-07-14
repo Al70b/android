@@ -64,15 +64,9 @@ public class RegisterFragment3 extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male)
-                    genderMale = true;
-                else
-                    genderMale = false;
+                genderMale = rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male;
 
-                if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male)
-                    genderInterestMale = true;
-                else
-                    genderInterestMale = false;
+                genderInterestMale = rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male;
 
                 birthdateRetrieve = birthDate;
 

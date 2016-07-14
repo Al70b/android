@@ -14,10 +14,10 @@ import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.Message;
 import com.al70b.core.objects.Pair;
 import com.al70b.core.server_methods.ServerConstants;
-import com.inscripts.callbacks.Callbacks;
-import com.inscripts.callbacks.SubscribeCallbacks;
 import com.inscripts.cometchat.sdk.CometChat;
-import com.inscripts.keys.StatusOption;
+import com.inscripts.enums.StatusOption;
+import com.inscripts.interfaces.Callbacks;
+import com.inscripts.interfaces.SubscribeCallbacks;
 import com.inscripts.utils.Logger;
 import com.inscripts.utils.SessionData;
 
@@ -72,7 +72,7 @@ public class ChatHandler {
 
     private void init() {
         // get singleton instance of comet chat, and login
-        cometChatInstance = CometChat.getInstance(context);
+        cometChatInstance = CometChat.getInstance(context, ServerConstants.COMET_CHAT_API_KEY);
 
         if(chatHandlerEvents != null) {
             login();
@@ -109,7 +109,8 @@ public class ChatHandler {
         });
 
         cometChatInstance.login(ServerConstants.CHAT_URL,
-                String.valueOf(currentUser.getUserID()),
+                currentUser.getName(),
+                currentUser.getPassword(),
                 new Callbacks() {
                     @Override
                     public void successCallback(JSONObject response) {
@@ -442,6 +443,11 @@ public class ChatHandler {
             } catch (Exception e) {
                 Logger.error(TAG + ":" + e.getMessage());
             }
+        }
+
+        @Override
+        public void onActionMessageReceived(JSONObject jsonObject) {
+
         }
 
         @Override

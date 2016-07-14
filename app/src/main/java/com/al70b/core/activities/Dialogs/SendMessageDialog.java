@@ -14,9 +14,10 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.objects.OtherUser;
+import com.al70b.core.server_methods.ServerConstants;
 import com.bumptech.glide.Glide;
-import com.inscripts.callbacks.Callbacks;
 import com.inscripts.cometchat.sdk.CometChat;
+import com.inscripts.interfaces.Callbacks;
 
 import org.json.JSONObject;
 
@@ -84,7 +85,8 @@ public class SendMessageDialog extends Dialog {
                 String message = editText.getText().toString().trim();
 
                 if (!message.isEmpty()) {
-                    CometChat chat = CometChat.getInstance(context);
+                    CometChat chat = CometChat.getInstance(context,
+                            ServerConstants.COMET_CHAT_API_KEY);
 
                     if (chat.isLoggedIn()) {
                         chat.sendMessage(String.valueOf(otherUserID), message, new Callbacks() {

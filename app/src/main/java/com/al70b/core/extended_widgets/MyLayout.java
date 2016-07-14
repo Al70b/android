@@ -38,9 +38,9 @@ public class MyLayout extends LinearLayout {
     }
 
     public interface OnSoftKeyboardListener {
-        public void onShown();
+        void onShown();
 
-        public void onHidden();
+        void onHidden();
     }
 
 }

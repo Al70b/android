@@ -37,10 +37,11 @@ import com.al70b.core.activities.audio_video_call.AVChatActivity;
 import com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.Message;
+import com.al70b.core.server_methods.ServerConstants;
 import com.bumptech.glide.Glide;
-import com.inscripts.callbacks.Callbacks;
 import com.inscripts.cometchat.sdk.AVChat;
 import com.inscripts.cometchat.sdk.CometChat;
+import com.inscripts.interfaces.Callbacks;
 import com.inscripts.utils.Logger;
 
 import org.json.JSONArray;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fm.icelink.Server;
 import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconTextView;
@@ -100,7 +102,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cometChat = CometChat.getInstance(getActivity().getApplicationContext());
+        cometChat = CometChat.getInstance(getActivity().getApplicationContext(), ServerConstants.COMET_CHAT_API_KEY);
 
         otherUserID = getArguments().getInt("ID");
         otherUserName = getArguments().getString("Name");
@@ -487,7 +489,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                 if (otherUserID == -1)
                     return true;
 
-                cometChat.deleteUserHistory(String.valueOf(otherUserID), new Callbacks() {
+                /*cometChat.deleteHistory(String.valueOf(otherUserID), new Callbacks() {
                     @Override
                     public void successCallback(JSONObject jsonObject) {
                         Log.d("ClearHistoryS", jsonObject.toString());
@@ -501,7 +503,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                     public void failCallback(JSONObject jsonObject) {
                         Toast.makeText(getActivity().getApplicationContext(), getString(R.string.error_clearing_conversations), Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -970,7 +972,8 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                         holder.reject.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                AVChat.getAVChatInstance(context).rejectAVChatRequest(String.valueOf(otherUserID), new Callbacks() {
+                                // TODO: check api and fix
+                                AVChat.getAVChatInstance(context).rejectAVChatRequest("", String.valueOf(otherUserID), new Callbacks() {
                                     @Override
                                     public void successCallback(JSONObject response) {
                                         message.setMessage(context.getString(R.string.you_rejected_video_call));

@@ -475,10 +475,7 @@ public class UserDataPicturesFragment extends Fragment {
     }
 
     private void updateCapacityFlag() {
-        if (listOfPictures.size() >= AppConstants.MAX_NUMBER_OF_PICTURES_PER_USER)
-            fullCapacity = true;
-        else
-            fullCapacity = false;
+        fullCapacity = listOfPictures.size() >= AppConstants.MAX_NUMBER_OF_PICTURES_PER_USER;
     }
 
     private class DialogListClickListener implements DialogInterface.OnClickListener {

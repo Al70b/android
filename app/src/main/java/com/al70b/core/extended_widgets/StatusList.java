@@ -8,16 +8,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.objects.User;
 import com.al70b.core.objects.User.OnlineStatus;
-import com.inscripts.keys.StatusOption;
+import com.inscripts.enums.StatusOption;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;

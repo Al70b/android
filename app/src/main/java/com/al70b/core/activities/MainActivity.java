@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 
     // handler to show toast messages in threads
     private int userID;
-    private String accessToken, email, name;
+    private String accessToken, email, name, password;
     private CurrentUser user;
 
     private boolean threadYield;
@@ -86,6 +86,7 @@ public class MainActivity extends Activity {
         accessToken = sharedPref.getString(JSONHelper.ACCESS_TOKEN, null);
         email = sharedPref.getString(JSONHelper.USERNAME, null);
         name = sharedPref.getString(JSONHelper.NAME, null);
+        password = sharedPref.getString(JSONHelper.PASSWORD, null);
 
         ((MyApplication) getApplication()).setAppVisible();
     }

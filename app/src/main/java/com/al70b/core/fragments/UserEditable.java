@@ -5,7 +5,7 @@ package com.al70b.core.fragments;
  */
 public interface UserEditable {
 
-    public void startEditMode();
+    void startEditMode();
 
-    public void endEditMode();
+    void endEditMode();
 }

@@ -177,7 +177,9 @@ public class UserDataBasicFragment extends EditableDataFragment {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(JSONHelper.NAME);
+            editor.remove(JSONHelper.PASSWORD);
             editor.putString(JSONHelper.NAME, user.getName());
+            editor.putString(JSONHelper.PASSWORD, user.getPassword());
             editor.apply();
         }
 

@@ -21,6 +21,7 @@ import com.al70b.core.activities.FriendsListActivity;
 import com.al70b.core.activities.MembersListActivity;
 import com.al70b.core.activities.ScreenSlideHomeActivity;
 import com.al70b.core.activities.UserHomeActivity;
+import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.fragments.UserAdvancedSearchFragment;
@@ -101,7 +102,7 @@ public class NavigationDrawer implements NavigationDrawerController{
         imgViewFriendsRequests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, FriendsListActivity.class);
+                Intent intent = new Intent(activity, UsersListActivity.class);
                 intent.putExtra(MembersListActivity.NUMBER_OF_FRIENDS_REQUESTS,
                         currentUser.getNumOfFriendsRequests());
                 activity.startActivity(intent);

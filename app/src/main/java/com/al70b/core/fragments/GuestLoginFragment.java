@@ -217,6 +217,7 @@ public class GuestLoginFragment extends Fragment {
                                         editor.putString(JSONHelper.ACCESS_TOKEN, user.getAccessToken());
                                         editor.putString(JSONHelper.USERNAME, user.getEmail());
                                         editor.putString(JSONHelper.NAME, user.getName());
+                                        editor.putString(JSONHelper.PASSWORD, user.getPassword());
                                         editor.apply();
                                         // done saving
 

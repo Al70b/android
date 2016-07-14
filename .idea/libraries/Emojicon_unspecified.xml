@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Emojicon-unspecified">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/al70b/Emojicon/unspecified/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/al70b/Emojicon/unspecified/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

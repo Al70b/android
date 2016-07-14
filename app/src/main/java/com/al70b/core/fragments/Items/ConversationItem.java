@@ -23,7 +23,6 @@ public class ConversationItem {
         this.lastMessage = lastMessage;
         this.profilePicture = profilePicture;
         this.lastMessageDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(Long.parseLong(lastMessageDate) * 1000));
-        ;
         this.highlight = false;
     }
 }

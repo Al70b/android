@@ -59,4 +59,5 @@ public class ServerConstants {
     public static final String SERVER_REQUESTS_URL = SERVER_FULL_URL + SERVER_APP_FILE_PATH;
 
 
+    public static final String COMET_CHAT_API_KEY = "";
 }

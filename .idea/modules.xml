@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Emojicon/Emojicon.iml" filepath="$PROJECT_DIR$/Emojicon/Emojicon.iml" />
       <module fileurl="file://$PROJECT_DIR$/al70b.iml" filepath="$PROJECT_DIR$/al70b.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cometchat-sdk/cometchat-sdk.iml" filepath="$PROJECT_DIR$/cometchat-sdk/cometchat-sdk.iml" />
     </modules>
   </component>
 </project>

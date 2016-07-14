@@ -30,9 +30,10 @@ import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
+import com.al70b.core.server_methods.ServerConstants;
 import com.bumptech.glide.Glide;
-import com.inscripts.callbacks.Callbacks;
 import com.inscripts.cometchat.sdk.CometChat;
+import com.inscripts.interfaces.Callbacks;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -196,7 +197,9 @@ public class UserConversationsFragment extends Fragment {
                 }
 
                 // no previous conversation was found
-                CometChat.getInstance(getActivity().getApplicationContext()).getUserInfo(String.valueOf(senderID), new Callbacks() {
+                CometChat.getInstance(getActivity().getApplicationContext(),
+                        ServerConstants.COMET_CHAT_API_KEY)
+                        .getUserInfo(String.valueOf(senderID), new Callbacks() {
                     @Override
                     public void successCallback(JSONObject jsonObject) {
 

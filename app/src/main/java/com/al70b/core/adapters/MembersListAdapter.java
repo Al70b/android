@@ -91,7 +91,7 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
         holder.imgViewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendMessageDialog alert = new SendMessageDialog((Activity) context, otherUser);
+                SendMessageDialog alert = new SendMessageDialog(context, otherUser);
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();
             }

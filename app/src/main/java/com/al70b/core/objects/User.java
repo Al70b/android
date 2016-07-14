@@ -6,7 +6,7 @@ import android.util.Log;
 import com.al70b.R;
 import com.al70b.core.misc.JSONHelper;
 import com.al70b.core.misc.Translator;
-import com.inscripts.keys.StatusOption;
+import com.inscripts.enums.StatusOption;
 
 import org.json.JSONArray;
 import org.json.JSONException;
