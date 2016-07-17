@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -241,6 +242,8 @@ public class NavigationDrawer implements NavigationDrawerController{
                     fragment = new UserCloseAccountFragment();
                     break;
                 case 8:
+                    // close the drawer
+                    root.closeDrawer(navDrawerLayout);
                     logout();
                 default:
                     return;
@@ -265,7 +268,6 @@ public class NavigationDrawer implements NavigationDrawerController{
                 .replace(R.id.content_frame, fragment, position + "_" + UserHomeActivity.TAG_EXIT)
                 .commit();
 
-
         // close the drawer
         root.closeDrawer(navDrawerLayout);
     }
@@ -275,19 +277,7 @@ public class NavigationDrawer implements NavigationDrawerController{
         fetchRequestsAndMessagesTimer.cancel();
 
         // remove saved data before logging out
-        UserHomeActivity.logout(activity);
-
-        // show a toast appropriate logout message
-        Toast.makeText(activity, activity.getResources().getString(R.string.logout_message),
-                Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(activity, ScreenSlideHomeActivity.class);
-
-        // start the ScreenSlideHome activity
-        activity.startActivity(intent);
-
-        // close this activity
-        activity.finish();
+        activity.logout();
     }
 
     private void promptUserForProfilePictureUpdate(){
@@ -409,6 +399,21 @@ public class NavigationDrawer implements NavigationDrawerController{
         selectItem(position);
         selectedItem = position;
         // visible fragment updated in selectItem function
+    }
+
+    @Override
+    public void navigateTo(int position, Bundle bundle) {
+
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment) {
+        navigateTo(fragment, null);
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment, Bundle bundle) {
+
     }
 
     @Override

@@ -38,4 +38,9 @@ public interface FriendsAndChatDrawerController {
        Returns: boolean, if method executed with no errors
       */
     boolean activityDestroy();
+
+    /*
+       Summary: inform of logging out in progress
+      */
+    void logout();
 }

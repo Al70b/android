@@ -84,7 +84,7 @@ public class UserDataPicturesFragment extends Fragment {
 
         handler = new Handler();
 
-        activity = UserHomeActivity.getUserHomeActivity();
+        activity = (UserHomeActivity)getActivity();
 
         // in order to edit action bar
         setHasOptionsMenu(true);

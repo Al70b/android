@@ -2,6 +2,7 @@ package com.al70b.core.notifications;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.misc.AppConstants;
@@ -21,12 +22,18 @@ public class GcmModule {
     GoogleCloudMessaging gcm;
     private String regID;
     private Context context;
-    private CurrentUser currentUser;
+    private String userId;
+    private String accessToken;
 
     public GcmModule(Context context, CurrentUser currentUser) {
+        this(context, currentUser.getUserID(), currentUser.getAccessToken());
+    }
+
+    public GcmModule(Context context, int userId, String accessToken) {
         this.context = context;
         this.gcm = GoogleCloudMessaging.getInstance(context);
-        this.currentUser = currentUser;
+        this.userId = String.valueOf(userId);
+        this.accessToken = accessToken;
     }
 
 
@@ -39,7 +46,6 @@ public class GcmModule {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
-
                     regID = gcm.register(AppConstants.PROJECT_NUMBER);
 
                     msg = "Device registered, registration ID=" + regID;
@@ -59,6 +65,8 @@ public class GcmModule {
                     // If there is an error, don't just keep trying to register.
                     // Require the user to click a button again, or perform
                     // exponential back-off.
+                } catch (Exception ex) {
+                    msg = "Error :" + ex.getMessage();
                 }
                 return msg;
             }
@@ -77,30 +85,30 @@ public class GcmModule {
         RequestsInterface requestsInterface = new RequestsInterface(context);
 
         try {
-            ServerResponse<String> sr = requestsInterface.registerClientID(currentUser, regID);
+            ServerResponse<String> sr = requestsInterface.registerClientID(userId, accessToken, regID);
 
-            if (sr.isSuccess()) {
-                //Log.d("RegisterToBackend", "register client ID to back end was successful");
+            if (sr != null && sr.isSuccess()) {
+                Log.d("RegisterToBackend", "register client ID to back end was successful");
             } else {
-                //Log.d("RegisterToBackend", "register client ID to back end failed");
+                Log.d("RegisterToBackend", "register client ID to back end failed");
             }
         } catch (ServerResponseFailedException ex) {
-
+            Log.e(TAG, ex.toString());
         }
     }
 
     public void deleteRegistrationIdFromBackend() {
         RequestsInterface requestsInterface = new RequestsInterface(context);
         try {
-            ServerResponse<String> sr = requestsInterface.unregisterClientID(currentUser);
+            ServerResponse<String> sr = requestsInterface.unregisterClientID(userId, accessToken);
 
-            if (sr.isSuccess()) {
-                // Log.d("RegisterToBackend", "deleting registered client ID from back end was successful");
+            if (sr != null && sr.isSuccess()) {
+                Log.d("RegisterToBackend", "deleting registered client ID from back end was successful");
             } else {
-                //Log.d("RegisterToBackend", "deleting registered client ID from back end failed");
+                Log.d("RegisterToBackend", "deleting registered client ID from back end failed");
             }
         } catch (ServerResponseFailedException ex) {
-
+            Log.e(TAG, ex.toString());
         }
     }
 

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.SHA512;
 
 import org.json.JSONException;
@@ -33,7 +33,7 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
 
     // declare finals for user server requests
     private static final String REQUESTS_HANDLER = "request_handler.php";
-    private static final String FILE_REQUESTS_URL = ServerConstants.SERVER_REQUESTS_URL + REQUESTS_HANDLER;
+    private static final String FILE_REQUESTS_URL = ServerConstants.CONSTANTS.SERVER_REQUESTS_URL + REQUESTS_HANDLER;
 
     // method to run, JSONObject to hold parameters depending on method to run
     private Method methodToRun;
@@ -54,18 +54,18 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
     public JSONObject call() throws JSONException {
         switch (methodToRun) {
             case LOGIN:
-                return nonAuthenticatedServerMethods(jsonData, ServerConstants.SERVER_FUNC_AUTH_USER);
+                return nonAuthenticatedServerMethods(jsonData, ServerConstants.FUNCTIONS.SERVER_FUNC_AUTH_USER);
             case REGISTER:
-                return nonAuthenticatedServerMethods(jsonData, ServerConstants.SERVER_FUNC_REGISTER_USER);
+                return nonAuthenticatedServerMethods(jsonData, ServerConstants.FUNCTIONS.SERVER_FUNC_REGISTER_USER);
             case GET_USERS_PICTURES:
-                return nonAuthenticatedServerMethods(jsonData, ServerConstants.SERVER_FUNC_GET_USERS_STATIC);
+                return nonAuthenticatedServerMethods(jsonData, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USERS_STATIC);
             case FORGOT_PASSWORD:
-                return nonAuthenticatedServerMethods(jsonData, ServerConstants.SERVER_FUNC_FORGOT_PASSWORD);
+                return nonAuthenticatedServerMethods(jsonData, ServerConstants.FUNCTIONS.SERVER_FUNC_FORGOT_PASSWORD);
             case GET_PROFILE_PICTURE:
                 return getProfilePicture(jsonData);
             case REGULAR:
                 boolean hashData = true;
-                if (methodName.compareTo(ServerConstants.SERVER_FUNC_UPLOAD_IMAGE) == 0)
+                if (methodName.compareTo(ServerConstants.FUNCTIONS.SERVER_FUNC_UPLOAD_IMAGE) == 0)
                     hashData = false;    // TODO change to false maybe
                 return regularServerMethod(jsonData, methodName, hashData);
             default:
@@ -99,7 +99,7 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // add request method and properties for the connection
-            connection.setRequestMethod(ServerConstants.METHOD_POST);
+            connection.setRequestMethod(ServerConstants.CONSTANTS.METHOD_POST);
             connection.setRequestProperty("Accept-Charset", "UTF-8");
             connection.setConnectTimeout(10000);
 
@@ -108,8 +108,8 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
             timestamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
             // create hash
-            hash = ServerConstants.PUBLIC_KEY
-                    .concat(ServerConstants.METHOD_POST.toLowerCase()
+            hash = ServerConstants.CONSTANTS.PUBLIC_KEY
+                    .concat(ServerConstants.CONSTANTS.METHOD_POST.toLowerCase()
                             .concat(methodName.
                                     concat(timestamp.
                                             concat(jsonData.toString()))));
@@ -117,16 +117,16 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
             hash = SHA512.hashText(hash);
 
             if (methodToRun == Method.REGISTER) {
-                String temp = jsonData.getString(JSONHelper.SERVER_NAME);
-                jsonData.remove(JSONHelper.SERVER_NAME);
-                jsonData.put(JSONHelper.SERVER_NAME, String.format("%s", URLEncoder.encode(temp, "UTF-8")));
+                String temp = jsonData.getString(KEYS.SERVER.NAME);
+                jsonData.remove(KEYS.SERVER.NAME);
+                jsonData.put(KEYS.SERVER.NAME, String.format("%s", URLEncoder.encode(temp, "UTF-8")));
 
-                temp = jsonData.getString(JSONHelper.SERVER_CITY);
-                jsonData.remove(JSONHelper.SERVER_CITY);
-                jsonData.put(JSONHelper.SERVER_CITY, String.format("%s", URLEncoder.encode(temp, "UTF-8")));
+                temp = jsonData.getString(KEYS.SERVER.CITY);
+                jsonData.remove(KEYS.SERVER.CITY);
+                jsonData.put(KEYS.SERVER.CITY, String.format("%s", URLEncoder.encode(temp, "UTF-8")));
             }
 
-            urlParameters = "method=" + ServerConstants.METHOD_POST.toLowerCase() + "&api_method=" + methodName +
+            urlParameters = "method=" + ServerConstants.CONSTANTS.METHOD_POST.toLowerCase() + "&api_method=" + methodName +
                     "&timestamp=" + timestamp +
                     "&data=" + jsonData.toString() +
                     "&hash=" + hash;
@@ -204,15 +204,15 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // add request method and properties for the connection
-            connection.setRequestMethod(ServerConstants.METHOD_POST);
+            connection.setRequestMethod(ServerConstants.CONSTANTS.METHOD_POST);
             connection.setRequestProperty("Accept-Charset", "UTF-8");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setConnectTimeout(10000);
 
-            userID = jsonObject.getString(JSONHelper.USER_ID);
-            jsonObject.remove(JSONHelper.USER_ID);
-            accessToken = jsonObject.getString(JSONHelper.ACCESS_TOKEN);
-            jsonObject.remove(JSONHelper.ACCESS_TOKEN);
+            userID = jsonObject.getString(KEYS.SHARED_PREFERENCES.USER_ID);
+            jsonObject.remove(KEYS.SHARED_PREFERENCES.USER_ID);
+            accessToken = jsonObject.getString(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
+            jsonObject.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
 
             /** create the url parameters for post request **/
 
@@ -221,9 +221,9 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
 
 
             // create hash
-            hash = ServerConstants.PUBLIC_KEY
-                    .concat((accessToken.concat(ServerConstants.TOKEN_KEY))
-                            .concat(ServerConstants.METHOD_POST.toLowerCase())
+            hash = ServerConstants.CONSTANTS.PUBLIC_KEY
+                    .concat((accessToken.concat(ServerConstants.CONSTANTS.TOKEN_KEY))
+                            .concat(ServerConstants.CONSTANTS.METHOD_POST.toLowerCase())
                             .concat(userID).concat(methodName)
                             .concat(timestamp));
 
@@ -234,29 +234,29 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
             Log.d("NotHashed", hash);
             hash = SHA512.hashText(hash);
 
-            if (methodName.compareTo(ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_BASIC) == 0) {
-                if (jsonData.has(JSONHelper.SERVER_NAME))
-                    jsonData.put(JSONHelper.SERVER_NAME, String.format("%s", URLEncoder.encode(jsonData.getString(JSONHelper.SERVER_NAME), "UTF-8")));
+            if (methodName.compareTo(ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_USER_DATA_BASIC) == 0) {
+                if (jsonData.has(KEYS.SERVER.NAME))
+                    jsonData.put(KEYS.SERVER.NAME, String.format("%s", URLEncoder.encode(jsonData.getString(KEYS.SERVER.NAME), "UTF-8")));
 
-                if (jsonData.has(JSONHelper.SERVER_CITY))
-                    jsonData.put(JSONHelper.SERVER_CITY, String.format("%s", URLEncoder.encode(jsonData.getString(JSONHelper.SERVER_CITY), "UTF-8")));
+                if (jsonData.has(KEYS.SERVER.CITY))
+                    jsonData.put(KEYS.SERVER.CITY, String.format("%s", URLEncoder.encode(jsonData.getString(KEYS.SERVER.CITY), "UTF-8")));
 
             }
 
-            if (methodName.compareTo(ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED) == 0) {
-                if (jsonData.has(JSONHelper.SERVER_WORK))
-                    jsonData.put(JSONHelper.SERVER_WORK, String.format("%s", URLEncoder.encode(jsonData.getString(JSONHelper.SERVER_WORK), "UTF-8")));
+            if (methodName.compareTo(ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED) == 0) {
+                if (jsonData.has(KEYS.SERVER.WORK))
+                    jsonData.put(KEYS.SERVER.WORK, String.format("%s", URLEncoder.encode(jsonData.getString(KEYS.SERVER.WORK), "UTF-8")));
 
-                if (jsonData.has(JSONHelper.SERVER_DESCRIPTION))
-                    jsonData.put(JSONHelper.SERVER_DESCRIPTION, String.format("%s", URLEncoder.encode(jsonData.getString(JSONHelper.SERVER_DESCRIPTION), "UTF-8")));
+                if (jsonData.has(KEYS.SERVER.DESCRIPTION))
+                    jsonData.put(KEYS.SERVER.DESCRIPTION, String.format("%s", URLEncoder.encode(jsonData.getString(KEYS.SERVER.DESCRIPTION), "UTF-8")));
             }
 
-            if (methodName.compareTo(ServerConstants.SERVER_FUNC_REPORT_USER) == 0) {
+            if (methodName.compareTo(ServerConstants.FUNCTIONS.SERVER_FUNC_REPORT_USER) == 0) {
                 if (jsonData.has("reason"))
                     jsonData.put("reason", String.format("%s", URLEncoder.encode(jsonData.getString("reason"), "UTF-8")));
             }
 
-            urlParameters = "method=" + ServerConstants.METHOD_POST.toLowerCase() +
+            urlParameters = "method=" + ServerConstants.CONSTANTS.METHOD_POST.toLowerCase() +
                     "&user_id=" + userID +
                     "&api_method=" + methodName +
                     "&timestamp=" + timestamp +
@@ -323,17 +323,17 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
         Bitmap thumbnail = null;
 
         try {
-            String profilePicture = jsonObject.getString(JSONHelper.PROFILE_PICTURE);
+            String profilePicture = jsonObject.getString(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE);
             String path;
 
-            if (profilePicture.compareTo(ServerConstants.SERVER_USER_DEFAULT_PHOTO) == 0)
-                path = ServerConstants.SERVER_USER_DEFAULT_PHOTO_URL;
+            if (profilePicture.compareTo(ServerConstants.CONSTANTS.SERVER_USER_DEFAULT_PHOTO) == 0)
+                path = ServerConstants.CONSTANTS.SERVER_USER_DEFAULT_PHOTO_URL;
             else
-                path = ServerConstants.SERVER_DATA_THUMBNAILS_PATH;
+                path = ServerConstants.CONSTANTS.SERVER_DATA_THUMBNAILS_PATH;
 
-            URL url = new URL(ServerConstants.SERVER_FULL_URL
+            URL url = new URL(ServerConstants.CONSTANTS.SERVER_FULL_URL
                     .concat(path)
-                    .concat(jsonObject.getString(JSONHelper.PROFILE_PICTURE)));
+                    .concat(jsonObject.getString(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE)));
 
             thumbnail = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
@@ -342,16 +342,16 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
         } finally {
             if (thumbnail != null) {
                 // successfully retrieved user's profile picture
-                success = JSONHelper.SERVER_SUCCESS;
-                jsonResult.put(JSONHelper.SERVER_DATA, thumbnail);
+                success = KEYS.SERVER.SUCCESS;
+                jsonResult.put(KEYS.SERVER.DATA, thumbnail);
             } else {
-                success = JSONHelper.SERVER_FAILURE;
+                success = KEYS.SERVER.FAILURE;
                 if (errMsg == null)
                     errMsg = "Could not retrieve user's profile picture";
-                jsonResult.put(JSONHelper.SERVER_ERROR_MSG, errMsg);
+                jsonResult.put(KEYS.SERVER.ERROR_MSG, errMsg);
             }
             // put the result
-            jsonResult.put(JSONHelper.SERVER_RESULT, success);
+            jsonResult.put(KEYS.SERVER.RESULT, success);
         }
 
         return jsonResult;

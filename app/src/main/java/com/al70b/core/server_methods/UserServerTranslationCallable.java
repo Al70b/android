@@ -25,7 +25,7 @@ public class UserServerTranslationCallable implements Callable<JSONObject> {
 
     // declare finals for user server requests
     private static final String REQUESTS_HANDLER = "data_handler.php";
-    private static final String FILE_REQUESTS_URL = ServerConstants.SERVER_REQUESTS_URL + REQUESTS_HANDLER;
+    private static final String FILE_REQUESTS_URL = ServerConstants.CONSTANTS.SERVER_REQUESTS_URL + REQUESTS_HANDLER;
 
     public UserServerTranslationCallable() {
     }
@@ -54,7 +54,7 @@ public class UserServerTranslationCallable implements Callable<JSONObject> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // add request method and properties for the connection
-            connection.setRequestMethod(ServerConstants.METHOD_GET);
+            connection.setRequestMethod(ServerConstants.CONSTANTS.METHOD_GET);
             //connection.setRequestProperty("User-Agent", USER_AGENT);
 
 

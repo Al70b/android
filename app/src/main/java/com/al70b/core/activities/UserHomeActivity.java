@@ -32,7 +32,8 @@ import com.al70b.core.fragments.BackPressedFragment;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
+import com.al70b.core.notifications.GcmModule;
 import com.al70b.core.objects.CurrentUser;
 
 /**
@@ -45,9 +46,13 @@ public class UserHomeActivity extends FragmentActivity {
     public static final String KEY_LAST_ITEM_SELECTED = "com.al70b.core.activities.UserHomeActivity.selectedItem";
     public static final String KEY_CURRENT_USER = "com.al70b.core.activities.UserHomeActivity.currentUser";
 
+    /////// Current Activity Declarations ///////
 
-    private static UserHomeActivity thisActivity;   // currentUser running activity
-    private static CurrentUser currentUser;            // current currentUser
+    // activity title
+    private CharSequence title;
+
+    // current currentUser
+    private CurrentUser currentUser;
 
     // drawer layout, drawer toggle, and both list views
     private DrawerLayout drawerLayout;
@@ -57,14 +62,10 @@ public class UserHomeActivity extends FragmentActivity {
 
     public boolean toUserData;
 
-    /////// Current Activity Declarations ///////
-
-    // title
-    private CharSequence title;
-
+    // boolean representing the the application is logging out of this user account
+    private boolean logginOut;
 
     private MenuItem chatItem;                                  // menu item that is highlighted when message received
-
 
     // when currentUser has just logged in
     private boolean hasJustLoggedIn = true;
@@ -72,70 +73,43 @@ public class UserHomeActivity extends FragmentActivity {
 
     private SparseArray<Integer> unreadMessagesUsersIDs = new SparseArray<>();
 
-
-    public static UserHomeActivity getUserHomeActivity() {
-        if (thisActivity == null) {
-            thisActivity = new UserHomeActivity();
-        }
-
-        return thisActivity;
-    }
-
-    public static CurrentUser getCurrentUser() {
-
-        //while (currentUser == null) {
-        //    Log.d("WaitingHAHA", "waiting for the thing to happen");
-
-        //}
-        Log.d("WaitingHAHA", "The thing happened");
-
-
-        return currentUser;
-    }
-
     /**
-     * Delete currentUser's data from the shared pref
+     * Logout this current user:
+     *   - Delete currentUser's data from the shared pref
+     *   -
      */
-    public static void logout(Context c) {
-        SharedPreferences sharedPref = c.getSharedPreferences(AppConstants.SHARED_PREF_FILE,
+    public void logout() {
+        logginOut = true;
+
+        friendsAndChatDrawerController.logout();
+
+        SharedPreferences sharedPref = getSharedPreferences(AppConstants.SHARED_PREF_FILE,
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(JSONHelper.USER_ID);
-        editor.remove(JSONHelper.ACCESS_TOKEN);
-        editor.remove(JSONHelper.USERNAME);
-        editor.remove(JSONHelper.NAME);
+        editor.remove(KEYS.SHARED_PREFERENCES.USER_ID);
+        editor.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
+        editor.remove(KEYS.SHARED_PREFERENCES.USERNAME);
+        editor.remove(KEYS.SHARED_PREFERENCES.NAME);
         editor.remove("DONT_ASK");
         editor.apply();
 
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (thisActivity != null)
-                    new GcmModule(thisActivity, currentUser).deleteRegistrationIdFromBackend();
-            }
-        }).start();
+        new GcmModule(this, currentUser).deleteRegistrationIdFromBackend();
 
-        if (getUserHomeActivity().cometChat != null && CometChat.isLoggedIn())
-            thisActivity.cometChat.logout(new Callbacks() {
-                @Override
-                public void successCallback(JSONObject jsonObject) {
-                    Logger.debug(jsonObject.toString());
-                }
-
-                @Override
-                public void failCallback(JSONObject jsonObject) {
-                    Logger.error(jsonObject.toString());
-                    thisActivity.cometChat.logout(this);
-                }
-            });
-        */
-        currentUser = null;
-
-        MyApplication myApp = ((MyApplication) thisActivity.getApplication());
-        if (myApp != null)
+        MyApplication myApp = ((MyApplication)getApplication());
+        if (myApp != null) {
             myApp.setCurrentUser(null);
+        }
 
-        thisActivity = null;
+        // show a toast appropriate logout message
+        Toast.makeText(this, getString(R.string.logout_message),
+                Toast.LENGTH_SHORT).show();
+
+        // start the ScreenSlideHome activity
+        Intent intent = new Intent(this, ScreenSlideHomeActivity.class);
+        startActivity(intent);
+
+        // close this activity
+        finish();
     }
 
     public void restartApplication() {
@@ -146,10 +120,13 @@ public class UserHomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            Log.d("SavedInstanceState", "is not Null");
+        } else {
+            Log.d("SavedInstanceState", "is Null");
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-
-        thisActivity = this;
 
         /*        P R E P A R E     U S E R ' S     D A T A        */
         // if activity is reloaded, restore user from savedInstanceState
@@ -164,19 +141,19 @@ public class UserHomeActivity extends FragmentActivity {
         if (bundle == null) {
             // something went wrong with loading the bundle
             Toast.makeText(this, "FATAL ERROR!! BUNDLE WAS NOT SET, LOGGING OUT", Toast.LENGTH_SHORT).show();
-            logout(this);
+            logout();
             return;
         }
 
         // get currentUser object from intent if still empty
         if (currentUser == null) {
 
-            currentUser = (CurrentUser) bundle.getSerializable(JSONHelper.USER);
+            currentUser = (CurrentUser) bundle.getSerializable(KEYS.SHARED_PREFERENCES.USER);
 
             // if still no user
             if (currentUser == null) {
                 Toast.makeText(this, "FATAL ERROR!! NO USER, LOGGING OUT", Toast.LENGTH_SHORT).show();
-                logout(this);
+                logout();
                 return;
             }
         }
@@ -226,15 +203,20 @@ public class UserHomeActivity extends FragmentActivity {
         navigationDrawerController.navigateTo(selectedItem);
     }
 
+    public void takeMeTo(Fragment fragment) {
+        takeMeTo(fragment, null);
+    }
+
+    public void takeMeTo(Fragment fragment, Bundle bundle) {
+        navigationDrawerController.navigateTo(fragment, bundle);
+    }
     @Override
     public void onStart() {
         super.onStart();
 
-        if (thisActivity == null)
-            thisActivity = this;
-
         // start currentUser statistics job
         navigationDrawerController.activityStart();
+        friendsAndChatDrawerController.activityStart();
 
         if (hasJustLoggedIn) {
             // open drawer on start so currentUser sees friend requests and messages
@@ -262,6 +244,7 @@ public class UserHomeActivity extends FragmentActivity {
         super.onStop();
 
         navigationDrawerController.activityStop();
+        friendsAndChatDrawerController.activityStop();
 
         ((MyApplication) getApplication()).setAppInvisible();
     }
@@ -436,13 +419,13 @@ public class UserHomeActivity extends FragmentActivity {
                 // in case open conversation is not with the same currentUser
                 if (fragment != null && fragment.isVisible() && otherUserID == fragment.otherUserID()) {
                     // new message is with current conversation
-                    item.unreadMessage = false;
+                    item.hasUnreadMessage = false;
                     notifyUser = false;
 
                     if (chatItem != null)
                         chatItem.setIcon(R.drawable.ic_action_group);
                 } else {
-                    item.unreadMessage = true;
+                    item.hasUnreadMessage = true;
                     notifyUser = true;  // notify currentUser with message and chatItem Highlight
 
                     if (chatItem != null)
@@ -538,18 +521,7 @@ public class UserHomeActivity extends FragmentActivity {
     @Override
     public void onDestroy() {
         navigationDrawerController.activityDestroy();
-        /*if (getUserHomeActivity().cometChat != null && CometChat.isLoggedIn())
-            thisActivity.cometChat.logout(new Callbacks() {
-                @Override
-                public void successCallback(JSONObject jsonObject) {
-                    Logger.debug(jsonObject.toString());
-                }
-
-                @Override
-                public void failCallback(JSONObject jsonObject) {
-                    Logger.error(jsonObject.toString());
-                }
-            });*/
+        friendsAndChatDrawerController.activityDestroy();
 
         super.onDestroy();
     }

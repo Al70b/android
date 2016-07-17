@@ -36,8 +36,8 @@
             android:background="@color/white"
             android:padding="4dp">
 
-            <EditText
-                android:id="@+id/edit_text_user_messages_message"
+            <github.ankushsachdeva.emojicon.EmojiconEditText
+                android:id="@+id/et_user_messages_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="32dp"
@@ -56,8 +56,17 @@
                 android:src="@drawable/btn_send"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="3dp"
-                android:paddingRight="3dp"
                 />
+
+            <ImageButton
+                android:id="@+id/image_button_user_messages_emoji"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/btn_send"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="3dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

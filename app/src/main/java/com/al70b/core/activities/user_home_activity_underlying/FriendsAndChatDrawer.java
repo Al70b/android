@@ -1,10 +1,13 @@
 package com.al70b.core.activities.user_home_activity_underlying;
 
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -17,14 +20,15 @@ import com.al70b.R;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
 import com.al70b.core.extended_widgets.StatusList;
+import com.al70b.core.fragments.UserConversationsFragment;
+import com.al70b.core.fragments.UserConversationsInternalFragment;
 import com.al70b.core.objects.CurrentUser;
+import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Naseem on 6/20/2016.
@@ -63,6 +67,8 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     private ProgressBar chatConnectionProgress;
     private ImageButton imgBtnSetStatusMessage, imgBtnSettings;
 
+    private boolean loggingout = false;
+
     private void init() {
 
         // relate widgets to xml
@@ -93,6 +99,8 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
         // set the adapter for the friends drawer list view
         chatListView.setAdapter(friendsAndChatDrawerAdapter);
+        chatListView.setEmptyView(layoutChatConnected.findViewById(
+                R.id.tv_friends_and_chat_no_friends_online));
 
         // initialize Comet chat and chat-events handler
         chatHandler = new ChatHandler(activity.getApplicationContext(), currentUser,
@@ -227,7 +235,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         });
 
         // and set the listener for item click event
-        //chatListView.setOnItemClickListener(new FriendsDrawerItemClickListener());
+        chatListView.setOnItemClickListener(new FriendsDrawerItemClickListener());
         //chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
 
         friendsAndChatDrawerLayout.requestFocus();
@@ -310,6 +318,14 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         public void onFriendsOnlineListUpdated() {
             if (friendsAndChatDrawerAdapter != null) {
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
+
+                if(friendsAndChatDrawerAdapter.isEmpty()) {
+                    searchFriendEditText.setEnabled(false);
+                    searchFriendEditText.setVisibility(View.GONE);
+                } else {
+                    searchFriendEditText.setEnabled(true);
+                    searchFriendEditText.setVisibility(View.VISIBLE);
+                }
             }
         }
 
@@ -324,6 +340,19 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 statusEditText.setText(currentUser.getStatusMessage()); // TODO: verify message is restored
                 Toast.makeText(activity, getString(R.string.status_message_change_failed),
                         Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        void onAVChatMessageReceived(int userId, EndMessage msg) {}
+
+        @Override
+        void onMessageReceived(int userId, EndMessage msg) {
+            FriendsDrawerItem item = friendsAndChatDrawerAdapter.getItemByUserID(userId);
+
+            if(item != null) {
+                item.hasUnreadMessage = true;
+                friendsAndChatDrawerAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -350,11 +379,16 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     @Override
     public boolean activityDestroy() {
+        return false;
+    }
+
+    @Override
+    public void logout() {
+        this.loggingout = true;
+
         if(chatHandler != null) {
             chatHandler.logout();
         }
-
-        return true;
     }
 
     /*private class FriendsDrawerItemLongClickListener implements ListView.OnItemLongClickListener {
@@ -441,47 +475,35 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     }*/
 
     // this class implements the click event listener for friends drawer list
-    /*private class FriendsDrawerItemClickListener implements ListView.OnItemClickListener {
+    private class FriendsDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            // close drawer
-            closeDrawers();
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final FriendsDrawerItem item = (FriendsDrawerItem)parent.getItemAtPosition(position);
 
-            final FriendsDrawerItem item = friendsDrawerAdapter.getItem(position);
-
-            selectedItem = 2;
-            selectItem(selectedItem);
-
+            activity.navigateTo(2);
             UserConversationsInternalFragment fragment = new UserConversationsInternalFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("ID", item.id);
             bundle.putString("Name", item.name);
             bundle.putString("Bitmap", item.profilePicture);
             fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction()
+            activity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, fragment, UserConversationsFragment.INTERNAL_CONVERSATION_TAG)
                     .addToBackStack("s")
                     .commit();
 
             // mark message as read
-            item.unreadMessage = false;
-            view.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            item.hasUnreadMessage = false;
+            view.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
+                    android.R.color.transparent));
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        requestsInterface.markMessageAsRead(thisUser, item.id);
+
+            //.markMessageAsRead(currentUser, item.id);
 
                         // remove from unread messages
-                        unreadMessagesUsersIDs.remove(item.id);
-
-                    } catch (ServerResponseFailedException ex) {
-                    }
-                }
-            }).start();
+                        //unreadMessagesUsersIDs.remove(item.id);
         }
-    }*/
+    }
 
 
 

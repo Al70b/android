@@ -182,7 +182,7 @@ public class RegisterFragment3 extends Fragment {
         public void onClick(View view) {
 
             final OnBirthDateClickListener thisListener = this;
-            DialogFragment df = new DialogFragment() {
+            /*DialogFragment df = new DialogFragment() {
                 @Override
                 public Dialog onCreateDialog(Bundle savedInstanceState) {
                     // Use the current date as the default date in the picker
@@ -205,7 +205,7 @@ public class RegisterFragment3 extends Fragment {
                 }
 
             };
-            df.show(getFragmentManager(), "datePicker");
+            //df.show(getFragmentManager(), "datePicker");*/
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {

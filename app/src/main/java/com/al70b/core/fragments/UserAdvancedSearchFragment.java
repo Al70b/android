@@ -22,7 +22,7 @@ import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.activities.MembersListActivity;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 
@@ -96,10 +96,10 @@ public class UserAdvancedSearchFragment extends Fragment {
         final List<CheckBox> checkBoxListSmoking = new ArrayList<>();
 
         // build the checkboxes
-        buildInterestedPurposeLayout(tableLayoutEducation, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EDUCATION), checkBoxListEducation);
-        buildInterestedPurposeLayout(tableLayoutReligion, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_RELIGION), checkBoxListReligion);
-        buildInterestedPurposeLayout(tableLayoutAlcohol, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_ALCOHOL), checkBoxListAlcohol);
-        buildInterestedPurposeLayout(tableLayoutSmoking, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_SMOKING), checkBoxListSmoking);
+        buildInterestedPurposeLayout(tableLayoutEducation, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION), checkBoxListEducation);
+        buildInterestedPurposeLayout(tableLayoutReligion, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION), checkBoxListReligion);
+        buildInterestedPurposeLayout(tableLayoutAlcohol, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL), checkBoxListAlcohol);
+        buildInterestedPurposeLayout(tableLayoutSmoking, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), checkBoxListSmoking);
 
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +164,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                         listEducation.add(ch.getText().toString());
                     }
                 }
-                listEducation = translator.translate(listEducation, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EDUCATION));
+                listEducation = translator.translate(listEducation, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION));
 
                 // selected religion
                 ArrayList<String> listReligion = new ArrayList<String>();
@@ -177,7 +177,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                         listReligion.add(ch.getText().toString());
                     }
                 }
-                listReligion = translator.translate(listReligion, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_RELIGION));
+                listReligion = translator.translate(listReligion, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION));
 
                 // selected alcohol
                 ArrayList<String> listAlcohol = new ArrayList<String>();
@@ -190,7 +190,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                         listAlcohol.add(ch.getText().toString());
                     }
                 }
-                listAlcohol = translator.translate(listAlcohol, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_ALCOHOL));
+                listAlcohol = translator.translate(listAlcohol, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL));
 
                 // selected smoking
                 ArrayList<String> listSmoking = new ArrayList<String>();
@@ -203,7 +203,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                         listSmoking.add(ch.getText().toString());
                     }
                 }
-                listSmoking = translator.translate(listSmoking, translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_SMOKING));
+                listSmoking = translator.translate(listSmoking, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING));
 
                 // flags
                 boolean withPicturesOnly, onlineOnly;

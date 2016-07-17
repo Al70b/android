@@ -1,6 +1,6 @@
 package com.al70b.core.objects;
 
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.server_methods.ServerConstants;
 
 import org.json.JSONException;
@@ -40,9 +40,9 @@ public class Picture implements Serializable {
         this.id = id;
         this.userID = userID;
         this.pictureName = pictureName;
-        this.pictureFullPath = ServerConstants.SERVER_PICTURES_FULL_URL + pictureName;
+        this.pictureFullPath = ServerConstants.CONSTANTS.SERVER_PICTURES_FULL_URL + pictureName;
         this.thumbnailName = thumbnailName;
-        this.thumbnailFullPath = ServerConstants.SERVER_THUMBNAILS_FULL_URL + thumbnailName;
+        this.thumbnailFullPath = ServerConstants.CONSTANTS.SERVER_THUMBNAILS_FULL_URL + thumbnailName;
         this.createDate = createDate;
         this.isProfilePicture = isProfilePicture;
     }
@@ -51,7 +51,7 @@ public class Picture implements Serializable {
         this.id = -1;
         this.userID = userID;
         this.thumbnailName = thumbnailName;
-        this.thumbnailFullPath = ServerConstants.SERVER_THUMBNAILS_FULL_URL + thumbnailName;
+        this.thumbnailFullPath = ServerConstants.CONSTANTS.SERVER_THUMBNAILS_FULL_URL + thumbnailName;
     }
 
     public Picture(String pictureName, String pictureUri, String createDate) {
@@ -67,22 +67,22 @@ public class Picture implements Serializable {
         String picturePath, pictureName, thumbPath, thumbName, createDate;
 
         // parse data from json object
-        id = jsonObject.getInt(JSONHelper.SERVER_PICTURE_ID);
-        userID = jsonObject.getInt(JSONHelper.SERVER_USER_ID);
+        id = jsonObject.getInt(KEYS.SERVER.PICTURE_ID);
+        userID = jsonObject.getInt(KEYS.SERVER.USER_ID);
 
         // get picture's name
-        picturePath = jsonObject.getString(JSONHelper.SERVER_PICTURE_PATH);
+        picturePath = jsonObject.getString(KEYS.SERVER.PICTURE_PATH);
         pictureName = picturePath.substring(picturePath.lastIndexOf('/') + 1);
 
         // get thumbnail's name
-        thumbPath = jsonObject.getString(JSONHelper.SERVER_THUMBNAIL);
+        thumbPath = jsonObject.getString(KEYS.SERVER.THUMBNAIL);
         thumbName = thumbPath.substring(thumbPath.lastIndexOf('/') + 1);
 
         // get create date
-        createDate = jsonObject.getString(JSONHelper.SERVER_PICTURE_CREATED_DATE);
+        createDate = jsonObject.getString(KEYS.SERVER.PICTURE_CREATED_DATE);
 
         // wither profile picture or not
-        isProfilePicture = jsonObject.getInt(JSONHelper.SERVER_IS_PROFILE_PICTURE) == 1;
+        isProfilePicture = jsonObject.getInt(KEYS.SERVER.IS_PROFILE_PICTURE) == 1;
 
         Picture pic = new Picture(id, userID, pictureName, thumbName, createDate, isProfilePicture);
 

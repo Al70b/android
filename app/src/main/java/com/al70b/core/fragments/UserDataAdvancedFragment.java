@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
-import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.exceptions.ServerResponseFailedException;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.Characteristics;
 import com.al70b.core.objects.CurrentUser;
@@ -96,17 +95,17 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
         // spinners handle
         // create array adapters for spinners
         ArrayAdapter<String> bodyShapeArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_BODY), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.BODY), false));
         ArrayAdapter<String> eyesColorsArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EYES), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EYES), false));
         ArrayAdapter<String> educationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EDUCATION), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION), false));
         ArrayAdapter<String> religionArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_RELIGION), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION), false));
         ArrayAdapter<String> alcoholArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_ALCOHOL), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL), false));
         ArrayAdapter<String> smokingArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_SMOKING), false));
+                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), false));
 
         // set array adapters to spinners
         spinnerBodyShape.setAdapter(bodyShapeArrayAdapter);

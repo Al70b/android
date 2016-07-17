@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.al70b.R;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
+import com.orm.SugarContext;
 
 /**
  * Created by Naseem on 10/24/2015.
@@ -60,5 +61,17 @@ public class MyApplication extends MultiDexApplication { // MultiDexApplication
         }
 
         return myTranslator;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        SugarContext.init(getApplicationContext());
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        SugarContext.terminate();
     }
 }

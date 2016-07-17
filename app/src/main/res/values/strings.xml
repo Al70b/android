@@ -408,6 +408,9 @@
     <string name="terms">شروط</string>
     <string name="privacy">الخصوصية</string>
     <string name="title_activity_terms_and_privacy">شروط الإستخدام وسياسة الخصوصية</string>
+    <string name="error_invalid_email_syntax">البريد الإلكتروني ليس بصيغة ملائمة</string>
+    <string name="no_friends_are_online">لا يوجد لديك أصدقاء متصلون الآن</string>
+    <string name="loggingout">جاري الخروج من الحساب...</string>
 
 
 </resources>

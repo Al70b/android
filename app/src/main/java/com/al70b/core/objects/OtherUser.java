@@ -3,7 +3,7 @@ package com.al70b.core.objects;
 import android.content.Context;
 
 import com.al70b.R;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.server_methods.RequestsInterface;
 
@@ -39,21 +39,21 @@ public class OtherUser extends User {
             Translator translator = Translator.getInstance(context);
 
             // parse basic user data
-            name = jsonObject.getString(JSONHelper.SERVER_NAME);
-            dateOfBirth = super.parseDate(jsonObject.getString(JSONHelper.SERVER_BIRTH_DATE));
+            name = jsonObject.getString(KEYS.SERVER.NAME);
+            dateOfBirth = super.parseDate(jsonObject.getString(KEYS.SERVER.BIRTH_DATE));
 
-            if (jsonObject.has(JSONHelper.SERVER_COUNTRY))
-                address = new Address(jsonObject.getString(JSONHelper.SERVER_CITY),
-                        translator.translate(jsonObject.getString(JSONHelper.SERVER_COUNTRY), translator.getDictionary().COUNTRIES));
+            if (jsonObject.has(KEYS.SERVER.COUNTRY))
+                address = new Address(jsonObject.getString(KEYS.SERVER.CITY),
+                        translator.translate(jsonObject.getString(KEYS.SERVER.COUNTRY), translator.getDictionary().COUNTRIES));
 
             // parse additional data required for this user
-            email = jsonObject.getString(JSONHelper.SERVER_EMAIL);
-            userID = jsonObject.getInt(JSONHelper.SERVER_ID);
+            email = jsonObject.getString(KEYS.SERVER.EMAIL);
+            userID = jsonObject.getInt(KEYS.SERVER.ID);
 
-            if (jsonObject.has(JSONHelper.SERVER_FRIEND_STATUS))
-                friendStatus.setValue(jsonObject.getString(JSONHelper.SERVER_FRIEND_STATUS));
+            if (jsonObject.has(KEYS.SERVER.FRIEND_STATUS))
+                friendStatus.setValue(jsonObject.getString(KEYS.SERVER.FRIEND_STATUS));
 
-            onlineStatus = new OnlineStatus(jsonObject.getString(JSONHelper.SERVER_ONLINE_STATUS));
+            onlineStatus = new OnlineStatus(jsonObject.getString(KEYS.SERVER.ONLINE_STATUS));
 
             String thumbPath = jsonObject.getString("main_photo");
             String thumbName = thumbPath.substring(thumbPath.lastIndexOf('/') + 1);
@@ -91,11 +91,11 @@ public class OtherUser extends User {
         }
 
         public void setValue(String valueStr) {
-            if (valueStr.compareTo(JSONHelper.SERVER_FRIENDSHIP_FRIEND) == 0) {
+            if (valueStr.compareTo(KEYS.SERVER.FRIENDSHIP_FRIEND) == 0) {
                 value = FRIENDS;
-            } else if (valueStr.compareTo(JSONHelper.SERVER_FRIENDSHIP_RECEIVED) == 0) {
+            } else if (valueStr.compareTo(KEYS.SERVER.FRIENDSHIP_RECEIVED) == 0) {
                 value = RECEIVED_REQUEST_PENDING;
-            } else if (valueStr.compareTo(JSONHelper.SERVER_FRIENDSHIP_SENT) == 0) {
+            } else if (valueStr.compareTo(KEYS.SERVER.FRIENDSHIP_SENT) == 0) {
                 value = SENT_REQUEST_PENDING;
             } else {
                 value = NONE;

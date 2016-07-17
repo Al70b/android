@@ -41,11 +41,12 @@ public class CurrentUser extends User implements Serializable {
     }
 
     // this is the src constructor that starts a user object
-    public CurrentUser(Context context, int userID, String accessToken, String email) {
+    public CurrentUser(Context context, int userID, String accessToken, String email, String password) {
         this.context = context.getApplicationContext();
         this.userID = userID;
         this.accessToken = accessToken;
         this.email = email;
+        this.password = password;
     }
 
     public CurrentUser(String email, String password, String name, String country, Gender gender, Calendar dateOfBirth, Gender lookingFor) {

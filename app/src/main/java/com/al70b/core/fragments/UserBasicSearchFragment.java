@@ -95,7 +95,7 @@ public class UserBasicSearchFragment extends Fragment {
                         closeByOnly = checkBoxCloseBy.isChecked();
 
                         // build intent and pass request
-                        Intent intent = new Intent(UserHomeActivity.getUserHomeActivity(), MembersListActivity.class);
+                        Intent intent = new Intent(getActivity(), MembersListActivity.class);
                         intent.putExtra(MembersListActivity.DATA_SOURCE, DISPLAY_DATA_TOKEN);
 
                         // build bundle with data

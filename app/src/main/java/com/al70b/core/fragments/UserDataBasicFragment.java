@@ -7,19 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.GeneralUI;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.ServerResponse;
@@ -27,9 +24,7 @@ import com.al70b.core.objects.User;
 import com.al70b.core.objects.UserInterest;
 import com.al70b.core.server_methods.RequestsInterface;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by Naseem on 5/20/2015.
@@ -176,10 +171,10 @@ public class UserDataBasicFragment extends EditableDataFragment {
         if (sr != null && sr.isSuccess()) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove(JSONHelper.NAME);
-            editor.remove(JSONHelper.PASSWORD);
-            editor.putString(JSONHelper.NAME, user.getName());
-            editor.putString(JSONHelper.PASSWORD, user.getPassword());
+            editor.remove(KEYS.SHARED_PREFERENCES.NAME);
+            editor.remove(KEYS.SHARED_PREFERENCES.PASSWORD);
+            editor.putString(KEYS.SHARED_PREFERENCES.NAME, user.getName());
+            editor.putString(KEYS.SHARED_PREFERENCES.PASSWORD, user.getPassword());
             editor.apply();
         }
 

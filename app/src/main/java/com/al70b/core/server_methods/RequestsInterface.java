@@ -11,7 +11,7 @@ import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.fragments.Items.ConversationItem;
 import com.al70b.core.fragments.GuestWelcomeFragment;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.StorageOperations;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.Characteristics;
@@ -105,31 +105,31 @@ public class RequestsInterface {
                     result = p.parseResult(jsonResult);
                 } else {
                     // get the result's status
-                    success = jsonResult.getString(JSONHelper.SERVER_RESULT).compareTo(JSONHelper.SERVER_SUCCESS) == 0;
+                    success = jsonResult.getString(KEYS.SERVER.RESULT).compareTo(KEYS.SERVER.SUCCESS) == 0;
 
                     if (success) {
-                        Object object = jsonResult.get(JSONHelper.SERVER_DATA);
+                        Object object = jsonResult.get(KEYS.SERVER.DATA);
 
                         if (object instanceof Bitmap || object instanceof Boolean) {
                             // if this is Bitmap object just return it as a result
                             result = (T) object;
                         } else if (object instanceof JSONArray) {
-                            object = jsonResult.getJSONArray(JSONHelper.SERVER_DATA);
+                            object = jsonResult.getJSONArray(KEYS.SERVER.DATA);
                             result = p.parseResult((JSONArray) object);
                         } else if (object instanceof JSONObject) {
                             // json object for sure
-                            object = jsonResult.getJSONObject(JSONHelper.SERVER_DATA);
+                            object = jsonResult.getJSONObject(KEYS.SERVER.DATA);
                             result = p.parseResult((JSONObject) object);
                         }
                     } else {
                         if (method == Method.GET_PROFILE_PICTURE)
                             errMsg = context.getResources().getString(R.string.error_downloading_profile_picture);
                         else
-                            errMsg = jsonResult.getString(JSONHelper.SERVER_ERROR_MSG);
+                            errMsg = jsonResult.getString(KEYS.SERVER.ERROR_MSG);
                     }
                 }
             } else {
-                errMsg = JSONHelper.CONNECTION_FAILED;
+                errMsg = KEYS.SHARED_PREFERENCES.CONNECTION_FAILED;
             }
 
             sr = new ServerResponse<T>(success, errMsg, result);
@@ -150,14 +150,14 @@ public class RequestsInterface {
         ServerResponse<List<String>> sr = null;
         try {
 
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, 3);
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, 3);
             jsonArgs.put("age_from", 18);
             jsonArgs.put("age_to", 100);
             jsonArgs.put("image_flag", true);
             jsonArgs.put("online_flag", false);
             jsonArgs.put("friends_flag", false);
-            jsonArgs.put(JSONHelper.SERVER_PAGE, 1);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, numberOfPages);
+            jsonArgs.put(KEYS.SERVER.PAGE, 1);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, numberOfPages);
 
             sr = doTheWork(Method.GET_USERS_PICTURES, jsonArgs, new ParseResultInterface<List<String>>() {
                 @Override
@@ -174,7 +174,7 @@ public class RequestsInterface {
 
                         JSONObject temp = jsonResult.getJSONObject(key);
                         String path = temp.getString("main_photo");
-                        path = ServerConstants.SERVER_FULL_URL + path;
+                        path = ServerConstants.CONSTANTS.SERVER_FULL_URL + path;
                         listOfPictures.add(path);
                     }
 
@@ -196,23 +196,23 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<CurrentUser> authUser(final String email, String password) throws ServerResponseFailedException {
+    public ServerResponse<CurrentUser> authUser(final String email, final String password) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
         ServerResponse<CurrentUser> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USERNAME, email);
-            jsonArgs.put(JSONHelper.SERVER_PASSWORD, password);
+            jsonArgs.put(KEYS.SERVER.USERNAME, email);
+            jsonArgs.put(KEYS.SERVER.PASSWORD, password);
 
             sr = doTheWork(Method.LOGIN, jsonArgs, new ParseResultInterface<CurrentUser>() {
                 @Override
                 public CurrentUser parseResult(JSONObject jsonResult) throws JSONException {
-                    int userID = jsonResult.getInt(JSONHelper.SERVER_USER_ID);
-                    String accessToken = jsonResult.getString(JSONHelper.SERVER_ACCESS_TOKEN);
+                    int userID = jsonResult.getInt(KEYS.SERVER.USER_ID);
+                    String accessToken = jsonResult.getString(KEYS.SERVER.ACCESS_TOKEN);
 
                     // create new user with previous values
-                    return new CurrentUser(context, userID, accessToken, email);
+                    return new CurrentUser(context, userID, accessToken, email, password);
                 }
 
                 @Override
@@ -237,10 +237,10 @@ public class RequestsInterface {
 
         ServerResponse<CurrentUser> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_USER_DATA, jsonArgs, new ParseResultInterface<CurrentUser>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USER_DATA, jsonArgs, new ParseResultInterface<CurrentUser>() {
                 @Override
                 public CurrentUser parseResult(JSONObject jsonResult) throws JSONException {
                     return user.parseJSONToUser(jsonResult);
@@ -269,11 +269,11 @@ public class RequestsInterface {
 
         ServerResponse<OtherUser> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, userID);
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, accessToken);
-            jsonArgs.put(JSONHelper.SERVER_ID, otherUser.getUserID());
+            jsonArgs.put(KEYS.SERVER.USER_ID, userID);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
+            jsonArgs.put(KEYS.SERVER.ID, otherUser.getUserID());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_USER_PROFILE, jsonArgs, new ParseResultInterface<OtherUser>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USER_PROFILE, jsonArgs, new ParseResultInterface<OtherUser>() {
                 @Override
                 public OtherUser parseResult(JSONObject jsonResult) throws JSONException {
                     return otherUser.parseJSONToUser(jsonResult);
@@ -302,12 +302,12 @@ public class RequestsInterface {
 
         ServerResponse<Bitmap> sr = null;
         try {
-            jsonArgs.put(JSONHelper.PROFILE_PICTURE, thumbnail);
+            jsonArgs.put(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE, thumbnail);
 
             sr = doTheWork(Method.GET_PROFILE_PICTURE, jsonArgs, new ParseResultInterface<Bitmap>() {
                 @Override
                 public Bitmap parseResult(JSONObject jsonResult) throws JSONException {
-                    return (Bitmap) jsonResult.get(JSONHelper.SERVER_THUMBNAIL);
+                    return (Bitmap) jsonResult.get(KEYS.SERVER.THUMBNAIL);
                 }
 
                 @Override
@@ -365,19 +365,19 @@ public class RequestsInterface {
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_GENDER, user.getGender().getValue());
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, user.getUserInterest().getGenderInterest().getValue());
-            jsonArgs.put(JSONHelper.SERVER_NAME, user.getName());
+            jsonArgs.put(KEYS.SERVER.GENDER, user.getGender().getValue());
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, user.getUserInterest().getGenderInterest().getValue());
+            jsonArgs.put(KEYS.SERVER.NAME, user.getName());
             JSONArray jsonArray = new JSONArray();
 
-            jsonArgs.put(JSONHelper.SERVER_INTERESTED_PURPOSE, jsonArray);
-            jsonArgs.put(JSONHelper.SERVER_COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
-            jsonArgs.put(JSONHelper.SERVER_CITY, user.getAddress().getCity());
-            jsonArgs.put(JSONHelper.SERVER_DAY, user.getDateOfBirth().get(Calendar.DAY_OF_MONTH));
-            jsonArgs.put(JSONHelper.SERVER_MONTH, user.getDateOfBirth().get(Calendar.MONTH) + 1);
-            jsonArgs.put(JSONHelper.SERVER_YEAR, user.getDateOfBirth().get(Calendar.YEAR));
-            jsonArgs.put(JSONHelper.SERVER_EMAIL, user.getEmail());
-            jsonArgs.put(JSONHelper.SERVER_PASSWORD, user.getPassword());
+            jsonArgs.put(KEYS.SERVER.INTERESTED_PURPOSE, jsonArray);
+            jsonArgs.put(KEYS.SERVER.COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
+            jsonArgs.put(KEYS.SERVER.CITY, user.getAddress().getCity());
+            jsonArgs.put(KEYS.SERVER.DAY, user.getDateOfBirth().get(Calendar.DAY_OF_MONTH));
+            jsonArgs.put(KEYS.SERVER.MONTH, user.getDateOfBirth().get(Calendar.MONTH) + 1);
+            jsonArgs.put(KEYS.SERVER.YEAR, user.getDateOfBirth().get(Calendar.YEAR));
+            jsonArgs.put(KEYS.SERVER.EMAIL, user.getEmail());
+            jsonArgs.put(KEYS.SERVER.PASSWORD, user.getPassword());
             jsonArgs.put("advertisements_flag", user.isAcceptAdvertisement());
 
             sr = doTheWork(Method.REGISTER, jsonArgs, new ParseResultInterface<String>() {
@@ -405,18 +405,18 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<ConversationItem[]> getConversations(final CurrentUser user, int page, int resultsPerPage) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
+    public ServerResponse<ConversationItem[]> getConversations(final CurrentUser user, int page, int resultsPerPage) throws ServerResponseFailedException {
         JSONObject jsonArgs = new JSONObject();
 
         ServerResponse<ConversationItem[]> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultsPerPage);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultsPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_CONVERSATIONS, jsonArgs, new ParseResultInterface<ConversationItem[]>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_CONVERSATIONS, jsonArgs, new ParseResultInterface<ConversationItem[]>() {
                 @Override
                 public ConversationItem[] parseResult(JSONObject jsonResult) throws JSONException {
                     return new ConversationItem[0];
@@ -439,7 +439,7 @@ public class RequestsInterface {
                         conversationID = jsonTemp.getInt("id");
                         otherUserID = jsonTemp.getInt("from");
                         otherUserName = jsonTemp.getString("name");
-                        thumbnail = ServerConstants.SERVER_FULL_URL + jsonTemp.getString("photo");
+                        thumbnail = ServerConstants.CONSTANTS.SERVER_FULL_URL + jsonTemp.getString("photo");
                         profilePictures.add(thumbnail);
 
                         if (otherUserID == user.getUserID())   // if "this" user is the sender
@@ -477,7 +477,7 @@ public class RequestsInterface {
         try {
             for (String thumbnail : thumbnailsList) {
 
-                if (thumbnail.compareTo(ServerConstants.SERVER_USER_DEFAULT_PHOTO) == 0) {
+                if (thumbnail.compareTo(ServerConstants.CONSTANTS.SERVER_USER_DEFAULT_PHOTO) == 0) {
                     defaultPhoto = true;
                     if (alreadyDownloaded)
                         continue;
@@ -486,12 +486,12 @@ public class RequestsInterface {
                 }
 
                 // get thumbnail
-                jsonArgs.put(JSONHelper.PROFILE_PICTURE, thumbnail);
+                jsonArgs.put(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE, thumbnail);
 
                 sr = doTheWork(Method.GET_PROFILE_PICTURE, jsonArgs, new ParseResultInterface<Bitmap>() {
                     @Override
                     public Bitmap parseResult(JSONObject jsonResult) throws JSONException {
-                        return (Bitmap) jsonResult.get(JSONHelper.SERVER_THUMBNAIL);
+                        return (Bitmap) jsonResult.get(KEYS.SERVER.THUMBNAIL);
                     }
 
                     @Override
@@ -542,11 +542,11 @@ public class RequestsInterface {
                 public void run() {
                     try {
                         JSONObject jsonArgs = new JSONObject();
-                        jsonArgs.put(JSONHelper.PROFILE_PICTURE, thumbnail);
+                        jsonArgs.put(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE, thumbnail);
                         ServerResponse<Bitmap> sr = doTheWork(Method.GET_PROFILE_PICTURE, jsonArgs, new ParseResultInterface<Bitmap>() {
                             @Override
                             public Bitmap parseResult(JSONObject jsonResult) throws JSONException {
-                                return (Bitmap) jsonResult.get(JSONHelper.SERVER_THUMBNAIL);
+                                return (Bitmap) jsonResult.get(KEYS.SERVER.THUMBNAIL);
                             }
 
                             @Override
@@ -581,12 +581,12 @@ public class RequestsInterface {
                 String thumbnail = pic.getThumbnailName();
 
                 // get thumbnail
-                jsonArgs.put(JSONHelper.PROFILE_PICTURE, thumbnail);
+                jsonArgs.put(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE, thumbnail);
 
                 sr = doTheWork(Method.GET_PROFILE_PICTURE, jsonArgs, new ParseResultInterface<Bitmap>() {
                     @Override
                     public Bitmap parseResult(JSONObject jsonResult) throws JSONException {
-                        return (Bitmap) jsonResult.get(JSONHelper.SERVER_THUMBNAIL);
+                        return (Bitmap) jsonResult.get(KEYS.SERVER.THUMBNAIL);
                     }
 
                     @Override
@@ -615,24 +615,24 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, userID);
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, accessToken);
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, gender);
+            jsonArgs.put(KEYS.SERVER.USER_ID, userID);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, gender);
             jsonArgs.put("age_from", from);
             jsonArgs.put("age_to", to);
             jsonArgs.put("image_flag", withPictures);
             jsonArgs.put("online_flag", onlineOnly);
             jsonArgs.put("friends_flag", friendsOnly);
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultPerPage);
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_MEMBERS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_MEMBERS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
                     List<OtherUser> users = new ArrayList<>();
 
-                    boolean last = jsonResult.getBoolean(JSONHelper.SERVER_LAST);
-                    jsonResult.remove(JSONHelper.SERVER_LAST);
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
                     Iterator<String> iterator = jsonResult.keys();
 
                     while (iterator.hasNext()) {
@@ -682,9 +682,9 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, new JSONArray(matchGender));
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, new JSONArray(matchGender));
             jsonArgs.put("age_from", ageFrom);
             jsonArgs.put("age_to", ageTo);
             jsonArgs.put("country", country);
@@ -695,16 +695,16 @@ public class RequestsInterface {
             jsonArgs.put("alcohol", new JSONArray(alcohol));
             jsonArgs.put("smoking", new JSONArray(smoking));
             // TODO add picturesOnly, onlineOnly
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultPerPage);
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_USERS_ADVANCED, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USERS_ADVANCED, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
                     List<OtherUser> users = new ArrayList<>();
 
-                    boolean last = jsonResult.getBoolean(JSONHelper.SERVER_LAST);
-                    jsonResult.remove(JSONHelper.SERVER_LAST);
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
                     Iterator<String> iterator = jsonResult.keys();
 
                     while (iterator.hasNext()) {
@@ -742,14 +742,14 @@ public class RequestsInterface {
 
         ServerResponse<Integer> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, userID);
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, accessToken);
-            jsonArgs.put(JSONHelper.SERVER_ID, friendID);
+            jsonArgs.put(KEYS.SERVER.USER_ID, userID);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
+            jsonArgs.put(KEYS.SERVER.ID, friendID);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST, jsonArgs, new ParseResultInterface<Integer>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST, jsonArgs, new ParseResultInterface<Integer>() {
                 @Override
                 public Integer parseResult(JSONObject jsonResult) throws JSONException {
-                    return jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return jsonResult.getInt(KEYS.SERVER.RESULT);
                 }
 
                 @Override
@@ -776,14 +776,14 @@ public class RequestsInterface {
 
         ServerResponse<Integer> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, userID);
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, accessToken);
-            jsonArgs.put(JSONHelper.SERVER_ID, friendID);
+            jsonArgs.put(KEYS.SERVER.USER_ID, userID);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
+            jsonArgs.put(KEYS.SERVER.ID, friendID);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_SEND_REMOVE_FRIEND_REQUEST, jsonArgs, new ParseResultInterface<Integer>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_REMOVE_FRIEND_REQUEST, jsonArgs, new ParseResultInterface<Integer>() {
                 @Override
                 public Integer parseResult(JSONObject jsonResult) throws JSONException {
-                    return jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return jsonResult.getInt(KEYS.SERVER.RESULT);
                 }
 
                 @Override
@@ -812,20 +812,20 @@ public class RequestsInterface {
 
         ServerResponse<Boolean> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_NAME, user.getName());
-            jsonArgs.put(JSONHelper.SERVER_COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
-            jsonArgs.put(JSONHelper.SERVER_CITY, user.getAddress().getCity());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.NAME, user.getName());
+            jsonArgs.put(KEYS.SERVER.COUNTRY, translator.translate(user.getAddress().getCountry(), translator.getDictionary().COUNTRIES));
+            jsonArgs.put(KEYS.SERVER.CITY, user.getAddress().getCity());
 
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, user.getUserInterest().getGenderInterest().getValue());
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, user.getUserInterest().getGenderInterest().getValue());
             JSONArray jsonArray = new JSONArray();
-            jsonArgs.put(JSONHelper.SERVER_INTERESTED_PURPOSE, jsonArray);
+            jsonArgs.put(KEYS.SERVER.INTERESTED_PURPOSE, jsonArray);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_BASIC, jsonArgs, new ParseResultInterface<Boolean>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_USER_DATA_BASIC, jsonArgs, new ParseResultInterface<Boolean>() {
                 @Override
                 public Boolean parseResult(JSONObject jsonResult) throws JSONException {
-                    return true;//jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return true;//jsonResult.getInt(KEYS.RESULT);
                 }
 
                 @Override
@@ -856,22 +856,22 @@ public class RequestsInterface {
 
         ServerResponse<Boolean> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_HEIGHT, ch.attributeNotSet(ch.getHeight()) ? null : ch.getHeight());
-            jsonArgs.put(JSONHelper.SERVER_BODY, translator.translate(ch.attributeNotSet(ch.getBody()) ? null : ch.getBody(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_BODY)));
-            jsonArgs.put(JSONHelper.SERVER_EYES, translator.translate(ch.attributeNotSet(ch.getEyes()) ? null : ch.getEyes(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EYES)));
-            jsonArgs.put(JSONHelper.SERVER_WORK, ch.attributeNotSet(ch.getWork()) ? null : ch.getWork());
-            jsonArgs.put(JSONHelper.SERVER_EDUCATION, translator.translate(ch.attributeNotSet(ch.getEducation()) ? null : ch.getEducation(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EDUCATION)));
-            jsonArgs.put(JSONHelper.SERVER_RELIGION, translator.translate(ch.attributeNotSet(ch.getReligion()) ? null : ch.getReligion(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_RELIGION)));
-            jsonArgs.put(JSONHelper.SERVER_ALCOHOL, translator.translate(ch.attributeNotSet(ch.getAlcohol()) ? null : ch.getAlcohol(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_ALCOHOL)));
-            jsonArgs.put(JSONHelper.SERVER_SMOKING, translator.translate(ch.attributeNotSet(ch.getSmoking()) ? null : ch.getSmoking(), translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_SMOKING)));
-            jsonArgs.put(JSONHelper.SERVER_DESCRIPTION, ch.attributeNotSet(ch.getDescription()) ? null : ch.getDescription());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.HEIGHT, ch.attributeNotSet(ch.getHeight()) ? null : ch.getHeight());
+            jsonArgs.put(KEYS.SERVER.BODY, translator.translate(ch.attributeNotSet(ch.getBody()) ? null : ch.getBody(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.BODY)));
+            jsonArgs.put(KEYS.SERVER.EYES, translator.translate(ch.attributeNotSet(ch.getEyes()) ? null : ch.getEyes(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EYES)));
+            jsonArgs.put(KEYS.SERVER.WORK, ch.attributeNotSet(ch.getWork()) ? null : ch.getWork());
+            jsonArgs.put(KEYS.SERVER.EDUCATION, translator.translate(ch.attributeNotSet(ch.getEducation()) ? null : ch.getEducation(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION)));
+            jsonArgs.put(KEYS.SERVER.RELIGION, translator.translate(ch.attributeNotSet(ch.getReligion()) ? null : ch.getReligion(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION)));
+            jsonArgs.put(KEYS.SERVER.ALCOHOL, translator.translate(ch.attributeNotSet(ch.getAlcohol()) ? null : ch.getAlcohol(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL)));
+            jsonArgs.put(KEYS.SERVER.SMOKING, translator.translate(ch.attributeNotSet(ch.getSmoking()) ? null : ch.getSmoking(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING)));
+            jsonArgs.put(KEYS.SERVER.DESCRIPTION, ch.attributeNotSet(ch.getDescription()) ? null : ch.getDescription());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED, jsonArgs, new ParseResultInterface<Boolean>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED, jsonArgs, new ParseResultInterface<Boolean>() {
                 @Override
                 public Boolean parseResult(JSONObject jsonResult) throws JSONException {
-                    return true;//jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return true;//jsonResult.getInt(KEYS.RESULT);
                 }
 
                 @Override
@@ -898,15 +898,15 @@ public class RequestsInterface {
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_EMAIL, email);
-            jsonArgs.put(JSONHelper.SERVER_PASSWORD, password);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.EMAIL, email);
+            jsonArgs.put(KEYS.SERVER.PASSWORD, password);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_EMAIL, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_EMAIL, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
-                    return null;//jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return null;//jsonResult.getInt(KEYS.RESULT);
                 }
 
                 @Override
@@ -933,17 +933,17 @@ public class RequestsInterface {
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_NEW_PASSWORD, newPassword);
-            jsonArgs.put(JSONHelper.SERVER_NEW_PASSWORD + "_2", newPassword);
-            jsonArgs.put(JSONHelper.SERVER_PASSWORD, password);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.NEW_PASSWORD, newPassword);
+            jsonArgs.put(KEYS.SERVER.NEW_PASSWORD + "_2", newPassword);
+            jsonArgs.put(KEYS.SERVER.PASSWORD, password);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_PASSWORD
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_PASSWORD
                     , jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
-                    return null;//jsonResult.getInt(JSONHelper.SERVER_RESULT);
+                    return null;//jsonResult.getInt(KEYS.RESULT);
                 }
 
                 @Override
@@ -970,10 +970,10 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Integer, Integer>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_USER_STAT
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USER_STAT
                     , jsonArgs, new ParseResultInterface<Pair<Integer, Integer>>() {
                 @Override
                 public Pair<Integer, Integer> parseResult(JSONObject jsonResult) throws JSONException {
@@ -1008,11 +1008,11 @@ public class RequestsInterface {
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_ID, otherUserId);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.ID, otherUserId);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_MARK_MESSAGE_AS_READ
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_MARK_MESSAGE_AS_READ
                     , jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
@@ -1049,17 +1049,17 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultsPerPage);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultsPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_PENDING_FRIEND_REQUESTS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_PENDING_FRIEND_REQUESTS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
 
-                    boolean last = jsonResult.getBoolean(JSONHelper.SERVER_LAST);
-                    jsonResult.remove(JSONHelper.SERVER_LAST);
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
                     List<OtherUser> users = new ArrayList<>();
 
                     Iterator<String> iterator = jsonResult.keys();
@@ -1100,10 +1100,10 @@ public class RequestsInterface {
 
         ServerResponse<JSONObject> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_MATCHING_PROFILE, jsonArgs, new ParseResultInterface<JSONObject>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_MATCHING_PROFILE, jsonArgs, new ParseResultInterface<JSONObject>() {
                 @Override
                 public JSONObject parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult;
@@ -1131,10 +1131,10 @@ public class RequestsInterface {
 
         ServerResponse<JSONObject> sr = null;
         try {
-            data.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            data.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            data.put(KEYS.SERVER.USER_ID, user.getUserID());
+            data.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPDATE_MATCHING_PROFILE, data, new ParseResultInterface<JSONObject>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_MATCHING_PROFILE, data, new ParseResultInterface<JSONObject>() {
                 @Override
                 public JSONObject parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult;
@@ -1163,12 +1163,12 @@ public class RequestsInterface {
 
         ServerResponse<Picture> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put("name", imageName);
             jsonArgs.put("image", encodedImage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UPLOAD_IMAGE, jsonArgs, new ParseResultInterface<Picture>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPLOAD_IMAGE, jsonArgs, new ParseResultInterface<Picture>() {
                 @Override
                 public Picture parseResult(JSONObject jsonResult) throws JSONException {
 
@@ -1203,11 +1203,11 @@ public class RequestsInterface {
 
         ServerResponse<Boolean> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put("photo_id", String.valueOf(photoID));
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_SET_MAIN_PHOTO, jsonArgs, null);
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_SET_MAIN_PHOTO, jsonArgs, null);
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -1222,11 +1222,11 @@ public class RequestsInterface {
 
         ServerResponse<Boolean> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put("id", String.valueOf(photoID));
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_DELETE_PHOTO, jsonArgs, null);
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_DELETE_PHOTO, jsonArgs, null);
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -1242,12 +1242,12 @@ public class RequestsInterface {
 
         ServerResponse<JSONObject> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put("report_id", String.valueOf(userID));
             jsonArgs.put("reason", reason);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_REPORT_USER, jsonArgs, new ParseResultInterface<JSONObject>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_REPORT_USER, jsonArgs, new ParseResultInterface<JSONObject>() {
                 @Override
                 public JSONObject parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult;
@@ -1276,9 +1276,9 @@ public class RequestsInterface {
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_EMAIL, email);
+            jsonArgs.put(KEYS.SERVER.EMAIL, email);
 
-            sr = doTheWork(Method.FORGOT_PASSWORD, ServerConstants.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.FORGOT_PASSWORD, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_USER_DATA_ADVANCED, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.toString();
@@ -1308,18 +1308,18 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultPerPage);
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_MATCHING_PROFILES, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_MATCHING_PROFILES, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
                     List<OtherUser> users = new ArrayList<>();
 
-                    boolean last = jsonResult.getBoolean(JSONHelper.SERVER_LAST);
-                    jsonResult.remove(JSONHelper.SERVER_LAST);
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
                     Iterator<String> iterator = jsonResult.keys();
 
                     while (iterator.hasNext()) {
@@ -1419,24 +1419,24 @@ public class RequestsInterface {
 
         ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, userID);
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, accessToken);
-            jsonArgs.put(JSONHelper.SERVER_MATCH_GENDER, 3);
+            jsonArgs.put(KEYS.SERVER.USER_ID, userID);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
+            jsonArgs.put(KEYS.SERVER.MATCH_GENDER, 3);
             jsonArgs.put("age_from", AppConstants.MIN_MEMBER_AGE);
             jsonArgs.put("age_to", AppConstants.MAX_MEMBER_AGE);
             jsonArgs.put("image_flag", false);
             jsonArgs.put("online_flag", false);
             jsonArgs.put("friends_flag", true);
-            jsonArgs.put(JSONHelper.SERVER_PAGE, page);
-            jsonArgs.put(JSONHelper.SERVER_RESULT_PER_PAGE, resultPerPage);
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_GET_MEMBERS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_MEMBERS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
                     List<OtherUser> users = new ArrayList<>();
 
-                    boolean last = jsonResult.getBoolean(JSONHelper.SERVER_LAST);
-                    jsonResult.remove(JSONHelper.SERVER_LAST);
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
                     Iterator<String> iterator = jsonResult.keys();
 
                     while (iterator.hasNext()) {
@@ -1468,18 +1468,19 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<String> registerClientID(CurrentUser user, String registrationID) throws ServerResponseFailedException {
+    public ServerResponse<String> registerClientID(String userId, String accessToken,
+                                                   String registrationID) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, userId);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
             jsonArgs.put("registration_id", registrationID);
 
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_REGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_REGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.toString();
@@ -1502,16 +1503,16 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<String> unregisterClientID(CurrentUser user) throws ServerResponseFailedException {
+    public ServerResponse<String> unregisterClientID(String userId, String accessToken) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
         ServerResponse<String> sr = null;
         try {
-            jsonArgs.put(JSONHelper.SERVER_USER_ID, user.getUserID());
-            jsonArgs.put(JSONHelper.SERVER_ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.USER_ID, userId);
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.SERVER_FUNC_UNREGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UNREGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.toString();

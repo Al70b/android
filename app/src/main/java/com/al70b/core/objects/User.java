@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.al70b.R;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.inscripts.enums.StatusOption;
 
@@ -233,25 +233,25 @@ public class User implements Serializable {
         JSONObject jsonObject = new JSONObject();
         try {
             // put user basic data
-            jsonObject.put(JSONHelper.SERVER_NAME, name);
-            jsonObject.put(JSONHelper.SERVER_GENDER, gender.getValue());
-            jsonObject.put(JSONHelper.SERVER_BIRTH_DATE, dateOfBirth);
-            jsonObject.put(JSONHelper.SERVER_CITY, address.getCity());
-            jsonObject.put(JSONHelper.SERVER_COUNTRY, address.getCountry());
+            jsonObject.put(KEYS.SERVER.NAME, name);
+            jsonObject.put(KEYS.SERVER.GENDER, gender.getValue());
+            jsonObject.put(KEYS.SERVER.BIRTH_DATE, dateOfBirth);
+            jsonObject.put(KEYS.SERVER.CITY, address.getCity());
+            jsonObject.put(KEYS.SERVER.COUNTRY, address.getCountry());
 
             // put user interest
-            jsonObject.put(JSONHelper.SERVER_MATCH_GENDER, userInterest.getGenderInterest().getValue());
+            jsonObject.put(KEYS.SERVER.MATCH_GENDER, userInterest.getGenderInterest().getValue());
 
             // put user advanced data
-            jsonObject.put(JSONHelper.SERVER_HEIGHT, userChar.getHeight());
-            jsonObject.put(JSONHelper.SERVER_BODY, userChar.getBody());
-            jsonObject.put(JSONHelper.SERVER_EYES, userChar.getEyes());
-            jsonObject.put(JSONHelper.SERVER_WORK, userChar.getWork());
-            jsonObject.put(JSONHelper.SERVER_EDUCATION, userChar.getEducation());
-            jsonObject.put(JSONHelper.SERVER_RELIGION, userChar.getReligion());
-            jsonObject.put(JSONHelper.SERVER_ALCOHOL, userChar.getAlcohol());
-            jsonObject.put(JSONHelper.SERVER_SMOKING, userChar.getSmoking());
-            jsonObject.put(JSONHelper.SERVER_DESCRIPTION, userChar.getDescription());
+            jsonObject.put(KEYS.SERVER.HEIGHT, userChar.getHeight());
+            jsonObject.put(KEYS.SERVER.BODY, userChar.getBody());
+            jsonObject.put(KEYS.SERVER.EYES, userChar.getEyes());
+            jsonObject.put(KEYS.SERVER.WORK, userChar.getWork());
+            jsonObject.put(KEYS.SERVER.EDUCATION, userChar.getEducation());
+            jsonObject.put(KEYS.SERVER.RELIGION, userChar.getReligion());
+            jsonObject.put(KEYS.SERVER.ALCOHOL, userChar.getAlcohol());
+            jsonObject.put(KEYS.SERVER.SMOKING, userChar.getSmoking());
+            jsonObject.put(KEYS.SERVER.DESCRIPTION, userChar.getDescription());
 
         } catch (JSONException ex) {
             Log.d("JSONException - User", ex.toString());
@@ -265,23 +265,23 @@ public class User implements Serializable {
             Translator translator = Translator.getInstance(context);
 
             // parse basic user data
-            name = jsonObject.getString(JSONHelper.SERVER_NAME);
-            gender = new Gender(Integer.parseInt(jsonObject.getString(JSONHelper.SERVER_GENDER)));
-            dateOfBirth = parseDate(jsonObject.getString(JSONHelper.SERVER_BIRTH_DATE));
+            name = jsonObject.getString(KEYS.SERVER.NAME);
+            gender = new Gender(Integer.parseInt(jsonObject.getString(KEYS.SERVER.GENDER)));
+            dateOfBirth = parseDate(jsonObject.getString(KEYS.SERVER.BIRTH_DATE));
 
-            if (jsonObject.has(JSONHelper.SERVER_COUNTRY))
-                address = new Address(jsonObject.getString(JSONHelper.SERVER_CITY),
-                        translator.translate(jsonObject.getString(JSONHelper.SERVER_COUNTRY), translator.getDictionary().COUNTRIES));
+            if (jsonObject.has(KEYS.SERVER.COUNTRY))
+                address = new Address(jsonObject.getString(KEYS.SERVER.CITY),
+                        translator.translate(jsonObject.getString(KEYS.SERVER.COUNTRY), translator.getDictionary().COUNTRIES));
 
             // parse user's interest
             userInterest = new UserInterest();
-            if (jsonObject.has(JSONHelper.SERVER_MATCH_GENDER))
-                userInterest.setGenderInterest(new Gender(jsonObject.getInt(JSONHelper.SERVER_MATCH_GENDER)));
+            if (jsonObject.has(KEYS.SERVER.MATCH_GENDER))
+                userInterest.setGenderInterest(new Gender(jsonObject.getInt(KEYS.SERVER.MATCH_GENDER)));
 
             // parse user's list of pictures
-            if (jsonObject.has(JSONHelper.SERVER_PHOTOS)) {
+            if (jsonObject.has(KEYS.SERVER.PHOTOS)) {
                 // get user's list of photos and profile picture
-                JSONArray jsonArrayPictures = jsonObject.getJSONArray(JSONHelper.SERVER_PHOTOS);
+                JSONArray jsonArrayPictures = jsonObject.getJSONArray(KEYS.SERVER.PHOTOS);
                 pictures = parseJSONArrayToPictures(jsonArrayPictures);
             }
 
@@ -289,32 +289,32 @@ public class User implements Serializable {
             String height, body, eyes, alcohol, smoking, work, education, religion, description;
             height = body = eyes = alcohol = smoking = work = education = religion = description = null;
 
-            if (jsonObject.has(JSONHelper.SERVER_HEIGHT))
-                height = jsonObject.getString(JSONHelper.SERVER_HEIGHT);
-            if (jsonObject.has(JSONHelper.SERVER_BODY))
-                body = translator.translate(jsonObject.getString(JSONHelper.SERVER_BODY),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_BODY));
-            if (jsonObject.has(JSONHelper.SERVER_EYES))
-                eyes = translator.translate(jsonObject.getString(JSONHelper.SERVER_EYES),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EYES));
-            if (jsonObject.has(JSONHelper.SERVER_WORK))
-                work = jsonObject.getString(JSONHelper.SERVER_WORK);
-            if (jsonObject.has(JSONHelper.SERVER_EDUCATION))
-                education = translator.translate(jsonObject.getString(JSONHelper.SERVER_EDUCATION),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_EDUCATION));
-            if (jsonObject.has(JSONHelper.SERVER_RELIGION))
-                religion = translator.translate(jsonObject.getString(JSONHelper.SERVER_RELIGION),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_RELIGION));
-            if (jsonObject.has(JSONHelper.SERVER_ALCOHOL))
-                alcohol = translator.translate(jsonObject.getString(JSONHelper.SERVER_ALCOHOL),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_ALCOHOL));
-            if (jsonObject.has(JSONHelper.SERVER_SMOKING))
-                smoking = translator.translate(jsonObject.getString(JSONHelper.SERVER_SMOKING),
-                        translator.getDictionary().CHARACTERS.get(JSONHelper.SERVER_SMOKING));
+            if (jsonObject.has(KEYS.SERVER.HEIGHT))
+                height = jsonObject.getString(KEYS.SERVER.HEIGHT);
+            if (jsonObject.has(KEYS.SERVER.BODY))
+                body = translator.translate(jsonObject.getString(KEYS.SERVER.BODY),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.BODY));
+            if (jsonObject.has(KEYS.SERVER.EYES))
+                eyes = translator.translate(jsonObject.getString(KEYS.SERVER.EYES),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EYES));
+            if (jsonObject.has(KEYS.SERVER.WORK))
+                work = jsonObject.getString(KEYS.SERVER.WORK);
+            if (jsonObject.has(KEYS.SERVER.EDUCATION))
+                education = translator.translate(jsonObject.getString(KEYS.SERVER.EDUCATION),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION));
+            if (jsonObject.has(KEYS.SERVER.RELIGION))
+                religion = translator.translate(jsonObject.getString(KEYS.SERVER.RELIGION),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION));
+            if (jsonObject.has(KEYS.SERVER.ALCOHOL))
+                alcohol = translator.translate(jsonObject.getString(KEYS.SERVER.ALCOHOL),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL));
+            if (jsonObject.has(KEYS.SERVER.SMOKING))
+                smoking = translator.translate(jsonObject.getString(KEYS.SERVER.SMOKING),
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING));
 
             try {
-                if (jsonObject.has(JSONHelper.SERVER_DESCRIPTION))
-                    description = URLDecoder.decode(jsonObject.getString(JSONHelper.SERVER_DESCRIPTION), "UTF-8");
+                if (jsonObject.has(KEYS.SERVER.DESCRIPTION))
+                    description = URLDecoder.decode(jsonObject.getString(KEYS.SERVER.DESCRIPTION), "UTF-8");
             } catch (UnsupportedEncodingException ex) {
                 description = "";
             }
@@ -359,7 +359,7 @@ public class User implements Serializable {
         pictures = new ArrayList<>();
 
         // parse pictures json from user to list of json objects
-        List<JSONObject> listOfJSONS = JSONHelper.parseJSONArray(jsonArray);
+        List<JSONObject> listOfJSONS = KEYS.parseJSONArray(jsonArray);
 
         for (JSONObject j : listOfJSONS) {
             // parse each json object to a picture
@@ -430,13 +430,13 @@ public class User implements Serializable {
         public static StatusOption stringToStatusOption(String valueStr) {
             StatusOption status;
 
-            if (valueStr.compareTo(JSONHelper.SERVER_STATUS_OFFLINE) == 0) {
+            if (valueStr.compareTo(KEYS.SERVER.STATUS_OFFLINE) == 0) {
                 status = StatusOption.OFFLINE;
-            } else if (valueStr.compareTo(JSONHelper.SERVER_STATUS_AVAILABLE) == 0) {
+            } else if (valueStr.compareTo(KEYS.SERVER.STATUS_AVAILABLE) == 0) {
                 status = StatusOption.AVAILABLE;
-            } else if (valueStr.compareTo(JSONHelper.SERVER_STATUS_AWAY) == 0) {
+            } else if (valueStr.compareTo(KEYS.SERVER.STATUS_AWAY) == 0) {
                 status = StatusOption.INVISIBLE;
-            } else if (valueStr.compareTo(JSONHelper.SERVER_STATUS_BUSY) == 0) {
+            } else if (valueStr.compareTo(KEYS.SERVER.STATUS_BUSY) == 0) {
                 status = StatusOption.BUSY;
             } else {
                 status = null;

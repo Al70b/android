@@ -10,8 +10,8 @@
     <dimen name="actionbar_button_text">19sp</dimen>
 
     <!-- Status Circle Dimensions -->
-    <dimen name="status_circle_user">19dp</dimen>
-    <dimen name="status_circle_friends">12dp</dimen>
+    <dimen name="status_circle_user">25dp</dimen>
+    <dimen name="status_circle_friends">19dp</dimen>
 
     <!-- Profile Picture -->
     <dimen name="small_member_profile_picture">38dp</dimen>

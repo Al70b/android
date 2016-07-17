@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.audio_video_call.AVChatActivity;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
@@ -25,11 +26,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Naseem on 6/20/2016.
@@ -37,7 +38,7 @@ import java.util.concurrent.Callable;
 public class ChatHandler {
 
     private static final String TAG = "ChatHandler";
-    private static final long TIME_RETRY_CHAT_LOGIN = 30 * 1000; // 30 seconds, in milliseconds
+    private static final long TIME_RETRY_CHAT_LOGIN = 120 * 1000; // 2 minutes, in milliseconds
 
     private Context context;
     private CurrentUser currentUser;
@@ -56,6 +57,8 @@ public class ChatHandler {
 
         if(onlineFriendsList == null) {
             this.onlineFriendsList = new ArrayList<>();
+        } else {
+            this.onlineFriendsList = onlineFriendsList;
         }
 
         chatHandlerEvents = e;
@@ -72,7 +75,8 @@ public class ChatHandler {
 
     private void init() {
         // get singleton instance of comet chat, and login
-        cometChatInstance = CometChat.getInstance(context, ServerConstants.COMET_CHAT_API_KEY);
+        cometChatInstance = CometChat.getInstance(context,
+                ServerConstants.CONSTANTS.COMET_CHAT_API_KEY);
 
         if(chatHandlerEvents != null) {
             login();
@@ -83,12 +87,14 @@ public class ChatHandler {
         retryChatLoginTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Log.d(TAG + ":Chat Timer", "Timer running..");
                 if(!CometChat.isLoggedIn() && chatHandlerEvents != null) {
+                    Log.d(TAG + ":Chat Timer", "Logging in");
                     login();
+                } else {
+                    Log.d(TAG + ":Chat Timer", "Already logged in");
                 }
             }
-        }, 0, TIME_RETRY_CHAT_LOGIN);
+        }, TIME_RETRY_CHAT_LOGIN, TIME_RETRY_CHAT_LOGIN);
     }
 
     private String getString(int resource) {
@@ -108,8 +114,8 @@ public class ChatHandler {
             }
         });
 
-        cometChatInstance.login(ServerConstants.CHAT_URL,
-                currentUser.getName(),
+        cometChatInstance.login(ServerConstants.CONSTANTS.CHAT_URL,
+                currentUser.getEmail(),
                 currentUser.getPassword(),
                 new Callbacks() {
                     @Override
@@ -174,17 +180,18 @@ public class ChatHandler {
     public void logout() {
         if(retryChatLoginTimer != null) {
             retryChatLoginTimer.cancel();
+            retryChatLoginTimer = null;
         }
 
         cometChatInstance.logout(new Callbacks() {
             @Override
             public void successCallback(JSONObject jsonObject) {
-                Log.d(TAG + ": Logout (Y)", jsonObject.toString());
+                Log.d(TAG + ": Logout", jsonObject.toString());
             }
 
             @Override
             public void failCallback(JSONObject jsonObject) {
-                Log.e(TAG + ": Logout (N)", jsonObject.toString());
+                Log.e(TAG + ": Logout", jsonObject.toString());
             }
         });
     }
@@ -214,8 +221,7 @@ public class ChatHandler {
     }
 
     public boolean isLoggedIn() {
-        // TODO: find a better implementation since api is deprecated
-        return cometChatInstance.isLoggedIn();
+        return CometChat.isLoggedIn();
     }
 
     public static abstract class ChatHandlerEvents {
@@ -285,7 +291,7 @@ public class ChatHandler {
         });
     }
 
-    public class MySubscribeCallbacks implements SubscribeCallbacks {
+    private class MySubscribeCallbacks implements SubscribeCallbacks {
 
         @Override
         public void onMessageReceived(JSONObject receivedMessage) {
@@ -329,7 +335,7 @@ public class ChatHandler {
 
         @Override
         public void gotProfileInfo(JSONObject profileInfo) {
-            Logger.debug(TAG + ", Message Received: " + profileInfo.toString());
+            Logger.debug(TAG + ", Profile info: " + profileInfo.toString());
 
             try {
                 final String status = profileInfo.getString("s"); // get online status
@@ -361,12 +367,30 @@ public class ChatHandler {
                     while (keys.hasNext()) {
                         JSONObject user = onlineUsers.getJSONObject(keys.next());
                         String username = user.getString("n");
+                        long timestamp;
+                        if (user.isNull("ls")) {
+                            timestamp = 0;
+                        } else {
+                            timestamp = user.getLong("ls");
+                        }
 
-                        onlineFriendsList
-                                .add(new FriendsDrawerItem(user.getInt("id"), user.getLong("t"), username,
-                                                            user.getString("a"), user.getString("s"),
-                                                            user.getString("m")));
+                        String thumbnailPath = ServerConstants.CONSTANTS.SERVER_FULL_URL + user.getString("a");
+
+                        final FriendsDrawerItem item = new FriendsDrawerItem(user.getInt("id"),
+                                timestamp, username, thumbnailPath,
+                                user.getString("s"), user.getString("m"));
+
+                        // if user is offline, skip
+                        if (item.status.compareTo(KEYS.SERVER.STATUS_OFFLINE) == 0) {
+                            continue;
+                        }
+
+                        onlineFriendsList.add(item);
+                        /*if (unreadMessagesUsersIDs.indexOfKey(user.getInt("id")) > -1) {
+                            item.hasUnreadMessage = true;
+                        }*/
                     }
+                    Collections.sort(onlineFriendsList);
 
                     // invoke registered function to update friends and chat drawer
                     chatHandlerEvents.runWithHandler(new ChatHandlerEvents.Callable() {
@@ -447,7 +471,7 @@ public class ChatHandler {
 
         @Override
         public void onActionMessageReceived(JSONObject jsonObject) {
-
+            Logger.debug(TAG + ", Action Message Received: " + jsonObject.toString());
         }
 
         @Override

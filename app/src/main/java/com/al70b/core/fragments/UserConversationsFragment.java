@@ -198,7 +198,7 @@ public class UserConversationsFragment extends Fragment {
 
                 // no previous conversation was found
                 CometChat.getInstance(getActivity().getApplicationContext(),
-                        ServerConstants.COMET_CHAT_API_KEY)
+                        ServerConstants.CONSTANTS.COMET_CHAT_API_KEY)
                         .getUserInfo(String.valueOf(senderID), new Callbacks() {
                     @Override
                     public void successCallback(JSONObject jsonObject) {

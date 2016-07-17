@@ -29,7 +29,7 @@ import com.al70b.core.extended_widgets.ClearableEditText;
 import com.al70b.core.activities.Dialogs.ForgotPasswordDialog;
 import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.JSONHelper;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.StringManp;
 import com.al70b.core.notifications.GcmModule;
 import com.al70b.core.objects.CurrentUser;
@@ -203,7 +203,7 @@ public class GuestLoginFragment extends Fragment {
                                     // get user's data from the server
                                     serverResponse = requests.getUserData(user);
 
-                                    if (serverResponse.isSuccess()) {
+                                    if (serverResponse != null && serverResponse.isSuccess()) {
                                         // load user's data from server into a user object
                                         user = serverResponse.getResult();
 
@@ -213,11 +213,11 @@ public class GuestLoginFragment extends Fragment {
                                         SharedPreferences.Editor editor = sharedPref.edit();
 
                                         // save relevant data
-                                        editor.putInt(JSONHelper.USER_ID, user.getUserID());
-                                        editor.putString(JSONHelper.ACCESS_TOKEN, user.getAccessToken());
-                                        editor.putString(JSONHelper.USERNAME, user.getEmail());
-                                        editor.putString(JSONHelper.NAME, user.getName());
-                                        editor.putString(JSONHelper.PASSWORD, user.getPassword());
+                                        editor.putInt(KEYS.SHARED_PREFERENCES.USER_ID, user.getUserID());
+                                        editor.putString(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN, user.getAccessToken());
+                                        editor.putString(KEYS.SHARED_PREFERENCES.USERNAME, user.getEmail());
+                                        editor.putString(KEYS.SHARED_PREFERENCES.NAME, user.getName());
+                                        editor.putString(KEYS.SHARED_PREFERENCES.PASSWORD, user.getPassword());
                                         editor.apply();
                                         // done saving
 
@@ -225,7 +225,7 @@ public class GuestLoginFragment extends Fragment {
                                         Intent intent = new Intent(getActivity(), UserHomeActivity.class);
 
                                         // save user object
-                                        intent.putExtra(JSONHelper.USER, user);
+                                        intent.putExtra(KEYS.SHARED_PREFERENCES.USER, user);
 
                                         // dismiss the wait dialog
                                         alert.dismiss();

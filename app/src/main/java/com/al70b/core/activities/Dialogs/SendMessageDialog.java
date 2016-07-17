@@ -86,7 +86,7 @@ public class SendMessageDialog extends Dialog {
 
                 if (!message.isEmpty()) {
                     CometChat chat = CometChat.getInstance(context,
-                            ServerConstants.COMET_CHAT_API_KEY);
+                            ServerConstants.CONSTANTS.COMET_CHAT_API_KEY);
 
                     if (chat.isLoggedIn()) {
                         chat.sendMessage(String.valueOf(otherUserID), message, new Callbacks() {

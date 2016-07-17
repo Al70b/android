@@ -1,6 +1,7 @@
 package com.al70b.core.activities.user_home_activity_underlying;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
@@ -26,8 +27,11 @@ public interface NavigationDrawerController {
       */
     void navigateTo(int position);
 
+    void navigateTo(int position, Bundle bundle);
 
-    //void navigateTo(Fragment fragment);
+    void navigateTo(Fragment fragment);
+
+    void navigateTo(Fragment fragment, Bundle bundle);
 
     /*
        Summary: get main drawer layout of the navigation drawer

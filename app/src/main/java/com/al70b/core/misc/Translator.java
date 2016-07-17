@@ -69,17 +69,17 @@ public class Translator implements Serializable {
 
             try {
                 // get server's translation last update
-                serverDateStr = sr.getResult().getString(JSONHelper.SERVER_TRANSLATION_DATE);
+                serverDateStr = sr.getResult().getString(KEYS.SERVER.TRANSLATION_DATE);
 
                 if (serverDateStr != null) {
                     // parse last update to a date object
-                    serverDate = new SimpleDateFormat(JSONHelper.SERVER_TRANSLATION_DATE_FORMAT).parse(serverDateStr);
+                    serverDate = new SimpleDateFormat(KEYS.SERVER.TRANSLATION_DATE_FORMAT).parse(serverDateStr);
                 }
 
                 if (localDateStr != null) {
                     // compare translations date and use the most recent one
                     // parse local date to a date object
-                    localDate = new SimpleDateFormat(JSONHelper.SERVER_TRANSLATION_DATE_FORMAT).parse(localDateStr);
+                    localDate = new SimpleDateFormat(KEYS.SERVER.TRANSLATION_DATE_FORMAT).parse(localDateStr);
 
                     // compare
                     if (localDate.compareTo(serverDate) == 0) {
@@ -187,54 +187,54 @@ public class Translator implements Serializable {
 
         // fill dictionary with translations
         // gender
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_MATCH_GENDER);
-        dictionary.GENDER.add(new Word(JSONHelper.SERVER_GENDER_MALE, temp.getString(JSONHelper.SERVER_GENDER_MALE)));
-        dictionary.GENDER.add(new Word(JSONHelper.SERVER_GENDER_FEMALE, temp.getString(JSONHelper.SERVER_GENDER_FEMALE)));
-        dictionary.GENDER.add(new Word(JSONHelper.SERVER_GENDER_BOTH, temp.getString(JSONHelper.SERVER_GENDER_BOTH)));
+        temp = jsonObject.getJSONObject(KEYS.SERVER.MATCH_GENDER);
+        dictionary.GENDER.add(new Word(KEYS.SERVER.GENDER_MALE, temp.getString(KEYS.SERVER.GENDER_MALE)));
+        dictionary.GENDER.add(new Word(KEYS.SERVER.GENDER_FEMALE, temp.getString(KEYS.SERVER.GENDER_FEMALE)));
+        dictionary.GENDER.add(new Word(KEYS.SERVER.GENDER_BOTH, temp.getString(KEYS.SERVER.GENDER_BOTH)));
 
         // relationships
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_INTERESTED_PURPOSE);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.INTERESTED_PURPOSE);
         fillListWithValues(temp, dictionary.RELATIONSHIP);
 
         // social status
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_SOCIAL_STATUS);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.SOCIAL_STATUS);
         fillListWithValues(temp, dictionary.SOCIAL_STATUS);
 
         // countries
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_COUNTRY);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.COUNTRY);
         fillListWithValues(temp, dictionary.COUNTRIES);
 
 
         // characters
         // body
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_BODY);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_BODY, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_BODY).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.BODY);
+        dictionary.CHARACTERS.put(KEYS.SERVER.BODY, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.BODY).add(0, NOT_SPECIFIED);
 
         // eyes
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_EYES);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_EYES, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_EYES).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.EYES);
+        dictionary.CHARACTERS.put(KEYS.SERVER.EYES, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.EYES).add(0, NOT_SPECIFIED);
 
         // education
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_EDUCATION);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_EDUCATION, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_EDUCATION).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.EDUCATION);
+        dictionary.CHARACTERS.put(KEYS.SERVER.EDUCATION, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.EDUCATION).add(0, NOT_SPECIFIED);
 
         // religion
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_RELIGION);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_RELIGION, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_RELIGION).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.RELIGION);
+        dictionary.CHARACTERS.put(KEYS.SERVER.RELIGION, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.RELIGION).add(0, NOT_SPECIFIED);
 
         // alcohol
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_ALCOHOL);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_ALCOHOL, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_ALCOHOL).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.ALCOHOL);
+        dictionary.CHARACTERS.put(KEYS.SERVER.ALCOHOL, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.ALCOHOL).add(0, NOT_SPECIFIED);
 
         // smoking
-        temp = jsonObject.getJSONObject(JSONHelper.SERVER_SMOKING);
-        dictionary.CHARACTERS.put(JSONHelper.SERVER_SMOKING, fillListWithValues(temp, new ArrayList<Word>()));
-        dictionary.CHARACTERS.get(JSONHelper.SERVER_SMOKING).add(0, NOT_SPECIFIED);
+        temp = jsonObject.getJSONObject(KEYS.SERVER.SMOKING);
+        dictionary.CHARACTERS.put(KEYS.SERVER.SMOKING, fillListWithValues(temp, new ArrayList<Word>()));
+        dictionary.CHARACTERS.get(KEYS.SERVER.SMOKING).add(0, NOT_SPECIFIED);
 
         // write dictionary to a file for future use
         new StorageOperations(context).writeDictionaryToStorage(dictionary);

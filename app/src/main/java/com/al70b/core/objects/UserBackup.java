@@ -214,27 +214,27 @@ public class UserBackup implements Serializable {
         JSONObject jsonObject = new JSONObject();
         try {
             // put user basic data
-            jsonObject.put(JSONHelper.SERVER_NAME, name);
-            jsonObject.put(JSONHelper.SERVER_GENDER, gender.getGenderNum());
-            jsonObject.put(JSONHelper.SERVER_BIRTH_DATE, dateOfBirth);
-            jsonObject.put(JSONHelper.SERVER_SOCIAL_STATUS, socialStatus);
-            jsonObject.put(JSONHelper.SERVER_CITY, address.getCity());
-            jsonObject.put(JSONHelper.SERVER_COUNTRY, address.getCountry());
+            jsonObject.put(KEYS.NAME, name);
+            jsonObject.put(KEYS.GENDER, gender.getGenderNum());
+            jsonObject.put(KEYSDATE, dateOfBirth);
+            jsonObject.put(KEYS.SOCIAL_STATUS, socialStatus);
+            jsonObject.put(KEYS.CITY, address.getCity());
+            jsonObject.put(KEYS.COUNTRY, address.getCountry());
 
             // put user interest
-            jsonObject.put(JSONHelper.SERVER_MATCH_GENDER, userInterest.getGenderInterest().getGenderNum());
-            jsonObject.put(JSONHelper.SERVER_INTERESTED_PURPOSE, userInterest.getPurposesOfInterest().toString());
+            jsonObject.put(KEYS.MATCH_GENDER, userInterest.getGenderInterest().getGenderNum());
+            jsonObject.put(KEYS.INTERESTED_PURPOSE, userInterest.getPurposesOfInterest().toString());
 
             // put user advanced data
-            jsonObject.put(JSONHelper.SERVER_HEIGHT, userChar.getHeight());
-            jsonObject.put(JSONHelper.SERVER_BODY, userChar.getBody());
-            jsonObject.put(JSONHelper.SERVER_EYES, userChar.getEyes());
-            jsonObject.put(JSONHelper.SERVER_WORK, userChar.getWork());
-            jsonObject.put(JSONHelper.SERVER_EDUCATION, userChar.getEducation());
-            jsonObject.put(JSONHelper.SERVER_RELIGION, userChar.getReligion());
-            jsonObject.put(JSONHelper.SERVER_ALCOHOL, userChar.getAlcohol());
-            jsonObject.put(JSONHelper.SERVER_SMOKING, userChar.getSmoking());
-            jsonObject.put(JSONHelper.SERVER_DESCRIPTION, userChar.getDescription());
+            jsonObject.put(KEYS.HEIGHT, userChar.getHeight());
+            jsonObject.put(KEYS.BODY, userChar.getBody());
+            jsonObject.put(KEYS.EYES, userChar.getEyes());
+            jsonObject.put(KEYS.WORK, userChar.getWork());
+            jsonObject.put(KEYS.EDUCATION, userChar.getEducation());
+            jsonObject.put(KEYS.RELIGION, userChar.getReligion());
+            jsonObject.put(KEYS.ALCOHOL, userChar.getAlcohol());
+            jsonObject.put(KEYS.SMOKING, userChar.getSmoking());
+            jsonObject.put(KEYS.DESCRIPTION, userChar.getDescription());
 
         } catch (JSONException ex) {
             Log.d("JSONException - User", ex.toString());
@@ -248,39 +248,39 @@ public class UserBackup implements Serializable {
             Translator translator = Translator.getInstance();
 
             // parse basic user data
-            name = jsonObject.getString(JSONHelper.SERVER_NAME);
-            gender = Gender.values()[Integer.parseInt(jsonObject.getString(JSONHelper.SERVER_GENDER))];
-            dateOfBirth = parseDate(jsonObject.getString(JSONHelper.SERVER_BIRTH_DATE));
-            socialStatus = translator.translate(jsonObject.getString(JSONHelper.SERVER_SOCIAL_STATUS), translator.getDictionary().SOCIAL_STATUS);
-            address = new Address(jsonObject.getString(JSONHelper.SERVER_CITY),
-                    translator.translate(jsonObject.getString(JSONHelper.SERVER_COUNTRY), translator.getDictionary().COUNTRIES));
+            name = jsonObject.getString(KEYS.NAME);
+            gender = Gender.values()[Integer.parseInt(jsonObject.getString(KEYS.GENDER))];
+            dateOfBirth = parseDate(jsonObject.getString(KEYS.BIRTH_DATE));
+            socialStatus = translator.translate(jsonObject.getString(KEYS.SOCIAL_STATUS), translator.getDictionary().SOCIAL_STATUS);
+            address = new Address(jsonObject.getString(KEYS.CITY),
+                    translator.translate(jsonObject.getString(KEYS.COUNTRY), translator.getDictionary().COUNTRIES));
 
             // parse user interest
             userInterest = new UserInterest();
-            userInterest.setGenderInterest(Gender.getGender(jsonObject.getInt(JSONHelper.SERVER_MATCH_GENDER)));
-            JSONArray jsonTemp = jsonObject.getJSONArray(JSONHelper.SERVER_INTERESTED_PURPOSE);
-            List<String> temp = JSONHelper.parseJSONArray(jsonTemp);
+            userInterest.setGenderInterest(Gender.getGender(jsonObject.getInt(KEYS.MATCH_GENDER)));
+            JSONArray jsonTemp = jsonObject.getJSONArray(KEYS.INTERESTED_PURPOSE);
+            List<String> temp = KEYS.parseJSONArray(jsonTemp);
             List<String> interestPurpose = translator.translate(temp, translator.getDictionary().RELATIONSHIP);
 
             userInterest.setPurposesOfInterest(interestPurpose);
 
             // get user's list of photos and profile picture
-            JSONArray jsonArrayPictures = jsonObject.getJSONArray(JSONHelper.SERVER_PHOTOS);
+            JSONArray jsonArrayPictures = jsonObject.getJSONArray(KEYS.PHOTOS);
             pictures = parseJSONArrayToPictures(jsonArrayPictures);
 
 
             // parse advanced user data
             String height, body, eyes, alcohol, smoking, work, education, religion, description;
 
-            height = jsonObject.getString(JSONHelper.SERVER_HEIGHT);
-            body = jsonObject.getString(JSONHelper.SERVER_BODY);
-            eyes = jsonObject.getString(JSONHelper.SERVER_EYES);
-            work = jsonObject.getString(JSONHelper.SERVER_WORK);
-            education = jsonObject.getString(JSONHelper.SERVER_EDUCATION);
-            religion = jsonObject.getString(JSONHelper.SERVER_RELIGION);
-            alcohol = jsonObject.getString(JSONHelper.SERVER_ALCOHOL);
-            smoking = jsonObject.getString(JSONHelper.SERVER_SMOKING);
-            description = jsonObject.getString(JSONHelper.SERVER_DESCRIPTION);
+            height = jsonObject.getString(KEYS.HEIGHT);
+            body = jsonObject.getString(KEYS.BODY);
+            eyes = jsonObject.getString(KEYS.EYES);
+            work = jsonObject.getString(KEYS.WORK);
+            education = jsonObject.getString(KEYS.EDUCATION);
+            religion = jsonObject.getString(KEYS.RELIGION);
+            alcohol = jsonObject.getString(KEYS.ALCOHOL);
+            smoking = jsonObject.getString(KEYS.SMOKING);
+            description = jsonObject.getString(KEYS.DESCRIPTION);
 
             userChar = new Characteristics(height, body, eyes, alcohol, smoking, work, education, religion, description);
         } catch (JSONException ex) {
@@ -296,20 +296,20 @@ public class UserBackup implements Serializable {
 
             // parse basic user data
             userID = jsonObject.getString("id");
-            email = jsonObject.getString(JSONHelper.SERVER_EMAIL);
-            name = jsonObject.getString(JSONHelper.SERVER_NAME);
-            gender = Gender.values()[Integer.parseInt(jsonObject.getString(JSONHelper.SERVER_GENDER))];
-            dateOfBirth = parseDate(jsonObject.getString(JSONHelper.SERVER_BIRTH_DATE));
-            address = new Address(jsonObject.getString(JSONHelper.SERVER_CITY),
-                    translator.translate(jsonObject.getString(JSONHelper.SERVER_COUNTRY), translator.getDictionary().COUNTRIES));
+            email = jsonObject.getString(KEYS.EMAIL);
+            name = jsonObject.getString(KEYS.NAME);
+            gender = Gender.values()[Integer.parseInt(jsonObject.getString(KEYS.GENDER))];
+            dateOfBirth = parseDate(jsonObject.getString(KEYS.BIRTH_DATE));
+            address = new Address(jsonObject.getString(KEYS.CITY),
+                    translator.translate(jsonObject.getString(KEYS.COUNTRY), translator.getDictionary().COUNTRIES));
 
-            friendStatus = jsonObject.getString(JSONHelper.SERVER_FRIEND_STATUS);
+            friendStatus = jsonObject.getString(KEYS.FRIEND_STATUS);
 
             // parse user interest
             userInterest = new UserInterest();
-            userInterest.setGenderInterest(Gender.getGender(jsonObject.getInt(JSONHelper.SERVER_MATCH_GENDER)));
-            status = jsonObject.getString(JSONHelper.SERVER_ONLINE_STATUS);
-            String profilePictureString = jsonObject.getString(JSONHelper.SERVER_MAIN_PHOTO);
+            userInterest.setGenderInterest(Gender.getGender(jsonObject.getInt(KEYS.MATCH_GENDER)));
+            status = jsonObject.getString(KEYS.ONLINE_STATUS);
+            String profilePictureString = jsonObject.getString(KEYS.MAIN_PHOTO);
 
             if(profilePictureString != null)
                 profilePicture = new ProfilePicture(profilePictureString);
@@ -346,7 +346,7 @@ public class UserBackup implements Serializable {
         pictures = new ArrayList<Picture>();
 
         // parse pictures json from user to list of json objects
-        List<JSONObject> listOfJSONS = JSONHelper.parseJSONArray(jsonArray);
+        List<JSONObject> listOfJSONS = KEYS.parseJSONArray(jsonArray);
 
         for(JSONObject j: listOfJSONS) {
             // parse each json object to a picture

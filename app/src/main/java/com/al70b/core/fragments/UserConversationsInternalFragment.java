@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fm.icelink.Server;
+
 import github.ankushsachdeva.emojicon.EmojiconEditText;
 import github.ankushsachdeva.emojicon.EmojiconGridView;
 import github.ankushsachdeva.emojicon.EmojiconTextView;
@@ -102,7 +102,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cometChat = CometChat.getInstance(getActivity().getApplicationContext(), ServerConstants.COMET_CHAT_API_KEY);
+        cometChat = CometChat.getInstance(getActivity().getApplicationContext(), ServerConstants.CONSTANTS.COMET_CHAT_API_KEY);
 
         otherUserID = getArguments().getInt("ID");
         otherUserName = getArguments().getString("Name");
@@ -145,9 +145,9 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_messages_conversation, container, false);
 
         listView = (ListView) viewGroup.findViewById(R.id.listview_user_messages_conversation);
-        final EmojiconEditText etMessage = (EmojiconEditText) viewGroup.findViewById(R.id.edit_text_user_messages_message);
+        final EmojiconEditText etMessage = (EmojiconEditText) viewGroup.findViewById(R.id.et_user_messages_message);
         final ImageButton ibSend = (ImageButton) viewGroup.findViewById(R.id.image_button_user_messages_send);
-        final ImageView emojiButton = (ImageView) viewGroup.findViewById(R.id.emoji_btn);
+        final ImageButton emojiButton = (ImageButton) viewGroup.findViewById(R.id.image_button_user_messages_emoji);
 
         final EmojiconsPopup popup = new EmojiconsPopup(viewGroup, getActivity());
 
@@ -575,7 +575,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         return true;
     }
 
-    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
+    private void changeEmojiKeyboardIcon(ImageButton iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
     }
 
