@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.activities.MembersListActivity;
-import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.objects.CurrentUser;
 
@@ -24,23 +23,23 @@ import com.al70b.core.objects.CurrentUser;
 public class UserBasicSearchFragment extends Fragment {
 
     public static final String DISPLAY_DATA_TOKEN = "BasicSearch";
+    public static final String UserBasicSearchFragment_GENDER = "gender";
+    public static final String UserBasicSearchFragment_AGE_FROM = "ageFrom";
+    public static final String UserBasicSearchFragment_AGE_TO = "ageTo";
+    public static final String UserBasicSearchFragment_PICTURES_ONLY = "picturesOnly";
+    public static final String ONLINE_ONLY = "onlineOnly";
+    public static final String UserBasicSearchFragment_ONLINE_ONLY1 = ONLINE_ONLY;
+    public static final String UserBasicSearchFragment_CLOSE_BY_ONLY = "closeByOnly";
 
-    private CurrentUser currentUser;
-
-    private boolean withPicturesOnly, onlineOnly, closeByOnly;
-    private int from, to, gender;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        currentUser = ((MyApplication)getActivity().getApplication()).getCurrentUser();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_members, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_basic_search, container, false);
         viewGroup.setFocusable(true);
         viewGroup.requestFocus();
 
@@ -54,10 +53,15 @@ public class UserBasicSearchFragment extends Fragment {
         final Button searchBtn = (Button) viewGroup.findViewById(R.id.button_members_search);
 
 
+        editTextFrom.setHint(String.valueOf(AppConstants.MIN_MEMBER_AGE));
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int from, to, gender;
                 boolean male, female;
+                boolean withPicturesOnly, onlineOnly, closeByOnly;
+
                 male = checkBoxMale.isChecked();
                 female = checkBoxFemale.isChecked();
 
@@ -85,10 +89,8 @@ public class UserBasicSearchFragment extends Fragment {
                     }
 
                     // validate given age
-                    if ((from >= AppConstants.MIN_MEMBER_AGE && from <= AppConstants.MAX_MEMBER_AGE)
-                            && (to >= AppConstants.MIN_MEMBER_AGE && to <= AppConstants.MAX_MEMBER_AGE)
+                    if ((from >= AppConstants.MIN_MEMBER_AGE) && (to <= AppConstants.MAX_MEMBER_AGE)
                             && (from <= to)) {
-
                         // get other options flags
                         withPicturesOnly = checkBoxPicturesOnly.isChecked();
                         onlineOnly = checkBoxOnlineOnly.isChecked();
@@ -100,12 +102,12 @@ public class UserBasicSearchFragment extends Fragment {
 
                         // build bundle with data
                         Bundle bundle = new Bundle();
-                        bundle.putInt("gender", gender);
-                        bundle.putInt("ageFrom", from);
-                        bundle.putInt("ageTo", to);
-                        bundle.putBoolean("picturesOnly", withPicturesOnly);
-                        bundle.putBoolean("onlineOnly", onlineOnly);
-                        bundle.putBoolean("closeByOnly", closeByOnly);
+                        bundle.putInt(UserBasicSearchFragment_GENDER, gender);
+                        bundle.putInt(UserBasicSearchFragment_AGE_FROM, from);
+                        bundle.putInt(UserBasicSearchFragment_AGE_TO, to);
+                        bundle.putBoolean(UserBasicSearchFragment_PICTURES_ONLY, withPicturesOnly);
+                        bundle.putBoolean(UserBasicSearchFragment_ONLINE_ONLY1, onlineOnly);
+                        bundle.putBoolean(UserBasicSearchFragment_CLOSE_BY_ONLY, closeByOnly);
                         intent.putExtras(bundle);
 
                         // start activity
@@ -113,10 +115,12 @@ public class UserBasicSearchFragment extends Fragment {
                     } else {
                         String msg;
 
-                        if (from > to) {
-                            msg = getString(R.string.error_age_is_not_correct);
-                        } else {
+                        if (to > AppConstants.MAX_MEMBER_AGE) {
+                            msg = getString(R.string.error_greater_than_max_age);
+                        } else if (from < AppConstants.MIN_MEMBER_AGE){
                             msg = getString(R.string.error_18_and_above);
+                        } else {
+                            msg = getString(R.string.error_age_is_not_correct);
                         }
 
                         // in case age wasn't set properly
@@ -127,7 +131,7 @@ public class UserBasicSearchFragment extends Fragment {
 
                 } else {
                     // in case neither male nor female were chosen
-                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.error_choose_interest), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_choose_interest), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -138,7 +142,6 @@ public class UserBasicSearchFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
 

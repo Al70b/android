@@ -411,6 +411,9 @@
     <string name="error_invalid_email_syntax">البريد الإلكتروني ليس بصيغة ملائمة</string>
     <string name="no_friends_are_online">لا يوجد لديك أصدقاء متصلون الآن</string>
     <string name="loggingout">جاري الخروج من الحساب...</string>
+    <string name="user_basic_search_info">تمكنك خدمةُ البحثِ السريعِ من توفير وقتك عبرَ تبسيط وتسهيل واجهة البحث</string>
+    <string name="minimum_age_allowed">18</string>
+    <string name="error_greater_than_max_age">العمر المدخل أكبر من العمر المسموح</string>
 
 
 </resources>
