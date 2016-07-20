@@ -111,6 +111,9 @@ public class StatusList extends LinearLayout{
         StatusOption[] statusOptions = StatusOption.values();
 
         for (StatusOption s : statusOptions) {
+            if(s == StatusOption.INVISIBLE) {
+                continue;
+            }
             STATUES_MAPPED_SET.put(s, new OnlineStatus(s));
         }
     }

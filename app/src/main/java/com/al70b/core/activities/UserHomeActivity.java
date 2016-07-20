@@ -419,13 +419,13 @@ public class UserHomeActivity extends FragmentActivity {
                 // in case open conversation is not with the same currentUser
                 if (fragment != null && fragment.isVisible() && otherUserID == fragment.otherUserID()) {
                     // new message is with current conversation
-                    item.hasUnreadMessage = false;
+                    item.isMessageUnread = false;
                     notifyUser = false;
 
                     if (chatItem != null)
                         chatItem.setIcon(R.drawable.ic_action_group);
                 } else {
-                    item.hasUnreadMessage = true;
+                    item.isMessageUnread = true;
                     notifyUser = true;  // notify currentUser with message and chatItem Highlight
 
                     if (chatItem != null)

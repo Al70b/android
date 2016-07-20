@@ -330,17 +330,17 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         }
 
         @Override
-        void onSetStatusMessageResponse(boolean statusChanged, String msg) {
+        void onSetStatusMessageResponse(boolean statusChanged, String msg, String result) {
             Log.d(TAG, msg);
             if(statusChanged) {
-                Toast.makeText(activity, getString(R.string.status_message_changed_successfully),
-                        Toast.LENGTH_SHORT).show();
+                currentUser.setStatusMessage(msg);
             } else {
                 // failed to change status, restore previous
-                statusEditText.setText(currentUser.getStatusMessage()); // TODO: verify message is restored
+                statusEditText.setText(currentUser.getStatusMessage());
                 Toast.makeText(activity, getString(R.string.status_message_change_failed),
                         Toast.LENGTH_SHORT).show();
             }
+            statusEditText.clearFocus();
         }
 
         @Override
@@ -351,7 +351,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             FriendsDrawerItem item = friendsAndChatDrawerAdapter.getItemByUserID(userId);
 
             if(item != null) {
-                item.hasUnreadMessage = true;
+                item.isMessageUnread = true;
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
             }
         }
@@ -493,12 +493,12 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                     .commit();
 
             // mark message as read
-            item.hasUnreadMessage = false;
+            item.isMessageUnread = false;
             view.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
                     android.R.color.transparent));
 
 
-            //.markMessageAsRead(currentUser, item.id);
+
 
                         // remove from unread messages
                         //unreadMessagesUsersIDs.remove(item.id);

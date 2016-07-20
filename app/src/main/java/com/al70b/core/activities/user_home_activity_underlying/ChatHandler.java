@@ -153,14 +153,14 @@ public class ChatHandler {
         this.chatHandlerEvents = onChatConnection;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(final String statusMessage) {
         cometChatInstance.setStatusMessage(statusMessage, new Callbacks() {
             @Override
             public void successCallback(final JSONObject jsonObject) {
                 chatHandlerEvents.runWithHandler(new ChatHandlerEvents.Callable() {
                     @Override
                     public void call() {
-                        chatHandlerEvents.onSetStatusMessageResponse(true, jsonObject.toString());
+                        chatHandlerEvents.onSetStatusMessageResponse(true, statusMessage, jsonObject.toString());
                     }
                 });
             }
@@ -170,7 +170,7 @@ public class ChatHandler {
                 chatHandlerEvents.runWithHandler(new ChatHandlerEvents.Callable() {
                     @Override
                     public void call() {
-                        chatHandlerEvents.onSetStatusMessageResponse(false, jsonObject.toString());
+                        chatHandlerEvents.onSetStatusMessageResponse(false, statusMessage, jsonObject.toString());
                     }
                 });
             }
@@ -255,9 +255,9 @@ public class ChatHandler {
 
         void onFriendsOnlineListUpdated(){}
 
-        void onSetStatusMessageResponse(boolean statusChanged, String msg){}
+        void onSetStatusMessageResponse(boolean statusChanged, String msg, String result){}
 
-        void onSetStatusResponse(boolean statusChanged, String msg) {}
+        void onSetStatusResponse(boolean statusChanged, String result) {}
 
         abstract void onChatConnectionFailed();
 
@@ -387,7 +387,7 @@ public class ChatHandler {
 
                         onlineFriendsList.add(item);
                         /*if (unreadMessagesUsersIDs.indexOfKey(user.getInt("id")) > -1) {
-                            item.hasUnreadMessage = true;
+                            item.isMessageUnread = true;
                         }*/
                     }
                     Collections.sort(onlineFriendsList);

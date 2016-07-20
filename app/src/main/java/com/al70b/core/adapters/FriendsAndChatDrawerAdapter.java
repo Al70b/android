@@ -65,7 +65,7 @@ public class FriendsAndChatDrawerAdapter extends ArrayAdapter<FriendsDrawerItem>
         holder.txtStatusMessage.setText(friendsDrawerItem.statusMessage);
 
         // set background color to highlighted
-        if (friendsDrawerItem.hasUnreadMessage) {
+        if (friendsDrawerItem.isMessageUnread) {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.highlighted_yellow));
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));

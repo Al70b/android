@@ -11,7 +11,7 @@ public class FriendsDrawerItem implements Serializable, Comparable {
     public long timestamp;
     public String name, profilePicture;
     public String status, statusMessage;
-    public boolean hasUnreadMessage;
+    public boolean isMessageUnread;
 
     public FriendsDrawerItem(int id, long timestamp, String name, String profilePicture,
                              String status, String statusMessage) {
@@ -23,12 +23,12 @@ public class FriendsDrawerItem implements Serializable, Comparable {
         this.statusMessage = statusMessage;
     }
 
-    public boolean getHasUnreadMessage() {
-        return hasUnreadMessage;
+    public boolean getMessageUnread() {
+        return isMessageUnread;
     }
 
-    public void setHasUnreadMessage(boolean b) {
-        this.hasUnreadMessage = hasUnreadMessage;
+    public void setMessageUnread(boolean b) {
+        this.isMessageUnread = isMessageUnread;
     }
 
     @Override
