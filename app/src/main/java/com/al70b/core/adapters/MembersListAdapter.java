@@ -30,18 +30,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MembersListAdapter extends ArrayAdapter<OtherUser> {
 
-    Context context;
-    int layout;
-    List<OtherUser> data;
-    StorageOperations so;
-    CurrentUser currentUser;
+    private Context context;
+    private int layout;
+    private List<OtherUser> data;
+    private CurrentUser currentUser;
 
     public MembersListAdapter(Context context, int layout, List<OtherUser> data, CurrentUser currentUser) {
         super(context, layout, data);
         this.context = context;
         this.layout = layout;
         this.data = data;
-        this.so = new StorageOperations(context);
         this.currentUser = currentUser;
     }
 

@@ -609,7 +609,7 @@ public class RequestsInterface {
 
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getUsers(int userID, String accessToken, int gender, int from, int to, boolean withPictures,
                                                                    boolean onlineOnly, boolean friendsOnly, int page, int resultPerPage,
-                                                                   final ResponseCallback responseCallback) throws ServerResponseFailedException {
+                                                                   final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -676,7 +676,7 @@ public class RequestsInterface {
                                                                            List<String> smoking,
                                                                            boolean picturesOnly, boolean onlineOnly,
                                                                            int page, int resultPerPage,
-                                                                           final ResponseCallback responseCallback) throws ServerResponseFailedException {
+                                                                           final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -694,11 +694,14 @@ public class RequestsInterface {
             jsonArgs.put("religion", new JSONArray(religion));
             jsonArgs.put("alcohol", new JSONArray(alcohol));
             jsonArgs.put("smoking", new JSONArray(smoking));
-            // TODO add picturesOnly, onlineOnly
+            // TODO: verify the required keys in API for these two values
+            jsonArgs.put("image_flag", picturesOnly);
+            jsonArgs.put("online_flag", onlineOnly);
             jsonArgs.put(KEYS.SERVER.PAGE, page);
             jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USERS_ADVANCED, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USERS_ADVANCED, jsonArgs,
+                    new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
                     List<OtherUser> users = new ArrayList<>();
@@ -736,7 +739,8 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<Integer> sendApproveFriendRequest(int userID, String accessToken, int friendID) throws ServerResponseFailedException {
+    public ServerResponse<Integer> sendApproveFriendRequest(
+            int userID, String accessToken, int friendID) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -746,7 +750,9 @@ public class RequestsInterface {
             jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
             jsonArgs.put(KEYS.SERVER.ID, friendID);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST, jsonArgs, new ParseResultInterface<Integer>() {
+            sr = doTheWork(Method.REGULAR,
+                    ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST,
+                    jsonArgs, new ParseResultInterface<Integer>() {
                 @Override
                 public Integer parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.getInt(KEYS.SERVER.RESULT);
@@ -1043,7 +1049,7 @@ public class RequestsInterface {
 
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getUserPendingReceivedRequests(CurrentUser user,
                                                                                          int page, int resultsPerPage,
-                                                                                         final ResponseCallback responseCallback) throws ServerResponseFailedException {
+                                                                                         final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -1302,7 +1308,7 @@ public class RequestsInterface {
     }
 
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getMatchingProfiles(final CurrentUser user, int page, int resultPerPage,
-                                                                              final ResponseCallback responseCallback) throws ServerResponseFailedException {
+                                                                              final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -1413,7 +1419,7 @@ public class RequestsInterface {
     }
 
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getUserFriends(int userID, String accessToken, int page, int resultPerPage,
-                                                                         final ResponseCallback responseCallback) throws ServerResponseFailedException {
+                                                                         final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -1540,7 +1546,7 @@ public class RequestsInterface {
      * each method calling for server needs to implement this callback in order to
      * parse server's json response
      */
-    private interface ParseResultInterface<T> {
+    private static interface ParseResultInterface<T> {
 
         T parseResult(JSONObject jsonResult) throws JSONException;
 
@@ -1548,13 +1554,13 @@ public class RequestsInterface {
 
     }
 
-    public interface ResponseCallback {
+    public static abstract class ResponseCallback<T> {
 
-        // execute this function after response received
-        void execute();
+        // call this function after response received
+        public void call(){}
 
-        // execute this function after response received
-        void execute(Object object);
+        // call this function after response received
+        public T call(T result){return result;}
     }
 
 

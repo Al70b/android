@@ -12,4 +12,13 @@ public class Pair<X, Y> {
         this.first = first;
         this.second = second;
     }
+
+    public Pair() {
+
+    }
+
+    public void set(X x, Y y) {
+        this.first = x;
+        this.second = y;
+    }
 }

@@ -1,688 +1,464 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:isScrollContainer="true"
+    android:layoutDirection="rtl">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isScrollContainer="true">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_basic_search_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="5dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/user_advanced_search_info"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layoutDirection="inherit"
+            android:paddingEnd="15dp"
+            android:paddingStart="8dp">
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:padding="7dp"
-                android:text="@string/advanced_search_header"
-                android:textSize="18sp"
-                />
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layoutDirection="inherit">
 
-            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_genderInterestA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/register_looking_for"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/check_box_user_advanced_search_genderMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:tag="1"
+                        android:text="@string/male" />
+
+                    <CheckBox
+                        android:id="@+id/check_box_user_advanced_search_genderFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:tag="2"
+                        android:text="@string/female" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layoutDirection="rtl"
-                android:paddingBottom="15dp"
-                android:paddingEnd="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="15dp">
+                android:layout_marginTop="10dp"
+                android:gravity="center">
 
-                <TableRow
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_countryA"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
+                    android:layout_margin="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/country"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_genderInterestA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/register_looking_for"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/check_box_user_advanced_search_genderMale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layoutDirection="rtl"
-                            android:tag="1"
-                            android:text="@string/male" />
-
-                        <CheckBox
-                            android:id="@+id/check_box_user_advanced_search_genderFemale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layoutDirection="rtl"
-                            android:tag="2"
-                            android:text="@string/female" />
-                    </LinearLayout>
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/spinner_user_advanced_search_countryB"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_countryA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/country"
-                        android:textSize="20sp" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
 
-                    <Spinner
-                        android:id="@+id/spinner_user_advanced_search_countryB"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/text_view_user_advanced_ageA"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_margin="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/age"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_ageA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/age"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_ageFromA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/from"
-                        android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/edit_text_user_advanced_search_ageFromB"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:gravity="center_horizontal|center_vertical"
+                        android:hint="@string/from"
                         android:inputType="number"
-                        android:minWidth="160dp"
-                        android:maxLength="3"
+                        android:maxLength="2"
+                        android:minWidth="50dp"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:textSize="20sp"
-                        android:textColor="@color/dark_red"/>
+                        android:textColor="@color/dark_red"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/text_view_user_advanced_search_ageToA"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="4dp"
-                        android:layout_weight="1"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="4dp"
-                        android:text="@string/to"
+                        android:minWidth="60dp"
+                        android:text=" - "
                         android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/edit_text_user_advanced_search_ageToB"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:gravity="center_horizontal|center_vertical"
+                        android:hint="@string/to"
                         android:inputType="number"
-                        android:maxLength="3"
-                        android:minWidth="160dp"
+                        android:maxLength="2"
+                        android:minWidth="50dp"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:textSize="20sp"
-                        android:textColor="@color/dark_red"/>
+                        android:textColor="@color/dark_red"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </TableRow>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp" />
-                </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
 
-                <TableRow
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/text_view_user_advanced_heightA"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_margin="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/height_in_cm"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_heightA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/height"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_heightFromA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/from"
-                        android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/edit_text_user_advanced_search_heightFromB"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:gravity="center_horizontal|center_vertical"
+                        android:hint="@string/from"
                         android:inputType="number"
                         android:maxLength="3"
-                        android:minWidth="160dp"
+                        android:minWidth="50dp"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:textSize="20sp"
-                        android:textColor="@color/dark_red"/>
+                        android:textColor="@color/dark_red"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/text_view_user_advanced_search_heightToA"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="4dp"
-                        android:layout_weight="1"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="4dp"
-                        android:text="@string/to"
+                        android:minWidth="60dp"
+                        android:text=" - "
                         android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/edit_text_user_advanced_search_heightToB"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
                         android:gravity="center_horizontal|center_vertical"
+                        android:hint="@string/to"
                         android:inputType="number"
                         android:maxLength="3"
-                        android:minWidth="160dp"
+                        android:minWidth="50dp"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:textSize="20sp"
-                        android:textColor="@color/dark_red"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_interestedInA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/register_interest_info"
+                        android:textColor="@color/dark_red"
                         android:textSize="20sp" />
+                </LinearLayout>
+            </TableRow>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_interestedPurposes"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_socialA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/social_status"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_social"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_bodyA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/body_shape"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_body"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_eyesA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/eyes_colors"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_eyes"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_educationA"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/education"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_education"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_religion"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/religion"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_religion"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_alcohol"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/alcohol"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_alcohol"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/text_view_user_advanced_search_smoking"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="4dp"
-                        android:text="@string/smoking_habit"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:minWidth="160dp"
-                        android:padding="4dp"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableLayout
-                        android:id="@+id/table_layout_user_advanced_search_smoking"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp" />
-
-                    <!-- this is filled programmatically with rows and check boxes -->
-                </TableRow>
-            </TableLayout>
-
-            <LinearLayout
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingBottom="10dp">
+                android:layout_marginTop="10dp">
 
-                <Button
-                    android:id="@+id/btn_user_advanced_search_search"
-                    style="@style/button_text"
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_educationA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/red_button"
-                    android:minWidth="140dp"
-                    android:text="@string/search"
-                    android:layout_margin="15dp"/>
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/education"
+                    android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/btn_user_advanced_search_save"
-                    style="@style/button_text"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableLayout
+                    android:id="@+id/table_layout_user_advanced_search_education"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+
+                <!-- this is filled programmatically with rows and check boxes -->
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_religion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/red_button"
-                    android:minWidth="140dp"
-                    android:text="@string/save_as_fitting"
-                    android:layout_margin="15dp" />
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/religion"
+                    android:textSize="20sp" />
 
-            </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableLayout
+                    android:id="@+id/table_layout_user_advanced_search_religion"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+
+                <!-- this is filled programmatically with rows and check boxes -->
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_alcohol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/alcohol"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableLayout
+                    android:id="@+id/table_layout_user_advanced_search_alcohol"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+
+                <!-- this is filled programmatically with rows and check boxes -->
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/text_view_user_advanced_search_smoking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:text="@string/smoking_habit"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="160dp"
+                    android:padding="4dp"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableLayout
+                    android:id="@+id/table_layout_user_advanced_search_smoking"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+
+                <!-- this is filled programmatically with rows and check boxes -->
+            </TableRow>
+
+        </TableLayout>
+
+        <CheckBox
+            android:id="@+id/check_box_user_advanced_search_pictures_only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/members_with_pictures_only" />
+
+        <CheckBox
+            android:id="@+id/check_box_user_advanced_search_online_only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/members_online_only" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/btn_user_advanced_search_go"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_button"
+                android:minWidth="140dp"
+                android:text="@string/search" />
+
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -12,10 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.MyApplication;
 import com.al70b.core.activities.MembersListActivity;
 import com.al70b.core.misc.AppConstants;
-import com.al70b.core.objects.CurrentUser;
 
 /**
  * Created by Naseem on 6/16/2015.
@@ -23,14 +21,12 @@ import com.al70b.core.objects.CurrentUser;
 public class UserBasicSearchFragment extends Fragment {
 
     public static final String DISPLAY_DATA_TOKEN = "BasicSearch";
-    public static final String UserBasicSearchFragment_GENDER = "gender";
-    public static final String UserBasicSearchFragment_AGE_FROM = "ageFrom";
-    public static final String UserBasicSearchFragment_AGE_TO = "ageTo";
-    public static final String UserBasicSearchFragment_PICTURES_ONLY = "picturesOnly";
+    public static final String GENDER = "gender";
+    public static final String AGE_FROM = "ageFrom";
+    public static final String AGE_TO = "ageTo";
+    public static final String PICTURES_ONLY = "picturesOnly";
     public static final String ONLINE_ONLY = "onlineOnly";
-    public static final String UserBasicSearchFragment_ONLINE_ONLY1 = ONLINE_ONLY;
-    public static final String UserBasicSearchFragment_CLOSE_BY_ONLY = "closeByOnly";
-
+    public static final String CLOSE_BY_ONLY = "closeByOnly";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,12 +98,12 @@ public class UserBasicSearchFragment extends Fragment {
 
                         // build bundle with data
                         Bundle bundle = new Bundle();
-                        bundle.putInt(UserBasicSearchFragment_GENDER, gender);
-                        bundle.putInt(UserBasicSearchFragment_AGE_FROM, from);
-                        bundle.putInt(UserBasicSearchFragment_AGE_TO, to);
-                        bundle.putBoolean(UserBasicSearchFragment_PICTURES_ONLY, withPicturesOnly);
-                        bundle.putBoolean(UserBasicSearchFragment_ONLINE_ONLY1, onlineOnly);
-                        bundle.putBoolean(UserBasicSearchFragment_CLOSE_BY_ONLY, closeByOnly);
+                        bundle.putInt(GENDER, gender);
+                        bundle.putInt(AGE_FROM, from);
+                        bundle.putInt(AGE_TO, to);
+                        bundle.putBoolean(PICTURES_ONLY, withPicturesOnly);
+                        bundle.putBoolean(ONLINE_ONLY, onlineOnly);
+                        bundle.putBoolean(CLOSE_BY_ONLY, closeByOnly);
                         intent.putExtras(bundle);
 
                         // start activity

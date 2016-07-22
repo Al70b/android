@@ -414,6 +414,8 @@
     <string name="user_basic_search_info">تمكنك خدمةُ البحثِ السريعِ من توفير وقتك عبرَ تبسيط وتسهيل واجهة البحث</string>
     <string name="minimum_age_allowed">18</string>
     <string name="error_greater_than_max_age">العمر المدخل أكبر من العمر المسموح</string>
+    <string name="height_in_cm">الطول (سم)</string>
+    <string name="user_advanced_search_info">تتيح لك خدمةُ البحثِ المتقدمِ خياراتٍ أوسعَ ودقةٍ أفضل في مسَاعي بحثك</string>
 
 
 </resources>

@@ -2,16 +2,10 @@
     android:id="@+id/layout_members_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="3dp">
-
+    android:layout_marginBottom="2dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="3dp">
 
         <com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView
             android:id="@+id/list_view_userMembersA"
@@ -24,8 +18,12 @@
         <TextView
             android:id="@+id/tv_members_list_empty_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_members_were_found"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_members_were_found"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <!-- loading FAILED layout -->
         <LinearLayout
@@ -46,7 +44,5 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
         </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>
 

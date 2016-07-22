@@ -35,6 +35,18 @@ import java.util.List;
 public class UserAdvancedSearchFragment extends Fragment {
 
     public static final String DISPLAY_DATA_TOKEN = "AdvancedSearch";
+    public static final String GENDER = "gender" ;
+    public static final String AGE_FROM = "age_from";
+    public static final String AGE_TO = "age_to";
+    public static final String COUNTRY = "country";
+    public static final String HEIGHT_FROM = "height_from";
+    public static final String HEIGHT_TO = "height_to";
+    public static final String EDUCATION = "education";
+    public static final String RELIGION = "religion";
+    public static final String ALCOHOL = "alcohol";
+    public static final String SMOKING = "smoking";
+    public static final String PICTURES_ONLY = "pictures_only";
+    public static final String ONLINE_ONLY = "online_only";
 
     private Context context;
 
@@ -54,33 +66,48 @@ public class UserAdvancedSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_advanced_search, container, false);
+        ViewGroup viewGroup = (ViewGroup)
+                inflater.inflate(R.layout.fragment_user_advanced_search, container, false);
 
         // gender
-        final CheckBox checkBoxMale = (CheckBox) viewGroup.findViewById(R.id.check_box_user_advanced_search_genderMale);
-        final CheckBox checkBoxFemale = (CheckBox) viewGroup.findViewById(R.id.check_box_user_advanced_search_genderFemale);
+        final CheckBox checkBoxMale = (CheckBox)
+                viewGroup.findViewById(R.id.check_box_user_advanced_search_genderMale);
+        final CheckBox checkBoxFemale = (CheckBox)
+                viewGroup.findViewById(R.id.check_box_user_advanced_search_genderFemale);
 
         // flags
-        //final CheckBox checkBoxPicturesOnly = (CheckBox) viewGroup.findViewById(R.id.check_box_user_advanced_search_picturesOnly);
-        //final CheckBox checkBoxOnlineOnly = (CheckBox) viewGroup.findViewById(R.id.check_box_user_advanced_search_onlineOnly);
+        final CheckBox checkBoxPicturesOnly = (CheckBox)
+                viewGroup.findViewById(R.id.check_box_user_advanced_search_pictures_only);
+        final CheckBox checkBoxOnlineOnly = (CheckBox)
+                viewGroup.findViewById(R.id.check_box_user_advanced_search_online_only);
 
         // country
-        final Spinner spinnerCountry = (Spinner) viewGroup.findViewById(R.id.spinner_user_advanced_search_countryB);
+        final Spinner spinnerCountry = (Spinner)
+                viewGroup.findViewById(R.id.spinner_user_advanced_search_countryB);
 
         // age & height
-        final EditText editTextAgeFrom = (EditText) viewGroup.findViewById(R.id.edit_text_user_advanced_search_ageFromB);
-        final EditText editTextAgeTo = (EditText) viewGroup.findViewById(R.id.edit_text_user_advanced_search_ageToB);
-        final EditText editTextHeightFrom = (EditText) viewGroup.findViewById(R.id.edit_text_user_advanced_search_heightFromB);
-        final EditText editTextHeightTo = (EditText) viewGroup.findViewById(R.id.edit_text_user_advanced_search_heightToB);
+        final EditText editTextAgeFrom = (EditText)
+                viewGroup.findViewById(R.id.edit_text_user_advanced_search_ageFromB);
+        final EditText editTextAgeTo = (EditText)
+                viewGroup.findViewById(R.id.edit_text_user_advanced_search_ageToB);
+        final EditText editTextHeightFrom = (EditText)
+                viewGroup.findViewById(R.id.edit_text_user_advanced_search_heightFromB);
+        final EditText editTextHeightTo = (EditText)
+                viewGroup.findViewById(R.id.edit_text_user_advanced_search_heightToB);
 
         // more attributes
-        TableLayout tableLayoutEducation = (TableLayout) viewGroup.findViewById(R.id.table_layout_user_advanced_search_education);
-        TableLayout tableLayoutReligion = (TableLayout) viewGroup.findViewById(R.id.table_layout_user_advanced_search_religion);
-        TableLayout tableLayoutAlcohol = (TableLayout) viewGroup.findViewById(R.id.table_layout_user_advanced_search_alcohol);
-        TableLayout tableLayoutSmoking = (TableLayout) viewGroup.findViewById(R.id.table_layout_user_advanced_search_smoking);
+        TableLayout tableLayoutEducation = (TableLayout)
+                viewGroup.findViewById(R.id.table_layout_user_advanced_search_education);
+        TableLayout tableLayoutReligion = (TableLayout)
+                viewGroup.findViewById(R.id.table_layout_user_advanced_search_religion);
+        TableLayout tableLayoutAlcohol = (TableLayout)
+                viewGroup.findViewById(R.id.table_layout_user_advanced_search_alcohol);
+        TableLayout tableLayoutSmoking = (TableLayout)
+                viewGroup.findViewById(R.id.table_layout_user_advanced_search_smoking);
 
         // search button
-        Button btnSearch = (Button) viewGroup.findViewById(R.id.btn_user_advanced_search_search);
+        Button btnSearch = (Button)
+                viewGroup.findViewById(R.id.btn_user_advanced_search_go);
 
         final List<String> countries = translator.getValues(translator.getDictionary().COUNTRIES, true);
         countries.add(0, getString(R.string.all_countries));
@@ -96,10 +123,14 @@ public class UserAdvancedSearchFragment extends Fragment {
         final List<CheckBox> checkBoxListSmoking = new ArrayList<>();
 
         // build the checkboxes
-        buildInterestedPurposeLayout(tableLayoutEducation, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION), checkBoxListEducation);
-        buildInterestedPurposeLayout(tableLayoutReligion, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION), checkBoxListReligion);
-        buildInterestedPurposeLayout(tableLayoutAlcohol, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL), checkBoxListAlcohol);
-        buildInterestedPurposeLayout(tableLayoutSmoking, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), checkBoxListSmoking);
+        buildInterestedPurposeLayout(tableLayoutEducation,
+                translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION), checkBoxListEducation);
+        buildInterestedPurposeLayout(tableLayoutReligion,
+                translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION), checkBoxListReligion);
+        buildInterestedPurposeLayout(tableLayoutAlcohol,
+                translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL), checkBoxListAlcohol);
+        buildInterestedPurposeLayout(tableLayoutSmoking,
+                translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), checkBoxListSmoking);
 
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -157,82 +188,89 @@ public class UserAdvancedSearchFragment extends Fragment {
                 ArrayList<String> listEducation = new ArrayList<String>();
                 for (CheckBox ch : checkBoxListEducation) {
                     if (ch.isChecked()) {
-                        if (ch.getTag() != null && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                        if (ch.getTag() != null
+                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
                             listEducation.clear();
                             break;
                         }
                         listEducation.add(ch.getText().toString());
                     }
                 }
-                listEducation = translator.translate(listEducation, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION));
+                listEducation = translator.translate(listEducation,
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION));
 
                 // selected religion
                 ArrayList<String> listReligion = new ArrayList<String>();
                 for (CheckBox ch : checkBoxListReligion) {
                     if (ch.isChecked()) {
-                        if (ch.getTag() != null && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                        if (ch.getTag() != null
+                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
                             listReligion.clear();
                             break;
                         }
                         listReligion.add(ch.getText().toString());
                     }
                 }
-                listReligion = translator.translate(listReligion, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION));
+                listReligion = translator.translate(listReligion,
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION));
 
                 // selected alcohol
                 ArrayList<String> listAlcohol = new ArrayList<String>();
                 for (CheckBox ch : checkBoxListAlcohol) {
                     if (ch.isChecked()) {
-                        if (ch.getTag() != null && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                        if (ch.getTag() != null
+                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
                             listAlcohol.clear();
                             break;
                         }
                         listAlcohol.add(ch.getText().toString());
                     }
                 }
-                listAlcohol = translator.translate(listAlcohol, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL));
+                listAlcohol = translator.translate(listAlcohol,
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.ALCOHOL));
 
                 // selected smoking
                 ArrayList<String> listSmoking = new ArrayList<String>();
                 for (CheckBox ch : checkBoxListSmoking) {
                     if (ch.isChecked()) {
-                        if (ch.getTag() != null && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                        if (ch.getTag() != null
+                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
                             listSmoking.clear();
                             break;
                         }
                         listSmoking.add(ch.getText().toString());
                     }
                 }
-                listSmoking = translator.translate(listSmoking, translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING));
+                listSmoking = translator.translate(listSmoking,
+                        translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING));
 
                 // flags
                 boolean withPicturesOnly, onlineOnly;
-                withPicturesOnly = false;//checkBoxPicturesOnly.isChecked();
-                onlineOnly = false;//checkBoxOnlineOnly.isChecked();
+                withPicturesOnly = checkBoxPicturesOnly.isChecked();
+                onlineOnly = checkBoxOnlineOnly.isChecked();
 
                 Intent intent = new Intent(getActivity(), MembersListActivity.class);
                 intent.putExtra(MembersListActivity.DATA_SOURCE, DISPLAY_DATA_TOKEN);
 
                 // create bundle
                 Bundle bundle = new Bundle();
-                bundle.putIntegerArrayList("Gender", listGenderInterests);
-                bundle.putSerializable("AgeFrom", ageFrom);
-                bundle.putSerializable("AgeTo", ageTo);
-                bundle.putString("Country", country);
-                bundle.putSerializable("HeightFrom", heightFrom);
-                bundle.putSerializable("HeightTo", heightTo);
-                bundle.putStringArrayList("Education", listEducation);
-                bundle.putStringArrayList("Religion", listReligion);
-                bundle.putStringArrayList("Alcohol", listAlcohol);
-                bundle.putStringArrayList("Smoking", listSmoking);
-                bundle.putBoolean("PicturesOnly", withPicturesOnly);
-                bundle.putBoolean("OnlineOnly", onlineOnly);
+                bundle.putIntegerArrayList(GENDER, listGenderInterests);
+                bundle.putSerializable(AGE_FROM, ageFrom);
+                bundle.putSerializable(AGE_TO, ageTo);
+                bundle.putString(COUNTRY, country);
+                bundle.putSerializable(HEIGHT_FROM, heightFrom);
+                bundle.putSerializable(HEIGHT_TO, heightTo);
+                bundle.putStringArrayList(EDUCATION, listEducation);
+                bundle.putStringArrayList(RELIGION, listReligion);
+                bundle.putStringArrayList(ALCOHOL, listAlcohol);
+                bundle.putStringArrayList(SMOKING, listSmoking);
+                bundle.putBoolean(PICTURES_ONLY, withPicturesOnly);
+                bundle.putBoolean(ONLINE_ONLY, onlineOnly);
                 intent.putExtras(bundle);
 
                 startActivity(intent);
             }
         });
-
 
         return viewGroup;
     }
@@ -245,20 +283,20 @@ public class UserAdvancedSearchFragment extends Fragment {
 
     private void buildInterestedPurposeLayout(TableLayout tableLayout, List<Translator.Word> listOfWords, final List<CheckBox> list) {
 
-        int dp7 = (int) (7 / Resources.getSystem().getDisplayMetrics().density);
+        int dp3 = (int) (3 / Resources.getSystem().getDisplayMetrics().density);
 
         // create first row with appropriate layout
         TableRow tableRow = new TableRow(context);
         TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         tableRow.setLayoutParams(rowParams);
-        tableRow.setPadding(dp7, dp7, dp7, dp7);
+        tableRow.setPadding(dp3, dp3, dp3, dp3);
 
 
         // add it to the table
         tableLayout.addView(tableRow);
 
         // create appropriate check box with title
-        final CheckBox chkBox1 = createCheckBox(getString(R.string.not_important));
+        final CheckBox chkBoxNotImportant = createCheckBox(getString(R.string.not_important));
 
         int i = 0;
         for (String s : translator.getValues(listOfWords, false)) {
@@ -269,7 +307,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                 // create a new row when 3 items were added to the previous one
                 tableRow = new TableRow(context);
                 tableRow.setLayoutParams(rowParams);
-                tableRow.setPadding(dp7, dp7, dp7, dp7);
+                tableRow.setPadding(dp3, dp3, dp3, dp3);
                 tableLayout.addView(tableRow);
             }
 
@@ -293,7 +331,7 @@ public class UserAdvancedSearchFragment extends Fragment {
             // create a new row when 3 items were added to the previous one
             tableRow = new TableRow(context);
             tableRow.setLayoutParams(rowParams);
-            tableRow.setPadding(dp7, dp7, dp7, dp7);
+            tableRow.setPadding(dp3, dp3, dp3, dp3);
             tableLayout.addView(tableRow);
         }
 
@@ -301,14 +339,14 @@ public class UserAdvancedSearchFragment extends Fragment {
 
 
         // add it to the row
-        tableRow.addView(chkBox1);
+        tableRow.addView(chkBoxNotImportant);
         // add check box to the list of checkboxes for further use
-        list.add(chkBox1);
+        list.add(chkBoxNotImportant);
 
         // set userID for this check box to use with the map
-        chkBox1.setId(list.indexOf(chkBox1));
-        chkBox1.setTag("NOT_IMPORTANT");
-        chkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chkBoxNotImportant.setId(list.indexOf(chkBoxNotImportant));
+        chkBoxNotImportant.setTag("NOT_IMPORTANT");
+        chkBoxNotImportant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 for (CheckBox ch : list) {

@@ -104,7 +104,7 @@ public class NavigationDrawer implements NavigationDrawerController{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, UsersListActivity.class);
-                intent.putExtra(MembersListActivity.NUMBER_OF_FRIENDS_REQUESTS,
+                intent.putExtra(FriendsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
                         currentUser.getNumOfFriendsRequests());
                 activity.startActivity(intent);
             }

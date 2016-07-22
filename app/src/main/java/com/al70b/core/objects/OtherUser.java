@@ -34,7 +34,7 @@ public class OtherUser extends User {
         return friendStatus;
     }
 
-    public OtherUser basicParseJSONToUser(JSONObject jsonObject, final RequestsInterface.ResponseCallback responseCallback) {
+    public OtherUser basicParseJSONToUser(JSONObject jsonObject, final RequestsInterface.ResponseCallback<Object> responseCallback) {
         try {
             Translator translator = Translator.getInstance(context);
 

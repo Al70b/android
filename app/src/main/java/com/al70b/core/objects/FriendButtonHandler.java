@@ -72,7 +72,7 @@ public class FriendButtonHandler {
                         if (sr.isSuccess()) {
                             if (sr.getResult() == 2 || sr.getResult() == 3) {
                                 str.append(activity.getString(R.string.friend_request_was_canceled, otherUser.getName()));
-                                MembersListActivity.updateAdapter(sr.getResult(), otherUser.getUserID());
+                                //MembersListActivity.updateAdapter(sr.getResult(), otherUser.getUserID());
                             }
                             friendStatus.setValue(OtherUser.FriendStatus.NONE);
                         } else {
@@ -104,7 +104,7 @@ public class FriendButtonHandler {
                             if (sr.isSuccess()) {
                                 if (sr.getResult() == 2) {
                                     str.append(activity.getString(R.string.friend_request_was_approved, otherUser.getName()));
-                                    MembersListActivity.updateAdapter(sr.getResult(), otherUser.getUserID());
+                                    //xnMembersListActivity.updateAdapter(sr.getResult(), otherUser.getUserID());
                                 }
 
                                 friendStatus.setValue(OtherUser.FriendStatus.FRIENDS);
