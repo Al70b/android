@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +134,92 @@ public class UserAdvancedSearchFragment extends Fragment {
         buildInterestedPurposeLayout(tableLayoutSmoking,
                 translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), checkBoxListSmoking);
 
+        editTextAgeFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    String str = editTextAgeFrom.getText().toString().trim();
+                    if(!str.isEmpty()) {
+                        int age = Integer.parseInt(str);
+
+                        if(age < AppConstants.MIN_MEMBER_AGE) {
+                            editTextAgeFrom.setError(
+                                    getString(R.string.error_should_be_older_than_min_age,
+                                        String.valueOf(AppConstants.MIN_MEMBER_AGE)));
+                        } else {
+                            editTextAgeFrom.setError(null);
+                        }
+                    } else {
+                        editTextAgeFrom.setError(null);
+                    }
+                }
+            }
+        });
+
+        editTextAgeTo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    String str = editTextAgeTo.getText().toString().trim();
+                    if(!str.isEmpty()) {
+                        int age = Integer.parseInt(str);
+
+                        if(age > AppConstants.MAX_MEMBER_AGE) {
+                            editTextAgeTo.setError(getString(R.string.error_should_be_less_than_max_age,
+                                    String.valueOf(AppConstants.MAX_MEMBER_AGE)));
+                        } else {
+                            editTextAgeTo.setError(null);
+                        }
+                    } else {
+                        editTextAgeTo.setError(null);
+                    }
+                }
+            }
+        });
+
+        editTextHeightFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    String str = editTextHeightFrom.getText().toString().trim();
+                    if (!str.isEmpty()) {
+                        int height = Integer.parseInt(str);
+
+                        if (height < AppConstants.MIN_HEIGHT) {
+                            editTextHeightFrom.setError(
+                                    getString(R.string.error_should_be_bigger_than_min_height,
+                                            String.valueOf(AppConstants.MIN_HEIGHT)));
+                        } else {
+                            editTextHeightFrom.setError(null);
+                        }
+                    } else {
+                        editTextHeightFrom.setError(null);
+                    }
+                }
+            }
+        });
+
+        editTextHeightTo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    String str = editTextHeightTo.getText().toString().trim();
+                    if(!str.isEmpty()) {
+                        int height = Integer.parseInt(str);
+
+                        if(height > AppConstants.MAX_HEIGHT) {
+                            editTextHeightTo.setError(
+                                    getString(R.string.error_should_be_smaller_than_max_height,
+                                            String.valueOf(AppConstants.MAX_HEIGHT)));
+                        } else {
+                            editTextHeightTo.setError(null);
+                        }
+                    } else {
+                        editTextHeightTo.setError(null);
+                    }
+                }
+            }
+        });
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +267,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                     heightTo = Integer.parseInt(editTextHeightTo.getText().toString());
 
                 if (ageFrom != null && ageFrom < AppConstants.MIN_MEMBER_AGE) {
-                    Toast.makeText(getActivity(), getString(R.string.error_18_and_above), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_should_be_older_than_min_age), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

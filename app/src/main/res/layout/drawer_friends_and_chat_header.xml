@@ -9,28 +9,28 @@
         android:id="@+id/friends_drawer_header_upper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="inherit"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
+        android:layoutDirection="inherit"
         android:padding="2dp">
 
         <com.al70b.core.extended_widgets.StatusList
             android:id="@+id/drawer_header_status_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp" />
 
         <ImageButton
             android:id="@+id/img_btn_friends_drawer_header_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_action_settings"
-            android:background="@android:color/transparent"/>
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_action_settings" />
 
     </RelativeLayout>
 
@@ -38,32 +38,46 @@
         android:id="@+id/friends_drawer_header_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="inherit"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
+        android:layoutDirection="inherit"
         android:padding="2dp">
+
+        <TextView
+            android:id="@+id/tv_friends_drawer_header_status"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:maxLength="60"
+            android:padding="4dp"
+            android:singleLine="true"
+            android:text="@string/not_connected_status"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/et_friends_drawer_header_status"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
             android:gravity="center"
             android:maxLength="60"
+            android:padding="4dp"
             android:singleLine="true"
-            android:hint="@string/set_status"
-            />
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/img_btn_friends_drawer_header_set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_action_accept_holo_light"
+            android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:visibility="invisible"/>
+            android:src="@drawable/ic_action_accept_holo_light"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout

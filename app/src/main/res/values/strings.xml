@@ -363,7 +363,7 @@
     <string name="could_not_connect_to_chat_press_to_try_again">لم نتمكن من الإتصال بخادم المحادثات الفورية, إضغط هنا للمحاولة مجددًا</string>
     <string name="email_was_sent_with_password">تم إرسال رسالة إلى صندوق بريدك الإلكتروني، إتبع الخطوات في الرسالة لتغيير كلمة المرور</string>
     <string name="all_countries">جميع الدول</string>
-    <string name="error_18_and_above">العمر الأدنى هو 18 عامًا على الأقل</string>
+    <string name="error_should_be_older_than_min_age">العمر الأدنى هو %1$s عامًا على الأقل</string>
     <string name="not_important">غير مهم</string>
     <string name="error_age_is_not_correct">العمر المُدخل غير صحيح، من فضلك أدخل عمر صحيح</string>
     <string name="chat_with">محادثة مع %1$s</string>
@@ -416,6 +416,9 @@
     <string name="error_greater_than_max_age">العمر المدخل أكبر من العمر المسموح</string>
     <string name="height_in_cm">الطول (سم)</string>
     <string name="user_advanced_search_info">تتيح لك خدمةُ البحثِ المتقدمِ خياراتٍ أوسعَ ودقةٍ أفضل في مسَاعي بحثك</string>
+    <string name="error_should_be_less_than_max_age">العمر الأقصى  هو %1$s على الأكثر</string>
+    <string name="error_should_be_bigger_than_min_height">الطول الأدنى هو %1$s سم على الأقل</string>
+    <string name="error_should_be_smaller_than_max_height">الطول الأقصى هو %1$s على الأكثر</string>
 
 
 </resources>

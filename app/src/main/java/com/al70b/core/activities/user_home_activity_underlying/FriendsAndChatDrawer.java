@@ -59,6 +59,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     private FriendsAndChatDrawerAdapter friendsAndChatDrawerAdapter;
 
     // declare widgets
+    private TextView statusTextView;
     private EditText searchFriendEditText, statusEditText;
     private StatusList statusList;
     private LinearLayout layoutChatFailed;
@@ -89,6 +90,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         statusList = (StatusList) drawerHeader.findViewById(R.id.drawer_header_status_list);
         imgBtnSettings = (ImageButton) drawerHeader.findViewById(R.id.img_btn_friends_drawer_header_settings);
         imgBtnSetStatusMessage = (ImageButton) drawerHeader.findViewById(R.id.img_btn_friends_drawer_header_set);
+        statusTextView = (TextView) drawerHeader.findViewById(R.id.tv_friends_drawer_header_status);
         statusEditText = (EditText) drawerHeader.findViewById(R.id.et_friends_drawer_header_status);
 
 
@@ -96,6 +98,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         final List<FriendsDrawerItem> onlineFriendsList = new ArrayList<>();
         friendsAndChatDrawerAdapter = new FriendsAndChatDrawerAdapter(activity,
                 R.layout.list_item_chat_contacts, onlineFriendsList);
+        searchFriendEditText.setVisibility(View.INVISIBLE);
 
         // set the adapter for the friends drawer list view
         chatListView.setAdapter(friendsAndChatDrawerAdapter);
@@ -107,7 +110,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 onlineFriendsList, new MyChatHandlerEvents());
 
         // update online status and status message
-        statusEditText.setText(getString(R.string.not_connected_status));
+        statusTextView.setText(getString(R.string.not_connected_status));
         statusList.updateStatus(currentUser.getOnlineStatus().getStatus());
         statusList.setOnStatusChangeEvent(new StatusList.OnStatusChangeEvent() {
             @Override
@@ -116,14 +119,29 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             }
         });
 
+        statusTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                statusTextView.setVisibility(View.GONE);
+                statusEditText.setText(statusEditText.getText().toString());
+                statusEditText.setVisibility(View.VISIBLE);
+                statusEditText.requestFocus();
+                imgBtnSetStatusMessage.setVisibility(View.VISIBLE);
+
+                return true;
+            }
+        });
+
         statusEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    imgBtnSetStatusMessage.setVisibility(View.VISIBLE);
-                } else {
-                    statusEditText.setText(currentUser.getStatusMessage());
-                    imgBtnSetStatusMessage.setVisibility(View.INVISIBLE);
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    statusTextView.setText(currentUser.getStatusMessage());
+                    statusTextView.setVisibility(View.VISIBLE);
+
+                    // make editable views disappear
+                    statusEditText.setVisibility(View.GONE);
+                    imgBtnSetStatusMessage.setVisibility(View.GONE);
                 }
             }
         });
@@ -133,7 +151,13 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             public void onClick(View view) {
                 String message = statusEditText.getText().toString();
                 chatHandler.setStatusMessage(message);
-                statusEditText.clearFocus();
+
+                statusTextView.setText(currentUser.getStatusMessage());
+                statusTextView.setVisibility(View.VISIBLE);
+
+                // make editable views disappear
+                statusEditText.setVisibility(View.GONE);
+                imgBtnSetStatusMessage.setVisibility(View.GONE);
             }
         });
 
@@ -320,8 +344,15 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
 
                 if(friendsAndChatDrawerAdapter.isEmpty()) {
-                    searchFriendEditText.setEnabled(false);
-                    searchFriendEditText.setVisibility(View.GONE);
+                    if(searchFriendEditText.getText().toString().trim().isEmpty()) {
+                        // not doing search, so indeed no friends are online
+                        searchFriendEditText.setEnabled(false);
+                        searchFriendEditText.setVisibility(View.INVISIBLE);
+                    } else {
+                        // searching and no friends were found, keep it
+                        searchFriendEditText.setEnabled(true);
+                        searchFriendEditText.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     searchFriendEditText.setEnabled(true);
                     searchFriendEditText.setVisibility(View.VISIBLE);

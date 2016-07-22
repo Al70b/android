@@ -114,7 +114,7 @@ public class UserBasicSearchFragment extends Fragment {
                         if (to > AppConstants.MAX_MEMBER_AGE) {
                             msg = getString(R.string.error_greater_than_max_age);
                         } else if (from < AppConstants.MIN_MEMBER_AGE){
-                            msg = getString(R.string.error_18_and_above);
+                            msg = getString(R.string.error_should_be_older_than_min_age);
                         } else {
                             msg = getString(R.string.error_age_is_not_correct);
                         }
