@@ -1,1 +1,1 @@
-include ':app', ':Emojicon', ':cometchat-sdk'
+include ':app', ':cometchat-sdk'

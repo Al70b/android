@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:visibility="gone"/>
 
-        <!-- loading FAILED layout -->
+        <!-- loading FAILED_TO_SEND layout -->
         <LinearLayout
             android:id="@+id/layout_userMembersA_failed_loading"
             android:layout_width="match_parent"

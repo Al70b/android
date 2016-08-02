@@ -419,6 +419,7 @@
     <string name="error_should_be_less_than_max_age">العمر الأقصى  هو %1$s على الأكثر</string>
     <string name="error_should_be_bigger_than_min_height">الطول الأدنى هو %1$s سم على الأقل</string>
     <string name="error_should_be_smaller_than_max_height">الطول الأقصى هو %1$s على الأكثر</string>
+    <string name="title_activity_user_conversation">محادثة مع...</string>
 
 
 </resources>

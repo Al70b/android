@@ -14,20 +14,23 @@ import java.util.Date;
  */
 public class Message implements Serializable {
 
-    // as in CometChat API
-    public static final int REGULAR = 10;
-    // 11, 12, 13, 14 are ignored
-    public static final int CALL_ACCEPTED = 31;
-    public static final int INCOMING_CALL = 32;
-    public static final int OUTGOING_BUSY_TONE = 33;
-    public static final int END_CALL = 34;
-    public static final int CALL_REJECTED = 35;
-    public static final int CANCEL_CALL = 36;
-    public static final int NO_ANSWER = 37;
-    public static final int INCOMING_BUSY_TONE = 38;
+    public class Type {
 
-    // mine
-    public static final int CALL_SENT = 39;
+        // as in CometChat API
+        public static final int REGULAR = 10;
+        // 11, 12, 13, 14 are ignored
+        public static final int CALL_ACCEPTED = 31;
+        public static final int INCOMING_CALL = 32;
+        public static final int OUTGOING_BUSY_TONE = 33;
+        public static final int END_CALL = 34;
+        public static final int CALL_REJECTED = 35;
+        public static final int CANCEL_CALL = 36;
+        public static final int NO_ANSWER = 37;
+        public static final int INCOMING_BUSY_TONE = 38;
+
+        // mine
+        public static final int CALL_SENT = 39;
+    }
 
     // message id
     private long id;
@@ -47,9 +50,7 @@ public class Message implements Serializable {
     // if message is fetched from server
     private boolean fetched;
 
-    // if message is sent
-    private boolean sent;
-
+    public Status status;
 
     public Message(long id, String message, long dateTime, int messageType) {
         this.id = id;
@@ -58,6 +59,14 @@ public class Message implements Serializable {
         this.messageType = messageType;
 
         active = true;
+        status = Status.NONE;
+    }
+
+    public enum Status {
+        NONE,
+        SENDING,
+        SENT,
+        FAILED_TO_SEND
     }
 
     public long getMessageID() {
@@ -108,12 +117,5 @@ public class Message implements Serializable {
         fetched = true;
     }
 
-    public boolean isMessageSent() {
-        return sent;
-    }
-
-    public void setMessageSent() {
-        sent = true;
-    }
 
 }

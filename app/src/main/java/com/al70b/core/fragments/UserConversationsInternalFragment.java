@@ -15,20 +15,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +37,11 @@ import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.Message;
 import com.al70b.core.server_methods.ServerConstants;
 import com.bumptech.glide.Glide;
+import com.inscripts.Keyboards.SmileyKeyBoard;
 import com.inscripts.cometchat.sdk.AVChat;
 import com.inscripts.cometchat.sdk.CometChat;
 import com.inscripts.interfaces.Callbacks;
+import com.inscripts.interfaces.EmojiClickInterface;
 import com.inscripts.utils.Logger;
 
 import org.json.JSONArray;
@@ -53,16 +53,13 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import github.ankushsachdeva.emojicon.EmojiconEditText;
-import github.ankushsachdeva.emojicon.EmojiconGridView;
-import github.ankushsachdeva.emojicon.EmojiconTextView;
-import github.ankushsachdeva.emojicon.EmojiconsPopup;
-import github.ankushsachdeva.emojicon.emoji.Emojicon;
+import com.inscripts.custom.EmojiTextView;
 
 /**
  * Created by Naseem on 5/25/2015.
  */
-public class UserConversationsInternalFragment extends Fragment implements BackPressedFragment {
+public class UserConversationsInternalFragment extends Fragment
+        implements BackPressedFragment, EmojiClickInterface {
 
     private static final int NUMBER_OF_FETCHED_MESSAGES = 10;
     public int incomingMessagePosition = -1, outgoingMessagePosition = -1;
@@ -98,6 +95,8 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         return otherUserID;
     }
 
+    private SmileyKeyBoard smiliKeyboard;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +107,10 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         otherUserName = getArguments().getString("Name");
         final String thumbnailPath = getArguments().getString("Bitmap");
 
-        if(otherUserName == null) {
+        if (otherUserName == null) {
             // something wrong with passed parameters
 
-        } else if(messagesManager.indexOfKey(otherUserID) < 0) {
+        } else if (messagesManager.indexOfKey(otherUserID) < 0) {
             // initialize list
             mListMessages = new ArrayList<>();
             messagesManager.put(otherUserID, mListMessages);
@@ -142,17 +141,29 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_messages_conversation, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.activity_abs_user_conversation, container, false);
 
         listView = (ListView) viewGroup.findViewById(R.id.listview_user_messages_conversation);
-        final EmojiconEditText etMessage = (EmojiconEditText) viewGroup.findViewById(R.id.et_user_messages_message);
+        final EditText etMessage = (EditText) viewGroup.findViewById(R.id.et_user_messages_message);
         final ImageButton ibSend = (ImageButton) viewGroup.findViewById(R.id.image_button_user_messages_send);
         final ImageButton emojiButton = (ImageButton) viewGroup.findViewById(R.id.image_button_user_messages_emoji);
 
-        final EmojiconsPopup popup = new EmojiconsPopup(viewGroup, getActivity());
+
+        smiliKeyboard = new SmileyKeyBoard();
+        //smiliKeyboard.enable(this, this, R.id.layout_for_emoticons, etMessage);
+        final LinearLayout chatFooter = (LinearLayout) viewGroup.findViewById(R.id.layout_bottom_area);
+        smiliKeyboard.checkKeyboardHeight(chatFooter);
+        smiliKeyboard.enableFooterView(etMessage);
+
+        emojiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                smiliKeyboard.showKeyboard(chatFooter);
+            }
+        });
 
         //Will automatically set size according to the soft keyboard size
-        popup.setSizeForSoftKeyboard();
+       /* popup.setSizeForSoftKeyboard();
 
         //If the emoji popup is dismissed, change emojiButton to smiley icon
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -164,7 +175,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         });
 
         //If the text keyboard closes, also dismiss the emoji popup
-        popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+        smiliKeyboard.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
 
             @Override
             public void onKeyboardOpen(int keyBoardHeight) {
@@ -242,7 +253,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                     popup.dismiss();
                 }
             }
-        });
+        });*/
 
         // can't click on empty message
         ibSend.setEnabled(false);
@@ -286,9 +297,9 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         etMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popup.isShowing()) {
-                    emojiButton.callOnClick();
-                }
+                // if (popup.isShowing()) {
+                //     emojiButton.callOnClick();
+                // }
             }
         });
 
@@ -321,7 +332,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                         return;
 
                     switch (message.getMessageType()) {
-                        case Message.REGULAR:
+                        case Message.Type.REGULAR:
                             int idx;
                             if ((idx = messagesListAdapter.getCount() - 1) >= 0) {
                                 Message lastMessage = messagesListAdapter.getItem(idx);
@@ -342,10 +353,10 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                             break;
                         // end of regular message
 
-                        case Message.CALL_REJECTED:
-                        case Message.CALL_ACCEPTED:
-                        case Message.NO_ANSWER:
-                        case Message.INCOMING_BUSY_TONE:
+                        case Message.Type.CALL_REJECTED:
+                        case Message.Type.CALL_ACCEPTED:
+                        case Message.Type.NO_ANSWER:
+                        case Message.Type.INCOMING_BUSY_TONE:
                             if (outgoingMessagePosition >= 0) {
                                 mListMessages.remove(outgoingMessagePosition);
                                 mListMessages.add(outgoingMessagePosition, message);
@@ -354,17 +365,17 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                                 itemVideo.setEnabled(true);
 
                                 int type = message.getMessageType();
-                                if (type == Message.CALL_ACCEPTED) {
+                                if (type == Message.Type.CALL_ACCEPTED) {
                                     Intent intent2 = new Intent(getActivity(), AVChatActivity.class);
                                     intent2.putExtra("userID", String.valueOf(otherUserID));
                                     startActivity(intent2);
-                                } else if (type == Message.NO_ANSWER) {
+                                } else if (type == Message.Type.NO_ANSWER) {
 
                                 }
 
                             }
                             break;
-                        case Message.CANCEL_CALL:   // user canceled his request
+                        case Message.Type.CANCEL_CALL:   // user canceled his request
                             if (incomingMessagePosition >= 0) {
                                 mListMessages.remove(incomingMessagePosition);
                                 mListMessages.add(incomingMessagePosition, message);
@@ -373,11 +384,11 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                                 itemVideo.setEnabled(true);
                             }
                             break;
-                        case Message.INCOMING_CALL:
+                        case Message.Type.INCOMING_CALL:
                             // add message to the list of messages
                             mListMessages.add(message);
                             break;
-                        case Message.OUTGOING_BUSY_TONE:
+                        case Message.Type.OUTGOING_BUSY_TONE:
                             mListMessages.add(message);
                             break;
                     }
@@ -397,7 +408,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
 
                     if (message.getDateTime() == lastMessage.getDateTime() &&
                             message.getMessageType() == lastMessage.getMessageType() &&
-                            message.getMessageType() != Message.REGULAR)
+                            message.getMessageType() != Message.Type.REGULAR)
                         return true; // this is a duplicate probably, ignore it
                 }
 
@@ -458,7 +469,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             case R.id.menu_item_user_conversation_video:
                 long dateTime = System.currentTimeMillis() / 1000;
 
-                final Message message = new Message(-1, getString(R.string.video_chat_request_was_sent), dateTime, Message.CALL_SENT);
+                final Message message = new Message(-1, getString(R.string.video_chat_request_was_sent), dateTime, Message.Type.CALL_SENT);
 
 
                 // disable video chat button when a video chat is sent
@@ -517,7 +528,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         // register a receiver to receive messages
         getActivity().registerReceiver(receiver, new IntentFilter("NEW_SINGLE_MESSAGE"));
 
-        if(mListMessages.isEmpty()) {
+        if (mListMessages.isEmpty()) {
             /*// fetch messages
             ((PullToRefreshListView) listView).onRefresh();
 
@@ -541,7 +552,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
     private void sendMessage(String messageText) {
         long date = System.currentTimeMillis() / 1000;
 
-        final Message msg = new Message(-1, messageText, date, Message.REGULAR);
+        final Message msg = new Message(-1, messageText, date, Message.Type.REGULAR);
 
         mListMessages.add(msg);
         messagesListAdapter.notifyDataSetChanged();
@@ -554,11 +565,12 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             @Override
             public void successCallback(JSONObject jsonObject) {
 
-                msg.setMessageSent();
+                msg.status = Message.Status.SENT;
             }
 
             @Override
             public void failCallback(JSONObject jsonObject) {
+                msg.status = Message.Status.FAILED_TO_SEND;
             }
         });
     }
@@ -577,6 +589,11 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
 
     private void changeEmojiKeyboardIcon(ImageButton iconToBeChanged, int drawableResourceId) {
         iconToBeChanged.setImageResource(drawableResourceId);
+    }
+
+    @Override
+    public void getClickedEmoji(int i) {
+        smiliKeyboard.getClickedEmoji(i);
     }
 
     /**
@@ -626,7 +643,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                             messageType = temp.getInt("message_type");
 
                             // if message is either of these two, just ignore
-                            if (!(messageType == Message.REGULAR || messageType == Message.INCOMING_CALL))
+                            if (!(messageType == Message.Type.REGULAR || messageType == Message.Type.INCOMING_CALL))
                                 continue;
 
                             Message msg;
@@ -684,7 +701,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                             //if(!(msg.getMessageType() == Message.INCOMING_CALL && (System.nanoTime() - msg.getDateTime() > 10000)))
                             msg.setMessageInactive();
                             msg.setMessageFetched();
-                            msg.setMessageSent();
+                            msg.status = Message.Status.SENT;
 
                             if (i > 0 && msg instanceof EndMessage) {
                                 Message previousMessage;
@@ -698,7 +715,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
 
                                 if (previousMessage.isUserMessage())
                                     ((EndMessage) msg).setProfilePictureVisible();
-                                else if (!msg.isUserMessage() && messageType == Message.REGULAR) {
+                                else if (!msg.isUserMessage() && messageType == Message.Type.REGULAR) {
                                     // previous message is an end message
                                     ((EndMessage) previousMessage).setProfilePictureInvisible();
                                     ((EndMessage) previousMessage).removeProfilePictureBitmap();
@@ -764,7 +781,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
 
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 
-            if (message.getMessageType() == Message.REGULAR)
+            if (message.getMessageType() == Message.Type.REGULAR)
                 // this is a regular message
                 convertView = inflateRegularMessage(message, inflater, convertView, parent);
             else
@@ -782,16 +799,16 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             if (message.isUserMessage()) {
                 // this is a user message
                 convertView = inflater.inflate(R.layout.list_item_conversation_content_user, parent, false);
-                holder.message = (EmojiconTextView) convertView.findViewById(R.id.text_view_list_item_messages_message_user);
+                holder.message = (EmojiTextView) convertView.findViewById(R.id.emoji_tv_list_item_messages_message_user);
                 holder.dateTime = (TextView) convertView.findViewById(R.id.text_view_list_item_messages_date_user);
             } else {
                 // other end message
-                if(((EndMessage) message).isProfilePictureVisible())
+                if (((EndMessage) message).isProfilePictureVisible())
                     convertView = inflater.inflate(R.layout.list_item_conversation_content_member_first, parent, false);
                 else
                     convertView = inflater.inflate(R.layout.list_item_conversation_content_member, parent, false);
                 holder.profilePicture = (CircleImageView) convertView.findViewById(R.id.circle_image_list_item_messages_profile_picture_member);
-                holder.message = (EmojiconTextView) convertView.findViewById(R.id.text_view_list_item_messages_last_member);
+                holder.message = (EmojiTextView) convertView.findViewById(R.id.emoji_tv_list_item_messages_last_member);
                 holder.dateTime = (TextView) convertView.findViewById(R.id.text_view_list_item_messages_date_member);
             }
 
@@ -832,8 +849,8 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
 
             int type = message.getMessageType();
 
-            if (type == Message.CALL_ACCEPTED || type == Message.CALL_REJECTED || type == Message.CALL_SENT
-                    || type == Message.NO_ANSWER || type == Message.INCOMING_BUSY_TONE) {
+            if (type == Message.Type.CALL_ACCEPTED || type == Message.Type.CALL_REJECTED || type == Message.Type.CALL_SENT
+                    || type == Message.Type.NO_ANSWER || type == Message.Type.INCOMING_BUSY_TONE) {
                 // outgoing video call
                 final OutgoingVideoMessageItemHolder holder = new OutgoingVideoMessageItemHolder();
 
@@ -865,15 +882,15 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             String messageStr = "";
 
             switch (message.getMessageType()) {
-                case Message.CALL_ACCEPTED:
+                case Message.Type.CALL_ACCEPTED:
                     // other user accepted your video call request
                     messageStr = context.getString(R.string.end_user_accepted_video_call);
                     break;
-                case Message.CALL_REJECTED:
+                case Message.Type.CALL_REJECTED:
                     // other user rejected your video call request
                     messageStr = context.getString(R.string.end_user_rejected_video_call);
                     break;
-                case Message.CALL_SENT:
+                case Message.Type.CALL_SENT:
                     // you canceled your video call request
                     if (message.isMessageActive()) {
                         cancelBtnVisible = true;
@@ -907,15 +924,15 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                             messageStr = context.getString(R.string.video_call_was_canceled);
                     }
                     break;
-                case Message.NO_ANSWER:
+                case Message.Type.NO_ANSWER:
                     // other user does not answer
                     messageStr = context.getString(R.string.video_call_no_answer);
                     break;
-                case Message.INCOMING_BUSY_TONE:
+                case Message.Type.INCOMING_BUSY_TONE:
                     // other user seems to be busy
                     messageStr = context.getString(R.string.video_call_other_user_busy);
                     break;
-                case Message.CANCEL_CALL:
+                case Message.Type.CANCEL_CALL:
                     messageStr = message.getMessage();
                     break;
             }
@@ -935,7 +952,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
             String messageStr = "";
 
             switch (message.getMessageType()) {
-                case Message.INCOMING_CALL:
+                case Message.Type.INCOMING_CALL:
                     // incoming video call request
                     if (message.isMessageActive()) {
                         // message is active
@@ -1006,12 +1023,12 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
                     }
                     break;
 
-                case Message.OUTGOING_BUSY_TONE:
+                case Message.Type.OUTGOING_BUSY_TONE:
                     // you're having a video call and another user requests video call
                     messageStr = context.getString(R.string.user_sent_you_video_call);
                     break;
 
-                case Message.CANCEL_CALL:
+                case Message.Type.CANCEL_CALL:
                     messageStr = message.getMessage();
                     break;
 
@@ -1030,7 +1047,7 @@ public class UserConversationsInternalFragment extends Fragment implements BackP
         }
 
         private class MessageItemHolder {
-            EmojiconTextView message;
+            EmojiTextView message;
             TextView dateTime;
             CircleImageView profilePicture;
         }

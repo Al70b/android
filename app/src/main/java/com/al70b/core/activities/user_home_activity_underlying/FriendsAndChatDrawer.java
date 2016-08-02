@@ -1,5 +1,6 @@
 package com.al70b.core.activities.user_home_activity_underlying;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -17,15 +18,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.UserConversationActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
+import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.StatusList;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserConversationsInternalFragment;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
+import com.al70b.core.objects.OtherUser;
+import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.objects.User;
+import com.al70b.core.server_methods.RequestsInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +116,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 onlineFriendsList, new MyChatHandlerEvents());
 
         // update online status and status message
-        statusTextView.setText(getString(R.string.not_connected_status));
         statusList.updateStatus(currentUser.getOnlineStatus().getStatus());
         statusList.setOnStatusChangeEvent(new StatusList.OnStatusChangeEvent() {
             @Override
@@ -123,7 +128,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             @Override
             public boolean onLongClick(View v) {
                 statusTextView.setVisibility(View.GONE);
-                statusEditText.setText(statusEditText.getText().toString());
+                statusEditText.setText(statusTextView.getText().toString());
                 statusEditText.setVisibility(View.VISIBLE);
                 statusEditText.requestFocus();
                 imgBtnSetStatusMessage.setVisibility(View.VISIBLE);
@@ -275,7 +280,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             // header
             searchFriendEditText.setEnabled(flag);
 
-            // footer
+            statusTextView.setEnabled(flag);
             statusEditText.clearFocus();
             statusEditText.setEnabled(flag);
             statusList.setEnabled(flag);
@@ -288,6 +293,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         public void onChatConnectionSetup() {
             enableChatComponents(false);
 
+            statusTextView.setText(getString(R.string.not_connected_status));
             chatConnectionProgress.setVisibility(View.VISIBLE);
             layoutChatConnected.setVisibility(View.GONE);
             txtViewChatServiceResponse.setText(
@@ -302,6 +308,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             txtViewChatServiceResponse.setText(
                     getString(R.string.could_not_connect_to_chat_press_to_try_again));
 
+            statusTextView.setText(getString(R.string.not_connected_status));
             statusEditText.setText(activity.getString(R.string.not_connected_status));
             currentUser.setStatusMessage(getString(R.string.not_connected_status));
 
@@ -326,6 +333,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             layoutChatConnected.setVisibility(View.VISIBLE);
             enableChatComponents(true);
 
+            statusTextView.setText(currentUser.getStatusMessage());
             statusEditText.clearFocus();
             searchFriendEditText.requestFocus();
         }
@@ -334,8 +342,9 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         void onProfileInfoReceived(String status, String statusMessage) {
             statusList.updateStatus(status);
 
-            if (statusEditText != null)
-                statusEditText.setText(statusMessage);
+            if (statusTextView != null) {
+                statusTextView.setText(statusMessage);
+            }
         }
 
         @Override
@@ -343,8 +352,8 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             if (friendsAndChatDrawerAdapter != null) {
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
 
-                if(friendsAndChatDrawerAdapter.isEmpty()) {
-                    if(searchFriendEditText.getText().toString().trim().isEmpty()) {
+                if (friendsAndChatDrawerAdapter.isEmpty()) {
+                    if (searchFriendEditText.getText().toString().trim().isEmpty()) {
                         // not doing search, so indeed no friends are online
                         searchFriendEditText.setEnabled(false);
                         searchFriendEditText.setVisibility(View.INVISIBLE);
@@ -363,7 +372,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         @Override
         void onSetStatusMessageResponse(boolean statusChanged, String msg, String result) {
             Log.d(TAG, msg);
-            if(statusChanged) {
+            if (statusChanged) {
                 currentUser.setStatusMessage(msg);
             } else {
                 // failed to change status, restore previous
@@ -375,13 +384,14 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         }
 
         @Override
-        void onAVChatMessageReceived(int userId, EndMessage msg) {}
+        void onAVChatMessageReceived(int userId, EndMessage msg) {
+        }
 
         @Override
         void onMessageReceived(int userId, EndMessage msg) {
             FriendsDrawerItem item = friendsAndChatDrawerAdapter.getItemByUserID(userId);
 
-            if(item != null) {
+            if (item != null) {
                 item.isMessageUnread = true;
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
             }
@@ -417,7 +427,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     public void logout() {
         this.loggingout = true;
 
-        if(chatHandler != null) {
+        if (chatHandler != null) {
             chatHandler.logout();
         }
     }
@@ -509,19 +519,16 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
     private class FriendsDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final FriendsDrawerItem item = (FriendsDrawerItem)parent.getItemAtPosition(position);
+            final FriendsDrawerItem item = (FriendsDrawerItem) parent.getItemAtPosition(position);
 
-            activity.navigateTo(2);
-            UserConversationsInternalFragment fragment = new UserConversationsInternalFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("ID", item.id);
-            bundle.putString("Name", item.name);
-            bundle.putString("Bitmap", item.profilePicture);
-            fragment.setArguments(bundle);
-            activity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, fragment, UserConversationsFragment.INTERNAL_CONVERSATION_TAG)
-                    .addToBackStack("s")
-                    .commit();
+            //activity.navigateTo(2);
+            //UserConversationsInternalFragment fragment = new UserConversationsInternalFragment();
+
+            //fragment.setArguments(bundle);
+            //activity.getSupportFragmentManager().beginTransaction()
+            //       .replace(R.id.content_frame, fragment, UserConversationsFragment.INTERNAL_CONVERSATION_TAG)
+            //        .addToBackStack("s")
+            //        .commit();
 
             // mark message as read
             item.isMessageUnread = false;
@@ -529,10 +536,26 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                     android.R.color.transparent));
 
 
+            // remove from unread messages
+            //unreadMessagesUsersIDs.remove(item.id);
 
+            try {
+                Bundle bundle = new Bundle();
 
-                        // remove from unread messages
-                        //unreadMessagesUsersIDs.remove(item.id);
+                OtherUser otherUser = new OtherUser(activity.getApplicationContext(), item.id);
+                new RequestsInterface(activity.getApplicationContext())
+                        .getOtherUserData(currentUser.getUserID(),
+                                currentUser.getAccessToken(),
+                                otherUser);
+                bundle.putSerializable(UserConversationActivity.CURRENT_USER, currentUser);
+                bundle.putSerializable(UserConversationActivity.OTHER_USER, otherUser);
+
+                Intent intent = new Intent(activity, UserConversationActivity.class);
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            } catch(ServerResponseFailedException ex) {
+                Log.e(TAG, ex.toString());
+            }
         }
     }
 

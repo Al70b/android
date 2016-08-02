@@ -6,7 +6,8 @@
     android:layout_gravity="end"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:clickable="true">
 
     <include
         android:id="@+id/layout_chat_drawer_header"

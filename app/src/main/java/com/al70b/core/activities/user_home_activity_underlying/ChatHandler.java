@@ -311,7 +311,7 @@ public class ChatHandler {
                 msg = receivedMessage.getString("message");
                 dateTime = receivedMessage.getLong("sent");
 
-                final EndMessage message = new EndMessage(id, msg, dateTime, Message.REGULAR);
+                final EndMessage message = new EndMessage(id, msg, dateTime, Message.Type.REGULAR);
                 intent.putExtra("user_id", otherUserID);
                 intent.putExtra("message", message);
                 context.sendBroadcast(intent);
@@ -427,22 +427,22 @@ public class ChatHandler {
                 messageType = response.getInt("message_type");
 
                 // message with response about video chat
-                if (messageType == Message.CALL_REJECTED)
+                if (messageType == Message.Type.CALL_REJECTED)
                     msg = getString(R.string.end_user_rejected_video_call);
-                else if (messageType == Message.INCOMING_CALL)
+                else if (messageType == Message.Type.INCOMING_CALL)
                     msg = getString(R.string.end_user_requested_video_call);
-                else if (messageType == Message.CALL_ACCEPTED)
+                else if (messageType == Message.Type.CALL_ACCEPTED)
                     msg = getString(R.string.end_user_accepted_video_call);
-                else if (messageType == Message.OUTGOING_BUSY_TONE)
+                else if (messageType == Message.Type.OUTGOING_BUSY_TONE)
                     msg = getString(R.string.video_call_other_user_tried_calling_you);
-                else if (messageType == Message.CANCEL_CALL)
+                else if (messageType == Message.Type.CANCEL_CALL)
                     msg = getString(R.string.end_user_canceled_video_call);
-                else if (messageType == Message.NO_ANSWER)
+                else if (messageType == Message.Type.NO_ANSWER)
                     msg = getString(R.string.video_call_no_answer);
-                else if (messageType == Message.INCOMING_BUSY_TONE)
+                else if (messageType == Message.Type.INCOMING_BUSY_TONE)
                     msg = getString(R.string.video_call_other_user_busy);
 
-                if (messageType == Message.END_CALL && id != SessionData.getInstance().getId()) {
+                if (messageType == Message.Type.END_CALL && id != SessionData.getInstance().getId()) {
                     if (SessionData.getInstance().isAvchatCallRunning() && AVChatActivity.thisActivity != null) {
                         AVChatActivity.thisActivity.endCall();
                         Toast.makeText(context, getString(R.string.end_user_ended_call), Toast.LENGTH_SHORT).show();
