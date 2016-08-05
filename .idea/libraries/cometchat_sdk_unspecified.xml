@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="cometchat-sdk-unspecified">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/al70b/cometchat-sdk/unspecified/res" />
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/al70b/cometchat-sdk/unspecified/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/al70b/cometchat-sdk/unspecified/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
