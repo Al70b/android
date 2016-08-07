@@ -13,17 +13,16 @@ import java.io.Serializable;
 public class Characteristics implements Serializable {
 
     private String height;
-    private String body, eyes, alcohol, smoking;
+    private String alcohol, smoking;
     private String work, education, religion, description;
     private String notSpecified;
 
-    public Characteristics(Resources res, String height, String body, String eyes, String alcohol, String smoking, String work, String education, String religion, String description) {
+    public Characteristics(Resources res, String height, String alcohol, String smoking,
+                           String work, String education, String religion, String description) {
         notSpecified = res.getString(R.string.not_specified);
 
         // if attribute is null then it's not specified
         this.height = attributeNotSet(height) ? notSpecified : height; // height not specified
-        this.body = attributeNotSet(body) ? notSpecified : body;
-        this.eyes = attributeNotSet(eyes) ? notSpecified : eyes;
         this.alcohol = attributeNotSet(alcohol) ? notSpecified : alcohol;
         this.smoking = attributeNotSet(smoking) ? notSpecified : smoking;
         this.work = attributeNotSet(work) ? notSpecified : work;
@@ -51,22 +50,6 @@ public class Characteristics implements Serializable {
                 Integer.parseInt(height) <= AppConstants.MIN_HEIGHT ? res.getString(R.string.height_lower_than, AppConstants.MIN_HEIGHT) : // lower than MIN_HEIGHT
                         (Integer.parseInt(height) >= AppConstants.MAX_HEIGHT ? res.getString(R.string.height_higher_than, AppConstants.MAX_HEIGHT) : // higher than MAX_HEIGHT
                                 height)); // height as it is, and it is an integer
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body != null ? body : notSpecified;
-    }
-
-    public String getEyes() {
-        return eyes;
-    }
-
-    public void setEyes(String eyes) {
-        this.eyes = eyes != null ? eyes : notSpecified;
     }
 
     public String getAlcohol() {
@@ -121,8 +104,6 @@ public class Characteristics implements Serializable {
 
     public String toString() {
         return "\tHeight: " + height
-                + "\tBody: " + body
-                + "\n\tEyes: " + eyes
                 + "\tAlcohol: " + alcohol
                 + "\n\tSmoking: " + smoking
                 + "\tWork: " + work

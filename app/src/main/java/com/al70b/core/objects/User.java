@@ -251,8 +251,6 @@ public class User implements Serializable {
 
             // put user advanced data
             jsonObject.put(KEYS.SERVER.HEIGHT, userChar.getHeight());
-            jsonObject.put(KEYS.SERVER.BODY, userChar.getBody());
-            jsonObject.put(KEYS.SERVER.EYES, userChar.getEyes());
             jsonObject.put(KEYS.SERVER.WORK, userChar.getWork());
             jsonObject.put(KEYS.SERVER.EDUCATION, userChar.getEducation());
             jsonObject.put(KEYS.SERVER.RELIGION, userChar.getReligion());
@@ -326,7 +324,7 @@ public class User implements Serializable {
                 description = "";
             }
 
-            userChar = new Characteristics(context.getResources(), height, body, eyes,
+            userChar = new Characteristics(context.getResources(), height,
                     alcohol, smoking, work, education, religion, description);
 
             if (onlineStatus == null) {

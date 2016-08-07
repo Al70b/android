@@ -865,8 +865,6 @@ public class RequestsInterface {
             jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
             jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
             jsonArgs.put(KEYS.SERVER.HEIGHT, ch.attributeNotSet(ch.getHeight()) ? null : ch.getHeight());
-            jsonArgs.put(KEYS.SERVER.BODY, translator.translate(ch.attributeNotSet(ch.getBody()) ? null : ch.getBody(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.BODY)));
-            jsonArgs.put(KEYS.SERVER.EYES, translator.translate(ch.attributeNotSet(ch.getEyes()) ? null : ch.getEyes(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EYES)));
             jsonArgs.put(KEYS.SERVER.WORK, ch.attributeNotSet(ch.getWork()) ? null : ch.getWork());
             jsonArgs.put(KEYS.SERVER.EDUCATION, translator.translate(ch.attributeNotSet(ch.getEducation()) ? null : ch.getEducation(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION)));
             jsonArgs.put(KEYS.SERVER.RELIGION, translator.translate(ch.attributeNotSet(ch.getReligion()) ? null : ch.getReligion(), translator.getDictionary().CHARACTERS.get(KEYS.SERVER.RELIGION)));

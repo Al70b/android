@@ -140,7 +140,7 @@
 
     <string name="members_age_help">يمكنك عدم تحديد عمر معين وسيتم تجاهل القيمة الناقصة</string>
     <string name="cm">سم</string>
-    <string name="none">لا يوجد</string>
+    <string name="none">غير متوفر</string>
 
     <string name="message_was_sent">تم إرسال رسالة للمستخدم %1$s</string>
 
@@ -176,7 +176,7 @@
     <string name="religion">الديانة</string>
     <string name="alcohol">المشروبات الروحية</string>
     <string name="smoking_habit">عادات التدخين</string>
-    <string name="about_me">شرح عني</string>
+    <string name="about_me">المزيد عني:</string>
 
     <string-array name="drawer_values">
         <item>الرئيسية</item>

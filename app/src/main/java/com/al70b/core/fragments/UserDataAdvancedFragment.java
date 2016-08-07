@@ -30,17 +30,15 @@ import java.net.URLEncoder;
  */
 public class UserDataAdvancedFragment extends EditableDataFragment {
 
-    private TextView textViewHeight, textViewBodyShape, textViewEyesColors, textViewWork, textViewEducation;
+    private TextView textViewHeight, textViewWork, textViewEducation;
     private TextView textViewReligion, textViewAlcohol, textViewSmoking, textViewMore;
     private EditText editTextHeight, editTextWork, editTextMore;
-    private Spinner spinnerBodyShape, spinnerEyesColors, spinnerEducation, spinnerReligion;
+    private Spinner spinnerEducation, spinnerReligion;
     private Spinner spinnerAlcohol, spinnerSmoking;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         user = ((MyApplication)getActivity().getApplication()).getCurrentUser();
     }
 
@@ -51,10 +49,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_data_advanced, container, false);
         textViewHeight = (TextView) viewGroup.findViewById(R.id.text_view_user_data_advanced_heightB);
         editTextHeight = (EditText) viewGroup.findViewById(R.id.edit_text_user_data_advanced_heightB);
-        textViewBodyShape = (TextView) viewGroup.findViewById(R.id.text_view_user_data_advanced_bodyShapeB);
-        spinnerBodyShape = (Spinner) viewGroup.findViewById(R.id.spinner_user_data_advanced_bodyShapeB);
-        textViewEyesColors = (TextView) viewGroup.findViewById(R.id.text_view_user_data_advanced_eyesColorsB);
-        spinnerEyesColors = (Spinner) viewGroup.findViewById(R.id.spinner_user_data_advanced_eyesColorsB);
         textViewWork = (TextView) viewGroup.findViewById(R.id.text_view_user_data_advanced_workB);
         editTextWork = (EditText) viewGroup.findViewById(R.id.edit_text_user_data_advanced_workB);
         textViewEducation = (TextView) viewGroup.findViewById(R.id.text_view_user_data_advanced_educationB);
@@ -72,10 +66,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
         // add these views to the editable views list
         listOfEditableViews.add(textViewHeight);
         listOfEditableViews.add(editTextHeight);
-        listOfEditableViews.add(textViewBodyShape);
-        listOfEditableViews.add(spinnerBodyShape);
-        listOfEditableViews.add(textViewEyesColors);
-        listOfEditableViews.add(spinnerEyesColors);
         listOfEditableViews.add(textViewWork);
         listOfEditableViews.add(editTextWork);
         listOfEditableViews.add(textViewEducation);
@@ -94,10 +84,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
 
         // spinners handle
         // create array adapters for spinners
-        ArrayAdapter<String> bodyShapeArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.BODY), false));
-        ArrayAdapter<String> eyesColorsArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
-                translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EYES), false));
         ArrayAdapter<String> educationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
                 translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.EDUCATION), false));
         ArrayAdapter<String> religionArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
@@ -108,8 +94,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
                 translator.getValues(translator.getDictionary().CHARACTERS.get(KEYS.SERVER.SMOKING), false));
 
         // set array adapters to spinners
-        spinnerBodyShape.setAdapter(bodyShapeArrayAdapter);
-        spinnerEyesColors.setAdapter(eyesColorsArrayAdapter);
         spinnerEducation.setAdapter(educationArrayAdapter);
         spinnerReligion.setAdapter(religionArrayAdapter);
         spinnerAlcohol.setAdapter(alcoholArrayAdapter);
@@ -151,17 +135,11 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
                 }
             });
 
-            textViewBodyShape.setText(ch.getBody());
-            spinnerBodyShape.setSelection(bodyShapeArrayAdapter.getPosition(ch.getBody()));
-
-            textViewEyesColors.setText(ch.getEyes());
-            spinnerEyesColors.setSelection(eyesColorsArrayAdapter.getPosition(ch.getEyes()));
-
             textViewWork.setText(ch.getWork());
             editTextWork.setHint(ch.getWork());
 
             textViewEducation.setText(ch.getEducation());
-            spinnerEducation.setSelection(eyesColorsArrayAdapter.getPosition(ch.getEducation()));
+            spinnerEducation.setSelection(educationArrayAdapter.getPosition(ch.getEducation()));
 
             textViewReligion.setText(ch.getReligion());
             spinnerReligion.setSelection(religionArrayAdapter.getPosition(ch.getReligion()));
@@ -192,7 +170,7 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
     @Override
     public void getData(CurrentUser user) {
         String height, work, more;
-        String bodyShape, eyesColors, education, religion, alcohol, smoking;
+        String education, religion, alcohol, smoking;
 
         height = editTextHeight.getText().toString();
         work = editTextWork.getText().toString();
@@ -205,15 +183,13 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
             more = "";
         }
 
-        bodyShape = (String) spinnerBodyShape.getSelectedItem();
-        eyesColors = (String) spinnerEyesColors.getSelectedItem();
         education = (String) spinnerEducation.getSelectedItem();
         religion = (String) spinnerReligion.getSelectedItem();
         alcohol = (String) spinnerAlcohol.getSelectedItem();
         smoking = (String) spinnerSmoking.getSelectedItem();
 
-        Characteristics ch = new Characteristics(getResources(), height, bodyShape,
-                eyesColors, alcohol, smoking, work, education, religion, more);
+        Characteristics ch = new Characteristics(getResources(), height,
+                alcohol, smoking, work, education, religion, more);
 
         user.setUserChar(ch);
 
@@ -221,8 +197,6 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
         textViewHeight.setText(ch.displayHeight(getResources()).compareTo(getString(R.string.not_specified)) == 0 ?
                 ch.displayHeight(getResources()) :
                 ch.displayHeight(getResources()) + " " + getString(R.string.cm));
-        textViewBodyShape.setText(ch.getBody());
-        textViewEyesColors.setText(ch.getEyes());
         textViewWork.setText(ch.getWork());
         textViewEducation.setText(ch.getEducation());
         textViewReligion.setText(ch.getReligion());
@@ -235,19 +209,22 @@ public class UserDataAdvancedFragment extends EditableDataFragment {
     @Override
     public void updateEditTexts() {
         String height = user.getUserChar().getHeight();
-        if (user.getUserChar().attributeNotSet(height))
+        if (user.getUserChar().attributeNotSet(height)) {
             editTextHeight.setText("");
-        else
+        } else {
             editTextHeight.setText(height);
+        }
 
         editTextWork.setText(textViewWork.getText().toString());
 
-        spinnerBodyShape.setSelection(((ArrayAdapter<String>) spinnerBodyShape.getAdapter()).getPosition(textViewBodyShape.getText().toString()));
-        spinnerEyesColors.setSelection(((ArrayAdapter<String>) spinnerEyesColors.getAdapter()).getPosition(textViewEyesColors.getText().toString()));
-        spinnerEducation.setSelection(((ArrayAdapter<String>) spinnerEducation.getAdapter()).getPosition(textViewEducation.getText().toString()));
-        spinnerReligion.setSelection(((ArrayAdapter<String>) spinnerReligion.getAdapter()).getPosition(textViewReligion.getText().toString()));
-        spinnerAlcohol.setSelection(((ArrayAdapter<String>) spinnerAlcohol.getAdapter()).getPosition(textViewAlcohol.getText().toString()));
-        spinnerSmoking.setSelection(((ArrayAdapter<String>) spinnerSmoking.getAdapter()).getPosition(textViewSmoking.getText().toString()));
+        spinnerEducation.setSelection(((ArrayAdapter<String>) spinnerEducation.getAdapter())
+                .getPosition(textViewEducation.getText().toString()));
+        spinnerReligion.setSelection(((ArrayAdapter<String>) spinnerReligion.getAdapter())
+                .getPosition(textViewReligion.getText().toString()));
+        spinnerAlcohol.setSelection(((ArrayAdapter<String>) spinnerAlcohol.getAdapter())
+                .getPosition(textViewAlcohol.getText().toString()));
+        spinnerSmoking.setSelection(((ArrayAdapter<String>) spinnerSmoking.getAdapter())
+                .getPosition(textViewSmoking.getText().toString()));
     }
 
     @Override

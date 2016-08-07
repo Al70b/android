@@ -56,67 +56,6 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
-                    android:id="@+id/text_view_member_data_advanced_bodyShapeA"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1.5"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/body_shape"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/text_view_member_data_advanced_bodyShapeB"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="4dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:minWidth="160dp"
-                    android:padding="4dp"
-                    android:text="@string/not_specified"
-                    android:textSize="20sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/text_view_member_data_advanced_eyesColorsA"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1.5"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:padding="4dp"
-                    android:text="@string/eyes_colors"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/text_view_member_data_advanced_eyesColorsB"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="4dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:minWidth="160dp"
-                    android:padding="4dp"
-                    android:text="@string/not_specified"
-                    android:textSize="20sp" />
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
                     android:id="@+id/text_view_member_data_advanced_workA"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -299,33 +238,27 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:background="@color/member_message_background"
-                android:padding="2dp"
-                android:orientation="vertical">
+                android:background="@drawable/advanced_details_about_me_background"
+                android:minHeight="100dp"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingEnd="6dp"
+                android:paddingStart="6dp"
+                android:paddingTop="4dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/shadowed_white">
 
-                    <TextView
-                        android:id="@+id/text_view_member_data_advanced_moreB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_gravity="center_horizontal"
-                        android:maxHeight="400dp"
-                        android:paddingTop="3dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="5dp"
-                        android:text="@string/none"
-                        android:textSize="18sp"
-                        android:minHeight="100dp"/>
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/text_view_member_data_advanced_moreB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="3dp"
+                    android:text="@string/none"
+                    android:textSize="18sp" />
             </TableRow>
 
         </TableLayout>

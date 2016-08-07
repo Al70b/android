@@ -25,8 +25,6 @@ public class MemberDataAdvancedFragment extends Fragment {
 
 
         TextView textViewHeight = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_heightB);
-        TextView textViewBodyShape = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_bodyShapeB);
-        TextView textViewEyesColors = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_eyesColorsB);
         TextView textViewWork = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_workB);
         TextView textViewEducation = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_educationB);
         TextView textViewReligion = (TextView) viewGroup.findViewById(R.id.text_view_member_data_advanced_religionB);
@@ -45,8 +43,6 @@ public class MemberDataAdvancedFragment extends Fragment {
                 textViewHeight.setText(ch.displayHeight(getResources()).compareTo(getString(R.string.not_specified)) == 0 ?
                         ch.displayHeight(getResources()) :
                         ch.displayHeight(getResources()) + " " + getString(R.string.cm));
-                textViewBodyShape.setText(ch.getBody());
-                textViewEyesColors.setText(ch.getEyes());
                 textViewWork.setText(ch.getWork());
                 textViewEducation.setText(ch.getEducation());
                 textViewReligion.setText(ch.getReligion());
