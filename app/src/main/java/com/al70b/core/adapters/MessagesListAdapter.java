@@ -1,19 +1,18 @@
 package com.al70b.core.adapters;
 
 import android.content.Intent;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.activities.AbstractUserConversationActivity;
 import com.al70b.core.activities.audio_video_call.AVChatActivity;
+import com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.Message;
@@ -34,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MessagesListAdapter extends ArrayAdapter<Message> {
+    private static final String TAG = "MessagesListAdapter";
     private AbstractUserConversationActivity activity;
     private CurrentUser currentUser;
     private OtherUser otherUser;
@@ -81,14 +81,14 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
 
             // in case there is a previous message
             if (prevMessagePosition >= 0) {
-                Message previousMessage = data.get(prevMessagePosition);
+                /*Message previousMessage = data.get(prevMessagePosition);
 
                 // and the previous message is of different senders -> add some space
                 if (previousMessage.getMessageType() == Message.Type.REGULAR &&
                         ((previousMessage.isUserMessage() && !message.isUserMessage()) ||
                                 (message.isUserMessage() && !previousMessage.isUserMessage()))) {
 
-                }
+                }*/
             }
         } else {
             // message is of a video call type
@@ -98,7 +98,7 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
         return convertView;
     }
 
-    private View getRegularMessage(Message message, View convertView, ViewGroup parent) {
+    private View getRegularMessage(Message message, View convertView, final ViewGroup parent) {
         // create new holder
         final Holder.RegularMessage holder = new Holder.RegularMessage();
 
@@ -110,11 +110,7 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
             holder.dateTime = (TextView) convertView.findViewById(R.id.text_view_list_item_messages_date_user);
         } else {
             // other end message
-            if (((EndMessage) message).isProfilePictureVisible()) {
-                convertView = inflater.inflate(R.layout.list_item_conversation_content_member_first, parent, false);
-            } else {
-                convertView = inflater.inflate(R.layout.list_item_conversation_content_member, parent, false);
-            }
+            convertView = inflater.inflate(R.layout.list_item_conversation_content_member, parent, false);
             holder.profilePicture = (CircleImageView) convertView.findViewById(R.id.circle_image_list_item_messages_profile_picture_member);
             holder.message = (EmojiTextView) convertView.findViewById(R.id.emoji_tv_list_item_messages_last_member);
             holder.dateTime = (TextView) convertView.findViewById(R.id.text_view_list_item_messages_date_member);
@@ -156,10 +152,14 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                 else {
                     holder.dateTime.setVisibility(View.VISIBLE);
 
-                    /*if (!listView.canScrollVertically(listView.getBottom())) {
-                        // scroll to the latest message sent
-                        listView.setSelection(listView.getAdapter().getCount() - 1);
-                    }*/
+                    if(parent instanceof PullToRefreshListView) {
+                        PullToRefreshListView listView = (PullToRefreshListView) parent;
+
+                        if (!listView.canScrollVertically(listView.getBottom())) {
+                            // scroll to the latest message sent
+                            listView.setSelection(getCount() - 1);
+                        }
+                    }
                 }
             }
         });
@@ -171,8 +171,9 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
 
         int type = message.getMessageType();
 
-        if (type == Message.Type.CALL_ACCEPTED || type == Message.Type.CALL_REJECTED || type == Message.Type.CALL_SENT
-                || type == Message.Type.NO_ANSWER || type == Message.Type.INCOMING_BUSY_TONE) {
+        if (type == Message.Type.VIDEO_CALL_ACCEPTED || type == Message.Type.VIDEO_CALL_REJECTED || type == Message.Type.VIDEO_CALL_SENT
+                || type == Message.Type.VIDEO_CALL_NO_ANSWER || type == Message.Type.VIDEO_CALL_INCOMING_BUSY_TONE
+                || type == Message.Type.VIDEO_CALL_CURRENT_USER_CANCELED_CALL) {
             // outgoing video call
             final Holder.OutgoingVideoMessage holder = new Holder.OutgoingVideoMessage();
 
@@ -182,8 +183,10 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
 
             handleOutgoingVideoCall(holder, message);
 
-            // save incoming message to change later on response
-            outgoingMessagePosition = position;
+            // save outgoing message to change later on response
+            if(message.isActive()) {
+                outgoingMessagePosition = position;
+            }
         } else {
             // incoming video call
             final Holder.IncomingVideoMessage holder = new Holder.IncomingVideoMessage();
@@ -195,7 +198,9 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
             handleIncomingVideoCall(holder, message);
 
             // save incoming message to change later on response
-            incomingMessagePosition = position;
+            if(message.isActive()) {
+                incomingMessagePosition = position;
+            }
         }
 
         return convertView;
@@ -208,17 +213,22 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
         String messageStr = "";
 
         switch (message.getMessageType()) {
-            case Message.Type.CALL_ACCEPTED:
+            case Message.Type.VIDEO_CALL_ACCEPTED:
                 // other user accepted your video call request
-                messageStr = getString(R.string.end_user_accepted_video_call);
+                messageStr = getString(otherUser.isMale()?
+                            R.string.end_user_accepted_video_call_male:
+                            R.string.end_user_accepted_video_call_female,
+                        otherUser.getName());
                 break;
-            case Message.Type.CALL_REJECTED:
+            case Message.Type.VIDEO_CALL_REJECTED:
                 // other user rejected your video call request
-                messageStr = getString(R.string.end_user_rejected_video_call);
+                messageStr = getString(otherUser.isMale()?
+                        R.string.end_user_rejected_video_call_male:
+                        R.string.end_user_rejected_video_call_female,
+                        otherUser.getName());
                 break;
-            case Message.Type.CALL_SENT:
-                // you canceled the video call request you sent
-                if (message.isMessageActive()) {
+            case Message.Type.VIDEO_CALL_SENT:
+                if (message.isActive()) {
                     cancelBtnVisible = true;
                     messageStr = message.getMessage();
                     holder.cancel.setOnClickListener(new View.OnClickListener() {
@@ -228,39 +238,44 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                                     .cancelAVChatRequest(String.valueOf(otherUser.getUserID()), new Callbacks() {
                                         @Override
                                         public void successCallback(JSONObject response) {
-                                            message.setMessage(getString(R.string.video_call_was_canceled));
+                                            Log.d(TAG, "Successfully canceled video chat request. Response: " + response.toString());
+                                            message.setMessage(getString(R.string.you_cancelled_video_chat_request));
                                             holder.header.setText(message.getMessage());
                                             holder.cancel.setVisibility(View.GONE);
 
                                             message.setMessageInactive();
-                                            //itemVideo.setEnabled(true);
+                                            activity.enableVideoChat(true);
                                         }
 
                                         @Override
                                         public void failCallback(JSONObject response) {
+                                            Log.d(TAG, "Failed to cancel video chat request. Response: " + response.toString());
                                             message.setMessageInactive();
-                                            //itemVideo.setEnabled(true);
+                                            activity.enableVideoChat(true);
                                         }
                                     });
                         }
                     });
                 } else {
                     if (message.isMessageFetched()) {
-                        messageStr = getString(R.string.user_sent_you_video_call);
+                        messageStr = getString(otherUser.isMale()?
+                                    R.string.end_user_sent_video_chat_request_male:
+                                    R.string.end_user_sent_video_chat_request_female,
+                                otherUser.getName());
                     } else {
-                        messageStr = getString(R.string.video_call_was_canceled);
+                        messageStr = getString(R.string.video_call);
                     }
                 }
                 break;
-            case Message.Type.NO_ANSWER:
+            case Message.Type.VIDEO_CALL_NO_ANSWER:
                 // other user does not answer
                 messageStr = getString(R.string.video_call_no_answer);
                 break;
-            case Message.Type.INCOMING_BUSY_TONE:
+            case Message.Type.VIDEO_CALL_INCOMING_BUSY_TONE:
                 // other user seems to be busy
                 messageStr = getString(R.string.video_call_other_user_busy);
                 break;
-            case Message.Type.CANCEL_CALL:
+            case Message.Type.VIDEO_CALL_CURRENT_USER_CANCELED_CALL:
                 messageStr = message.getMessage();
                 break;
         }
@@ -275,16 +290,19 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
     }
 
     private void handleIncomingVideoCall(final Holder.IncomingVideoMessage holder, final Message message) {
-        boolean btnVisible = false;
+        boolean btnsVisible = false;
         String messageStr = "";
 
         switch (message.getMessageType()) {
-            case Message.Type.INCOMING_CALL:
+            case Message.Type.VIDEO_CALL_INCOMING_CALL:
                 // incoming video call request
-                if (message.isMessageActive()) {
+                if (message.isActive()) {
                     // message is active
-                    btnVisible = true;
-                    messageStr = getString(R.string.video_chat_call_recieved, otherUser.getName());
+                    btnsVisible = true;
+                    messageStr = getString(otherUser.isMale()?
+                                R.string.end_user_sent_video_chat_request_male:
+                                R.string.end_user_sent_video_chat_request_female,
+                            otherUser.getName());
                     holder.accept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -292,7 +310,8 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                                     .acceptAVChatRequest(String.valueOf(otherUser.getUserID()), new Callbacks() {
                                         @Override
                                         public void successCallback(JSONObject response) {
-                                            message.setMessage(getString(R.string.you_accepted_video_call));
+                                            Log.d(TAG, "Successfully accepted video chat request. Response: " + response.toString());
+                                            message.setMessage(getString(R.string.you_accepted_video_chat_request));
                                             holder.accept.setVisibility(View.GONE);
                                             holder.reject.setVisibility(View.GONE);
 
@@ -303,12 +322,15 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                                             // open video activity
                                             Intent intent = new Intent(activity, AVChatActivity.class);
                                             intent.putExtra("userID", String.valueOf(otherUser.getUserID()));
+                                            intent.putExtra("callId", message.callId);
                                             activity.startActivity(intent);
                                         }
 
                                         @Override
                                         public void failCallback(JSONObject response) {
+                                            Log.d(TAG, "Failed to accept video chat request. Response: " + response.toString());
                                             message.setMessageInactive();
+                                            activity.enableVideoChat(true);
                                         }
                                     });
                         }
@@ -317,27 +339,28 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                     holder.reject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // TODO: check api and fix
                             AVChat.getAVChatInstance(activity.getApplicationContext())
-                                    .rejectAVChatRequest("", String.valueOf(otherUser.getUserID()), new Callbacks() {
+                                    .rejectAVChatRequest(String.valueOf(otherUser.getUserID()), message.callId , new Callbacks() {
                                         @Override
                                         public void successCallback(JSONObject response) {
-                                            message.setMessage(getString(R.string.you_rejected_video_call));
+                                            Log.d(TAG, "Successfully rejected video chat request. Response: " + response.toString());
+                                            message.setMessage(getString(R.string.you_rejected_video_chat_request));
                                             holder.accept.setVisibility(View.GONE);
                                             holder.reject.setVisibility(View.GONE);
                                             holder.name.setText(message.getMessage());
 
-                                            //itemVideo.setEnabled(true);
+                                            activity.enableVideoChat(true);
                                             message.setMessageInactive();
                                         }
 
                                         @Override
                                         public void failCallback(JSONObject response) {
+                                            Log.d(TAG, "Failed to reject video chat request. Response: " + response.toString());
                                             holder.accept.setVisibility(View.GONE);
                                             holder.reject.setVisibility(View.GONE);
                                             holder.name.setText(getString(R.string.error_video_call));
 
-                                            //itemVideo.setEnabled(true);
+                                            activity.enableVideoChat(true);
                                             message.setMessageInactive();
                                         }
                                     });
@@ -353,18 +376,21 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                 }
                 break;
 
-            case Message.Type.OUTGOING_BUSY_TONE:
+            case Message.Type.VIDEO_CALL_OUTGOING_BUSY_TONE:
                 // you're having a video call and another user requests video call
-                messageStr = getString(R.string.user_sent_you_video_call);
+                messageStr = getString(otherUser.isMale()?
+                            R.string.end_user_sent_video_chat_request_male:
+                            R.string.end_user_sent_video_chat_request_female,
+                        otherUser.getName());
                 break;
 
-            case Message.Type.CANCEL_CALL:
+            case Message.Type.VIDEO_CALL_END_USER_CANCELED_CALL:
                 messageStr = message.getMessage();
                 break;
 
         }
 
-        if (btnVisible) {
+        if (btnsVisible) {
             holder.accept.setVisibility(View.VISIBLE);
             holder.reject.setVisibility(View.VISIBLE);
         } else {

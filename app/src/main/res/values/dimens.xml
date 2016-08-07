@@ -18,5 +18,5 @@
     <dimen name="medium_member_profile_picture">85dp</dimen>
     <dimen name="large_member_profile_picture">250dp</dimen>
 
-    <dimen name="keyboard_height">220dp</dimen>
+    <dimen name="keyboard_height">210dp</dimen>
 </resources>

@@ -18,18 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.activities.UserConversationActivity;
+import com.al70b.core.activities.FriendConversationActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.StatusList;
-import com.al70b.core.fragments.UserConversationsFragment;
-import com.al70b.core.fragments.UserConversationsInternalFragment;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.OtherUser;
-import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.objects.User;
 import com.al70b.core.server_methods.RequestsInterface;
 
@@ -547,10 +544,10 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                         .getOtherUserData(currentUser.getUserID(),
                                 currentUser.getAccessToken(),
                                 otherUser);
-                bundle.putSerializable(UserConversationActivity.CURRENT_USER, currentUser);
-                bundle.putSerializable(UserConversationActivity.OTHER_USER, otherUser);
+                bundle.putSerializable(FriendConversationActivity.CURRENT_USER, currentUser);
+                bundle.putSerializable(FriendConversationActivity.OTHER_USER, otherUser);
 
-                Intent intent = new Intent(activity, UserConversationActivity.class);
+                Intent intent = new Intent(activity, FriendConversationActivity.class);
                 intent.putExtras(bundle);
                 activity.startActivity(intent);
             } catch(ServerResponseFailedException ex) {

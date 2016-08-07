@@ -19,17 +19,19 @@ public class Message implements Serializable {
         // as in CometChat API
         public static final int REGULAR = 10;
         // 11, 12, 13, 14 are ignored
-        public static final int CALL_ACCEPTED = 31;
-        public static final int INCOMING_CALL = 32;
-        public static final int OUTGOING_BUSY_TONE = 33;
-        public static final int END_CALL = 34;
-        public static final int CALL_REJECTED = 35;
-        public static final int CANCEL_CALL = 36;
-        public static final int NO_ANSWER = 37;
-        public static final int INCOMING_BUSY_TONE = 38;
+        public static final int VIDEO_CALL_ACCEPTED = 31;
+        public static final int VIDEO_CALL_INCOMING_CALL = 32;
+        public static final int VIDEO_CALL_OUTGOING_BUSY_TONE = 33;
+        public static final int VIDEO_CALL_END_CALL = 34;
+        public static final int VIDEO_CALL_REJECTED = 35;
+        public static final int VIDEO_CALL_CANCEL_CALL = 36;
+        public static final int VIDEO_CALL_NO_ANSWER = 37;
+        public static final int VIDEO_CALL_INCOMING_BUSY_TONE = 38;
 
         // mine
-        public static final int CALL_SENT = 39;
+        public static final int VIDEO_CALL_SENT = 39;
+        public static final int VIDEO_CALL_CURRENT_USER_CANCELED_CALL = 88;
+        public static final int VIDEO_CALL_END_USER_CANCELED_CALL = 89;
     }
 
     // message id
@@ -52,6 +54,8 @@ public class Message implements Serializable {
 
     public Status status;
 
+    public String callId;
+
     public Message(long id, String message, long dateTime, int messageType) {
         this.id = id;
         this.message = message;
@@ -60,6 +64,7 @@ public class Message implements Serializable {
 
         active = true;
         status = Status.NONE;
+        callId = null;
     }
 
     public enum Status {
@@ -101,7 +106,7 @@ public class Message implements Serializable {
         return !(this instanceof EndMessage);
     }
 
-    public boolean isMessageActive() {
+    public boolean isActive() {
         return active;
     }
 

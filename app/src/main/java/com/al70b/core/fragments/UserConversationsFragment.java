@@ -138,7 +138,7 @@ public class UserConversationsFragment extends Fragment {
                 final int id = ci.userID;
                 String name = ci.name;
 
-                Fragment f = new UserConversationsInternalFragment();
+                /*Fragment f = new UserConversationsInternalFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("ID", id);
@@ -165,7 +165,7 @@ public class UserConversationsFragment extends Fragment {
 
                         }
                     }
-                }).start();
+                }).start();*/
             }
 
         });

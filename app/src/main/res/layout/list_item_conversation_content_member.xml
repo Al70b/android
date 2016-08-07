@@ -4,34 +4,38 @@
     android:layout_height="wrap_content"
     android:gravity="start"
     android:layoutDirection="ltr"
-    android:paddingRight="4dp"
-    android:paddingLeft="4dp"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp">
+    android:paddingBottom="1dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circle_image_list_item_messages_profile_picture_member"
-        android:layout_width="@dimen/small_member_profile_picture"
-        android:layout_height="@dimen/small_member_profile_picture"
-        android:layout_alignParentStart="true"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignBottom="@+id/emoji_tv_list_item_messages_last_member"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="3dp"
+        android:layout_alignParentStart="true"
         android:layout_marginBottom="2dp"
-        android:src="@drawable/avatar" />
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/avatar"
+        android:visibility="invisible"/>
 
 
     <com.inscripts.custom.EmojiTextView
         android:id="@+id/emoji_tv_list_item_messages_last_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="45dp"
         android:layout_toEndOf="@id/circle_image_list_item_messages_profile_picture_member"
         android:background="@drawable/message_other_user"
-        android:padding="10dp"
+        android:minWidth="55dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
         android:textColor="#313131"
-        android:minWidth="65dp"
-        android:layout_marginEnd="45dp"
-        android:textSize="15sp" />
+        android:textSize="17sp" />
 
 
     <TextView
@@ -40,9 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/emoji_tv_list_item_messages_last_member"
         android:layout_below="@id/emoji_tv_list_item_messages_last_member"
-        android:layout_marginTop="3dp"
-        android:padding="3dp"
-        android:textColor="@color/bright_gray"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/messages_datetime_color"
         android:textSize="12sp"
         android:visibility="gone" />
 

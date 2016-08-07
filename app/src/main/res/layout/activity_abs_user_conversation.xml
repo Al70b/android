@@ -17,39 +17,40 @@
             android:id="@+id/layout_bottom_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl">
-
-            <EditText
-                android:id="@+id/et_user_messages_message"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:maxHeight="52dp"
-                android:layout_weight="8"
-                android:inputType="textMultiLine"
-                android:layoutDirection="rtl"
-                />
-            <requestFocus />
-
-            <ImageButton
-                android:id="@+id/image_button_user_messages_send"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_action_send"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="3dp"
-                />
+            android:layoutDirection="ltr"
+            android:paddingTop="6dp"
+            android:paddingBottom="1dp"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/image_button_user_messages_emoji"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_action_emo_basic"
                 android:scaleType="centerInside"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="3dp"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"/>
+
+            <ImageButton
+                android:id="@+id/image_button_user_messages_send"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_send"
+                android:layout_gravity="center"
+                />
+
+            <EditText
+                android:id="@+id/et_user_messages_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="32dp"
+                android:maxHeight="52dp"
+                android:inputType="textMultiLine"
+                style="@style/editTextRed"
+                android:layoutDirection="rtl"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +69,8 @@
         android:layout_above="@id/layout_internal_chat_footer"
         android:divider="@color/transparent"
         android:clickable="false"
-        android:fastScrollEnabled="false"
-        android:background="@android:color/white"
-        />
+        android:background="@color/chat_background"
+        >
+    <requestFocus />
+    </com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView>
 </RelativeLayout>

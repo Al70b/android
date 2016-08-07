@@ -5,12 +5,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,8 +63,12 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
     // list view to hold the messages and its adapter
     protected PullToRefreshListView pulledListView;
     protected MessagesListAdapter messagesListAdapter;
+    protected ImageButton emojiButton;
 
     private SmileyKeyBoard smileyKeyBoard;
+
+    private MenuItem itemVideo;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +98,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         pulledListView = (PullToRefreshListView) findViewById(R.id.listview_user_messages_conversation);
         final EditText etMessage = (EditText) findViewById(R.id.et_user_messages_message);
         final ImageButton ibSend = (ImageButton) findViewById(R.id.image_button_user_messages_send);
-        final ImageButton emojiButton = (ImageButton) findViewById(R.id.image_button_user_messages_emoji);
+        emojiButton = (ImageButton) findViewById(R.id.image_button_user_messages_emoji);
 
         smileyKeyBoard = new SmileyKeyBoard();
         smileyKeyBoard.enable(this, this, R.id.layout_for_emoticons, etMessage);
@@ -140,20 +146,6 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
                 }
             }
         });
-
-        /*pulledListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (SmileyKeyBoard.isKeyboardVisibile()) {
-                    SmileyKeyBoard.dismissKeyboard();
-                }
-
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-                return true;
-            }
-        });*/
 
         etMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -227,6 +219,8 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_user_conversation, menu);
 
+        itemVideo = menu.findItem(R.id.menu_item_user_conversation_video);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -236,6 +230,12 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         return super.onPrepareOptionsMenu(menu);
     }
 
+
+    public void enableVideoChat(boolean flag) {
+        if (itemVideo != null) {
+            itemVideo.setEnabled(flag);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -255,10 +255,24 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         }
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Build.VERSION.SDK_INT > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     public void onBackPressed() {
+        Log.d(TAG, "back button was pressed");
         if (SmileyKeyBoard.isKeyboardVisibile()) {
             SmileyKeyBoard.dismissKeyboard();
+            emojiButton.setImageResource(R.drawable.ic_action_emo_basic);
         } else {
             super.onBackPressed();
         }
@@ -290,7 +304,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
             public void run() {
                 try {
                     Bitmap bitmap;
-                    if(otherUser.isProfilePictureSet()) {
+                    if (otherUser.isProfilePictureSet()) {
                         bitmap = Glide.with(getApplicationContext())
                                 .load(otherUser.isProfilePictureSet() ?
                                         otherUser.getProfilePicture().getThumbnailFullPath() :
