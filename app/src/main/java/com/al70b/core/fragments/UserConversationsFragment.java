@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +138,7 @@ public class UserConversationsFragment extends Fragment {
                 final int id = ci.userID;
                 String name = ci.name;
 
-                Fragment f = new UserConversationsInternalFragment();
+                /*Fragment f = new UserConversationsInternalFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("ID", id);
@@ -164,7 +165,7 @@ public class UserConversationsFragment extends Fragment {
 
                         }
                     }
-                }).start();
+                }).start();*/
             }
 
         });

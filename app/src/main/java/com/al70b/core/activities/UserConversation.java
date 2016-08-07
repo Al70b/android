@@ -100,12 +100,12 @@ public class UserConversation extends ListActivity {
                 // inflate the right layout depending on the message source
                 if (myMessage.isUserMessage()) {
                     row = inflater.inflate(R.layout.list_item_conversation_content_user, parent, false);
-                    holder.message = (TextView) row.findViewById(R.id.text_view_list_item_messages_message_user);
+                    holder.message = (TextView) row.findViewById(R.id.emoji_tv_list_item_messages_message_user);
                     holder.dateTime = (TextView) row.findViewById(R.id.text_view_list_item_messages_date_user);
                 } else {
                     row = inflater.inflate(R.layout.list_item_conversation_content_member, parent, false);
                     holder.profilePicture = (CircleImageView) row.findViewById(R.id.circle_image_list_item_messages_profile_picture_member);
-                    holder.message = (TextView) row.findViewById(R.id.text_view_list_item_messages_last_member);
+                    holder.message = (TextView) row.findViewById(R.id.emoji_tv_list_item_messages_last_member);
                     holder.dateTime = (TextView) row.findViewById(R.id.text_view_list_item_messages_date_member);
                 }
 

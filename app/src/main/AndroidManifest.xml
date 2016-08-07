@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
     <!-- For GCM -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <permission
@@ -72,6 +73,12 @@
             android:name=".core.activities.MembersListActivity"
             android:label="@string/title_activity_members_list"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.AppThemeUserMode" />
+        <activity
+            android:name=".core.activities.FriendConversationActivity"
+            android:label="@string/title_activity_user_conversation"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".core.activities.UserHomeActivity"
             android:theme="@style/AppTheme.AppThemeUserMode" />
         <activity
             android:name=".core.activities.FriendsListActivity"

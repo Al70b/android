@@ -275,16 +275,20 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
      * Resets the header to the original state.
      */
     private void noMoreLoadsHeader() {
-        // Set refresh view text to the no more loads label
-        mRefreshViewText.setText(R.string.no_more_loads_label);
-        mRefreshViewText.invalidate();
+        if(mRefreshViewText.getTag() == null) {
+            // Set refresh view text to the no more loads label
+            mRefreshViewText.setText(R.string.no_more_loads_label);
+            mRefreshViewText.invalidate();
 
-        // Clear the full rotation animation
-        mRefreshViewImage.clearAnimation();
+            // Clear the full rotation animation
+            mRefreshViewImage.clearAnimation();
 
-        // Hide progress bar and arrow.
-        mRefreshViewImage.setVisibility(View.GONE);
-        mRefreshViewProgress.setVisibility(View.GONE);
+            // Hide progress bar and arrow.
+            mRefreshViewImage.setVisibility(View.GONE);
+            mRefreshViewProgress.setVisibility(View.GONE);
+
+            mRefreshViewText.setTag(true);
+        }
     }
 
     private void measureView(View child) {

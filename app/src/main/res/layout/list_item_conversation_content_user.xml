@@ -3,40 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
-    android:layout_marginTop="9dp"
     android:layoutDirection="ltr"
-    android:paddingRight="4dp"
+    android:paddingBottom="2dp"
     android:paddingLeft="4dp"
-    android:paddingTop="6dp"
-    android:paddingBottom="4dp">
+    android:paddingRight="4dp"
+    android:paddingTop="2dp">
 
-
-    <EmojiconTextView
-        android:id="@+id/text_view_list_item_messages_message_user"
+    <com.inscripts.custom.EmojiTextView
+        android:id="@+id/emoji_tv_list_item_messages_message_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_alignParentTop="true"
-        android:textColor="#fff"
-        android:textSize="15sp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginRight="5dp"
         android:layout_marginEnd="5dp"
-        android:background="@drawable/message_user"/>
+        android:layout_marginStart="45dp"
+        android:background="@drawable/message_current_user"
+        android:minWidth="55dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:textColor="#fff"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/text_view_list_item_messages_date_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/bright_gray"
-        android:layout_margin="4dp"
-        android:layout_below="@id/text_view_list_item_messages_message_user"
-        android:layout_alignRight="@id/text_view_list_item_messages_message_user"
-        android:textSize="10sp"
-        android:visibility="gone"
-        />
+        android:layout_alignEnd="@id/emoji_tv_list_item_messages_message_user"
+        android:layout_below="@id/emoji_tv_list_item_messages_message_user"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/messages_datetime_color"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

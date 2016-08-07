@@ -6,6 +6,6 @@
         android:layout_height="match_parent"
         android:background="@color/drawer_right_background"
         android:choiceMode="singleChoice"
-        android:divider="@color/bright_gray"
+        android:divider="@color/member_message_background"
         android:dividerHeight="1dp" >
 </ListView>

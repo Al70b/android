@@ -7,13 +7,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.FriendConversationActivity;
 import com.al70b.core.activities.audio_video_call.AVChatActivity;
+import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.Message;
+import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
+import com.al70b.core.server_methods.RequestsInterface;
 import com.al70b.core.server_methods.ServerConstants;
 import com.inscripts.cometchat.sdk.CometChat;
 import com.inscripts.enums.StatusOption;
@@ -55,7 +59,7 @@ public class ChatHandler {
         this.context = context;
         this.currentUser = currentUser;
 
-        if(onlineFriendsList == null) {
+        if (onlineFriendsList == null) {
             this.onlineFriendsList = new ArrayList<>();
         } else {
             this.onlineFriendsList = onlineFriendsList;
@@ -78,7 +82,7 @@ public class ChatHandler {
         cometChatInstance = CometChat.getInstance(context,
                 ServerConstants.CONSTANTS.COMET_CHAT_API_KEY);
 
-        if(chatHandlerEvents != null) {
+        if (chatHandlerEvents != null) {
             login();
         }
 
@@ -87,7 +91,7 @@ public class ChatHandler {
         retryChatLoginTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(!CometChat.isLoggedIn() && chatHandlerEvents != null) {
+                if (!CometChat.isLoggedIn() && chatHandlerEvents != null) {
                     Log.d(TAG + ":Chat Timer", "Logging in");
                     login();
                 } else {
@@ -101,8 +105,12 @@ public class ChatHandler {
         return context.getResources().getString(resource);
     }
 
+    private String getString (int resId, String ... strs) {
+        return context.getString(resId, strs);
+    }
+
     public void login() {
-        if(chatHandlerEvents == null) {
+        if (chatHandlerEvents == null) {
             return;
         }
 
@@ -178,7 +186,7 @@ public class ChatHandler {
     }
 
     public void logout() {
-        if(retryChatLoginTimer != null) {
+        if (retryChatLoginTimer != null) {
             retryChatLoginTimer.cancel();
             retryChatLoginTimer = null;
         }
@@ -245,19 +253,26 @@ public class ChatHandler {
             });
         }
 
-        void onAVChatMessageReceived(int userId, EndMessage msg) {}
+        void onAVChatMessageReceived(int userId, EndMessage msg) {
+        }
 
-        void onMessageReceived(int userId, EndMessage msg) {}
+        void onMessageReceived(int userId, EndMessage msg) {
+        }
 
-        void onChatConnectionSetup(){}
+        void onChatConnectionSetup() {
+        }
 
-        void onProfileInfoReceived(String status, String statusMessage){}
+        void onProfileInfoReceived(String status, String statusMessage) {
+        }
 
-        void onFriendsOnlineListUpdated(){}
+        void onFriendsOnlineListUpdated() {
+        }
 
-        void onSetStatusMessageResponse(boolean statusChanged, String msg, String result){}
+        void onSetStatusMessageResponse(boolean statusChanged, String msg, String result) {
+        }
 
-        void onSetStatusResponse(boolean statusChanged, String result) {}
+        void onSetStatusResponse(boolean statusChanged, String result) {
+        }
 
         abstract void onChatConnectionFailed();
 
@@ -311,7 +326,7 @@ public class ChatHandler {
                 msg = receivedMessage.getString("message");
                 dateTime = receivedMessage.getLong("sent");
 
-                final EndMessage message = new EndMessage(id, msg, dateTime, Message.REGULAR);
+                final EndMessage message = new EndMessage(id, msg, dateTime, Message.Type.REGULAR);
                 intent.putExtra("user_id", otherUserID);
                 intent.putExtra("message", message);
                 context.sendBroadcast(intent);
@@ -412,37 +427,70 @@ public class ChatHandler {
             Logger.debug(TAG + ", AVChat Message Received: " + response.toString());
             try {
                 Intent intent = new Intent();
-                intent.setAction("NEW_SINGLE_MESSAGE");
+                intent.setAction(FriendConversationActivity.NEW_SINGLE_MESSAGE);
 
 				/* Send a broadcast to SingleChatActivity */
                 int id;
                 String msg;
                 long dateTime;
                 int messageType;
+                String callId;
 
                 id = response.getInt("id");
                 final int otherUserID = response.getInt("from");
                 msg = response.getString("message");
                 dateTime = response.getLong("sent");
                 messageType = response.getInt("message_type");
+                callId = response.optString("callid", null);
 
+                boolean userCancelled = false;
+                OtherUser otherUser;
+
+                if(otherUserID == currentUser.getUserID()) {
+                    userCancelled = true;
+                    otherUser = new OtherUser(context, response.getInt("to"));
+                } else {
+                    otherUser = new OtherUser(context, otherUserID);
+                }
+
+                new RequestsInterface(context).getOtherUserData(
+                        currentUser.getUserID(),
+                        currentUser.getAccessToken(), otherUser
+                );
                 // message with response about video chat
-                if (messageType == Message.CALL_REJECTED)
-                    msg = getString(R.string.end_user_rejected_video_call);
-                else if (messageType == Message.INCOMING_CALL)
-                    msg = getString(R.string.end_user_requested_video_call);
-                else if (messageType == Message.CALL_ACCEPTED)
-                    msg = getString(R.string.end_user_accepted_video_call);
-                else if (messageType == Message.OUTGOING_BUSY_TONE)
+                if (messageType == Message.Type.VIDEO_CALL_REJECTED) {
+                    msg = getString(otherUser.isMale() ?
+                                    R.string.end_user_rejected_video_call_male :
+                                    R.string.end_user_rejected_video_call_female,
+                            otherUser.getName());
+                } else if (messageType == Message.Type.VIDEO_CALL_INCOMING_CALL) {
+                    msg = getString(otherUser.isMale() ?
+                                    R.string.end_user_sent_video_chat_request_male :
+                                    R.string.end_user_sent_video_chat_request_female,
+                            otherUser.getName());
+                } else if (messageType == Message.Type.VIDEO_CALL_ACCEPTED) {
+                    msg = getString(otherUser.isMale() ?
+                                    R.string.end_user_accepted_video_call_male :
+                                    R.string.end_user_accepted_video_call_female,
+                            otherUser.getName());
+                } else if (messageType == Message.Type.VIDEO_CALL_OUTGOING_BUSY_TONE) {
                     msg = getString(R.string.video_call_other_user_tried_calling_you);
-                else if (messageType == Message.CANCEL_CALL)
-                    msg = getString(R.string.end_user_canceled_video_call);
-                else if (messageType == Message.NO_ANSWER)
+                } else if (messageType == Message.Type.VIDEO_CALL_CANCEL_CALL) {
+                    if(userCancelled) {
+                        msg = getString(R.string.you_cancelled_video_chat_request);
+                        messageType = Message.Type.VIDEO_CALL_CURRENT_USER_CANCELED_CALL;
+                    } else {
+                        msg = getString(otherUser.isMale() ?
+                                        R.string.end_user_cancelled_video_request_male :
+                                        R.string.end_user_cancelled_video_request_female,
+                                otherUser.getName());
+                        messageType = Message.Type.VIDEO_CALL_END_USER_CANCELED_CALL;
+                    }
+                } else if (messageType == Message.Type.VIDEO_CALL_NO_ANSWER) {
                     msg = getString(R.string.video_call_no_answer);
-                else if (messageType == Message.INCOMING_BUSY_TONE)
+                } else if (messageType == Message.Type.VIDEO_CALL_INCOMING_BUSY_TONE) {
                     msg = getString(R.string.video_call_other_user_busy);
-
-                if (messageType == Message.END_CALL && id != SessionData.getInstance().getId()) {
+                } else if (messageType == Message.Type.VIDEO_CALL_END_CALL && id != SessionData.getInstance().getId()) {
                     if (SessionData.getInstance().isAvchatCallRunning() && AVChatActivity.thisActivity != null) {
                         AVChatActivity.thisActivity.endCall();
                         Toast.makeText(context, getString(R.string.end_user_ended_call), Toast.LENGTH_SHORT).show();
@@ -451,8 +499,9 @@ public class ChatHandler {
                 }
 
                 final EndMessage message = new EndMessage(id, msg, dateTime, messageType);
+                message.callId = callId;
 
-                intent.putExtra("user_id", otherUserID);
+                intent.putExtra("user_id", otherUser.getUserID());
                 intent.putExtra("message", message);
 
                 context.sendBroadcast(intent);
@@ -464,6 +513,8 @@ public class ChatHandler {
                         chatHandlerEvents.onAVChatMessageReceived(otherUserID, message);
                     }
                 });
+            } catch (ServerResponseFailedException ex) {
+                Log.d(TAG, ex.toString());
             } catch (Exception e) {
                 Logger.error(TAG + ":" + e.getMessage());
             }

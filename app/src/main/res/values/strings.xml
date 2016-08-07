@@ -315,15 +315,19 @@
     <string name="your_album">ألبوم الصور الخاص بك</string>
     <string name="accept">قبول</string>
     <string name="reject">رفض</string>
-    <string name="video_chat_call_recieved">يود المستخدم "%1$s" أن يبدأ معك محادثة فيديو</string>
-    <string name="video_chat_request_was_sent">تم إرسال طلب لبدء محادثة فيديو، إنتظر ريثما يقوم الطرف الآخر بالقبول</string>
-    <string name="you_rejected_video_call">قمت برفض طلب محادثة الفيديو</string>
-    <string name="video_call_was_canceled">تم إلغاء طلب محادثة الفيديو الذي أرسلت</string>
-    <string name="end_user_rejected_video_call">الطرف الآخر رفض قبول طلب محادثة الفيديو</string>
-    <string name="end_user_accepted_video_call">تم قبول طلب محادثة الفيديو</string>
-    <string name="end_user_canceled_video_call">الطرف الآخر قام بإلغاء طلب محادثة الفيديو</string>
-    <string name="you_accepted_video_call">تم قبول طلب محادثة الفيديو</string>
-    <string name="end_user_requested_video_call">الطرف الآخر يوّد أن يبدأ بمحادثة فيديو معك</string>
+    <string name="you_sent_video_chat_request_to_male">تم إرسال طلب لبدء محادثة فيديو، إنتظر ريثما يقوم \"%1$s\" بقبول الطلب</string>
+    <string name="you_sent_video_chat_request_to_female">تم إرسال طلب لبدء محادثة فيديو، إنتظر ريثما تقوم \"%1$s\" بقبول الطلب</string>
+    <string name="you_rejected_video_chat_request">تم رفض طلب محادثة الفيديو من قبلك</string>
+    <string name="you_cancelled_video_chat_request">تم إلغاء طلب محادثة الفيديو من قبلك</string>
+    <string name="you_accepted_video_chat_request">تم قبول طلب محادثة الفيديو من قبلك</string>
+    <string name="end_user_sent_video_chat_request_male">يود \"%1$s\" أن يبدأ معك محادثة فيديو</string>
+    <string name="end_user_sent_video_chat_request_female">تود \"%1$s\" أن تبدأ معك محادثة فيديو</string>
+    <string name="end_user_rejected_video_call_male">رفض \"%1$s\" قبول طلب محادثة الفيديو</string>
+    <string name="end_user_rejected_video_call_female">رفضت \"%1$s\" قبول طلب محادثة الفيديو</string>
+    <string name="end_user_accepted_video_call_male">قبل \"%1$s\" البدء بمحادثة فيديو</string>
+    <string name="end_user_accepted_video_call_female">قبلت \"%1$s\" البدء بمحادثة فيديو</string>
+    <string name="end_user_cancelled_video_request_male">ألغى \"%1$s\" طلب محادثة الفيديو</string>
+    <string name="end_user_cancelled_video_request_female">ألغت \"%1$s\" طلب محادثة الفيديو</string>
     <string name="end_call">إنهاء الإتصال</string>
     <string name="switch_camera">تغيير الكاميرا</string>
     <string name="turn_off_video">غلق الكاميرا</string>
@@ -419,6 +423,9 @@
     <string name="error_should_be_less_than_max_age">العمر الأقصى  هو %1$s على الأكثر</string>
     <string name="error_should_be_bigger_than_min_height">الطول الأدنى هو %1$s سم على الأقل</string>
     <string name="error_should_be_smaller_than_max_height">الطول الأقصى هو %1$s على الأكثر</string>
+    <string name="title_activity_user_conversation">محادثة مع...</string>
+    <string name="this_feature_is_allowed_with_friends_only">عذرًا، خدمة الفيديو تعمل فقط مع الأصدقاء</string>
+    <string name="a_video_request_was_already_sent">قد أرسلت طلب صداقة مسبقًا ولم يتم إيجابه</string>
 
 
 </resources>

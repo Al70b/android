@@ -30,6 +30,7 @@ public class AVChatActivity extends Activity {
     private AVChat avchat;
     private RelativeLayout container;
     private LinearLayout layoutSettings;
+    private String callId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class AVChatActivity extends Activity {
 
         Intent intent = getIntent();
         friendId = intent.getStringExtra("userID");
+        callId = intent.getStringExtra("callId");
         avchat = AVChat.getAVChatInstance(this);
 
         container.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +106,7 @@ public class AVChatActivity extends Activity {
             }
         });
 
-        avchat.startAVChatCall(friendId, container, new Callbacks() {
+        avchat.startAVChatCall(callId, container, new Callbacks() {
 
             @Override
             public void successCallback(JSONObject response) {
@@ -252,8 +254,7 @@ public class AVChatActivity extends Activity {
     }
 
     public void endCall() {
-        // TODO: check the api and fix it
-        avchat.endAVChatCall("", friendId, new Callbacks() {
+        avchat.endAVChatCall(friendId, callId, new Callbacks() {
             @Override
             public void successCallback(JSONObject response) {
                 Logger.error("success end callback " + response);

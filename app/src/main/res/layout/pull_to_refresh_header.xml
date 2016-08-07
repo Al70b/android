@@ -59,7 +59,7 @@ limitations under the License.
         android:id="@+id/pull_to_refresh_updated_at"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pull_to_refresh_text"
+        android:layout_below="@id/pull_to_refresh_text"
         android:layout_gravity="center"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall"

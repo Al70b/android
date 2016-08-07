@@ -112,6 +112,13 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public boolean isMale() {
+        return this.gender.getValue() == Gender.MALE;
+    }
+
+    public boolean isFemale() {
+        return this.gender.getValue() == Gender.FEMALE;
+    }
 
     public int getUserID() {
         return userID;

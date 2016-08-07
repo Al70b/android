@@ -141,7 +141,7 @@ public class UserHomeActivity extends FragmentActivity {
         if (bundle == null) {
             // something went wrong with loading the bundle
             Toast.makeText(this, "FATAL ERROR!! BUNDLE WAS NOT SET, LOGGING OUT", Toast.LENGTH_SHORT).show();
-            logout();
+            //logout();
             return;
         }
 
