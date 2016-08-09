@@ -47,6 +47,7 @@ public class MemberProfileActivity extends FragmentActivity {
     public static final String OTHER_USER = "com.al70b.core.activities.MemberProfileActivity.otherUser";
     public static final String POSITION = "com.al70b.core.activities.MemberProfileActivity.position";
     public static final String FRIEND_STATUS = "com.al70b.core.activities.MemberProfileActivity.friend_status";
+
     // number of pages in the view pager
     private final int PAGE_COUNT = 3;
     SlidingTabLayout slidingTabLayout;
@@ -100,7 +101,7 @@ public class MemberProfileActivity extends FragmentActivity {
             inflateActionBar();
 
             Glide.with(thisActivity)
-                    .load(otherUser.getProfilePicture().getThumbnailFullPath())
+                    .load(otherUser.getProfilePictureThumbnailPath())
                     .asBitmap()
                     .placeholder(R.drawable.avatar)
                     .centerCrop()
@@ -198,7 +199,7 @@ public class MemberProfileActivity extends FragmentActivity {
                     return;
 
                 Intent intent = new Intent(thisActivity, DisplayPictureActivity.class);
-                intent.putExtra("DisplayPicture.image", otherUser.getProfilePicture());
+                intent.putExtra("DisplayPicture.image", otherUser.getProfilePictureThumbnailPath());
                 startActivity(intent);
             }
         });
@@ -233,7 +234,7 @@ public class MemberProfileActivity extends FragmentActivity {
         // bind sliding tab layout with xml tag, and set the previously created view pager
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs_member_profile);
         slidingTabLayout.setDistributeEvenly(true);
-        slidingTabLayout.setCustomTabView(R.layout.tab, 0);
+        slidingTabLayout.setCustomTabView(R.layout.tab, R.id.tv_tab_in_view_pager);
         slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {

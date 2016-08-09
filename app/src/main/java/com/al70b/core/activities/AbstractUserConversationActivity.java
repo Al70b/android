@@ -2,13 +2,13 @@ package com.al70b.core.activities;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,13 +16,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.adapters.MessagesListAdapter;
@@ -50,6 +48,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
     private static final int NUMBER_OF_FETCHED_MESSAGES_EACH_TIME = 10;
     public static final String OTHER_USER = "OTHER_USER";
     public static final String CURRENT_USER = "CURRENT_USER";
+    private static final int PROFILE_VISIT_RESULT = 135;
 
     // the current loggedin user
     protected CurrentUser currentUser;
@@ -242,7 +241,13 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         // Handle action buttons
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
+                return true;
+            case R.id.menu_item_user_conversation_profile:
+                Intent intent = new Intent(this, MemberProfileActivity.class);
+                intent.putExtra(MemberProfileActivity.CURRENT_USER, currentUser);
+                intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
+                startActivityForResult(intent, PROFILE_VISIT_RESULT);
                 return true;
             case R.id.menu_item_user_conversation_video:
                 // Specific implementation depending on other user friend status
@@ -307,7 +312,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
                     if (otherUser.isProfilePictureSet()) {
                         bitmap = Glide.with(getApplicationContext())
                                 .load(otherUser.isProfilePictureSet() ?
-                                        otherUser.getProfilePicture().getThumbnailFullPath() :
+                                        otherUser.getProfilePictureThumbnailPath() :
                                         "")
                                 .asBitmap()
                                 .into(-1, -1)

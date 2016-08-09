@@ -81,7 +81,7 @@ public class UserDataFragment extends Fragment {
         slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return Color.WHITE;
+                return Color.RED;
             }
         });
         slidingTabLayout.setViewPager(viewPager);

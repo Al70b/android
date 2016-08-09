@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
 import com.al70b.core.activities.FriendsListActivity;
-import com.al70b.core.activities.MembersListActivity;
-import com.al70b.core.activities.ScreenSlideHomeActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
@@ -135,7 +132,7 @@ public class NavigationDrawer implements NavigationDrawerController{
         if (currentUser.isProfilePictureSet()) {
             // set it to circle image view
             Glide.with(activity.getApplicationContext())
-                    .load(currentUser.getProfilePicture().getThumbnailFullPath())
+                    .load(currentUser.getProfilePictureThumbnailPath())
                     .asBitmap()
                     .fitCenter()
                     .centerCrop()

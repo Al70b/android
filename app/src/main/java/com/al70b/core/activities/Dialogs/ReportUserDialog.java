@@ -53,7 +53,7 @@ public class ReportUserDialog extends Dialog {
         this.user = user;
         this.otherUserID = otherUser.getUserID();
         this.otherUserName = otherUser.getName();
-        this.thumbnailPath = otherUser.getProfilePicture().getThumbnailFullPath();
+        this.thumbnailPath = otherUser.getProfilePictureThumbnailPath();
     }
 
     @Override

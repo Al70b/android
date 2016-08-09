@@ -6,6 +6,7 @@ import android.util.Log;
 import com.al70b.R;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
+import com.al70b.core.misc.Utils;
 import com.inscripts.enums.StatusOption;
 
 import org.json.JSONArray;
@@ -177,8 +178,21 @@ public class User implements Serializable {
         this.statusMessage = statusMessage;
     }
 
+
     public Picture getProfilePicture() {
         return profilePicture;
+    }
+
+    public String getProfilePicturePath() {
+        return profilePicture.getPictureFullPath();
+    }
+
+    public String getProfilePictureThumbnailPath() {
+        if(profilePicture != null) {
+            return profilePicture.getThumbnailFullPath();
+        } else {
+            return Utils.resourceToUri(context, R.drawable.avatar).toString();
+        }
     }
 
     public void setProfilePicture(int newProfilePictureId) {

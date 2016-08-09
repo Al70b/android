@@ -47,7 +47,7 @@ public class SendMessageDialog extends Dialog {
 
         this.otherUserID = otherUser.getUserID();
         this.otherUserName = otherUser.getName();
-        this.thumbnailPath = otherUser.getProfilePicture().getThumbnailFullPath();
+        this.thumbnailPath = otherUser.getProfilePictureThumbnailPath();
     }
 
     @Override

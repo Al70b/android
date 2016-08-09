@@ -70,7 +70,7 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
 
         holder.address.setText(otherUser.getAddress().toString());
 
-        Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
+        Glide.with(context).load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);

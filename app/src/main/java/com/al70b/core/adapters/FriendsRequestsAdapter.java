@@ -80,7 +80,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
         //holder.age.setText(context.getApplicationContext().getString(R.string.age_of, calculateAge(otherUser.getDateOfBirth())));
         holder.address.setText(otherUser.getAddress().toString());
 
-        Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
+        Glide.with(context).load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);

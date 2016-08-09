@@ -67,7 +67,7 @@ public class DialogUserCommand extends Dialog {
         });
 
         Glide.with(context)
-                .load(otherUser.getProfilePicture().getThumbnailFullPath())
+                .load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
                 .fitCenter()
                 .centerCrop()

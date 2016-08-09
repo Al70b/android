@@ -131,7 +131,7 @@ public class MessagesListAdapter extends ArrayAdapter<Message> {
                 // show the profile picture in the circle image view
                 Glide.with(activity.getApplicationContext())
                         .load(otherUser.isProfilePictureSet() ?
-                                otherUser.getProfilePicture().getThumbnailFullPath() :
+                                otherUser.getProfilePictureThumbnailPath() :
                                 "")
                         .placeholder(R.drawable.avatar)
                         .into(holder.profilePicture);

@@ -170,7 +170,7 @@ public class UserBackup implements Serializable {
         this.socialStatus = socialStatus;
     }
 
-    public ProfilePicture getProfilePicture() {
+    public ProfilePicture getProfilePictureThumbnailPath() {
         return profilePicture;
     }
 

@@ -25,6 +25,7 @@
         android:minWidth="80dp"
         android:padding="13dp"
         android:textAllCaps="true"
+        android:textColor="@android:color/white"
         android:textSize="16sp">
     </TextView>
 

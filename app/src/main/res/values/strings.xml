@@ -426,6 +426,7 @@
     <string name="title_activity_user_conversation">محادثة مع...</string>
     <string name="this_feature_is_allowed_with_friends_only">عذرًا، خدمة الفيديو تعمل فقط مع الأصدقاء</string>
     <string name="a_video_request_was_already_sent">قد أرسلت طلب صداقة مسبقًا ولم يتم إيجابه</string>
+    <string name="profile">الصفحة الشخصية</string>
 
 
 </resources>

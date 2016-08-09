@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.SendMessageDialog;
-import com.al70b.core.misc.StorageOperations;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;
 import com.al70b.core.objects.OtherUser;
@@ -79,7 +78,7 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
         holder.age.setText(context.getApplicationContext().getString(R.string.age_of, calculateAge(otherUser.getDateOfBirth())));
         holder.address.setText(otherUser.getAddress().toString());
 
-        Glide.with(context).load(otherUser.getProfilePicture().getThumbnailFullPath())
+        Glide.with(context).load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
