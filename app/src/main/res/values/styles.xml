@@ -14,6 +14,7 @@
 
     <style name="AppTheme.AppThemeUserMode">
         <item name="android:actionBarStyle">@style/ActionBarStyles</item>
+        <item name="android:actionModeStyle">@style/ActionModeStyle</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_cancel</item>
         <item name="android:icon">@android:color/transparent</item>
 
@@ -47,6 +48,19 @@
         <item name="android:subtitleTextStyle">@style/MySubtitleTextAppearance</item>
     </style>
 
+    <style name="ActionModeStyle" parent="@android:style/Widget.Holo.ActionMode">
+        <item name="android:background">@color/action_mode_background</item>
+        <item name="android:backgroundSplit">?android:attr/actionModeSplitBackground</item>
+        <item name="android:height">?android:attr/actionBarSize</item>
+        <item name="android:titleTextStyle">@style/ActionModeTitleTextAppearance</item>
+    </style>
+
+    <style name="ActionModeTitleTextAppearance" parent="@android:style/TextAppearance.Holo.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ActionBarStyles.ActionBarStyleNoTitle">
         <item name="android:displayOptions">none</item>
     </style>
@@ -57,6 +71,8 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+
 
     <style name="MySubtitleTextAppearance" parent="@android:style/TextAppearance.Holo.Medium">
         <item name="android:textSize">18sp</item>

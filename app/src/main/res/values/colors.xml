@@ -10,6 +10,7 @@
     <color name="not_that_bright_gray">#ffc9c9c9</color>
     <color name="chat_background">#f5f5f5</color>
     <color name="dark_red">#bf0505</color>
+    <color name="action_mode_background">#ff8e43</color>
     <color name="chat_lower_separator">#e5b4b4b4</color>
     <color name="orange_red">#ffe22109</color>
     <color name="very_dark_red">#5d0101</color>
