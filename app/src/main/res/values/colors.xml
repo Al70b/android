@@ -17,6 +17,7 @@
     <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
     <color name="red_focused_action_bar_item">#ec0505</color>
+    <color name="bright_red_focused_action_bar_item">#f56262</color>
     <color name="drawer_right_background">#ffffff</color>
     <color name="drawer_left_background">#a3a3a3</color>
     <color name="very_bright_gray">#d2d2d2</color>

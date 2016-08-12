@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/dark_red" android:state_enabled="false"
+        android:state_focused="true" android:state_pressed="true" />
+    <item android:drawable="@color/dark_red" android:state_enabled="false"
+        android:state_focused="true" />
+    <item android:drawable="@drawable/list_selector_background_transition_red"
+        android:state_focused="true" android:state_pressed="true" />
+    <item android:drawable="@drawable/list_selector_background_transition_red"
+        android:state_focused="false" android:state_pressed="true" />
+    <item android:drawable="@color/bright_red_focused_action_bar_item" android:state_focused="true" />
+    <item android:drawable="@android:color/transparent" />
+</selector>
