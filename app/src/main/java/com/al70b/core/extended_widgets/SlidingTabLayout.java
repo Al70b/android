@@ -66,10 +66,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
-    // Naseem added this
-    private List<TextView> listOfViews = new ArrayList<TextView>(); // to apply lock to all tabs
-
-
     public SlidingTabLayout(Context context) {
         this(context, null);
     }
@@ -198,7 +194,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
             if (tabTitleView == null && TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
-                listOfViews.add(tabTitleView);
             }
 
             if (mDistributeEvenly) {
@@ -207,17 +202,19 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
-            tabView.setOnClickListener(tabClickListener);
-            String desc = mContentDescriptions.get(i, null);
-            if (desc != null) {
-                tabView.setContentDescription(desc);
-            }
+            if(tabView != null && tabTitleView != null) {
+                tabTitleView.setText(adapter.getPageTitle(i));
+                tabView.setOnClickListener(tabClickListener);
+                String desc = mContentDescriptions.get(i, null);
+                if (desc != null) {
+                    tabView.setContentDescription(desc);
+                }
 
-            mTabStrip.addView(tabView);
+                mTabStrip.addView(tabView);
 
-            if (i == mViewPager.getCurrentItem()) {
-                tabView.setSelected(true);
+                if (i == mViewPager.getCurrentItem()) {
+                    tabView.setSelected(true);
+                }
             }
         }
     }
@@ -267,23 +264,18 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
+    /**
+     * Go over the tab views layout, get the title tab view (text view) and @lock it
+     * @param lock
+     */
     public void lockTabs(boolean lock) {
-        int i = mTabStrip.getSelectedPosition();
-        int color;
+        for (int k = 0; k < mTabStrip.getChildCount(); k++) {
+            View v = mTabStrip.getChildAt(k).findViewById(R.id.tv_tab_in_view_pager);
 
-        if (lock)
-            color = R.color.dark_red;
-        else
-            color = android.R.color.darker_gray;
-
-        for (int k = 0; k < listOfViews.size(); k++) {
-            TextView v = listOfViews.get(k);
-
-            v.setEnabled(lock);
-            v.setClickable(lock);
-
-            //if(i != k)
-            // v.setTextColor(getResources().getColor(color));
+            if(v instanceof TextView) {
+                v.setEnabled(lock);
+                v.setClickable(lock);
+            }
         }
     }
 

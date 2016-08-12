@@ -462,7 +462,7 @@ public class UserDataAccountFragment extends Fragment {
 
                         // unlock drawers and navigation
                         ((UserDataFragment) getParentFragment()).viewPager.setPagingEnabled(true);
-                        ((UserDataFragment) getParentFragment()).slidingTabLayout.lockTabs(true);
+                        ((UserDataFragment) getParentFragment()).slidingTabLayout.lockTabs(false);
                         ((UserHomeActivity) getActivity()).lockDrawers(false);
 
                         if (emailON) {
@@ -494,7 +494,7 @@ public class UserDataAccountFragment extends Fragment {
 
         // lock drawers and navigation
         ((UserDataFragment) getParentFragment()).viewPager.setPagingEnabled(false);
-        ((UserDataFragment) getParentFragment()).slidingTabLayout.lockTabs(false);
+        ((UserDataFragment) getParentFragment()).slidingTabLayout.lockTabs(true);
         ((UserHomeActivity) getActivity()).lockDrawers(true);
     }
 

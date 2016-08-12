@@ -147,7 +147,7 @@ public class UserDataFragment extends Fragment {
                 ((UserHomeActivity) getActivity()).closeDrawers();
 
                 // disable navigating to other tabs or open drawers until editing is finished
-                slidingTabLayout.lockTabs(false);
+                slidingTabLayout.lockTabs(true);
                 viewPager.setPagingEnabled(false);
                 ((UserHomeActivity) getActivity()).lockDrawers(true);
 
@@ -258,7 +258,7 @@ public class UserDataFragment extends Fragment {
             public void onDestroyActionMode(ActionMode mode) {
                 // unlock drawers and navigation
                 viewPager.setPagingEnabled(true);
-                slidingTabLayout.lockTabs(true);
+                slidingTabLayout.lockTabs(false);
                 ((UserHomeActivity) getActivity()).lockDrawers(false);
 
                 // end edit mode by disabling\hiding editable views
