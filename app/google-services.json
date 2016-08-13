@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "1035755457835",
+    "project_id": "al70b-1042"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035755457835:android:96f2cf0c53370e7c",
+        "android_client_info": {
+          "package_name": "com.al70b"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq311OMsFF65TysS9BIt-_VVHekm4oECI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

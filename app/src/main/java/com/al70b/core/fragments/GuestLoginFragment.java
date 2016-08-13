@@ -32,6 +32,7 @@ import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.StringManp;
 import com.al70b.core.notifications.GcmModule;
+import com.al70b.core.notifications.RegistrationIntentService;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
@@ -196,7 +197,10 @@ public class GuestLoginFragment extends Fragment {
                                     CurrentUser user = serverResponse.getResult();
 
                                     // register user with GCM service
-                                    new GcmModule(getActivity().getApplicationContext(), user).registerToService();
+                                    Intent intent = new Intent(getActivity(), RegistrationIntentService.class);
+                                    intent.putExtra(RegistrationIntentService.USER_ID, user.getUserID());
+                                    intent.putExtra(RegistrationIntentService.ACCESS_TOKEN, user.getUserID());
+                                    getActivity().startService(intent);
 
                                     savedEmailToCache(email);
 

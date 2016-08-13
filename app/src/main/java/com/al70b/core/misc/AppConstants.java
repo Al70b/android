@@ -25,4 +25,5 @@ public class AppConstants {
     public static final int MIN_HEIGHT = 136;
     public static final int MAX_HEIGHT = 244;
 
+    public static final String GCM_SENDER_ID = "1035755457835";
 }

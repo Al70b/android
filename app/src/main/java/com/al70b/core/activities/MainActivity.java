@@ -19,9 +19,12 @@ import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.notifications.GcmModule;
+import com.al70b.core.notifications.RegistrationIntentService;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.File;
 
@@ -96,6 +99,22 @@ public class MainActivity extends Activity {
         LoginTask task = new LoginTask();
         Thread t = new Thread(task);
         t.start();
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                //apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                 //       .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     private class LoginTask implements Runnable {
