@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,28 +31,28 @@ import com.al70b.core.objects.ServerResponse;
  */
 public class UserDataFragment extends Fragment {
 
-    public static final String TO_PICTURES_FRAGMENT = "com.al7ob.al7ob.core.fragments.UserDataFragment.ToPictures";
+    private static boolean goToMyPicturesFlag;
 
-    private static boolean goToMyPictures;
     // number of pages in the view pager
     private final int PAGE_COUNT = 4;
+
     // view pager and sliding tab layout
     public CustomViewPager viewPager;
     public SlidingTabLayout slidingTabLayout;
     private TabsPagerAdapter adapter;
+
     // if info in a child fragment was updated
     private boolean infoUpdated;
 
+    public static void raiseGoToMyPicturesFlag() {
+        goToMyPicturesFlag = true;
+    }
 
-    public boolean goToUserPictures() {
-        goToMyPictures = true;
-
-        if (viewPager != null) {
+    public void goToMyPictures() {
+        // go to pictures fragment
+        if(viewPager != null) {
             viewPager.setCurrentItem(0);
-            return true;
         }
-
-        return false;
     }
 
     @Override
@@ -93,17 +92,15 @@ public class UserDataFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (goToMyPictures) {
+        if (goToMyPicturesFlag) {
             // go to pictures fragment
-            viewPager.setCurrentItem(0);
+            goToMyPictures();
 
-            goToMyPictures = false;
+            goToMyPicturesFlag = false;
         } else {
             // set the first fragment to be the login info
             viewPager.setCurrentItem(PAGE_COUNT - 1);
         }
-
-        Log.d("A7%StartFragment-Data", "UserDataFragment: " + this.getId());
     }
 
     @Override
@@ -283,27 +280,6 @@ public class UserDataFragment extends Fragment {
 
         // TODO photo thing
         adapter.fragments[0].onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        Log.d("A7%PauseFragment-Data", "UserDataFragment: " + this.getId());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        Log.d("A7%StopFragment-Data", "UserDataFragment: " + this.getId());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        Log.d("A7%DestroyFragment-Data", "UserDataFragment: " + this.getId());
     }
 
     public class TabsPagerAdapter extends FragmentPagerAdapter {

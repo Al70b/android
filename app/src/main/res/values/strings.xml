@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">al70b الحب</string>
+    <string name="app_name">كوم.الحب</string>
 
     <!-- A c t i v i t i e s   T i t e l s -->
 
@@ -219,8 +219,7 @@
     <string-array name="picture_commands">
         <item>ضبط الصورة كصورة شخصية</item>
         <item>حذف الصورة</item>
-        <item>تحميل الصورة</item>
-        <item>تتفاصيل أخرى</item>
+        <item>تفاصيل أخرى</item>
     </string-array>
 
     <string-array name="profile_picture_commands">
@@ -347,7 +346,7 @@
     <string name="title_activity_friends_list">الأصدقاء</string>
     <string name="fatal_error_restarting">شيء خطير جدًأ</string>
     <string name="sending_request">جاري إرسال الطلب...</string>
-    <string name="you_have_not_uploaded_photo">لم تقُم برفع أية صورة بعد!</string>
+    <string name="you_have_not_uploaded_photo_yet">لم تقُم برفع أية صورة بعد!</string>
     <string name="friends_requests_str">طلبات الصداقة</string>
     <string name="collapse_friends">غلق</string>
     <string name="expand_friends">عرض</string>
@@ -427,6 +426,9 @@
     <string name="this_feature_is_allowed_with_friends_only">عذرًا، خدمة الفيديو تعمل فقط مع الأصدقاء</string>
     <string name="a_video_request_was_already_sent">قد أرسلت طلب صداقة مسبقًا ولم يتم إيجابه</string>
     <string name="profile">الصفحة الشخصية</string>
+    <string name="picture_properties">خصائص الصورة</string>
+    <string name="more_details">تفاصيل أخرى</string>
+    <string name="picture_details_template">إسم الصورة: %1$s\nتاريخ إصدار: %2$s\n</string>
 
 
 </resources>

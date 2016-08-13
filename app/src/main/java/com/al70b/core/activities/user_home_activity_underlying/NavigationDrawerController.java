@@ -40,6 +40,10 @@ public interface NavigationDrawerController {
     ViewGroup getDrawerLayout();
 
 
+    void updateProfilePicture(int resource);
+
+    void updateProfilePicture(String picturePath);
+
     void updateProfilePicture(Bitmap bitmap);
 
 

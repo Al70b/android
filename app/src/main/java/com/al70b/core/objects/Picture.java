@@ -1,8 +1,13 @@
 package com.al70b.core.objects;
 
-import com.al70b.R;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
+
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.server_methods.ServerConstants;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +18,8 @@ import java.io.Serializable;
  * Created by Naseem on 5/11/2015.
  */
 public class Picture implements Serializable {
+
+    private static final String TAG = "Picture";
 
     // picture's ID
     protected int id;
@@ -33,7 +40,7 @@ public class Picture implements Serializable {
     protected String thumbnailFullPath;
 
     // created date of the picture
-    protected String createDate;
+    protected String createdDate;
 
     protected boolean isProfilePicture;
 
@@ -44,7 +51,7 @@ public class Picture implements Serializable {
         this.pictureFullPath = ServerConstants.CONSTANTS.SERVER_PICTURES_FULL_URL + pictureName;
         this.thumbnailName = thumbnailName;
         this.thumbnailFullPath = ServerConstants.CONSTANTS.SERVER_THUMBNAILS_FULL_URL + thumbnailName;
-        this.createDate = createDate;
+        this.createdDate = createDate;
         this.isProfilePicture = isProfilePicture;
     }
 
@@ -59,7 +66,7 @@ public class Picture implements Serializable {
         this.id = -1;
         this.pictureName = pictureName;
         this.pictureFullPath = pictureUri;
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
     public static Picture parseJSONToPicture(JSONObject jsonObject) throws JSONException {
@@ -91,6 +98,18 @@ public class Picture implements Serializable {
         return pic;
     }
 
+    public BitmapDrawable getDrawable(Context context) {
+        try {
+            Bitmap bitmap = Glide.with(context).
+                    load(thumbnailFullPath).asBitmap().
+                    into(-1, -1).get();
+            return new BitmapDrawable(context.getResources(), bitmap);
+        } catch (Exception ex) {
+            Log.e(TAG, ex.toString());
+            return null;
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -112,7 +131,14 @@ public class Picture implements Serializable {
     }
 
     public String getPictureFullPath() {
-
         return pictureFullPath;
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
     }
 }

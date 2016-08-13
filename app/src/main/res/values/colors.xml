@@ -17,7 +17,7 @@
     <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
     <color name="red_focused_action_bar_item">#ec0505</color>
-    <color name="bright_red_focused_action_bar_item">#f56262</color>
+    <color name="tab_view_very_dark_red">#790202</color>
     <color name="drawer_right_background">#ffffff</color>
     <color name="drawer_left_background">#a3a3a3</color>
     <color name="very_bright_gray">#d2d2d2</color>
@@ -34,7 +34,10 @@
     <color name="very_bright_red">#FFFFC1BA</color>
     <color name="light_grey">#cccccc</color>
     <color name="toggle_gray">#ff292929</color>
+    <color name="bright_toggle_gray">#878787</color>
     <color name="toggle_gray_selected">#ff646464</color>
     <color name="highlighted_yellow">#82f1ec3f</color>
+    <color name="tab_view_red">#d10808</color>
+    <color name="tab_view_selected">#f52d2d</color>
 
 </resources>

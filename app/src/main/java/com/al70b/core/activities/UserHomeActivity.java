@@ -228,12 +228,9 @@ public class UserHomeActivity extends FragmentActivity {
             // if the activity was started after taken a picture or picking a picture
             // go back to the currentUser's picture fragment
             //selectItem(1);
-
             toUserData = false;
-
-            //((UserDataFragment) currentShownFragment).goToUserPictures();
-            ((UserDataFragment) navigationDrawerController.getVisibleFragment())
-                    .goToUserPictures();
+            ((UserDataFragment)navigationDrawerController.getVisibleFragment())
+                    .goToMyPictures();
         }
 
         ((MyApplication) getApplication()).setAppVisible();
@@ -377,6 +374,14 @@ public class UserHomeActivity extends FragmentActivity {
 
     public Fragment getVisibleFragment() {
         return navigationDrawerController.getVisibleFragment();
+    }
+
+    public void updateProfilePictureInNavigationDrawer(int res) {
+        navigationDrawerController.updateProfilePicture(res);
+    }
+
+    public void updateProfilePictureInNavigationDrawer(String path) {
+        navigationDrawerController.updateProfilePicture(path);
     }
 
     public void closeDrawers() {

@@ -11,13 +11,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.fragments.UserDataFragment;
-import com.al70b.core.fragments.UserDataPicturesFragment;
 import com.al70b.core.misc.AppConstants;
 
 /**
@@ -53,7 +50,7 @@ public class PromptUserForProfilePictureDialog extends Dialog {
                 Fragment f = activity.getVisibleFragment();
 
                 if(f instanceof UserDataFragment) {
-                    ((UserDataFragment) f).goToUserPictures();
+                    ((UserDataFragment)f).goToMyPictures();
                 }
 
                 if (chkBoxDont.isChecked()) {

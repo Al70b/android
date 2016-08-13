@@ -123,7 +123,7 @@ public class NavigationDrawer implements NavigationDrawerController{
                 selectItem(1);
 
                 if (currentShownFragment instanceof UserDataFragment) {
-                    ((UserDataFragment) currentShownFragment).goToUserPictures();
+                    ((UserDataFragment)currentShownFragment).goToMyPictures();
                 }
             }
         });
@@ -135,7 +135,6 @@ public class NavigationDrawer implements NavigationDrawerController{
                     .load(currentUser.getProfilePictureThumbnailPath())
                     .asBitmap()
                     .fitCenter()
-                    .centerCrop()
                     .placeholder(R.drawable.avatar)
                     .into(cmUserProfilePicture);
         } else {
@@ -414,14 +413,6 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
     @Override
-    public void updateProfilePicture(Bitmap bitmap) {
-        CircleImageView cmUserProfilePicture = (CircleImageView) navDrawerLayout.findViewById(
-                R.id.circle_image_view_drawer_profile_image);
-        cmUserProfilePicture.setImageBitmap(bitmap);
-        cmUserProfilePicture.invalidate();
-    }
-
-    @Override
     public boolean activityStart() {
         return startTimer();
     }
@@ -445,10 +436,32 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
 
+    @Override
     public void updateProfilePicture(int res) {
         CircleImageView cmUserProfilePicture = (CircleImageView) navDrawerLayout.findViewById(
                 R.id.circle_image_view_drawer_profile_image);
         cmUserProfilePicture.setImageResource(res);
+        cmUserProfilePicture.invalidate();
+    }
+
+    @Override
+    public void updateProfilePicture(String picturePath) {
+        CircleImageView cmUserProfilePicture = (CircleImageView) navDrawerLayout.findViewById(
+                R.id.circle_image_view_drawer_profile_image);
+        Glide.with(activity.getApplicationContext())
+                .load(picturePath)
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.avatar)
+                .into(cmUserProfilePicture);
+        cmUserProfilePicture.invalidate();
+    }
+
+    @Override
+    public void updateProfilePicture(Bitmap bitmap) {
+        CircleImageView cmUserProfilePicture = (CircleImageView) navDrawerLayout.findViewById(
+                R.id.circle_image_view_drawer_profile_image);
+        cmUserProfilePicture.setImageBitmap(bitmap);
         cmUserProfilePicture.invalidate();
     }
 }

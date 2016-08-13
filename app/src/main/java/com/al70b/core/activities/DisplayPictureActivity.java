@@ -1,11 +1,14 @@
 package com.al70b.core.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
@@ -20,6 +23,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class DisplayPictureActivity extends Activity {
 
+    private static final String TAG = "DisplayPictureActivity";
+    public static final String THUMBNAIL_KEY = "THUMBNAIL";
+    public static final String FULL_PICTURE_KEY = "FULL_PICTURE";
+    public static final String DISPLAY_PICTURE_DATA = "DISPLAY_PICTURE_DATA";
+
 
     private DisplayPictureRetainedFragment dataFragment;
 
@@ -31,18 +39,20 @@ public class DisplayPictureActivity extends Activity {
         setContentView(R.layout.activity_display_picture);
 
         // get picture object
-        final Picture pic = (Picture) getIntent().getSerializableExtra("DisplayPicture.image");
+        Intent intent = getIntent();
+
+        if(intent == null) {
+            return;
+        }
+
+        final String thumbnailPath = intent.getStringExtra(THUMBNAIL_KEY);
+        final String fullPicturePath = intent.getStringExtra(FULL_PICTURE_KEY);
 
         final ImageView imgView = (ImageView) findViewById(R.id.img_view_displayPictureA);
+        final ProgressBar progressBarLoading = (ProgressBar) findViewById(R.id.progress_bar_loading_full_picture);
 
-
-        // download thumbnail
-        /*Glide.with(this).
-                load(pic.getThumbnailFullPath()).
-                into(imgView);*/
-
-        Button btn = (Button) findViewById(R.id.btn_displayPictureA_close);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button btnCloseActivity = (Button) findViewById(R.id.btn_displayPictureA_close);
+        btnCloseActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // finish this activity
@@ -52,24 +62,31 @@ public class DisplayPictureActivity extends Activity {
 
         mAttacher = new PhotoViewAttacher(imgView);
 
-        dataFragment = (DisplayPictureRetainedFragment) getFragmentManager().findFragmentByTag("DisplayPicture.data");
+        dataFragment = (DisplayPictureRetainedFragment) getFragmentManager()
+                .findFragmentByTag(DISPLAY_PICTURE_DATA);
 
         // if first time created
         if (dataFragment == null) {
             dataFragment = new DisplayPictureRetainedFragment();
             getFragmentManager().beginTransaction()
-                    .add(dataFragment, "DisplayPicture.data")
+                    .add(dataFragment, DISPLAY_PICTURE_DATA)
                     .commit();
+
+            if(thumbnailPath != null) {
+                Glide.with(this)
+                        .load(thumbnailPath)
+                        .into(imgView);
+            }
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         final Bitmap bitmap = Glide.with(getApplicationContext()).
-                                load(pic.getPictureFullPath()).
-                                asBitmap().
-                                into(-1, -1).
-                                get();
+                                load(fullPicturePath)
+                                .asBitmap()
+                                .into(-1, -1)
+                                .get();
 
                         // set image and refresh
                         imgView.post(new Runnable() {
@@ -78,17 +95,18 @@ public class DisplayPictureActivity extends Activity {
                                 imgView.setImageBitmap(bitmap);
                                 imgView.invalidate();
                                 mAttacher.update();
+
+                                progressBarLoading.setVisibility(View.GONE);
                             }
                         });
 
                         // save bitmap in retained fragment
                         dataFragment.setData(bitmap);
                     } catch (Exception ex) {
+                        Log.e(TAG, ex.toString());
                     }
                 }
             }).start();
-
-
         } else {
             Bitmap bitmap = dataFragment.getData();
 
@@ -96,6 +114,8 @@ public class DisplayPictureActivity extends Activity {
                 imgView.setImageBitmap(bitmap);
                 mAttacher.update();
             }
+
+            progressBarLoading.setVisibility(View.GONE);
         }
     }
 

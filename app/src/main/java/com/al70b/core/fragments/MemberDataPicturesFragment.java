@@ -32,13 +32,15 @@ public class MemberDataPicturesFragment extends Fragment {
 
     private List<Picture> listOfPictures;
 
+    private OtherUser otherUser;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
 
-        OtherUser otherUser = (OtherUser) bundle.getSerializable(MemberProfileActivity.OTHER_USER);
+        otherUser = (OtherUser) bundle.getSerializable(MemberProfileActivity.OTHER_USER);
 
         if (otherUser != null) {
             // get user photos
@@ -64,7 +66,8 @@ public class MemberDataPicturesFragment extends Fragment {
                 Picture pic = (Picture) adapter.getItem(i);
 
                 Intent intent = new Intent(getActivity(), DisplayPictureActivity.class);
-                intent.putExtra("DisplayPicture.image", pic);
+                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, pic.getThumbnailFullPath());
+                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, pic.getPictureFullPath());
                 startActivity(intent);
             }
         });
