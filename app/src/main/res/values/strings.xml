@@ -83,6 +83,7 @@
     <string name="loading_data">جاري الدخول لحسابك</string>
 
 
+
     <!-- Misc -->
     <string name="error">رسالة خطأ</string>
     <string name="caution">رسالة تحذير</string>
@@ -256,7 +257,8 @@
     <string name="passwords_dont_match">كلمة المرور المدخلة وتأكيدها مختلفين</string>
     <string name="error_fill_your_retype_password">من فضلك قم بتأكيد كلمة المرور</string>
     <string name="profile_picture">الصورة الشخصية</string>
-    <string name="click_photo_to_enlarge">أنقر على الصورة لرؤيتها بالحجم الكامل، أو نقرة طويلة لخصائص أخرى.</string>
+    <string name="click_photo_to_enlarge_or_long_click_for_properties">أنقر على الصورة لرؤيتها بالحجم الكامل، أو نقرة طويلة لخصائص أخرى</string>
+    <string name="click_photo_to_enlarge">أنقر على الصورة لرؤيتها بالحجم الكامل</string>
     <string name="profile_picture_change_successfully">تم تغيير الصورة الشخصية بنجاح</string>
     <string name="capture_photo">إلتقاط صورة</string>
     <string name="upload_photo_from_device">تحميل صورة من جهازك</string>
@@ -429,6 +431,8 @@
     <string name="picture_properties">خصائص الصورة</string>
     <string name="more_details">تفاصيل أخرى</string>
     <string name="picture_details_template">إسم الصورة: %1$s\nتاريخ إصدار: %2$s\n</string>
+    <string name="album">ألبوم الصور</string>
+    <string name="user_have_not_uploaded_pictures_yet">لم يقُم المستخدم برفع أي صورة بعد</string>
 
 
 </resources>

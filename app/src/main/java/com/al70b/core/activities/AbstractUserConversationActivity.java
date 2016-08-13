@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.adapters.MessagesListAdapter;
@@ -37,6 +39,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Naseem on 7/27/2016.
@@ -91,8 +95,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         otherUser = (OtherUser) bundle.getSerializable(OTHER_USER);
         assert otherUser != null : "Other user passed to activity cannot be null!";
 
-        // set title and icon
-        setTitleAndIcon(actionBar);
+        inflateActionBar();
 
         pulledListView = (PullToRefreshListView) findViewById(R.id.listview_user_messages_conversation);
         final EditText etMessage = (EditText) findViewById(R.id.et_user_messages_message);
@@ -260,6 +263,47 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         }
     }
 
+    private void inflateActionBar() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout = inflater.inflate(R.layout.actionbar_conversation, null);
+
+        TextView textViewTitle = (TextView) layout.findViewById(R.id.actionbar_conversation_txtview_title);
+        ImageButton imgBtnBack = (ImageButton) layout.findViewById(R.id.actionbar_conversation_imgbtn_back);
+        CircleImageView circleImageProfilePicture = (CircleImageView) layout.findViewById(R.id.actionbar_conversation_circleimg_profile);
+
+        textViewTitle.setText(otherUser.getName());
+
+        circleImageProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!otherUser.isProfilePictureSet()) {
+                    return;
+                }
+
+                Intent intent = new Intent(AbstractUserConversationActivity.this, DisplayPictureActivity.class);
+                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, otherUser.getProfilePictureThumbnailPath());
+                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, otherUser.getProfilePicturePath());
+                startActivity(intent);
+            }
+        });
+
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        ActionBar actionBar = getActionBar();
+
+        if(actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setCustomView(layout);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
@@ -299,38 +343,6 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    private void setTitleAndIcon(final ActionBar actionBar) {
-        setTitle(otherUser.getName());
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Bitmap bitmap;
-                    if (otherUser.isProfilePictureSet()) {
-                        bitmap = Glide.with(getApplicationContext())
-                                .load(otherUser.isProfilePictureSet() ?
-                                        otherUser.getProfilePictureThumbnailPath() :
-                                        "")
-                                .asBitmap()
-                                .into(-1, -1)
-                                .get();
-
-                        actionBar.setIcon(new BitmapDrawable(getResources(), bitmap));
-                    } else {
-                        actionBar.setIcon(R.drawable.avatar);
-                    }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
     }
 
 

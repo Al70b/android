@@ -173,10 +173,6 @@ public class MemberProfileActivity extends FragmentActivity {
     }
 
     private void inflateActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout = inflater.inflate(R.layout.actionbar_member_profile, null);
 
@@ -187,10 +183,11 @@ public class MemberProfileActivity extends FragmentActivity {
 
         textViewTitle.setText(otherUser.getName());
 
-        if (otherUser.getAddress() != null)
+        if (otherUser.getAddress() != null) {
             textViewSubtitle.setText(otherUser.getAddress().toString());
-        else
+        } else {
             textViewSubtitle.setVisibility(View.INVISIBLE);
+        }
 
         circleImageProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +196,8 @@ public class MemberProfileActivity extends FragmentActivity {
                     return;
 
                 Intent intent = new Intent(thisActivity, DisplayPictureActivity.class);
-                intent.putExtra("DisplayPicture.image", otherUser.getProfilePictureThumbnailPath());
+                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, otherUser.getProfilePictureThumbnailPath());
+                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, otherUser.getProfilePicturePath());
                 startActivity(intent);
             }
         });
@@ -211,9 +209,14 @@ public class MemberProfileActivity extends FragmentActivity {
             }
         });
 
-        actionBar.setCustomView(layout);
-        actionBar.setDisplayShowCustomEnabled(true);
+        ActionBar actionBar = getActionBar();
 
+        if(actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setCustomView(layout);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
     }
 
     public void initActivity() {

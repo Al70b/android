@@ -48,6 +48,8 @@ public class MembersListActivity extends Activity {
 
     private List<OtherUser> listOfMembers;
     private MembersListAdapter membersListAdapter;
+
+    private LinearLayout layoutLoading;
     private LoadMoreListView loadMoreListView;
     private LinearLayout layoutFailedToLoad;
 
@@ -74,7 +76,7 @@ public class MembersListActivity extends Activity {
         loadMoreListView = (LoadMoreListView) findViewById(R.id.list_view_userMembersA);
         TextView tvEmptyList = (TextView) findViewById(R.id.tv_members_list_empty_list);
         layoutFailedToLoad = (LinearLayout) findViewById(R.id.layout_userMembersA_failed_loading);
-        TextView textViewLoadingFailed = (TextView) findViewById(R.id.text_view_userMembersA_failed);
+        layoutLoading = (LinearLayout) findViewById(R.id.layout_userMembersA_loading);
 
 
         // create list for received members from server, and an membersListAdapter
@@ -212,6 +214,7 @@ public class MembersListActivity extends Activity {
             // result is surely not null, check if request succeeded
             if (result.first) {
                 loadMoreListView.setVisibility(View.VISIBLE);
+                layoutLoading.setVisibility(View.GONE);
 
                 if(layoutFailedToLoad.getVisibility() == View.VISIBLE) {
                     layoutFailedToLoad.setVisibility(View.GONE);
@@ -228,6 +231,7 @@ public class MembersListActivity extends Activity {
                 if (listOfMembers.size() == 0) {
                     // something went wrong with the connection
                     layoutFailedToLoad.setVisibility(View.VISIBLE);
+                    layoutLoading.setVisibility(View.GONE);
                     ((TextView)layoutFailedToLoad.findViewById(R.id.text_view_userMembersA_failed))
                             .setText(result.second);
                     loadMoreListView.setVisibility(View.GONE);

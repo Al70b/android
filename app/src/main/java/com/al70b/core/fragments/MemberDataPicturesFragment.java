@@ -34,6 +34,7 @@ public class MemberDataPicturesFragment extends Fragment {
 
     private OtherUser otherUser;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,21 +46,45 @@ public class MemberDataPicturesFragment extends Fragment {
         if (otherUser != null) {
             // get user photos
             listOfPictures = otherUser.getPicturesList();
-        } else
+        } else {
             listOfPictures = new ArrayList<>();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_member_data_pictures, container, false);
+        ImageView imgViewProfile = (ImageView) viewGroup.findViewById(R.id.image_view_member_data_pictures_profile);
         GridView gridView = (GridView) viewGroup.findViewById(R.id.grid_view_member_pictures);
+
+        gridView.setEmptyView(viewGroup.findViewById(R.id.text_view_member_empty_grid_view));
 
         // create adapter and set it to grid view
         adapter = new ImageAdapter(getActivity(), listOfPictures);
 
-        gridView.setAdapter(adapter);
+        Glide.with(getActivity().getApplicationContext())
+                .load(otherUser.getProfilePictureThumbnailPath())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.avatar)
+                .into(imgViewProfile);
 
+        imgViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!otherUser.isProfilePictureSet()) {
+                    return;
+                }
+
+                Intent intent = new Intent(getActivity(), DisplayPictureActivity.class);
+                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, otherUser.getProfilePictureThumbnailPath());
+                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, otherUser.getProfilePicturePath());
+                startActivity(intent);
+            }
+        });
+
+        gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -71,7 +96,6 @@ public class MemberDataPicturesFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
 
         return viewGroup;
     }

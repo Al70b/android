@@ -518,20 +518,10 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final FriendsDrawerItem item = (FriendsDrawerItem) parent.getItemAtPosition(position);
 
-            //activity.navigateTo(2);
-            //UserConversationsInternalFragment fragment = new UserConversationsInternalFragment();
-
-            //fragment.setArguments(bundle);
-            //activity.getSupportFragmentManager().beginTransaction()
-            //       .replace(R.id.content_frame, fragment, UserConversationsFragment.INTERNAL_CONVERSATION_TAG)
-            //        .addToBackStack("s")
-            //        .commit();
-
             // mark message as read
             item.isMessageUnread = false;
             view.setBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),
                     android.R.color.transparent));
-
 
             // remove from unread messages
             //unreadMessagesUsersIDs.remove(item.id);
@@ -549,6 +539,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
                 Intent intent = new Intent(activity, FriendConversationActivity.class);
                 intent.putExtras(bundle);
+                activity.closeDrawers();
                 activity.startActivity(intent);
             } catch(ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());

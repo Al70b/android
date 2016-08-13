@@ -15,6 +15,11 @@ import com.al70b.core.MyApplication;
 import com.al70b.core.fragments.DisplayPictureRetainedFragment;
 import com.al70b.core.objects.Picture;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+
+import java.util.concurrent.ExecutionException;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -41,7 +46,7 @@ public class DisplayPictureActivity extends Activity {
         // get picture object
         Intent intent = getIntent();
 
-        if(intent == null) {
+        if (intent == null) {
             return;
         }
 
@@ -72,41 +77,36 @@ public class DisplayPictureActivity extends Activity {
                     .add(dataFragment, DISPLAY_PICTURE_DATA)
                     .commit();
 
-            if(thumbnailPath != null) {
+            if (thumbnailPath != null) {
                 Glide.with(this)
                         .load(thumbnailPath)
+                        .asBitmap()
                         .into(imgView);
             }
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        final Bitmap bitmap = Glide.with(getApplicationContext()).
-                                load(fullPicturePath)
-                                .asBitmap()
-                                .into(-1, -1)
-                                .get();
+            Glide.with(getApplicationContext())
+                    .load(fullPicturePath)
+                    .asBitmap()
+                    .fitCenter()
+                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            imgView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // set image and refresh
+                                    imgView.setImageBitmap(resource);
+                                    imgView.invalidate();
+                                    mAttacher.update();
 
-                        // set image and refresh
-                        imgView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                imgView.setImageBitmap(bitmap);
-                                imgView.invalidate();
-                                mAttacher.update();
+                                    progressBarLoading.setVisibility(View.GONE);
 
-                                progressBarLoading.setVisibility(View.GONE);
-                            }
-                        });
-
-                        // save bitmap in retained fragment
-                        dataFragment.setData(bitmap);
-                    } catch (Exception ex) {
-                        Log.e(TAG, ex.toString());
-                    }
-                }
-            }).start();
+                                    // save bitmap in retained fragment
+                                    dataFragment.setData(resource);
+                                }
+                            });
+                        }
+                    });
         } else {
             Bitmap bitmap = dataFragment.getData();
 
@@ -117,6 +117,7 @@ public class DisplayPictureActivity extends Activity {
 
             progressBarLoading.setVisibility(View.GONE);
         }
+
     }
 
     @Override
