@@ -5,8 +5,20 @@
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/ActionBarStyles.ActionBarStyleNoTitle</item>
         <item name="android:actionMenuTextAppearance">@style/TextAppearance.ActionBarButton</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_red_light</item>
         <item name="android:actionBarItemBackground">@drawable/actionbutton_red</item>
+        <item name="android:editTextBackground">@drawable/dark_red_edit_text_holo_light</item>
+        <item name="android:textColorHighlight">#99df1919</item>
+        <item name="android:textSelectHandleLeft">@drawable/dark_red_text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/dark_red_text_select_handle_right</item>
+        <item name="android:textSelectHandle">@drawable/dark_red_text_select_handle_middle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewdark_red</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/dark_red_btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/dark_red_btn_radio_holo_light</item>
+        <item name="android:buttonStyle">@style/Buttondark_red</item>
+        <item name="android:imageButtonStyle">@style/ImageButtondark_red</item>
+        <item name="android:dropDownSpinnerStyle">@style/Spinnerdark_red</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBardark_red</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/dark_red_fastscroll_thumb_holo</item>
     </style>
 
     <!-- First Activity Theme. -->

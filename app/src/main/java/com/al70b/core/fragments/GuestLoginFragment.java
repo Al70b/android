@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.MyApplication;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.AutocompleteClearableEditText;
@@ -227,22 +228,27 @@ public class GuestLoginFragment extends Fragment {
                                         // save user object
                                         intent.putExtra(KEYS.SHARED_PREFERENCES.USER, user);
 
-                                        // dismiss the wait dialog
-                                        alert.dismiss();
+                                        ((MyApplication)getActivity().getApplication()).setCurrentUser(user);
 
                                         // start the new activity
                                         startActivity(intent);
+
+                                        // dismiss the wait dialog
+                                        alert.dismiss();
+
                                         getActivity().finish();
                                     } else {
-                                        final String errorMessage = serverResponse.getErrorMsg();
+                                        if(serverResponse != null) {
+                                            final String errorMessage = serverResponse.getErrorMsg();
 
-                                        // show the toast
-                                        handler.post(new Runnable() {
-                                            public void run() {
-                                                Toast.makeText(getActivity(), errorMessage,
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                            // show the toast
+                                            handler.post(new Runnable() {
+                                                public void run() {
+                                                    Toast.makeText(getActivity(), errorMessage,
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
                                     }
                                 } else {
                                     final String toastMessage = serverResponse.getErrorMsg();

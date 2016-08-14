@@ -2,6 +2,7 @@ package com.al70b.core;
 
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.al70b.R;
@@ -23,7 +24,8 @@ import org.acra.sender.HttpSender;
         formUriBasicAuthLogin = "auto",
         formUriBasicAuthPassword = "auto"
 )
-public class MyApplication extends MultiDexApplication { // MultiDexApplication
+public class MyApplication extends MultiDexApplication {
+    private static final String TAG = "Al70b-MyApplication";
 
     private boolean mIsAppVisible;
 
@@ -56,8 +58,8 @@ public class MyApplication extends MultiDexApplication { // MultiDexApplication
 
     public CurrentUser getCurrentUser() {
         if(currentUser == null) {
-            Toast.makeText(this, getString(R.string.fatal_error_restarting), Toast.LENGTH_LONG).show();
-            System.exit(0);
+            Log.e(TAG, "No CurrentUser is set to be fetched, exiting application!!");
+            System.exit(-1);
         }
 
         return currentUser;
@@ -73,8 +75,8 @@ public class MyApplication extends MultiDexApplication { // MultiDexApplication
 
     public Translator getTranslator() {
         if(myTranslator == null) {
-            Toast.makeText(this, getString(R.string.fatal_error_restarting), Toast.LENGTH_LONG).show();
-            System.exit(0);
+            Log.e(TAG, "No Translator is set to be fetched, exiting application!!");
+            System.exit(-1);
         }
 
         return myTranslator;

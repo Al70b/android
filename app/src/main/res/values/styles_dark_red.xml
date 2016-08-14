@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AutoCompleteTextViewdark_red" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/dark_red_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/dark_red_edit_text_holo_light</item>
+  </style>
+
+  <style name="Buttondark_red" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/dark_red_btn_default_holo_light</item>
+  </style>
+
+  <style name="ImageButtondark_red" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/dark_red_btn_default_holo_light</item>
+  </style>
+
+  <style name="Spinnerdark_red" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/dark_red_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/dark_red_list_selector_holo_light</item>
+  </style>
+
+  <style name="ProgressBardark_red" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/dark_red_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/dark_red_progress_indeterminate_horizontal_holo_light</item>
+  </style>
+
+</resources>

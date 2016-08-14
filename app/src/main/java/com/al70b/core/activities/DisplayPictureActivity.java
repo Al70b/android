@@ -16,6 +16,7 @@ import com.al70b.core.fragments.DisplayPictureRetainedFragment;
 import com.al70b.core.objects.Picture;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
@@ -84,29 +85,34 @@ public class DisplayPictureActivity extends Activity {
                         .into(imgView);
             }*/
 
-            Glide.with(getApplicationContext())
-                    .load(fullPicturePath)
-                    .asBitmap()
-                    .fitCenter()
-                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                        @Override
-                        public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            imgView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // set image and refresh
-                                    imgView.setImageBitmap(resource);
-                                    imgView.invalidate();
-                                    mAttacher.update();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        final Bitmap bitmap = Glide.with(getApplicationContext())
+                                .load(fullPicturePath)
+                                .asBitmap()
+                                .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                .get();
 
-                                    progressBarLoading.setVisibility(View.GONE);
+                        imgView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                imgView.setImageBitmap(bitmap);
+                                imgView.invalidate();
+                                mAttacher.update();
 
-                                    // save bitmap in retained fragment
-                                    dataFragment.setData(resource);
-                                }
-                            });
-                        }
-                    });
+                                progressBarLoading.setVisibility(View.GONE);
+                            }
+                        });
+
+                        // save bitmap in retained fragment
+                        dataFragment.setData(bitmap);
+                    } catch(Exception ex) {
+                        Log.e(TAG, ex.toString());
+                    }
+                }
+            }).start();
         } else {
             Bitmap bitmap = dataFragment.getData();
 

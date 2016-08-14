@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,7 @@ public class FriendsListActivity extends Activity {
     public static final String NUMBER_OF_FRIENDS_REQUESTS = "com.MembersListActivity.NumbersOfFriendsRequests";
     private static final int RESULTS_PER_PAGE = 10;
     private static final int PROFILE_VISIT_RESULT = 1;
+    private static final String TAG = "FriendsListActivity";
 
     // this activity
     private static FriendsListActivity thisActivity;
@@ -93,11 +95,13 @@ public class FriendsListActivity extends Activity {
         Intent intent = getIntent();
 
         if (intent != null) {
-            currentUser = ((MyApplication)getApplication()).getCurrentUser();
             numOfFriendsRequests = getIntent().getIntExtra(NUMBER_OF_FRIENDS_REQUESTS, -1);
         } else {
+            Log.d(TAG, "Friends list activity did not get an intent");
             this.finish();
         }
+
+        currentUser = ((MyApplication)getApplication()).getCurrentUser();
 
         // relate widgets
         listViewFriends = (LoadMoreListView) findViewById(R.id.list_view_friends_activity_friends);

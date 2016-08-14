@@ -45,6 +45,7 @@ public class UserHomeActivity extends FragmentActivity {
     public static final String TAG_EXIT = "EXIT";   // used for identifying when to exit the application
     public static final String KEY_LAST_ITEM_SELECTED = "com.al70b.core.activities.UserHomeActivity.selectedItem";
     public static final String KEY_CURRENT_USER = "com.al70b.core.activities.UserHomeActivity.currentUser";
+    private static final String TAG = "UserHomeActivity";
 
     /////// Current Activity Declarations ///////
 
