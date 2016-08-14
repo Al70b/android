@@ -77,12 +77,12 @@ public class DisplayPictureActivity extends Activity {
                     .add(dataFragment, DISPLAY_PICTURE_DATA)
                     .commit();
 
-            if (thumbnailPath != null) {
+            /*if (thumbnailPath != null) {
                 Glide.with(this)
                         .load(thumbnailPath)
                         .asBitmap()
                         .into(imgView);
-            }
+            }*/
 
             Glide.with(getApplicationContext())
                     .load(fullPicturePath)

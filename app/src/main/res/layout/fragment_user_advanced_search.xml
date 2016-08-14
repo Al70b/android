@@ -23,7 +23,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/user_advanced_search_info"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -421,7 +421,7 @@
 
         <CheckBox
             android:id="@+id/check_box_user_advanced_search_pictures_only"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
@@ -433,7 +433,7 @@
 
         <CheckBox
             android:id="@+id/check_box_user_advanced_search_online_only"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
