@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
 import com.al70b.core.activities.FriendsListActivity;
+import com.al70b.core.activities.FriendsRequestsListActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
@@ -100,9 +101,9 @@ public class NavigationDrawer implements NavigationDrawerController{
         imgViewFriendsRequests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, UsersListActivity.class);
+                Intent intent = new Intent(activity, FriendsRequestsListActivity.class);
                 intent.putExtra(AppConstants.CURRENT_USER, currentUser);
-                intent.putExtra(FriendsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
+                intent.putExtra(FriendsRequestsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
                         currentUser.getNumOfFriendsRequests());
                 activity.startActivity(intent);
             }
@@ -336,6 +337,7 @@ public class NavigationDrawer implements NavigationDrawerController{
                         else
                             sbFriendsRequests.append(pair.first);
                         friendRequestsVisibility = View.VISIBLE;
+                        currentUser.setNumOfFriendsRequests(pair.first);
                     } else {
                         friendRequestsVisibility = View.INVISIBLE;
                         sbFriendsRequests.append(0);

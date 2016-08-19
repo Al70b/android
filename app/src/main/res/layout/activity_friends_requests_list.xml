@@ -1,29 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_members_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    >
-
-    <com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView
-        android:id="@+id/list_view_userMembersA"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="3dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="2dp"
-        android:padding="3dp"
-        android:background="@color/white"
-        android:visibility="gone" />
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/layout_userMembersA_loading"
+        android:id="@+id/layout_friendsRequestsA_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="visible">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -36,24 +24,14 @@
             android:layout_gravity="center"
             android:layout_marginStart="3dp"
             android:gravity="center"
-            android:text="@string/please_wait"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:text="@string/loading_data"
+            android:textSize="24sp"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_members_list_empty_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/no_members_were_found"
-        android:textSize="22sp"
-        android:visibility="gone" />
 
 
     <!-- loading FAILED_TO_SEND layout -->
     <LinearLayout
-        android:id="@+id/layout_userMembersA_failed_loading"
+        android:id="@+id/layout_friendsRequestsA_failed_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -63,12 +41,28 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/text_view_userMembersA_failed"
+            android:id="@+id/text_view_friendsRequestsA_failed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
     </LinearLayout>
-</LinearLayout>
 
+
+    <com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView
+        android:id="@+id/list_view_friendsRequestsA_requests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_friendsRequestsA_empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_friends_requests"
+        android:textSize="24sp"
+        android:visibility="gone" />
+</LinearLayout>

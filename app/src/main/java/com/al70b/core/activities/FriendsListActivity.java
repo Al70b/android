@@ -205,7 +205,7 @@ public class FriendsListActivity extends Activity {
 
         // create list adapter
         friendsRequestsAdapter = new FriendsRequestsAdapter(thisActivity, R.layout.list_item_friend_request,
-                listOfFriendRequests, currentUser);
+                listOfFriendRequests, currentUser, null);
 
         // set adapter for list view
         listViewFriendsRequests.setAdapter(friendsRequestsAdapter);

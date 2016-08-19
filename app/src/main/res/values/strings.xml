@@ -80,7 +80,7 @@
     <string name="edit_user_data">تعديل البيانات</string>
 
     <string name="welcome_user"> أهلًا بعودتك %1$s,\nجاري الدخول لحسابك...</string>
-    <string name="loading_data">جاري الدخول لحسابك</string>
+    <string name="loading_data">جاري تحميل البيانات</string>
 
 
 
@@ -244,6 +244,7 @@
     <string name="unfriend_user_caution_message">هل أنت متأكد من أنك تريد حذف \"%1$s\" من قائمة أصدقاءك؟</string>
     <string name="friend_request_was_sent">تم إرسال طلب صداقة للمستخدم \"%1$s\"</string>
     <string name="friend_request_was_approved">تم قبول طلب الصداقة من المستخدم \"%1$s\"</string>
+    <string name="friend_request_was_rejected">تم رفض طلب الصداقة من المستخدم \"%1$s\"</string>
     <string name="friend_request_was_canceled">تم إلغاء طلب صداقة المستخدم \"%1$s\"</string>
     <string name="friend_was_removed">تم حذف المستخدم \"%1$s\" من قائمة الأصدقاء</string>
     <string name="what_to_do">إختر من فضلك العملية التي تريد القيام بها</string>
@@ -433,6 +434,8 @@
     <string name="picture_details_template">إسم الصورة: %1$s\nتاريخ إصدار: %2$s\n</string>
     <string name="album">ألبوم الصور</string>
     <string name="user_have_not_uploaded_pictures_yet">لم يقُم المستخدم برفع أي صورة بعد</string>
+    <string name="title_activity_friends_requests_list">طلبات الصداقة</string>
+    <string name="failed_respond_to_friend_request">فشل النظام بالرد على طلب الصداقة، حاول مجددًا من فضلك</string>
 
 
 </resources>

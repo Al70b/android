@@ -75,6 +75,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AppThemeUserMode" />
         <activity
+            android:name=".core.activities.FriendsRequestsListActivity"
+            android:label="@string/title_activity_friends_requests_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.AppThemeUserMode" />
+        <activity
             android:name=".core.activities.FriendConversationActivity"
             android:label="@string/title_activity_user_conversation"
             android:screenOrientation="portrait"

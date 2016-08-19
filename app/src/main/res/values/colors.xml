@@ -40,5 +40,7 @@
     <color name="highlighted_yellow">#82f1ec3f</color>
     <color name="tab_view_red">#d10808</color>
     <color name="tab_view_selected">#f52d2d</color>
+    <color name="trans_bright_green">#a07dff7d</color>
+    <color name="trans_bright_red">#A0ff7d7f</color>
 
 </resources>

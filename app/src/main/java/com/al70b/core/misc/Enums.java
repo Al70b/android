@@ -5,4 +5,9 @@ package com.al70b.core.misc;
  */
 public class Enums {
 
+    public enum FriendRequestAction {
+        ACCEPTED,
+        REJECTED,
+        NONE
+    }
 }

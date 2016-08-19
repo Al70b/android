@@ -221,7 +221,8 @@ public class UserHomeActivity extends FragmentActivity {
 
         if (hasJustLoggedIn) {
             // open drawer on start so currentUser sees friend requests and messages
-            //drawerLayout.openDrawer(navDrawerLayout);
+            drawerLayout.openDrawer(navigationDrawerController.getDrawerLayout());
+
             hasJustLoggedIn = false;
         }
 
