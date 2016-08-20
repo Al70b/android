@@ -2,6 +2,7 @@ package com.al70b.core.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.SendMessageDialog;
+import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;
 import com.al70b.core.objects.OtherUser;
@@ -44,7 +46,7 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, ViewGroup parent) {
 
         View row = convertView;
         MemberItemHolder holder;
@@ -82,6 +84,19 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
+
+        holder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!otherUser.isProfilePictureSet()) {
+                    return;
+                }
+
+                DisplayPictureDialog dialog = new DisplayPictureDialog(context,
+                        otherUser.getProfilePictureThumbnailPath());
+                dialog.show();
+            }
+        });
 
         holder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());
 

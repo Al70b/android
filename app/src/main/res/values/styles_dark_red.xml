@@ -26,4 +26,5 @@
       <item name="android:indeterminateDrawable">@drawable/dark_red_progress_indeterminate_horizontal_holo_light</item>
   </style>
 
+
 </resources>

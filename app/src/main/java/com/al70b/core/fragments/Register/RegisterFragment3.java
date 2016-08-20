@@ -1,7 +1,9 @@
 package com.al70b.core.fragments.Register;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -39,7 +41,7 @@ public class RegisterFragment3 extends Fragment {
     private TextView txtViewBirthDate;
     private RadioGroup rd;
     private RadioGroup rdInterest;
-    private Translator translator;
+
     // hold user's birth date
     private Calendar birthDate;
 
@@ -47,7 +49,6 @@ public class RegisterFragment3 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        translator = Translator.getInstance(getActivity().getApplicationContext());
     }
 
     @Override
@@ -90,25 +91,25 @@ public class RegisterFragment3 extends Fragment {
                 if (validBirthDate) {
                     CurrentUser.Gender gender;
                     CurrentUser.Gender interestGender;
-                    String socialStatus;
                     UserInterest userInterest;
 
                     CurrentUser user = GuestRegisterFragment.getRegisteringUser();
 
                     // user gender
-                    if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male)
+                    if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male) {
                         gender = new User.Gender(CurrentUser.Gender.MALE);
-                    else
+                    } else {
                         gender = new User.Gender(CurrentUser.Gender.FEMALE);
+                    }
                     user.setGender(gender);
 
 
-
                     // user gender interest
-                    if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male)
+                    if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male) {
                         interestGender = new User.Gender(CurrentUser.Gender.MALE);
-                    else
+                    } else {
                         interestGender = new User.Gender(CurrentUser.Gender.FEMALE);
+                    }
 
                     // create user interest object
                     userInterest = new UserInterest(interestGender);
@@ -143,9 +144,7 @@ public class RegisterFragment3 extends Fragment {
             if (birthDate == null)
                 txtViewBirthDate.setText(R.string.register_choose_date);
             else {
-                txtViewBirthDate.setText(birthDate.get(Calendar.YEAR) + "/"
-                        + (birthDate.get(Calendar.MONTH) + 1) + "/"
-                        + birthDate.get(Calendar.DAY_OF_MONTH));
+                txtViewBirthDate.setText(getDateAsString(birthDate));
                 validBirthDate = true;
             }
 
@@ -162,15 +161,22 @@ public class RegisterFragment3 extends Fragment {
         super.onStart();
 
         if (birthDate != null) {
-            txtViewBirthDate.setText(birthDate.get(Calendar.YEAR) + "/"
-                    + (birthDate.get(Calendar.MONTH) + 1) + "/"
-                    + birthDate.get(Calendar.DAY_OF_MONTH));
+            txtViewBirthDate.setText(getDateAsString(birthDate));
             validBirthDate = true;
         }
     }
 
+    private String getDateAsString(Calendar c) {
+        if(c == null) {
+            return "";
+        }
 
-    private class OnBirthDateClickListener implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+        return String.format("%d/%d/%d", c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+    }
+
+
+    private class OnBirthDateClickListener implements View.OnClickListener,
+            DatePickerDialog.OnDateSetListener {
 
         private TextView txtViewToChange;
 
@@ -182,30 +188,25 @@ public class RegisterFragment3 extends Fragment {
         public void onClick(View view) {
 
             final OnBirthDateClickListener thisListener = this;
-            /*DialogFragment df = new DialogFragment() {
-                @Override
-                public Dialog onCreateDialog(Bundle savedInstanceState) {
-                    // Use the current date as the default date in the picker
-                    int year, month, day;
-                    Calendar c;
 
-                    if (birthDate == null) {
-                        c = Calendar.getInstance();
-                        month = c.get(Calendar.MONTH);
-                    } else {
-                        c = birthDate;
-                        month = c.get(Calendar.MONTH);
-                    }
+            // Use the current date as the default date in the picker
+            int year, month, day;
+            Calendar c;
 
-                    year = c.get(Calendar.YEAR);
-                    day = c.get(Calendar.DAY_OF_MONTH);
+            if (birthDate == null) {
+                c = Calendar.getInstance();
+                month = c.get(Calendar.MONTH);
+            } else {
+                c = birthDate;
+                month = c.get(Calendar.MONTH);
+            }
 
-                    // Create a new instance of DatePickerDialog and return it
-                    return new DatePickerDialog(getActivity(), thisListener, year, month, day);
-                }
+            year = c.get(Calendar.YEAR);
+            day = c.get(Calendar.DAY_OF_MONTH);
 
-            };
-            //df.show(getFragmentManager(), "datePicker");*/
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    R.style.MyDatePicker, thisListener, year, month, day);
+            datePickerDialog.show();
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -214,11 +215,13 @@ public class RegisterFragment3 extends Fragment {
                 txtViewToChange.setText(getString(R.string.register_choose_date));
                 validBirthDate = false;
             } else {
-                if (birthDate == null)
+                if (birthDate == null) {
                     birthDate = Calendar.getInstance();
+                }
 
                 birthDate.set(year, month, day);
-                txtViewToChange.setText(year + "/" + (month + 1) + "/" + day);
+
+                txtViewToChange.setText(getDateAsString(birthDate));
 
                 validBirthDate = true;
             }

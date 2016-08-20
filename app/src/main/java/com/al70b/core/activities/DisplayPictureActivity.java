@@ -13,14 +13,8 @@ import android.widget.ProgressBar;
 import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.fragments.DisplayPictureRetainedFragment;
-import com.al70b.core.objects.Picture;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-
-import java.util.concurrent.ExecutionException;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 

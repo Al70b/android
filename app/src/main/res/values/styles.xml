@@ -91,6 +91,12 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <style name="MyDatePicker" parent="@android:style/Widget.Holo.DatePicker">
+        <item name="colorPrimary">#ff5050</item>
+        <item name="colorPrimaryDark">@color/dark_red</item>
+        <item name="colorAccent">#ff5050</item>
+    </style>
+
 
     <!-- Action Bar Button Text Appearance -->
     <style name="TextAppearance.ActionBarButton"

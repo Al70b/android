@@ -3,8 +3,6 @@ package com.al70b.core.activities;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +28,6 @@ import com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.Message;
 import com.al70b.core.objects.OtherUser;
-import com.bumptech.glide.Glide;
 import com.inscripts.Keyboards.SmileyKeyBoard;
 import com.inscripts.interfaces.EmojiClickInterface;
 
@@ -38,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
