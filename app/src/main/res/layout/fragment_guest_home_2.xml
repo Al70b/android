@@ -2,13 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:paddingEnd="30dp"
+    android:paddingStart="30dp">
 
     <ImageView
         android:id="@+id/img_view_guestHome_page_icon"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
         android:src="@drawable/puzzle_icon"
         android:scaleType="fitCenter" />
 
@@ -19,8 +22,6 @@
         android:layout_centerInParent="true"
         android:layout_below="@id/img_view_guestHome_page_icon"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginStart="6dp"
         android:gravity="center"
         android:textColor="@android:color/black"
         android:text="@string/guest_home_puzzle"

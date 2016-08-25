@@ -34,7 +34,6 @@
 
 
     <style name="Theme.FloatingWindow.Popup" parent="@android:style/Theme.Holo.Light" >
-
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -44,13 +43,6 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:backgroundDimEnabled">false</item>
 
-    </style>
-
-    <!--     E  N  D     O  F     T  H  E  M  E  S     -->
-
-
-    <style name="red_button" parent="@android:style/Widget.ActionButton">
-        <item name="android:background">@color/shadowed_white</item>
     </style>
 
     <style name="ActionBarStyles" parent="@android:style/Widget.Holo.ActionBar">
@@ -66,6 +58,15 @@
         <item name="android:height">?android:attr/actionBarSize</item>
         <item name="android:titleTextStyle">@style/ActionModeTitleTextAppearance</item>
     </style>
+
+    <!--     E  N  D     O  F     T  H  E  M  E  S     -->
+
+
+    <style name="red_button" parent="@android:style/Widget.ActionButton">
+        <item name="android:background">@color/shadowed_white</item>
+    </style>
+
+
 
     <style name="ActionModeTitleTextAppearance" parent="@android:style/TextAppearance.Holo.Medium">
         <item name="android:textSize">20sp</item>
@@ -130,7 +131,6 @@
 
     <style name="ListView" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/selector_list_item</item>
-
     </style>
 
 

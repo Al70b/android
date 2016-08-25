@@ -15,8 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.RegisterActivity;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.GuestRegisterFragment;
 
 /**
  * Created by Naseem on 6/30/2015.
@@ -68,13 +68,14 @@ public class RegisterFragment1 extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validName = s.toString().trim().length() > 1;
 
-                if (s.length() == 0)
+                if (s.length() == 0) {
                     btnEmptyName.setVisibility(View.INVISIBLE);
-                else {
-                    if (validName)
+                } else {
+                    if (validName) {
                         btnEmptyName.setImageResource(R.drawable.green_check);
-                    else
+                    } else {
                         btnEmptyName.setImageResource(R.drawable.attention_red_icon);
+                    }
 
                     // show the name validation button
                     btnEmptyName.setVisibility(View.VISIBLE);
@@ -87,11 +88,10 @@ public class RegisterFragment1 extends Fragment {
             public void onClick(View view) {
                 if (validName) {
                     String name = clearableName.getEditText().getText().toString();
-                    GuestRegisterFragment.getRegisteringUser().setName(name);
-
-                    GuestRegisterFragment.pickFragment(new RegisterFragment2(), true);
+                    ((RegisterActivity)getActivity()).registerName(name);
                 } else {
-                    Toast.makeText(getActivity(), R.string.error_fill_your_name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.error_fill_your_name,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

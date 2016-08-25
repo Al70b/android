@@ -106,7 +106,7 @@ public class UserHomeActivity extends FragmentActivity {
                 Toast.LENGTH_SHORT).show();
 
         // start the ScreenSlideHome activity
-        Intent intent = new Intent(this, ScreenSlideHomeActivity.class);
+        Intent intent = new Intent(this, GuestHomeActivity.class);
         startActivity(intent);
 
         // close this activity

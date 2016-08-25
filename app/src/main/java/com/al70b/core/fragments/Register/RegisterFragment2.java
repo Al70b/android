@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.RegisterActivity;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.Address;
 
@@ -32,6 +33,7 @@ import java.util.Locale;
  */
 public class RegisterFragment2 extends Fragment {
 
+    private static final String TAG = "RegisterFragment2";
     private static String cityRetrieve, countryRetrieve;
     private Translator translator;
     private ClearableEditText clearableCity;
@@ -42,9 +44,7 @@ public class RegisterFragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstaneState) {
         super.onCreate(savedInstaneState);
-
         translator = Translator.getInstance(getActivity().getApplicationContext());
-
     }
 
     @Override
@@ -118,14 +118,12 @@ public class RegisterFragment2 extends Fragment {
                 if (validCity) {    // and surely valid country because a default is set
                     String city = clearableCity.getEditText().getText().toString();
                     Address address = new Address(city, country);
-                    GuestRegisterFragment.getRegisteringUser().setAddress(address);
+                    ((RegisterActivity)getActivity()).registerAddress(address);
 
                     // hide keyboard
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(clearableCity.getWindowToken(), 0);
-
-                    GuestRegisterFragment.pickFragment(new RegisterFragment3(), true);
                 } else {
                     Toast.makeText(getActivity(), R.string.error_fill_your_city, Toast.LENGTH_SHORT).show();
                 }
@@ -157,6 +155,7 @@ public class RegisterFragment2 extends Fragment {
                 }
             }
         } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
         return null;
     }

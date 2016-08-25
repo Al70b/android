@@ -9,7 +9,6 @@ import android.util.Log;
 import com.al70b.R;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.fragments.Items.ConversationItem;
-import com.al70b.core.fragments.GuestWelcomeFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.misc.StorageOperations;
@@ -357,7 +356,7 @@ public class RequestsInterface {
     }
 
 
-    public ServerResponse<String> registerUser(CurrentUser user) {
+    public ServerResponse<String> registerUser(CurrentUser user) throws ServerResponseFailedException{
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -395,13 +394,12 @@ public class RequestsInterface {
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
-        } catch (Exception ex) {
-            Log.d("Execution - Requests", ex.toString());
         }
 
         // in case server response wasn't parsed appropriately
-        // if(sr == null)
-        //  throw new ServerResponseFailedException();
+        if(sr == null) {
+            throw new ServerResponseFailedException();
+        }
         return sr;
     }
 
@@ -530,7 +528,7 @@ public class RequestsInterface {
         return list;
     }
 
-    public void downloadRandomUsersPhotos(final List<String> thumbnailsList) {
+    /*public void downloadRandomUsersPhotos(final List<String> thumbnailsList) {
         // turn arguments to JSONObject of arguments
 
 
@@ -564,7 +562,7 @@ public class RequestsInterface {
                 }
             }).start();
         }
-    }
+    }*/
 
 
     public List<Bitmap> getUserThumbnails(List<Picture> listOfPictures, int row, int numInRow) {

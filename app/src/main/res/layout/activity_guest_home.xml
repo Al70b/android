@@ -7,19 +7,21 @@
     <LinearLayout
         android:id="@+id/layout_guestHomeA_header"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="190dp"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_view_guestHome_icon"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            android:layout_marginTop="12dp"
-            android:padding="12dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
             android:layout_gravity="center"
-            android:src="@drawable/transparent_icon" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo2_512" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,18 +37,19 @@
             android:id="@+id/btn_guestHomeA_register"
             android:layout_width="180dp"
             android:layout_height="42dp"
-            android:background="@drawable/white_button_with_radius"
+            android:background="@drawable/white_button"
             android:gravity="center"
+            android:layout_marginTop="25dp"
             android:text="@string/register_now"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@drawable/white_button_text"
             android:textSize="20sp"
             android:onClick="onClickRegisterButton"/>
 
         <Button
             android:id="@+id/btn_guestHomeA_login"
             android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:background="@android:color/transparent"
             android:text="@string/login_to_your_account"

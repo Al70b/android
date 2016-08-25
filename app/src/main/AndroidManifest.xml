@@ -19,9 +19,11 @@
 
     <!-- For GCM -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <permission
         android:name="com.al70b.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.al70b.permission.C2D_MESSAGE" />
 
     <meta-data
@@ -53,15 +55,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.activities.ScreenSlideHomeActivity"
-            android:label="@string/title_activity_very_first"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".core.activities.GuestHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar" />
+        <activity
+            android:name=".core.activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".core.activities.GuestHomeActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".core.activities.RegisterActivity"
+            android:label="@string/title_Activity_register"
+            android:parentActivityName=".core.activities.GuestHomeActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".core.activities.UserHomeActivity"
             android:label="@string/title_activity_user_home"
@@ -86,8 +91,8 @@
         <activity
             android:name=".core.activities.FriendConversationActivity"
             android:label="@string/title_activity_user_conversation"
-            android:screenOrientation="portrait"
             android:parentActivityName=".core.activities.UserHomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AppThemeUserMode" />
         <activity
             android:name=".core.activities.FriendsListActivity"
@@ -119,7 +124,8 @@
 
         <service android:name=".core.notifications.GcmMessageHandler" />
 
-        <activity android:name=".core.activities.UsersListActivity"></activity>
+        <activity android:name=".core.activities.UsersListActivity" />
+
     </application>
 
 </manifest>

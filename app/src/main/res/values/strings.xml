@@ -7,6 +7,8 @@
     <string name="title_activity_very_first">al70b الحب</string>
     <string name="title_activity_user_home">الرئيسية</string>
     <string name="title_activity_member_profile">صفحة العضو</string>
+    <string name="title_Activity_register">إشترك الآن</string>
+    <string name="title_activity_login">دخول</string>
     <string name="settings">خصائص</string>
     <string name="edTxtEmail">البريد الإلكتروني</string>
     <string name="password">كلمة المرور</string>
@@ -81,7 +83,6 @@
 
     <string name="welcome_user"> أهلًا بعودتك %1$s,\nجاري الدخول لحسابك...</string>
     <string name="loading_data">جاري تحميل البيانات</string>
-
 
 
     <!-- Misc -->
@@ -400,7 +401,7 @@
     <string name="picture_was_removed">تم حذف الصورة المطلوبة</string>
     <string name="profile_picture_delete_failed">فشل النظام بحذف الصورة المطلوبة، حاول مرةً أخرى من فضلك</string>
     <string name="done_changing_password_successfully">تم تغيير كلمة المرور بنجاح</string>
-    <string name="you_have_to_accept_terms_of_use">لم تقم بالموافقة على شروط الإستخدام</string>
+    <string name="you_have_to_accept_terms_of_use">لم تقم بالموافقة على شروط الإستخدام وسياسة الخصوصية</string>
     <string name="users_already_registered">مستخدمين مسجلين:</string>
     <string name="need_to_provide_email">عليك إدخال البريد الإلكتروني</string>
     <string name="user_name">إسم المستخدم</string>
@@ -442,6 +443,8 @@
     <string name="guest_home_puzzle">نظام ملاءمة متقدم الذي يساعدك على العثور على الشخص المناسب لك</string>
     <string name="guest_home_avchat">يمكنك أداء مكالمة صوتية ومرئية</string>
     <string name="guest_home_mobile">معك في كل مكان</string>
+    <string name="login">دخول للحساب</string>
+
 
 
 </resources>

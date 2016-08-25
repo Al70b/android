@@ -5,5 +5,7 @@
         android:state_focused="true" android:state_pressed="true" />
     <item android:drawable="@color/very_bright_red" android:state_enabled="false"
         android:state_focused="true" />
+    <item android:drawable="@color/very_bright_red" android:state_enabled="true"
+        android:state_focused="true" android:state_pressed="true" />
     <item android:drawable="@drawable/white_rec_with_radius" />
 </selector>

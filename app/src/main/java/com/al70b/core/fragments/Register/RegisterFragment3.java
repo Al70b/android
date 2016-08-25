@@ -1,16 +1,11 @@
 package com.al70b.core.fragments.Register;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
@@ -19,13 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.fragments.GuestRegisterFragment;
-import com.al70b.core.misc.Translator;
+import com.al70b.core.activities.RegisterActivity;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.User;
 import com.al70b.core.objects.UserInterest;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -34,7 +27,6 @@ import java.util.Calendar;
 public class RegisterFragment3 extends Fragment {
 
     private static Boolean genderMale;
-    private static String socialStatusRetrieve;
     private static Calendar birthdateRetrieve;
     private static Boolean genderInterestMale;
     private boolean validBirthDate;
@@ -48,7 +40,6 @@ public class RegisterFragment3 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -89,11 +80,11 @@ public class RegisterFragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (validBirthDate) {
-                    CurrentUser.Gender gender;
-                    CurrentUser.Gender interestGender;
+                    User.Gender gender;
+                    User.Gender interestGender;
                     UserInterest userInterest;
 
-                    CurrentUser user = GuestRegisterFragment.getRegisteringUser();
+                    RegisterActivity activity = (RegisterActivity) getActivity();
 
                     // user gender
                     if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male) {
@@ -101,11 +92,10 @@ public class RegisterFragment3 extends Fragment {
                     } else {
                         gender = new User.Gender(CurrentUser.Gender.FEMALE);
                     }
-                    user.setGender(gender);
-
 
                     // user gender interest
-                    if (rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male) {
+                    if (rdInterest.getCheckedRadioButtonId() ==
+                            R.id.radiobutton_register_gender_interest_male) {
                         interestGender = new User.Gender(CurrentUser.Gender.MALE);
                     } else {
                         interestGender = new User.Gender(CurrentUser.Gender.FEMALE);
@@ -113,14 +103,7 @@ public class RegisterFragment3 extends Fragment {
 
                     // create user interest object
                     userInterest = new UserInterest(interestGender);
-
-                    // set birth date
-                    user.setDateOfBirth(birthDate);
-
-                    // set social status
-                    user.setUserInterest(userInterest);
-
-                    GuestRegisterFragment.pickFragment(new RegisterFragment4(), true);
+                    activity.register3Fragment(gender, birthDate, userInterest);
                 } else {
                     String message = getString(R.string.error_choose_date);
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -141,15 +124,15 @@ public class RegisterFragment3 extends Fragment {
                 rdInterest.check(R.id.radiobutton_register_gender_interest_female);
 
             birthDate = birthdateRetrieve;
-            if (birthDate == null)
+            if (birthDate == null) {
                 txtViewBirthDate.setText(R.string.register_choose_date);
-            else {
+            } else {
                 txtViewBirthDate.setText(getDateAsString(birthDate));
                 validBirthDate = true;
             }
 
             genderMale = null;
-            genderInterestMale=null;
+            genderInterestMale = null;
             birthdateRetrieve = null;
         }
 
@@ -167,7 +150,7 @@ public class RegisterFragment3 extends Fragment {
     }
 
     private String getDateAsString(Calendar c) {
-        if(c == null) {
+        if (c == null) {
             return "";
         }
 
@@ -186,8 +169,7 @@ public class RegisterFragment3 extends Fragment {
 
         @Override
         public void onClick(View view) {
-
-            final OnBirthDateClickListener thisListener = this;
+            OnBirthDateClickListener thisListener = this;
 
             // Use the current date as the default date in the picker
             int year, month, day;
@@ -205,7 +187,7 @@ public class RegisterFragment3 extends Fragment {
             day = c.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                    R.style.MyDatePicker, thisListener, year, month, day);
+                    thisListener, year, month, day);
             datePickerDialog.show();
         }
 

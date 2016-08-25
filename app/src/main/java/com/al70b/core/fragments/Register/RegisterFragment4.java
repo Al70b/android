@@ -21,9 +21,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.RegisterActivity;
 import com.al70b.core.activities.TermsActivity;
 import com.al70b.core.extended_widgets.ClearableEditText;
-import com.al70b.core.fragments.GuestRegisterFragment;
 import com.al70b.core.misc.StringManp;
 import com.al70b.core.objects.CurrentUser;
 
@@ -41,6 +41,8 @@ public class RegisterFragment4 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
 
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_4, container, false);
         clearableEmail = (ClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_register_email);
@@ -79,9 +81,9 @@ public class RegisterFragment4 extends Fragment {
         chkBoxAcceptAdvertisement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                CurrentUser user = GuestRegisterFragment.getRegisteringUser();
-
-                user.setAcceptAdvertisement(isChecked);
+                RegisterActivity activity = (RegisterActivity) getActivity();
+                // set email and password
+                activity.registerAcceptedAdvertisement(isChecked);
             }
         });
 
@@ -107,7 +109,6 @@ public class RegisterFragment4 extends Fragment {
         clearablePassword.setEditTextHint(R.string.password);
         clearableRetypePassword.setEditTextHint(R.string.retype_password);
 
-
         clearableEmail.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,8 +116,9 @@ public class RegisterFragment4 extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (prevEmailInput != null)
+                if (prevEmailInput != null) {
                     emailAlreadyExists = prevEmailInput.compareTo(s.toString()) == 0;
+                }
             }
 
             @Override
@@ -127,10 +129,11 @@ public class RegisterFragment4 extends Fragment {
                 if (s.length() == 0)
                     btnValidEmailSyntax.setVisibility(View.INVISIBLE);
                 else {
-                    if (validEmailUsage)
+                    if (validEmailUsage) {
                         btnValidEmailSyntax.setImageResource(R.drawable.green_check);
-                    else
+                    } else {
                         btnValidEmailSyntax.setImageResource(R.drawable.attention_red_icon);
+                    }
 
                     // show the email validation button
                     btnValidEmailSyntax.setVisibility(View.VISIBLE);
@@ -161,9 +164,9 @@ public class RegisterFragment4 extends Fragment {
                 } else {
                     if (validPasswordSyntax) {
                         btnValidPasswordSyntax.setImageResource(R.drawable.green_check);
-
-                    } else
+                    } else {
                         btnValidPasswordSyntax.setImageResource(R.drawable.attention_red_icon);
+                    }
 
                     // show the button
                     btnValidPasswordSyntax.setVisibility(View.VISIBLE);
@@ -184,10 +187,11 @@ public class RegisterFragment4 extends Fragment {
                     btnValidRetypePassword.setVisibility(View.INVISIBLE);
                 else {
 
-                    if (validRetypePassword)
+                    if (validRetypePassword) {
                         btnValidRetypePassword.setImageResource(R.drawable.green_check);
-                    else
+                    } else {
                         btnValidRetypePassword.setImageResource(R.drawable.attention_red_icon);
+                    }
 
                     // show the button
                     btnValidRetypePassword.setVisibility(View.VISIBLE);
@@ -205,11 +209,7 @@ public class RegisterFragment4 extends Fragment {
             public void onClick(View view) {
                 if (validEmailUsage && validPasswordSyntax && validRetypePassword && acceptedTermsOfUse) {
 
-                    CurrentUser user = GuestRegisterFragment.getRegisteringUser();
-
-                    // set email and password
-                    user.setEmail(clearableEmail.getText().toString());
-                    user.setPassword(clearablePassword.getText().toString());
+                    RegisterActivity activity = (RegisterActivity) getActivity();
 
                     // hide keyboard
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
@@ -218,7 +218,9 @@ public class RegisterFragment4 extends Fragment {
 
                     nextClicked = true;
 
-                    GuestRegisterFragment.pickFragment(new RegisterFragmentResult(), true);
+                    // set email and password
+                    activity.registerEmailAndPassword(clearableEmail.getText().toString(),
+                            clearablePassword.getText().toString());
                 } else {
                     String message = null;
 
@@ -240,8 +242,9 @@ public class RegisterFragment4 extends Fragment {
                         message = getString(R.string.you_have_to_accept_terms_of_use);
                     }
 
-                    if (message != null)
+                    if (message != null) {
                         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -268,6 +271,7 @@ public class RegisterFragment4 extends Fragment {
     public void onStart() {
         super.onStart();
 
+        /*
         if (nextClicked) {
 
             clearableEmail.getEditText().setText(GuestRegisterFragment.getRegisteringUser().getEmail());
@@ -275,6 +279,6 @@ public class RegisterFragment4 extends Fragment {
             clearableRetypePassword.getEditText().setText("");
 
             nextClicked = false;
-        }
+        }*/
     }
 }

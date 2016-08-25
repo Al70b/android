@@ -1,24 +1,23 @@
 package com.al70b.core.fragments.Register;
 
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
-import com.al70b.core.activities.ScreenSlideHomeActivity;
 import com.al70b.core.activities.Dialogs.DisplayInfoAlert;
-import com.al70b.core.fragments.GuestRegisterFragment;
+import com.al70b.core.activities.LoginActivity;
+import com.al70b.core.activities.RegisterActivity;
+import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.objects.CurrentUser;
+import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 
@@ -30,179 +29,125 @@ public class RegisterFragmentResult extends Fragment {
     private CurrentUser currentUser;
 
     private ProgressBar progressBar;
-    //private TextView textViewResult;
-
-    private DisplayInfoAlert displayInfoAlert = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentUser = GuestRegisterFragment.getRegisteringUser();
+        RegisterActivity activity = (RegisterActivity) getActivity();
+        currentUser = activity.getRegisteringUser();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_result, container, false);
-        //textViewResult = (TextView) viewGroup.findViewById(R.id.text_view_register_result);
         progressBar = (ProgressBar) viewGroup.findViewById(R.id.progress_bar_register_done);
 
         return viewGroup;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String result = "Something went wrong";
-                RequestsInterface requestsInterface = new RequestsInterface(getActivity().getApplicationContext());
-
-                final ServerResponse<String> sr = requestsInterface.registerUser(currentUser);
-
-                if (sr != null && sr.isSuccess()) {
-                    result = getString(R.string.register_successfully);
-                } else {
-                    if (sr != null)
-                        result = sr.getErrorMsg();
-                }
-
-                final String finalResult = result;
-                handler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                        int iconResID;
-                        String title, message;
-                        View.OnClickListener ocl;
-
-
-                        if (sr != null && sr.isSuccess()) {
-                            title = getString(R.string.register_message_success);
-                            message = getString(R.string.register_successfully);
-                            iconResID = -1;
-                            ocl = new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    // go to login activity
-                                    ((ScreenSlideHomeActivity) getActivity()).goToLogin(currentUser.getEmail());
-
-                                    // reload register fragment
-                                    GuestRegisterFragment.pickFragment(new RegisterFragmentIntro(), true);
-
-                                    if (displayInfoAlert != null)
-                                        displayInfoAlert.dismiss();
-                                }
-                            };
-                        } else {
-                            title = getString(R.string.error);
-                            message = finalResult;
-                            iconResID = -1;
-                            ocl = new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-
-                                    boolean emailAlreadyExists = finalResult.compareTo(getString(R.string.error_server_email_exists)) == 0;
-                                    if (emailAlreadyExists) {
-                                        // back to account info fragment
-                                        //fragment = new RegisterFragment4();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("Email", currentUser.getEmail());
-                                        getActivity().getSupportFragmentManager()
-                                                .popBackStack();
-                                        //fragment.setArguments(bundle);
-                                    } else {
-                                        // reload register fragment
-                                        Fragment fragment = new RegisterFragmentIntro();
-                                        getActivity().getSupportFragmentManager().beginTransaction()
-                                                .replace(R.id.frame_layout_register, fragment, fragment.getClass().getName())
-                                                .commit();
-                                    }
-
-
-                                    if (displayInfoAlert != null)
-                                        displayInfoAlert.dismiss();
-
-                                    Toast.makeText(getActivity(), finalResult, Toast.LENGTH_SHORT).show();
-                                }
-                            };
-                        }
-
-                        displayInfoAlert = new DisplayInfoAlert(getActivity(),
-                                title, message, iconResID);
-                        displayInfoAlert.show();
-                        displayInfoAlert.setCanceledOnTouchOutside(false);
-                        displayInfoAlert.setButtonOkFunction(ocl);
-
-                        /*
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                        LinearLayout linearLayout = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.dialog, null, false);
-
-                        ImageView imgView = (ImageView)linearLayout.findViewById(R.id.dialog_icon);
-                        TextView textView = (TextView) linearLayout.findViewById(R.id.dialog_title);
-
-                        if (sr != null && sr.isSuccess()) {
-                            imgView.setImageResource(R.drawable.green_check);
-                            textView.setText(getString(R.string.success_message_title));
-                            builder.setMessage(getString(R.string.register_successfully))
-                                    .setCancelable(false)
-                                    .setTitle(getString(R.string.register_message_success))
-                                    .setIcon(R.drawable.green_check)
-                                    .setCustomTitle(linearLayout)
-                                    .setPositiveButton(getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            // go to login activity
-                                            ((ScreenSlideHomeActivity) getActivity()).goToLogin(currentUser.getEmail());
-
-                                            // reload register fragment
-                                            GuestRegisterFragment.pickFragment(new RegisterFragmentIntro());
-                                        }
-                                    });
-                        } else {
-                            imgView.setImageResource(R.drawable.attention_red_icon);
-                            textView.setText(getString(R.string.register_oops));
-                            builder.setMessage(finalResult)
-                                    .setCancelable(false)
-                                    .setTitle(getString(R.string.register_oops))
-                                    .setIcon(R.drawable.attention_red_icon)
-                                    .setCustomTitle(linearLayout)
-                                    .setPositiveButton(getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int id) {
-
-                                            boolean emailAlreadyExists = finalResult.compareTo(getString(R.string.error_server_email_exists)) == 0;
-                                            if(emailAlreadyExists) {
-                                                // reload register fragment
-                                                Fragment fragment = new RegisterFragment4();
-                                                Bundle bundle = new Bundle();
-                                                bundle.putString("Email", currentUser.getEmail());
-                                                fragment.setArguments(bundle);
-
-                                                // get the user back to the account info fragment
-                                                GuestRegisterFragment.pickFragment(fragment);
-                                            } else {
-                                                // reload register fragment
-                                                GuestRegisterFragment.pickFragment(new RegisterFragmentIntro());
-                                            }
-
-                                            Toast.makeText(getActivity(), finalResult, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
-                        AlertDialog alert = builder.create();
-                        alert.show();*/
-
-                    }
-                });
-            }
-        }).start();
+    public void onStart() {
+        super.onStart();
+        new RegisterAsyncTask().execute();
     }
+
+    private class RegisterAsyncTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {
+
+        private DisplayInfoAlert displayInfoAlert;
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Pair<Boolean, String> doInBackground(Void... params) {
+            Pair<Boolean, String> result;
+
+            RequestsInterface requestsInterface = new RequestsInterface(getActivity().getApplicationContext());
+            try {
+                ServerResponse<String> sr = requestsInterface.registerUser(currentUser);
+
+                if (sr.isSuccess()) {
+                    result = new Pair<>(true, getString(R.string.register_successfully));
+                } else {
+                    result = new Pair<>(false, sr.getErrorMsg());
+                }
+            } catch(ServerResponseFailedException ex) {
+                result = new Pair<>(false, ex.toString());
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final Pair<Boolean, String> result) {
+            progressBar.setVisibility(View.INVISIBLE);
+
+            int iconResID;
+            String title, message;
+            View.OnClickListener ocl;
+
+            if (result.first) {
+                title = getString(R.string.register_message_success);
+                message = getString(R.string.register_successfully);
+                iconResID = -1;
+                ocl = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Go to login activity
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        intent.putExtra(LoginActivity.EMAIL, currentUser.getEmail());
+                        getActivity().startActivity(intent);
+
+                        if (displayInfoAlert != null) {
+                            displayInfoAlert.dismiss();
+                        }
+                        getActivity().finish();
+                    }
+                };
+            } else {
+                title = getString(R.string.error);
+                message = result.second;
+                iconResID = -1;
+                ocl = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        boolean emailAlreadyExists = result.second.compareTo(getString(R.string.error_server_email_exists)) == 0;
+                        if (emailAlreadyExists) {
+                            // back to account info fragment
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Email", currentUser.getEmail());
+                            getActivity().getSupportFragmentManager()
+                                    .popBackStack();
+                        } else {
+                            // reload register fragment
+                            Fragment fragment = new RegisterFragment1();
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.frame_layout_register, fragment, fragment.getClass().getName())
+                                    .commit();
+                        }
+
+
+                        if (displayInfoAlert != null) {
+                            displayInfoAlert.dismiss();
+                        }
+
+                        Toast.makeText(getActivity(), result.second, Toast.LENGTH_SHORT).show();
+                    }
+                };
+            }
+
+            displayInfoAlert = new DisplayInfoAlert(getActivity(),
+                    title, message, iconResID);
+            displayInfoAlert.show();
+            displayInfoAlert.setCanceledOnTouchOutside(false);
+            displayInfoAlert.setButtonOkFunction(ocl);
+
+        }
+    }
+
 }
