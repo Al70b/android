@@ -47,7 +47,7 @@ public class ScreenSlideHomeActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest_home);
+        setContentView(R.layout.activity_home_screen_slide);
 
         // user is not logged in
         mViewPager = (ViewPager) findViewById(R.id.view_pager_guest_home);

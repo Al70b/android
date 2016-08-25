@@ -4,8 +4,74 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_guest_home"
+    <LinearLayout
+        android:id="@+id/layout_guestHomeA_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_view_guestHome_icon"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:layout_gravity="center"
+            android:src="@drawable/transparent_icon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_guestHomeA_footer"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dark_red"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_guestHomeA_register"
+            android:layout_width="180dp"
+            android:layout_height="42dp"
+            android:background="@drawable/white_button_with_radius"
+            android:gravity="center"
+            android:text="@string/register_now"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="20sp"
+            android:onClick="onClickRegisterButton"/>
+
+        <Button
+            android:id="@+id/btn_guestHomeA_login"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/login_to_your_account"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            android:onClick="onClickLoginButton"/>
+
+    </LinearLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_guestHomeA"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_guestHomeA_header"
+        android:layout_above="@id/layout_guestHomeA_footer"
+        />
+
+    <com.al70b.core.extended_widgets.circle_page_indicator.CirclePageIndicator
+        android:id="@+id/circle_page_ind_guestHomeA"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_above="@id/layout_guestHomeA_footer"
+        android:layout_alignBottom="@id/view_pager_guestHomeA"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp" />
+
 </RelativeLayout>

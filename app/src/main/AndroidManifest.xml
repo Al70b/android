@@ -59,6 +59,10 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".core.activities.GuestHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar" />
+        <activity
             android:name=".core.activities.UserHomeActivity"
             android:label="@string/title_activity_user_home"
             android:screenOrientation="portrait"

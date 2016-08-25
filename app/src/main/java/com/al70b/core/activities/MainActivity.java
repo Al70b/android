@@ -242,7 +242,7 @@ public class MainActivity extends Activity {
      */
     private void startAppInGuestMode() {
         // start application in guest mode
-        startIntent(new Intent(context, ScreenSlideHomeActivity.class));
+        startIntent(new Intent(context, GuestHomeActivity.class));
     }
 
     /**
