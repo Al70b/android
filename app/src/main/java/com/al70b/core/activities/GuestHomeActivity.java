@@ -13,17 +13,18 @@ import com.al70b.core.extended_widgets.circle_page_indicator.CirclePageIndicator
 
 public class GuestHomeActivity extends FragmentActivity {
 
+    private ViewPager mViewPager;
+    private GuestHomePageAdapter mPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_home);
 
         // user is not logged in
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager_guestHomeA);
-        GuestHomePageAdapter mPagerAdapter = new GuestHomePageAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.view_pager_guestHomeA);
+        mPagerAdapter = new GuestHomePageAdapter(getSupportFragmentManager());
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setCurrentItem(mPagerAdapter.getCount() - 1, true);
 
         CirclePageIndicator circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circle_page_ind_guestHomeA);
         circlePageIndicator.setViewPager(mViewPager);
@@ -33,6 +34,8 @@ public class GuestHomeActivity extends FragmentActivity {
     public void onStart() {
         super.onStart();
         ((MyApplication) getApplication()).setAppVisible();
+
+        mViewPager.setCurrentItem(mPagerAdapter.getCount() - 1, true);
     }
 
     @Override

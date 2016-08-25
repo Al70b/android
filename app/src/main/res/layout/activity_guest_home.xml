@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/layout_guestHomeA_header"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="170dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/img_view_guestHome_icon"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="4dp"
@@ -47,13 +47,14 @@
 
         <Button
             android:id="@+id/btn_guestHomeA_login"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:background="@android:color/transparent"
             android:text="@string/login_to_your_account"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/transparent_button_text"
+            android:textStyle="bold"
             android:textSize="17sp"
             android:onClick="onClickLoginButton"/>
 

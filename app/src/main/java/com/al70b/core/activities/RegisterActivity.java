@@ -19,6 +19,10 @@ import com.al70b.core.objects.UserInterest;
 
 import java.util.Calendar;
 
+/**
+ * Created by Naseem on 8/25/2016.
+ */
+
 public class RegisterActivity extends FragmentActivity {
 
     protected CurrentUser registeringUser;

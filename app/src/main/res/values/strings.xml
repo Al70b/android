@@ -438,7 +438,7 @@
     <string name="title_activity_friends_requests_list">طلبات الصداقة</string>
     <string name="failed_respond_to_friend_request">فشل النظام بالرد على طلب الصداقة، حاول مجددًا من فضلك</string>
     <string name="register_now">إشترك الآن</string>
-    <string name="login_to_your_account">الدخول لحسابك</string>
+    <string name="login_to_your_account">للدخول لحسابك</string>
     <string name="guest_home_time">التسجيل لن يتعدى الدقيقتين وهو مجاني</string>
     <string name="guest_home_puzzle">نظام ملاءمة متقدم الذي يساعدك على العثور على الشخص المناسب لك</string>
     <string name="guest_home_avchat">يمكنك أداء مكالمة صوتية ومرئية</string>
