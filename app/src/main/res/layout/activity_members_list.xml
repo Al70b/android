@@ -6,8 +6,9 @@
     android:orientation="vertical"
     >
 
-    <com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView
+    <com.al70b.core.extended_widgets.LoadMoreRecyclerView
         android:id="@+id/list_view_userMembersA"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="3dp"
@@ -15,7 +16,8 @@
         android:layout_marginBottom="2dp"
         android:padding="3dp"
         android:background="@color/white"
-        android:visibility="gone" />
+        android:visibility="gone"/>
+
 
     <LinearLayout
         android:id="@+id/layout_userMembersA_loading"

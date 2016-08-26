@@ -4,22 +4,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
-import com.al70b.core.adapters.MembersListAdapter;
+import com.al70b.core.adapters.MembersRecycleViewAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
-import com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView;
+import com.al70b.core.extended_widgets.LoadMoreRecyclerView;
 import com.al70b.core.fragments.UserAdvancedSearchFragment;
 import com.al70b.core.fragments.UserBasicSearchFragment;
+import com.al70b.core.misc.Utils;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
@@ -47,11 +50,15 @@ public class MembersListActivity extends Activity {
     private int page = 1;
 
     private List<OtherUser> listOfMembers;
-    private MembersListAdapter membersListAdapter;
+    //private MembersListAdapter membersListAdapter;
 
     private LinearLayout layoutLoading;
-    private LoadMoreListView loadMoreListView;
+    //private LoadMoreListView loadMoreListView;
+    private LoadMoreRecyclerView loadMoreRecyclerView;
     private LinearLayout layoutFailedToLoad;
+
+    private LoadMoreRecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     // wrapper for the method to call on loading more members
     private Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>> methodToCall;
@@ -73,25 +80,33 @@ public class MembersListActivity extends Activity {
         currentUser = ((MyApplication) getApplication()).getCurrentUser();
 
         // relate widgets
-        loadMoreListView = (LoadMoreListView) findViewById(R.id.list_view_userMembersA);
+        loadMoreRecyclerView = (LoadMoreRecyclerView) findViewById(R.id.list_view_userMembersA);
         TextView tvEmptyList = (TextView) findViewById(R.id.tv_members_list_empty_list);
         layoutFailedToLoad = (LinearLayout) findViewById(R.id.layout_userMembersA_failed_loading);
         layoutLoading = (LinearLayout) findViewById(R.id.layout_userMembersA_loading);
 
+        loadMoreRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManager = new GridLayoutManager(this, 2);
+        mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(5, this));
+        mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(8, this));
+        loadMoreRecyclerView.setLayoutManager(mLayoutManager);
 
         // create list for received members from server, and an membersListAdapter
         listOfMembers = new ArrayList<>();
-        membersListAdapter = new MembersListAdapter(this, R.layout.list_view_item_member,
-                listOfMembers, currentUser);
 
-        loadMoreListView.setAdapter(membersListAdapter);
-        loadMoreListView.setOnLoadMoreListener(new LoadMoreListView.OnLoadMoreListener() {
+        // specify an adapter (see also next example)
+        mAdapter = new MembersRecycleViewAdapter(this, listOfMembers, currentUser);
+        loadMoreRecyclerView.setAdapter(mAdapter);
+        loadMoreRecyclerView.setOnLoadMoreListener(new LoadMoreRecyclerView.OnLoadMoreListener() {
+            @Override
             public void onLoadMore() {
                 // Do the work to load more items at the end of list here
                 new LoadMoreMembersTask(dataSource).execute();
             }
         });
-        loadMoreListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        /*loadMoreRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 OtherUser otherUser = (OtherUser) adapterView.getItemAtPosition(i);
@@ -102,8 +117,8 @@ public class MembersListActivity extends Activity {
                 intent.putExtra(MemberProfileActivity.POSITION, i);
                 startActivityForResult(intent, PROFILE_VISIT_RESULT);
             }
-        });
-        loadMoreListView.setEmptyView(tvEmptyList);
+        });*/
+        //loadMoreRecyclerView.setEmptyView(tvEmptyList);
 
         layoutFailedToLoad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +217,6 @@ public class MembersListActivity extends Activity {
                 result.set(false, ex.toString());
             }
 
-
             return result;
         }
 
@@ -212,20 +226,24 @@ public class MembersListActivity extends Activity {
                 return;
             }
 
+            //mAdapter.setDoneLoading();
+
             // result is surely not null, check if request succeeded
             if (result.first) {
-                loadMoreListView.setVisibility(View.VISIBLE);
+                loadMoreRecyclerView.setVisibility(View.VISIBLE);
                 layoutLoading.setVisibility(View.GONE);
 
                 if(layoutFailedToLoad.getVisibility() == View.VISIBLE) {
                     layoutFailedToLoad.setVisibility(View.GONE);
                 }
 
-                    // We need notify the membersListAdapter that the data have been changed
-                membersListAdapter.notifyDataSetChanged();
+                // This needs to be before notifyDataSetChanged
+                loadMoreRecyclerView.onLoadMoreComplete();
 
-                loadMoreListView.setNoMore(isNoMoreResult);
-                loadMoreListView.onLoadMoreComplete();
+                // We need notify the membersListAdapter that the data have been changed
+                mAdapter.notifyDataSetChanged();
+
+                loadMoreRecyclerView.setNoMoreLoading(isNoMoreResult);
             } else {
                 // failed to fulfill request
 
@@ -235,21 +253,25 @@ public class MembersListActivity extends Activity {
                     layoutLoading.setVisibility(View.GONE);
                     ((TextView)layoutFailedToLoad.findViewById(R.id.text_view_userMembersA_failed))
                             .setText(result.second);
-                    loadMoreListView.setVisibility(View.GONE);
+                    loadMoreRecyclerView.setVisibility(View.GONE);
                 } else {
                     // there is data in the list so just show a toast message
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.error_server_connection_falied),
                             Toast.LENGTH_SHORT).show();
                 }
+
+
+                loadMoreRecyclerView.onLoadMoreComplete();
             }
+
             super.onPostExecute(result);
         }
 
         @Override
         protected void onCancelled() {
             // Notify the loading more operation has finished
-            loadMoreListView.onLoadMoreComplete();
+            loadMoreRecyclerView.onLoadMoreComplete();
         }
 
         ///////////////////////     METHOD WRAPPER  /////////////////////
@@ -274,11 +296,11 @@ public class MembersListActivity extends Activity {
                                         new ResponseCallback<Object>() {
                                             @Override
                                             public void call() {
-                                                loadMoreListView.post(new Runnable() {
+                                                loadMoreRecyclerView.post(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        membersListAdapter.notifyDataSetChanged();
-                                                        loadMoreListView.invalidateViews();
+                                                        mAdapter.notifyDataSetChanged();
+                                                        //loadMoreRecyclerView.invalidateViews();
                                                     }
                                                 });
                                             }
@@ -309,11 +331,11 @@ public class MembersListActivity extends Activity {
                                         new ResponseCallback<Object>() {
                                             @Override
                                             public void call() {
-                                                loadMoreListView.post(new Runnable() {
+                                                loadMoreRecyclerView.post(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        membersListAdapter.notifyDataSetChanged();
-                                                        loadMoreListView.invalidateViews();
+                                                        mAdapter.notifyDataSetChanged();
+                                                        //loadMoreListView.invalidateViews();
                                                     }
                                                 });
                                             }
