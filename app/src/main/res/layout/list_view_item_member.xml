@@ -39,7 +39,7 @@
             android:padding="2dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circle_image_member_item_profile"
+                android:id="@+id/imv_view_member_item_profile"
                 android:layout_width="@dimen/medium_member_profile_picture"
                 android:layout_height="@dimen/medium_member_profile_picture"
                 android:layout_gravity="center"

@@ -45,9 +45,8 @@
 
         <activity
             android:name=".core.activities.MainActivity"
-            android:label="@string/title_activity_very_first"
             android:screenOrientation="portrait"
-            android:theme="@style/FirstActivityTheme">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +56,7 @@
         <activity
             android:name=".core.activities.GuestHomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".core.activities.LoginActivity"
             android:label="@string/title_activity_login"

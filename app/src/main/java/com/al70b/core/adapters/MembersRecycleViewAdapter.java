@@ -46,17 +46,14 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView name, age, address;
-        CircleImageView profilePicture, status;
+        ImageView profilePicture, status;
         ImageView imgViewMessage, imgViewFriendRequest;
         ProgressBar pb;
 
         public ItemViewHolder(View row) {
             super(row);
 
-            profilePicture = (CircleImageView) row.findViewById(R.id.circle_image_member_item_profile);
-            int size = (int) (row.getContext().getResources().getDimension(R.dimen.medium_member_profile_picture));
-            profilePicture.setLayoutParams(new LinearLayout.LayoutParams(size, size));
-
+            profilePicture = (ImageView) row.findViewById(R.id.imv_view_member_item_profile);
             status = (CircleImageView) row.findViewById(R.id.circle_image_member_item_status);
             name = (TextView) row.findViewById(R.id.text_view_member_item_name);
             age = (TextView) row.findViewById(R.id.text_view_member_item_age);

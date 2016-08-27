@@ -1,7 +1,9 @@
 package com.al70b.core.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -58,7 +60,6 @@ public class MembersListActivity extends Activity {
     private LinearLayout layoutFailedToLoad;
 
     private LoadMoreRecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     // wrapper for the method to call on loading more members
     private Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>> methodToCall;
@@ -77,6 +78,14 @@ public class MembersListActivity extends Activity {
         }
 
         dataSource = intent.getStringExtra(MembersListActivity.DATA_SOURCE);
+
+        if(intent.getBooleanExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, false)) {
+            ActionBar actionBar = getActionBar();
+
+            if(actionBar != null) {
+                actionBar.setTitle(getString(R.string.suggested_profiles));
+            }
+        }
         currentUser = ((MyApplication) getApplication()).getCurrentUser();
 
         // relate widgets
@@ -87,9 +96,23 @@ public class MembersListActivity extends Activity {
 
         loadMoreRecyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        mLayoutManager = new GridLayoutManager(this, 2);
-        mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(5, this));
-        mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(8, this));
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        loadMoreRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int space = (int)Utils.convertDpToPixel(4, getApplicationContext());
+                outRect.left = space;
+                outRect.right = space;
+                outRect.bottom = space;
+
+                // Add top margin only for the first item to avoid double space between items
+                if (parent.getChildLayoutPosition(view) == 0) {
+                    outRect.top = space;
+                } else {
+                    outRect.top = 0;
+                }
+            }
+        });
         loadMoreRecyclerView.setLayoutManager(mLayoutManager);
 
         // create list for received members from server, and an membersListAdapter

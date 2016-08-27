@@ -446,6 +446,7 @@
     <string name="login">دخول للحساب</string>
     <string name="finish">إنهاء</string>
     <string name="step_x_out_of_y">خطوه %1$s من %2$s</string>
+    <string name="suggested_profiles">ملفات مقترحة</string>
 
 
 </resources>

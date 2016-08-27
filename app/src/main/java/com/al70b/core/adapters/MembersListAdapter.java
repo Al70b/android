@@ -2,13 +2,11 @@ package com.al70b.core.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,9 +55,9 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
             row = inflater.inflate(layout, parent, false);
 
             holder = new MemberItemHolder();
-            holder.profilePicture = (CircleImageView) row.findViewById(R.id.circle_image_member_item_profile);
-            int size = (int) (context.getApplicationContext().getResources().getDimension(R.dimen.medium_member_profile_picture));
-            holder.profilePicture.setLayoutParams(new LinearLayout.LayoutParams(size, size));
+            holder.profilePicture = (CircleImageView) row.findViewById(R.id.imv_view_member_item_profile);
+            //int size = (int) (context.getApplicationContext().getResources().getDimension(R.dimen.medium_member_profile_picture));
+            //holder.profilePicture.setLayoutParams(new LinearLayout.LayoutParams(size, size));
 
             holder.status = (CircleImageView) row.findViewById(R.id.circle_image_member_item_status);
             holder.name = (TextView) row.findViewById(R.id.text_view_member_item_name);
@@ -139,7 +137,9 @@ public class MembersListAdapter extends ArrayAdapter<OtherUser> {
         holder.imgViewFriendRequest.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(context.getApplicationContext(), otherUser.getFriendStatus().getStringResourceID(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(),
+                        otherUser.getFriendStatus().getStringResourceID(),
+                        Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

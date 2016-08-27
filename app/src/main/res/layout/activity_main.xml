@@ -1,80 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_main_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange_red"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:activity="src.res.core.activities.MainActivity">
+    android:background="@android:color/white"
+    tools:activity="src.res.core.activities.MainActivity"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/layout_mainA_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/transparent_icon" />
 
         <TextView
             android:id="@+id/text_view_main_welcome_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="7dp"
             android:gravity="center"
             android:padding="10dp"
-            android:textColor="@android:color/white"
+            android:textColor="#d41d1d"
             android:textSize="22sp" />
 
         <ProgressBar
             android:id="@+id/progress_ring_main_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_view_main_welcome_user"
             android:layout_gravity="center_horizontal"
             android:indeterminate="true" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_view_main_sign_in_with_another"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_mainA_stam"
-        android:clickable="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/sign_in_with_a_different_email"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:background="@color/dark_red"
+        android:orientation="vertical"
+        android:paddingTop="7dp">
 
-    <LinearLayout
-        android:id="@+id/layout_mainA_stam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="3dp"
-        android:paddingBottom="2dp">
+        <LinearLayout
+            android:id="@+id/layout_mainA_stam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="2dp"
+                android:padding="2dp"
+                android:text="@string/powered_by"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_margin="2dp"
+                android:src="@drawable/weascript_logo" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/text_view_main_sign_in_with_another"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="2dp"
-            android:padding="2dp"
-            android:text="@string/powered_by"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/layout_mainA_stam"
+            android:text="@string/sign_in_with_a_different_email"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:layout_margin="2dp"
-            android:src="@drawable/weascript_logo" />
-    </LinearLayout>
-
-</RelativeLayout>
+            android:textSize="18sp" />
+    </RelativeLayout>
+</LinearLayout>

@@ -29,12 +29,15 @@ import com.al70b.core.activities.user_home_activity_underlying.FriendsAndChatDra
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawer;
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawerController;
 import com.al70b.core.fragments.BackPressedFragment;
+import com.al70b.core.fragments.UserBasicSearchFragment;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.notifications.GcmModule;
 import com.al70b.core.objects.CurrentUser;
+
+import java.util.Calendar;
 
 /**
  * Created by Naseem on 5/7/2015.1
@@ -45,7 +48,9 @@ public class UserHomeActivity extends FragmentActivity {
     public static final String TAG_EXIT = "EXIT";   // used for identifying when to exit the application
     public static final String KEY_LAST_ITEM_SELECTED = "com.al70b.core.activities.UserHomeActivity.selectedItem";
     public static final String KEY_CURRENT_USER = "com.al70b.core.activities.UserHomeActivity.currentUser";
+    public static final String KEY_SUGGESTED_PROFILES = "com.al70b.core.activities.UserHomeActivity.SuggestedProfiles";
     private static final String TAG = "UserHomeActivity";
+
 
     /////// Current Activity Declarations ///////
 
@@ -76,8 +81,8 @@ public class UserHomeActivity extends FragmentActivity {
 
     /**
      * Logout this current user:
-     *   - Delete currentUser's data from the shared pref
-     *   -
+     * - Delete currentUser's data from the shared pref
+     * -
      */
     public void logout() {
         logginOut = true;
@@ -96,7 +101,7 @@ public class UserHomeActivity extends FragmentActivity {
 
         new GcmModule(this, currentUser).deleteRegistrationIdFromBackend();
 
-        MyApplication myApp = ((MyApplication)getApplication());
+        MyApplication myApp = ((MyApplication) getApplication());
         if (myApp != null) {
             myApp.setCurrentUser(null);
         }
@@ -121,7 +126,7 @@ public class UserHomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             Log.d("SavedInstanceState", "is not Null");
         } else {
             Log.d("SavedInstanceState", "is Null");
@@ -158,6 +163,7 @@ public class UserHomeActivity extends FragmentActivity {
                 return;
             }
         }
+
 
         /*        P R E P A R E     D R A W E R     L A Y O U T        */
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -204,6 +210,35 @@ public class UserHomeActivity extends FragmentActivity {
         navigationDrawerController.navigateTo(selectedItem);
     }
 
+    private void jumpToSuggestedProfiles(CurrentUser currentUser) {
+        Intent intent = new Intent(UserHomeActivity.this, MembersListActivity.class);
+        intent.putExtra(MembersListActivity.DATA_SOURCE, UserBasicSearchFragment.DISPLAY_DATA_TOKEN);
+        intent.putExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, true);
+
+        int gender = currentUser.getUserInterest().getGenderInterest().getValue();
+
+        // calculate user's age to get range
+        int abs = 8;
+        int age = Calendar.getInstance().get(Calendar.YEAR) - currentUser.getDateOfBirth().get(Calendar.YEAR);
+        int from = age - abs;
+        int to = age + abs;
+
+        // build bundle with data
+        Bundle bundle = new Bundle();
+        bundle.putInt(UserBasicSearchFragment.GENDER, gender);
+        bundle.putInt(UserBasicSearchFragment.AGE_FROM, from < AppConstants.MIN_MEMBER_AGE ?
+                AppConstants.MIN_MEMBER_AGE : from);
+        bundle.putInt(UserBasicSearchFragment.AGE_TO, to > AppConstants.MAX_MEMBER_AGE ?
+                AppConstants.MAX_MEMBER_AGE : to);
+        bundle.putBoolean(UserBasicSearchFragment.PICTURES_ONLY, true);
+        bundle.putBoolean(UserBasicSearchFragment.ONLINE_ONLY, false);
+        bundle.putBoolean(UserBasicSearchFragment.CLOSE_BY_ONLY, false);
+        intent.putExtras(bundle);
+
+        // start activity
+        startActivity(intent);
+    }
+
     public void takeMeTo(Fragment fragment) {
         takeMeTo(fragment, null);
     }
@@ -211,6 +246,7 @@ public class UserHomeActivity extends FragmentActivity {
     public void takeMeTo(Fragment fragment, Bundle bundle) {
         navigationDrawerController.navigateTo(fragment, bundle);
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -220,8 +256,8 @@ public class UserHomeActivity extends FragmentActivity {
         friendsAndChatDrawerController.activityStart();
 
         if (hasJustLoggedIn) {
-            // open drawer on start so currentUser sees friend requests and messages
-            drawerLayout.openDrawer(navigationDrawerController.getDrawerLayout());
+
+            jumpToSuggestedProfiles(currentUser);
 
             hasJustLoggedIn = false;
         }
@@ -231,7 +267,7 @@ public class UserHomeActivity extends FragmentActivity {
             // go back to the currentUser's picture fragment
             //selectItem(1);
             toUserData = false;
-            ((UserDataFragment)navigationDrawerController.getVisibleFragment())
+            ((UserDataFragment) navigationDrawerController.getVisibleFragment())
                     .goToMyPictures();
         }
 
@@ -516,7 +552,6 @@ public class UserHomeActivity extends FragmentActivity {
             return false;
         }
     }
-
 
 
     @Override
