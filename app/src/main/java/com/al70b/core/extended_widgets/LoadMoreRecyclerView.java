@@ -20,24 +20,21 @@ import java.util.List;
  */
 public class LoadMoreRecyclerView extends RecyclerView {
     private static final String TAG = "LoadMoreRecyclerView";
-    private Context context;
 
     public LoadMoreRecyclerView(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public LoadMoreRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public LoadMoreRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
-
+        init();
     }
-
 
     // Listener to process load more items when user reaches the end of the list
     private OnLoadMoreListener mOnLoadMoreListener;
@@ -51,8 +48,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
     // Threshold for when to load more
     private int visibleThreshold = 2;
 
-    public void init(Context context) {
-        this.context = context;
+    public void init() {
         addOnScrollListener(new OnLoadMoreScrollListener());
     }
 
@@ -155,11 +151,27 @@ public class LoadMoreRecyclerView extends RecyclerView {
         mIsLoadingMore = false;
 
         ((LoadMoreRecyclerView.Adapter) getAdapter()).setDoneLoading();
+
+        if (emptyView != null) {
+            if(getAdapter().getItemCount() == 0) {
+                // empty
+                emptyView.setVisibility(View.VISIBLE);
+                this.setVisibility(View.GONE);
+            } else {
+                // not empty
+                emptyView.setVisibility(View.GONE);
+                this.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     public void setNoMoreLoading(boolean noMore) {
         mNoMoreLoading = noMore;
     }
+
+
+    private View emptyView;
 
     /**
      * Interface definition for a callback to be invoked when list reaches the
@@ -174,8 +186,22 @@ public class LoadMoreRecyclerView extends RecyclerView {
     }
 
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+
+    public void setEmptyView(View view) {
+        emptyView = view;
+    }
+
+    public View getEmptyView() {
+        return emptyView;
+    }
+
+
     public static abstract class Adapter<VH extends RecyclerView.ViewHolder>
-            extends RecyclerView.Adapter {
+            extends RecyclerView.Adapter{
 
         public static final int VIEW_TYPE_LOADING = 1;
 
@@ -233,7 +259,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
         public void setIsLoading() {
             isLoading = true;
-            dataSet.add(null);
+            dataSet.add((Object)null);
             notifyItemInserted(dataSet.size());
         }
 
@@ -243,6 +269,10 @@ public class LoadMoreRecyclerView extends RecyclerView {
             notifyItemRemoved(dataSet.size() - 1);
         }
 
+        public Object getItemAtPosition(int position) {
+            return dataSet.get(position);
+        }
     }
+
 
 }

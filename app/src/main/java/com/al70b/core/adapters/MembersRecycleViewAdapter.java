@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +19,13 @@ import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;
 import com.al70b.core.objects.OtherUser;
 import com.bumptech.glide.Glide;
+import com.al70b.core.extended_widgets.LoadMoreRecyclerView.OnItemClickListener;
 
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * Created by Naseem on 8/3/2015.
@@ -36,6 +37,9 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
     private Context context;
     private List<OtherUser> data;
     private CurrentUser currentUser;
+    private OnItemClickListener onItemClickListener;
+
+    private boolean isLoading = false;
 
     public MembersRecycleViewAdapter(Context context, List<OtherUser> data, CurrentUser currentUser) {
         super(context, data);
@@ -44,7 +48,8 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
         this.currentUser = currentUser;
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder
+            implements LoadMoreRecyclerView.OnClickListener {
         TextView name, age, address;
         ImageView profilePicture, status;
         ImageView imgViewMessage, imgViewFriendRequest;
@@ -61,9 +66,27 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
             imgViewFriendRequest = (ImageView) row.findViewById(R.id.image_view_members_item_add);
             imgViewMessage = (ImageView) row.findViewById(R.id.image_view_members_item_send);
             pb = (ProgressBar) row.findViewById(R.id.progress_bar_sending_friend_request);
+
+            row.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, getAdapterPosition());
+            }
         }
     }
 
+
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -113,7 +136,7 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
                     .placeholder(R.drawable.avatar)
                     .into(itemViewHolder.profilePicture);
 
-            itemViewHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            /*itemViewHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!otherUser.isProfilePictureSet()) {
@@ -124,7 +147,7 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
                             otherUser.getProfilePictureThumbnailPath());
                     dialog.show();
                 }
-            });
+            });*/
 
             itemViewHolder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());
 
@@ -182,7 +205,4 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
     private int calculateAge(Calendar c) {
         return Calendar.getInstance().get(Calendar.YEAR) - c.get(Calendar.YEAR);
     }
-
-
-
 }

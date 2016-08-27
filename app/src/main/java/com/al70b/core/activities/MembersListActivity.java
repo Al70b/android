@@ -59,7 +59,7 @@ public class MembersListActivity extends Activity {
     private LoadMoreRecyclerView loadMoreRecyclerView;
     private LinearLayout layoutFailedToLoad;
 
-    private LoadMoreRecyclerView.Adapter mAdapter;
+    private MembersRecycleViewAdapter mAdapter;
 
     // wrapper for the method to call on loading more members
     private Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>> methodToCall;
@@ -79,10 +79,10 @@ public class MembersListActivity extends Activity {
 
         dataSource = intent.getStringExtra(MembersListActivity.DATA_SOURCE);
 
-        if(intent.getBooleanExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, false)) {
+        if (intent.getBooleanExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, false)) {
             ActionBar actionBar = getActionBar();
 
-            if(actionBar != null) {
+            if (actionBar != null) {
                 actionBar.setTitle(getString(R.string.suggested_profiles));
             }
         }
@@ -97,10 +97,12 @@ public class MembersListActivity extends Activity {
         loadMoreRecyclerView.setHasFixedSize(true);
         // use a linear layout manager
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
-        loadMoreRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(4, this));
+        mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(2, this));
+        /*loadMoreRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                int space = (int)Utils.convertDpToPixel(4, getApplicationContext());
+                int space = (int) Utils.convertDpToPixel(2, getApplicationContext());
                 outRect.left = space;
                 outRect.right = space;
                 outRect.bottom = space;
@@ -112,7 +114,7 @@ public class MembersListActivity extends Activity {
                     outRect.top = 0;
                 }
             }
-        });
+        });*/
         loadMoreRecyclerView.setLayoutManager(mLayoutManager);
 
         // create list for received members from server, and an membersListAdapter
@@ -128,20 +130,19 @@ public class MembersListActivity extends Activity {
                 new LoadMoreMembersTask(dataSource).execute();
             }
         });
-
-        /*loadMoreRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new LoadMoreRecyclerView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OtherUser otherUser = (OtherUser) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(MembersListActivity.this, MemberProfileActivity.class);
+            public void onItemClick(View view, int position) {
+                OtherUser otherUser = (OtherUser)mAdapter.getItemAtPosition(position);
 
+                Intent intent = new Intent(MembersListActivity.this, MemberProfileActivity.class);
                 intent.putExtra(MemberProfileActivity.CURRENT_USER, currentUser);
                 intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
-                intent.putExtra(MemberProfileActivity.POSITION, i);
+                intent.putExtra(MemberProfileActivity.POSITION, position);
                 startActivityForResult(intent, PROFILE_VISIT_RESULT);
             }
-        });*/
-        //loadMoreRecyclerView.setEmptyView(tvEmptyList);
+        });
+        loadMoreRecyclerView.setEmptyView(tvEmptyList);
 
         layoutFailedToLoad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,13 +193,12 @@ public class MembersListActivity extends Activity {
     }
 
 
-
     private class LoadMoreMembersTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {
 
         private boolean isNoMoreResult;
 
         public LoadMoreMembersTask(String dataSource) {
-            if(methodToCall == null) {
+            if (methodToCall == null) {
                 methodToCall = initMethodToCall(dataSource, getIntent().getExtras());
             }
         }
@@ -209,7 +209,7 @@ public class MembersListActivity extends Activity {
                 return null;
             }
 
-            Pair<Boolean,String> result = new Pair<Boolean,String>();
+            Pair<Boolean, String> result = new Pair<Boolean, String>();
 
             try {
                 final ServerResponse<Pair<Boolean, List<OtherUser>>> sr = methodToCall.call();
@@ -245,7 +245,7 @@ public class MembersListActivity extends Activity {
 
         @Override
         protected void onPostExecute(Pair<Boolean, String> result) {
-            if(result == null) {
+            if (result == null) {
                 return;
             }
 
@@ -256,7 +256,7 @@ public class MembersListActivity extends Activity {
                 loadMoreRecyclerView.setVisibility(View.VISIBLE);
                 layoutLoading.setVisibility(View.GONE);
 
-                if(layoutFailedToLoad.getVisibility() == View.VISIBLE) {
+                if (layoutFailedToLoad.getVisibility() == View.VISIBLE) {
                     layoutFailedToLoad.setVisibility(View.GONE);
                 }
 
@@ -274,7 +274,7 @@ public class MembersListActivity extends Activity {
                     // something went wrong with the connection
                     layoutFailedToLoad.setVisibility(View.VISIBLE);
                     layoutLoading.setVisibility(View.GONE);
-                    ((TextView)layoutFailedToLoad.findViewById(R.id.text_view_userMembersA_failed))
+                    ((TextView) layoutFailedToLoad.findViewById(R.id.text_view_userMembersA_failed))
                             .setText(result.second);
                     loadMoreRecyclerView.setVisibility(View.GONE);
                 } else {
