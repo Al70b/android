@@ -96,7 +96,7 @@ public class GcmMessageHandler extends IntentService {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle(getString(R.string.title_activity_very_first))
-                            .setSmallIcon(R.drawable.apple)
+                            .setSmallIcon(R.drawable.ic_stat_notification_icon)
                             .setWhen(System.currentTimeMillis())
                             .setShowWhen(true)
                             .setAutoCancel(true)
