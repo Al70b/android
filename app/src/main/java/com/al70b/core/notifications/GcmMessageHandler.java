@@ -95,7 +95,7 @@ public class GcmMessageHandler extends IntentService {
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setContentTitle(getString(R.string.title_activity_very_first))
+                            .setContentTitle(getString(R.string.app_name))
                             .setSmallIcon(R.drawable.ic_stat_notification_icon)
                             .setWhen(System.currentTimeMillis())
                             .setShowWhen(true)
