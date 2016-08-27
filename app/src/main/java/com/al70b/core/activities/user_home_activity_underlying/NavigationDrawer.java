@@ -209,12 +209,14 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
 
+    private static Fragment[] fragments = new Fragment[9];
     private void selectItem(int position) {
 
         // get fragment
-        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(
-                position + "_" + UserHomeActivity.TAG_EXIT);
+/*        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(
+                position + "_" + UserHomeActivity.TAG_EXIT);*/
 
+        Fragment fragment = fragments[position];
         if (fragment == null) {
             switch (position) {
                 case 0: // section: General
@@ -246,6 +248,8 @@ public class NavigationDrawer implements NavigationDrawerController{
                 default:
                     return;
             }
+
+            fragments[position] = fragment;
         }
 
         // get item, highlight it

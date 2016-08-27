@@ -60,7 +60,10 @@
                 android:layout_marginEnd="10dp"
                 android:text="@string/male"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" >
+
+                <requestFocus />
+            </CheckBox>
 
             <CheckBox
                 android:id="@+id/checkbox_members_female"
@@ -69,7 +72,7 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/female"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -105,7 +108,7 @@
                 android:paddingTop="2dp"
                 android:text="@string/from"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/edit_text_members_age_from"
@@ -130,7 +133,7 @@
                 android:paddingTop="2dp"
                 android:text="@string/to"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/edit_text_members_age_to"
@@ -153,7 +156,7 @@
                 android:paddingTop="2dp"
                 android:text="@string/year"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
 
@@ -173,7 +176,8 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl"
                 android:text="@string/members_with_pictures_only"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
 
 
             <CheckBox
@@ -182,7 +186,8 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl"
                 android:text="@string/members_online_only"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
 
 
             <CheckBox
@@ -191,7 +196,8 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl"
                 android:text="@string/members_close_by"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <Button

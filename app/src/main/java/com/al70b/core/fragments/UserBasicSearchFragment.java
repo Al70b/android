@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.MembersListActivity;
 import com.al70b.core.misc.AppConstants;
+import com.al70b.core.objects.User;
+import com.al70b.core.objects.UserInterest;
 
 /**
  * Created by Naseem on 6/16/2015.
