@@ -7,8 +7,8 @@
     <string name="title_activity_very_first">al70b الحب</string>
     <string name="title_activity_user_home">الرئيسية</string>
     <string name="title_activity_member_profile">صفحة العضو</string>
-    <string name="title_Activity_register">إشترك الآن</string>
-    <string name="title_activity_login">دخول</string>
+    <string name="title_Activity_register">للرئيسية</string>
+    <string name="title_activity_login">للرئيسية</string>
     <string name="settings">خصائص</string>
     <string name="edTxtEmail">البريد الإلكتروني</string>
     <string name="password">كلمة المرور</string>
@@ -444,7 +444,8 @@
     <string name="guest_home_avchat">يمكنك أداء مكالمة صوتية ومرئية</string>
     <string name="guest_home_mobile">معك في كل مكان</string>
     <string name="login">دخول للحساب</string>
-
+    <string name="finish">إنهاء</string>
+    <string name="step_x_out_of_y">خطوه %1$s من %2$s</string>
 
 
 </resources>

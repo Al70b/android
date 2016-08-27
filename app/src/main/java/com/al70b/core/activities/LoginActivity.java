@@ -1,5 +1,6 @@
 package com.al70b.core.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -57,6 +58,11 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+
         // find views and bind
         emailClearableEditText = (AutocompleteClearableEditText) findViewById(R.id.clearable_edit_text_email);
         passwordClearableEditText = (ClearableEditText) findViewById(R.id.clearable_edit_text_password);
@@ -64,11 +70,6 @@ public class LoginActivity extends Activity {
         final ImageButton btnValidPasswordSyntax = (ImageButton) findViewById(R.id.img_btn_invalid_password_syntax);
 
         setAutoCompleteValues(emailClearableEditText.getEditText());
-
-        Intent intent = getIntent();
-        if(intent != null) {
-            emailClearableEditText.getEditText().setText(intent.getStringExtra(EMAIL));
-        }
 
         // define clearable edit text special attributes
         emailClearableEditText.getEditText().setHint(R.string.edTxtEmail);
@@ -99,6 +100,11 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            emailClearableEditText.getEditText().setText(intent.getStringExtra(EMAIL));
+        }
 
         // set input type to be password support, and add text change listener
         passwordClearableEditText.getEditText().setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -168,7 +174,7 @@ public class LoginActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_login_close:
+            case android.R.id.home:
                 finish();
                 return true;
         }

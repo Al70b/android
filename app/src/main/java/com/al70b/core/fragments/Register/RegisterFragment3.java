@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.RegisterActivity;
+import com.al70b.core.misc.AppConstants;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.User;
 import com.al70b.core.objects.UserInterest;
@@ -40,10 +41,14 @@ public class RegisterFragment3 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        final RegisterActivity activity = (RegisterActivity) getActivity();
 
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_3, container, false);
         txtViewBirthDate = (TextView) viewGroup.findViewById(R.id.text_view_register_birthdate_pick);
@@ -62,8 +67,10 @@ public class RegisterFragment3 extends Fragment {
 
                 birthdateRetrieve = birthDate;
 
-                getActivity().getSupportFragmentManager()
+                activity.getSupportFragmentManager()
                         .popBackStack();
+                activity.currentStep--;
+                activity.updateTitle();
             }
         });
 
@@ -83,8 +90,6 @@ public class RegisterFragment3 extends Fragment {
                     User.Gender gender;
                     User.Gender interestGender;
                     UserInterest userInterest;
-
-                    RegisterActivity activity = (RegisterActivity) getActivity();
 
                     // user gender
                     if (rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male) {
@@ -183,7 +188,7 @@ public class RegisterFragment3 extends Fragment {
                 month = c.get(Calendar.MONTH);
             }
 
-            year = c.get(Calendar.YEAR);
+            year = c.get(Calendar.YEAR) - AppConstants.MIN_MEMBER_AGE;
             day = c.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),

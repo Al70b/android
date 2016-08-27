@@ -43,6 +43,7 @@ public class RegisterFragment4 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
+        final RegisterActivity activity = (RegisterActivity) getActivity();
 
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_4, container, false);
         clearableEmail = (ClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_register_email);
@@ -81,7 +82,6 @@ public class RegisterFragment4 extends Fragment {
         chkBoxAcceptAdvertisement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                RegisterActivity activity = (RegisterActivity) getActivity();
                 // set email and password
                 activity.registerAcceptedAdvertisement(isChecked);
             }
@@ -91,13 +91,15 @@ public class RegisterFragment4 extends Fragment {
             @Override
             public void onClick(View view) {
                 // hide soft keyboard
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(clearableEmail.getWindowToken(), 0);
 
                 emailRetrieve = clearableEmail.getEditText().getText().toString();
 
-                getActivity().getSupportFragmentManager()
+                activity.getSupportFragmentManager()
                         .popBackStack();
+                activity.currentStep--;
+                activity.updateTitle();
             }
         });
 
@@ -209,10 +211,8 @@ public class RegisterFragment4 extends Fragment {
             public void onClick(View view) {
                 if (validEmailUsage && validPasswordSyntax && validRetypePassword && acceptedTermsOfUse) {
 
-                    RegisterActivity activity = (RegisterActivity) getActivity();
-
                     // hide keyboard
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                    InputMethodManager imm = (InputMethodManager) activity.getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(clearableEmail.getWindowToken(), 0);
 

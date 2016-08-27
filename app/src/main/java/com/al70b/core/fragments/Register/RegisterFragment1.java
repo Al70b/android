@@ -31,6 +31,8 @@ public class RegisterFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        final RegisterActivity activity = (RegisterActivity) getActivity();
+
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_1, container, false);
 
         clearableName = (ClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_register_name);
@@ -47,7 +49,7 @@ public class RegisterFragment1 extends Fragment {
 
                 nameRetrieve = clearableName.getEditText().getText().toString();
 
-                getActivity().getSupportFragmentManager()
+                activity.getSupportFragmentManager()
                         .popBackStack();
             }
         });
@@ -88,7 +90,7 @@ public class RegisterFragment1 extends Fragment {
             public void onClick(View view) {
                 if (validName) {
                     String name = clearableName.getEditText().getText().toString();
-                    ((RegisterActivity)getActivity()).registerName(name);
+                    activity.registerName(name);
                 } else {
                     Toast.makeText(getActivity(), R.string.error_fill_your_name,
                             Toast.LENGTH_SHORT).show();

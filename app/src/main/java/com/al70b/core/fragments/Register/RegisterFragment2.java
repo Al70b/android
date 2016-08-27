@@ -50,6 +50,8 @@ public class RegisterFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        final RegisterActivity activity = (RegisterActivity) getActivity();
+
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_general_register_2, container, false);
         clearableCity = (ClearableEditText) viewGroup.findViewById(R.id.clearable_edit_text_register_city);
         spinnerCountry = (Spinner) viewGroup.findViewById(R.id.spinner_register_country);
@@ -66,8 +68,10 @@ public class RegisterFragment2 extends Fragment {
                 cityRetrieve = clearableCity.getEditText().getText().toString();
                 countryRetrieve = (String) spinnerCountry.getSelectedItem();
 
-                getActivity().getSupportFragmentManager()
+                activity.getSupportFragmentManager()
                         .popBackStack();
+                activity.currentStep--;
+                activity.updateTitle();
             }
         });
 
@@ -93,7 +97,7 @@ public class RegisterFragment2 extends Fragment {
         Collections.sort(countriesList);
 
         // get country's code
-        final String defaultCountry = getUserCountry(getActivity());
+        final String defaultCountry = getUserCountry(activity);
         country = defaultCountry;
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
                 countriesList);
@@ -118,7 +122,7 @@ public class RegisterFragment2 extends Fragment {
                 if (validCity) {    // and surely valid country because a default is set
                     String city = clearableCity.getEditText().getText().toString();
                     Address address = new Address(city, country);
-                    ((RegisterActivity)getActivity()).registerAddress(address);
+                    activity.registerAddress(address);
 
                     // hide keyboard
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
