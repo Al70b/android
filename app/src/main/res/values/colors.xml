@@ -42,4 +42,9 @@
     <color name="trans_bright_green">#a07dff7d</color>
     <color name="trans_bright_red">#A0ff7d7f</color>
     <color name="selected_item_red">#f97b7b</color>
+
+
+    <color name="list_item_background_navigation_red1">#f45151</color>
+    <color name="list_item_background_navigation_red2">#f45151</color>
+    <color name="list_item_background_navigation_red3">#f43333</color>
 </resources>

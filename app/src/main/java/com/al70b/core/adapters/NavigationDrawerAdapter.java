@@ -15,6 +15,8 @@ import com.al70b.R;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.objects.NavDrawerItem;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Naseem on 6/20/2016.
  */
@@ -67,6 +69,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
                 row = inflater.inflate(R.layout.list_item_navigation_drawer, parent, false);
                 holder.imgIcon = (ImageView) row.findViewById(R.id.image_view_navigation_drawer_list);
                 holder.txtTitle = (TextView) row.findViewById(R.id.text_view_drawer_list);
+                holder.txtSubtext = (TextView) row.findViewById(R.id.text_view_drawer_list_subtext);
             }
 
             row.setOnLongClickListener(null);
@@ -80,6 +83,11 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
             holder.txtTitle.setText(item.getTitle());
         } else {
             updateItemStyle(holder, item);
+        }
+
+        if(item.hasSubtext()) {
+            holder.txtSubtext.setText(item.getSubtext());
+            holder.txtSubtext.setVisibility(View.VISIBLE);
         }
 
         return row;
@@ -100,6 +108,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
             // update color and icon
             if(holder.txtTitle != null) {
                 holder.txtTitle.setTextColor(getColor(R.color.white));
+                holder.txtSubtext.setTextColor(getColor(R.color.white));
             }
 
             if(holder.imgIcon != null) {
@@ -108,6 +117,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
         } else {
             if (holder.txtTitle != null) {
                 holder.txtTitle.setTextColor(getColorStateList(R.color.selector_list_item_text_color));
+                holder.txtSubtext.setTextColor(getColor(R.color.selector_list_item_text_color));
             }
 
             if(holder.imgIcon != null) {
@@ -138,6 +148,6 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
 
     class DrawerItemHolder {
         ImageView imgIcon;
-        TextView txtTitle;
+        TextView txtTitle, txtSubtext;
     }
 }

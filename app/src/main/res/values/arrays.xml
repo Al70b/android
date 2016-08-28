@@ -6,14 +6,11 @@
     </string-array>
 
     <string-array name="navigation_drawer_values">
-        <item>عام</item>
         <item>حسابي</item>
         <item>محادثات</item>
+        <item>أصدقائي</item>
+        <item>طلبات الصداقة</item>
         <item>بحث سريع</item>
         <item>بحث متقدم</item>
-        <item>آخر</item>
-        <item>إعدادات</item>
-        <item>إغلاق الحساب</item>
-        <item>خروج</item>
     </string-array>
 </resources>

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -68,6 +69,7 @@ public class NavigationDrawer implements NavigationDrawerController{
 
     // navigation drawer items array
     private NavDrawerItem[] navDrawerItems;
+    private NavigationDrawerAdapter navigationDrawerAdapter;
 
     // track current item & visible fragment
     private int selectedItem = -1;
@@ -76,6 +78,25 @@ public class NavigationDrawer implements NavigationDrawerController{
     // declare timer task running every 10 seconds
     private Timer fetchRequestsAndMessagesTimer;
     private static final int RATE_TO_FETCH_REQUESTS = 10 * 1000; // in milliseconds
+
+    private enum NavigationDrawerItems {
+        PROFILE(0),
+        CONVERSATIONS(1),
+        FRIENDS(2),
+        FRIENDS_REQUESTS(3),
+        BASIC_SEARCH(4),
+        ADVANCED_SEARCH(5);
+
+        NavigationDrawerItems(int index) {
+            this.index = index;
+        }
+
+        int index;
+
+        public int getIndex() {
+            return index;
+        }
+    }
 
     private void init() {
         /*          N A V I G A T I O N      D R A W E R          */
@@ -87,10 +108,6 @@ public class NavigationDrawer implements NavigationDrawerController{
         // Drawer Header
         ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_header);
         CircleImageView cmUserProfilePicture = (CircleImageView) navHeader.findViewById(R.id.circle_image_view_drawer_profile_image);
-        TextView txtViewName = (TextView) navHeader.findViewById(R.id.text_view_drawer_header_name);
-        TextView txtViewEmail = (TextView) navHeader.findViewById(R.id.text_view_drawer_header_email);
-        ImageView imgViewFriendsRequests = (ImageView) navHeader.findViewById(R.id.img_view_navigation_header_friends_request);
-        ImageView imgViewMessages = (ImageView) navHeader.findViewById(R.id.img_view_navigation_header_messages);
 
         // Drawer Main List
         navDrawerList = (ListView) navDrawerLayout.findViewById(R.id.list_navigation_drawer);
@@ -98,31 +115,12 @@ public class NavigationDrawer implements NavigationDrawerController{
         // Drawer Footer
         //ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_footer);
 
-        imgViewFriendsRequests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, FriendsRequestsListActivity.class);
-                intent.putExtra(AppConstants.CURRENT_USER, currentUser);
-                intent.putExtra(FriendsRequestsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
-                        currentUser.getNumOfFriendsRequests());
-                activity.startActivity(intent);
-            }
-        });
-
-        imgViewMessages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // go to conversations fragment
-                selectItem(2);
-            }
-        });
-
         // profile picture can be clicked, click activates changing the picture dialog
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // go to user's fragment
-                selectItem(1);
+                selectItem(NavigationDrawerItems.PROFILE.index);
 
                 if (currentShownFragment instanceof UserDataFragment) {
                     ((UserDataFragment)currentShownFragment).goToMyPictures();
@@ -144,14 +142,10 @@ public class NavigationDrawer implements NavigationDrawerController{
             promptUserForProfilePictureUpdate();
         }
 
-        // load currentUser's name and email to the appropriate views
-        txtViewName.setText(currentUser.getName());
-        txtViewEmail.setText(currentUser.getEmail());
-
         // create & set the adapter for the navigation drawer list view
-        NavigationDrawerAdapter navDrawerAdapter = new NavigationDrawerAdapter(activity,
+        navigationDrawerAdapter = new NavigationDrawerAdapter(activity,
                 buildNavigationDrawerItems());
-        navDrawerList.setAdapter(navDrawerAdapter);
+        navDrawerList.setAdapter(navigationDrawerAdapter);
 
         // and set the listener for items click event
         navDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,86 +164,90 @@ public class NavigationDrawer implements NavigationDrawerController{
 
         navDrawerItems = new NavDrawerItem[drawerValues.length];
 
-        // General header - Section
-        navDrawerItems[0] = new NavDrawerItem(drawerValues[0]);
-
         // User Account
-        navDrawerItems[1] = new NavDrawerItem(drawerValues[1],
-                R.drawable.ic_action_user, R.drawable.ic_action_user_holo_dark);
+        navDrawerItems[NavigationDrawerItems.PROFILE.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.PROFILE.index],
+                currentUser.isMale()?
+                        R.drawable.ic_action_profile_male:
+                        R.drawable.ic_action_profile_female
+                , currentUser.isMale()?
+                R.drawable.ic_action_profile_male:
+                R.drawable.ic_action_profile_female);
 
         // Conversations
-        navDrawerItems[2] = new NavDrawerItem(drawerValues[2],
-                R.drawable.ic_action_messages, R.drawable.ic_action_messages_holo_dark);
+        navDrawerItems[NavigationDrawerItems.CONVERSATIONS.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.CONVERSATIONS.index],
+                R.drawable.ic_action_messages, R.drawable.ic_action_messages);
 
-        // Members
-        navDrawerItems[3] = new NavDrawerItem(drawerValues[3],
-                R.drawable.ic_action_users, R.drawable.ic_action_users_holo_dark);
+        // Friends
+        navDrawerItems[NavigationDrawerItems.FRIENDS.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.FRIENDS.index],
+                R.drawable.ic_action_friends, R.drawable.ic_action_friends);
+
+        // Friends Requests
+        navDrawerItems[NavigationDrawerItems.FRIENDS_REQUESTS.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.FRIENDS_REQUESTS.index],
+                R.drawable.ic_action_friends_requests, R.drawable.ic_action_friends_requests);
+
+        // Basic Search
+        navDrawerItems[NavigationDrawerItems.BASIC_SEARCH.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.BASIC_SEARCH.index],
+                R.drawable.ic_action_basic_search, R.drawable.ic_action_basic_search);
 
         // Advanced Search
-        navDrawerItems[4] = new NavDrawerItem(drawerValues[4],
-                R.drawable.ic_action_search, R.drawable.ic_action_search_holo_dark);
-
-
-        // Actions header - Section
-        navDrawerItems[5] = new NavDrawerItem(drawerValues[5]);
-
-        // Settings
-        navDrawerItems[6] = new NavDrawerItem(drawerValues[6],
-                R.drawable.ic_action_settings, R.drawable.ic_action_exit_holo_dark);
-
-        // Close account
-        navDrawerItems[7] = new NavDrawerItem(drawerValues[7],
-                R.drawable.ic_action_exit, R.drawable.ic_action_exit_holo_dark);
-
-        // Logout
-        navDrawerItems[8] = new NavDrawerItem(drawerValues[8],
-                R.drawable.ic_action_exit, R.drawable.ic_action_exit_holo_dark);
+        navDrawerItems[NavigationDrawerItems.ADVANCED_SEARCH.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.ADVANCED_SEARCH.index],
+                R.drawable.ic_action_advanced_search, R.drawable.ic_action_advanced_search);
 
         return navDrawerItems;
     }
 
 
-    private static Fragment[] fragments = new Fragment[9];
+    private static Fragment[] fragments = new Fragment[7];
     private void selectItem(int position) {
 
         // get fragment
-/*        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(
-                position + "_" + UserHomeActivity.TAG_EXIT);*/
-
         Fragment fragment = fragments[position];
+
         if (fragment == null) {
             switch (position) {
-                case 0: // section: General
-                    return;
-                case 1:
+                case 0:
                     fragment = new UserDataFragment();
                     break;
-                case 2:
+                case 1:
                     fragment = new UserConversationsFragment();
                     break;
+                case 2:
+                    // Friends activity
+                    Intent intentFriends = new Intent(activity, FriendsListActivity.class);
+                    intentFriends.putExtra(AppConstants.CURRENT_USER, currentUser);
+                    activity.startActivity(intentFriends);
+                    break;
                 case 3:
-                    fragment = new UserBasicSearchFragment();
+                    // Friends Requests activity
+                    Intent intentFriendRequests = new Intent(activity, FriendsRequestsListActivity.class);
+                    intentFriendRequests.putExtra(AppConstants.CURRENT_USER, currentUser);
+                    intentFriendRequests.putExtra(FriendsRequestsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
+                            currentUser.getNumOfFriendsRequests());
+                    activity.startActivity(intentFriendRequests);
                     break;
                 case 4:
+                    fragment = new UserBasicSearchFragment();
+                    break;
+                case 5:
                     fragment = new UserAdvancedSearchFragment();
                     break;
-                case 5: // section: Others
+                case 6: // section: Others
                     return;
-                case 6:
-                    fragment = new UserSettingsFragment();
-                    break;
-                case 7:
-                    fragment = new UserCloseAccountFragment();
-                    break;
-                case 8:
-                    // close the drawer
-                    root.closeDrawer(navDrawerLayout);
-                    logout();
                 default:
                     return;
             }
 
             fragments[position] = fragment;
+
+            if(fragment == null) {
+                return;
+            }
         }
 
         // get item, highlight it
@@ -298,14 +296,10 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
     private boolean startTimer() {
-        TextView txtViewFriendsRequests = (TextView) navDrawerLayout.findViewById(
-                R.id.text_view_navigation_header_friends_request);
-        TextView txtViewMessages = (TextView) navDrawerLayout.findViewById(
-                R.id.text_view_navigation_header_messages);
 
         fetchRequestsAndMessagesTimer = new Timer("FetchRequestsAndMessagesTimer", true);
         fetchRequestsAndMessagesTimer.scheduleAtFixedRate(
-                new FetchRequestsAndMessagesTask(txtViewFriendsRequests, txtViewMessages),
+                new FetchRequestsAndMessagesTask(),
                 0,
                 RATE_TO_FETCH_REQUESTS);
 
@@ -315,11 +309,9 @@ public class NavigationDrawer implements NavigationDrawerController{
     private class FetchRequestsAndMessagesTask extends TimerTask {
         int friendRequestsVisibility, messagesVisibility;
 
-        private TextView tvFriendsRequests, tvMessages;
+        private boolean hasChanged = false;
 
-        public FetchRequestsAndMessagesTask(TextView tvFriendsRequests, TextView tvMessages) {
-            this.tvFriendsRequests = tvFriendsRequests;
-            this.tvMessages = tvMessages;
+        public FetchRequestsAndMessagesTask() {
         }
 
         @Override
@@ -332,19 +324,45 @@ public class NavigationDrawer implements NavigationDrawerController{
                 if (sr.isSuccess()) {
                     Pair<Integer, Integer> pair = sr.getResult();
 
-                    final StringBuilder sbFriendsRequests = new StringBuilder();
-                    final StringBuilder sbMessages = new StringBuilder();
+                    StringBuilder sbFriendsRequests = new StringBuilder();
+                    StringBuilder sbMessages = new StringBuilder();
 
                     if (pair.first != null && pair.first > 0) {
-                        if (pair.first > 99)
+                        if (pair.first > 99) {
                             sbFriendsRequests.append("99+");
-                        else
+                        } else {
                             sbFriendsRequests.append(pair.first);
+                        }
+
+                        if(currentUser.getNumOfFriendsRequests() != pair.first) {
+                            hasChanged = true;
+                        } else {
+                            hasChanged = false;
+                        }
+
                         friendRequestsVisibility = View.VISIBLE;
                         currentUser.setNumOfFriendsRequests(pair.first);
+
+                        NavDrawerItem item = navDrawerItems[NavigationDrawerItems.FRIENDS_REQUESTS.index];
+                        item.setSubtext(sbFriendsRequests.toString());
                     } else {
                         friendRequestsVisibility = View.INVISIBLE;
                         sbFriendsRequests.append(0);
+
+                        if(pair.first == 0) {
+                            hasChanged = false;
+                        } else {
+                            hasChanged = true;
+                        }
+                    }
+
+                    if(hasChanged) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                navigationDrawerAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
 
                     if (pair.second != null && pair.second > 0) {
@@ -357,26 +375,9 @@ public class NavigationDrawer implements NavigationDrawerController{
                         sbMessages.append(0);
                     }
 
-                    // update messages text view
-                    tvMessages.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tvMessages.setText(sbMessages.toString());
-                            tvMessages.setVisibility(messagesVisibility);
-                        }
-                    });
-
-                    // update friends requests text view
-                    tvFriendsRequests.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tvFriendsRequests.setText(sbFriendsRequests.toString());
-                            tvFriendsRequests.setVisibility(friendRequestsVisibility);
-                        }
-                    });
                 }
             } catch (ServerResponseFailedException ex) {
-
+                Log.e(TAG, ex.toString());
             }
         }
     }

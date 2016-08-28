@@ -204,7 +204,7 @@ public class UserHomeActivity extends FragmentActivity {
             selectedItem = savedInstanceState.getInt(KEY_LAST_ITEM_SELECTED, 1);
         } else {
             // choose the fragment to be shown at first
-            selectedItem = 1;
+            selectedItem = 0;
         }
 
         navigationDrawerController.navigateTo(selectedItem);

@@ -61,8 +61,27 @@ public class NavDrawerItem {
         isHighlighted = highlighted;
     }
 
+    public void setSubtext(String subtext) {
+        if(subtext == null) {
+            hasSubtext = false;
+        } else {
+            hasSubtext = true;
+            this.subtext = subtext;
+        }
+    }
+
+    public String getSubtext() {
+        return  subtext;
+    }
+
+    public boolean hasSubtext() {
+        return hasSubtext;
+    }
+
     private String title;
     private int icon, iconFocused;
     private boolean isSection;
     private boolean isHighlighted;
+    private String subtext;
+    private boolean hasSubtext;
 }
