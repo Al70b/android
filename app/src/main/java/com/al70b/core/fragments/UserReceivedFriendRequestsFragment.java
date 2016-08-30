@@ -1,14 +1,13 @@
-package com.al70b.core.activities;
+package com.al70b.core.fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,28 +15,26 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
+import com.al70b.core.activities.MemberProfileActivity;
 import com.al70b.core.adapters.FriendsRequestsAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView;
-import com.al70b.core.misc.AppConstants;
-import com.al70b.core.misc.Enums.FriendRequestAction;
+import com.al70b.core.misc.Enums;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Naseem on 5/28/2016.
+ * Created by Naseem on 5/10/2015.
  */
-public class FriendsRequestsListActivity extends Activity {
+public class UserReceivedFriendRequestsFragment extends Fragment {
 
-    public static final String NUMBER_OF_FRIENDS_REQUESTS = "com.FriendsRequestsActivity.NumbersOfFriendsRequests";
-    private static final String TAG = "FriendsRequestsActivity";
+    private static final String TAG = "RecFriendsRequestsA";
     private static final int RESULTS_PER_PAGE = 10;
 
     // used for when a user profile is visited and need to get friend status
@@ -57,46 +54,43 @@ public class FriendsRequestsListActivity extends Activity {
 
     private int numOfFriendsRequests;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends_requests_list);
 
-        // get intent
-        Intent intent = getIntent();
+        currentUser = ((MyApplication)getActivity().getApplication()).getCurrentUser();
+    }
 
-        if(intent == null) {
-            Log.d(TAG, "Friends list activity did not get an intent");
-            finish();
-            return;
-        }
-
-        numOfFriendsRequests = intent.getIntExtra(NUMBER_OF_FRIENDS_REQUESTS, -1);
-
-        currentUser =  (CurrentUser)intent.getSerializableExtra(AppConstants.CURRENT_USER);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_friend_requests, container, false);
 
         // relate widgets
-        loadMoreListView = (LoadMoreListView) findViewById(R.id.list_view_friendsRequestsA_requests);
-        TextView tvEmptyList = (TextView) findViewById(R.id.tv_friendsRequestsA_empty_list);
-        layoutLoading = (LinearLayout) findViewById(R.id.layout_friendsRequestsA_loading);
-        layoutFailedToLoad = (LinearLayout) findViewById(R.id.layout_friendsRequestsA_failed_loading);
+        loadMoreListView = (LoadMoreListView) viewGroup.findViewById(R.id.list_view_friendsRequestsF_requests);
+        TextView tvEmptyList = (TextView) viewGroup.findViewById(R.id.tv_friendsRequestsF_empty_list);
+        layoutLoading = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_loading);
+        layoutFailedToLoad = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_failed_loading);
 
         loadMoreListView.setEmptyView(tvEmptyList);
         listOfFriendRequests = new ArrayList<OtherUser>();
-        friendsRequestsAdapter = new FriendsRequestsAdapter(this, R.layout.list_item_friend_request,
-                listOfFriendRequests, currentUser, new OnFriendRequestAction() {
+        friendsRequestsAdapter = new FriendsRequestsAdapter(getActivity(), R.layout.list_item_received_friend_request,
+                listOfFriendRequests, currentUser,
+                FriendsRequestsAdapter.FRIEND_REQUEST_TYPE.RECEIVED,
+                new FriendsRequestsAdapter.OnFriendRequestAction() {
             @Override
-            public void callback(FriendRequestAction action) {
-                switch(action) {
+            public void callback(Enums.FriendRequestAction action) {
+                switch (action) {
                     case ACCEPTED:
                     case REJECTED:
                         numOfFriendsRequests -= 1;
                         break;
                 }
 
-                updateTitle();
+                //updateTitle();
             }
         });
+
         loadMoreListView.setAdapter(friendsRequestsAdapter);
         loadMoreListView.setOnLoadMoreListener(new LoadMoreListView.OnLoadMoreListener() {
             public void onLoadMore() {
@@ -117,7 +111,7 @@ public class FriendsRequestsListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OtherUser otherUser = (OtherUser) parent.getItemAtPosition(position);
-                Intent intent = new Intent(FriendsRequestsListActivity.this, MemberProfileActivity.class);
+                Intent intent = new Intent(getActivity(), MemberProfileActivity.class);
 
                 intent.putExtra(MemberProfileActivity.CURRENT_USER, currentUser);
                 intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
@@ -127,50 +121,21 @@ public class FriendsRequestsListActivity extends Activity {
         });
 
         // update title with number of friends requests
-        updateTitle();
+        //updateTitle();
+        return viewGroup;
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
 
         new LoadMoreFriendsRequestsTask().execute();
-        ((MyApplication) getApplication()).setAppVisible();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        ((MyApplication) getApplication()).setAppInvisible();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_friends_requests_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_friends_requests_list_close) {
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public interface OnFriendRequestAction {
-        void callback(FriendRequestAction action);
     }
 
     private void updateTitle() {
@@ -182,10 +147,6 @@ public class FriendsRequestsListActivity extends Activity {
             title = title.concat("  (...)");
         }
 
-        ActionBar actionBar = getActionBar();
-        if(actionBar != null) {
-            actionBar.setTitle(title);
-        }
     }
 
     private class LoadMoreFriendsRequestsTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {
@@ -197,7 +158,7 @@ public class FriendsRequestsListActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            if(listOfFriendRequests.isEmpty()) {
+            if (listOfFriendRequests.isEmpty()) {
                 loadMoreListView.setVisibility(View.GONE);
                 layoutFailedToLoad.setVisibility(View.GONE);
                 layoutLoading.setVisibility(View.VISIBLE);
@@ -210,13 +171,12 @@ public class FriendsRequestsListActivity extends Activity {
                 return null;
             }
 
-            Pair<Boolean,String> result = new Pair<Boolean,String>();
-
+            Pair<Boolean, String> result = new Pair<Boolean, String>();
             try {
 
                 ServerResponse<Pair<Boolean, List<OtherUser>>> sr =
-                    new RequestsInterface(getApplicationContext())
-                            .getUserPendingReceivedRequests(currentUser, page, RESULTS_PER_PAGE, null);
+                        new RequestsInterface(getActivity())
+                                .getUserPendingReceivedRequests(currentUser, page, RESULTS_PER_PAGE, null);
 
                 // if request returned successfully
                 if (sr.isSuccess()) {
@@ -248,7 +208,7 @@ public class FriendsRequestsListActivity extends Activity {
 
         @Override
         protected void onPostExecute(Pair<Boolean, String> result) {
-            if(result == null) {
+            if (result == null) {
                 return;
             }
 
@@ -257,7 +217,7 @@ public class FriendsRequestsListActivity extends Activity {
                 loadMoreListView.setVisibility(View.VISIBLE);
                 layoutLoading.setVisibility(View.GONE);
 
-                if(layoutFailedToLoad.getVisibility() == View.VISIBLE) {
+                if (layoutFailedToLoad.getVisibility() == View.VISIBLE) {
                     layoutFailedToLoad.setVisibility(View.GONE);
                 }
 
@@ -273,12 +233,12 @@ public class FriendsRequestsListActivity extends Activity {
                     // something went wrong with the connection
                     layoutFailedToLoad.setVisibility(View.VISIBLE);
                     layoutLoading.setVisibility(View.GONE);
-                    ((TextView)layoutFailedToLoad.findViewById(R.id.text_view_friendsRequestsA_failed))
+                    ((TextView) layoutFailedToLoad.findViewById(R.id.text_view_friendsRequestsF_failed))
                             .setText(result.second);
                     loadMoreListView.setVisibility(View.GONE);
                 } else {
                     // there is data in the list so just show a toast message
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(getActivity(),
                             getString(R.string.error_server_connection_falied),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -292,7 +252,6 @@ public class FriendsRequestsListActivity extends Activity {
             loadMoreListView.onLoadMoreComplete();
         }
     }
-
 
 
 }

@@ -980,8 +980,8 @@ public class RequestsInterface {
                 @Override
                 public Pair<Integer, Integer> parseResult(JSONObject jsonResult) throws JSONException {
 
-                    int friendsRequest = jsonResult.optInt("friend_requests", -1);
-                    int unreadMessages = jsonResult.optInt("unread_messages", -1);
+                    int friendsRequest = jsonResult.optInt("friend_requests", 0);
+                    int unreadMessages = jsonResult.optInt("unread_messages", 0);
 
                     return new Pair<>(friendsRequest, unreadMessages);
                 }

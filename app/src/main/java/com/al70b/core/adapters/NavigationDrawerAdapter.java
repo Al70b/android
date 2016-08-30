@@ -79,15 +79,19 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
             holder = itemsArrayHolder[position];
         }
 
-        if (item.isSection()) {
+        holder.txtTitle.setText(item.getTitle());
+        /*if (item.isSection()) {
             holder.txtTitle.setText(item.getTitle());
         } else {
             updateItemStyle(holder, item);
-        }
+        }*/
+        holder.imgIcon.setImageResource(item.getIcon());
 
         if(item.hasSubtext()) {
             holder.txtSubtext.setText(item.getSubtext());
             holder.txtSubtext.setVisibility(View.VISIBLE);
+        } else {
+            holder.txtSubtext.setVisibility(View.GONE);
         }
 
         return row;

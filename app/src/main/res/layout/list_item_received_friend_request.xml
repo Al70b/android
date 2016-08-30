@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_list_item_friend_request_main"
+    android:id="@+id/layout_list_item_received_friend_request_main"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:layoutDirection="rtl"
-    android:clickable="true">
+    android:clickable="true"
+    android:layoutDirection="rtl">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/list_item_friend_request_profile_image"
+        android:id="@+id/list_item_received_friend_request_profile_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
@@ -18,12 +18,28 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/avatar" />
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_received_friend_request_profile_image"
+        android:layout_alignEnd="@id/list_item_received_friend_request_profile_image"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/circle_image_small_with_border">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/list_item_received_friend_request_status"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/status_online" />
+    </FrameLayout>
+
     <LinearLayout
-        android:id="@+id/layout_list_item_friend_request_info"
+        android:id="@+id/layout_list_item_received_friend_request_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/list_item_friend_request_profile_image"
+        android:layout_toEndOf="@id/list_item_received_friend_request_profile_image"
         android:gravity="center_vertical"
         android:minWidth="80dp"
         android:orientation="vertical"
@@ -31,7 +47,7 @@
         android:paddingRight="6dp">
 
         <TextView
-            android:id="@+id/tv_list_item_friend_request_name"
+            android:id="@+id/tv_list_item_received_friend_request_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -40,24 +56,13 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_list_item_friend_request_info"
+            android:id="@+id/tv_list_item_received_friend_request_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:lines="1"
             android:textSize="16sp" />
     </LinearLayout>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/list_item_friend_request_status"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/status_online" />
 
 
     <LinearLayout
@@ -66,15 +71,14 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_toEndOf="@id/layout_list_item_friend_request_info"
-        android:layout_toStartOf="@id/list_item_friend_request_status"
+        android:layout_toEndOf="@id/layout_list_item_received_friend_request_info"
         android:gravity="center"
-        android:orientation="horizontal"
         android:layoutDirection="inherit"
+        android:orientation="horizontal"
         android:padding="5dp">
 
         <ImageButton
-            android:id="@+id/list_item_img_btn_accept"
+            android:id="@+id/list_item_img_btn_received_accept"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_marginEnd="15dp"
@@ -84,14 +88,14 @@
             android:visibility="visible" />
 
         <ProgressBar
-            android:id="@+id/progress_btn_accept"
+            android:id="@+id/progress_btn_received_accept"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_marginEnd="15dp"
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/list_item_img_btn_reject"
+            android:id="@+id/list_item_img_btn_received_reject"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_marginStart="15dp"
@@ -101,7 +105,7 @@
             android:visibility="visible" />
 
         <ProgressBar
-            android:id="@+id/progress_btn_reject"
+            android:id="@+id/progress_btn_received_reject"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_marginStart="15dp"

@@ -197,6 +197,11 @@
         <item>معلومات الدخول</item>
     </string-array>
 
+    <string-array name="friends_requests">
+        <item>طلبات مستقبَلة</item>
+        <item>طلبات مرسلة</item>
+    </string-array>
+
     <string-array name="register_titles">
         <item>معلومات الدخول</item>
         <item>معلومات متقدمة</item>

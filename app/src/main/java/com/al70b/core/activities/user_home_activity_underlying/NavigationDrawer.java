@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
-import com.al70b.core.activities.FriendsListActivity;
-import com.al70b.core.activities.FriendsRequestsListActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
@@ -29,6 +27,7 @@ import com.al70b.core.fragments.UserBasicSearchFragment;
 import com.al70b.core.fragments.UserCloseAccountFragment;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
+import com.al70b.core.fragments.UserFriendRequestsFragment;
 import com.al70b.core.fragments.UserSettingsFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.objects.CurrentUser;
@@ -46,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Naseem on 6/20/2016.
  */
-public class NavigationDrawer implements NavigationDrawerController{
+public class NavigationDrawer implements NavigationDrawerController {
 
     private static String TAG = "NavigationDrawer";
 
@@ -123,7 +122,7 @@ public class NavigationDrawer implements NavigationDrawerController{
                 selectItem(NavigationDrawerItems.PROFILE.index);
 
                 if (currentShownFragment instanceof UserDataFragment) {
-                    ((UserDataFragment)currentShownFragment).goToMyPictures();
+                    ((UserDataFragment) currentShownFragment).goToMyPictures();
                 }
             }
         });
@@ -167,11 +166,11 @@ public class NavigationDrawer implements NavigationDrawerController{
         // User Account
         navDrawerItems[NavigationDrawerItems.PROFILE.index] = new NavDrawerItem(
                 drawerValues[NavigationDrawerItems.PROFILE.index],
-                currentUser.isMale()?
-                        R.drawable.ic_action_profile_male:
+                currentUser.isMale() ?
+                        R.drawable.ic_action_profile_male :
                         R.drawable.ic_action_profile_female
-                , currentUser.isMale()?
-                R.drawable.ic_action_profile_male:
+                , currentUser.isMale() ?
+                R.drawable.ic_action_profile_male :
                 R.drawable.ic_action_profile_female);
 
         // Conversations
@@ -204,6 +203,7 @@ public class NavigationDrawer implements NavigationDrawerController{
 
 
     private static Fragment[] fragments = new Fragment[7];
+
     private void selectItem(int position) {
 
         // get fragment
@@ -219,17 +219,12 @@ public class NavigationDrawer implements NavigationDrawerController{
                     break;
                 case 2:
                     // Friends activity
-                    Intent intentFriends = new Intent(activity, FriendsListActivity.class);
+                    /*Intent intentFriends = new Intent(activity, FriendsListActivity.class);
                     intentFriends.putExtra(AppConstants.CURRENT_USER, currentUser);
-                    activity.startActivity(intentFriends);
+                    activity.startActivity(intentFriends);*/
                     break;
                 case 3:
-                    // Friends Requests activity
-                    Intent intentFriendRequests = new Intent(activity, FriendsRequestsListActivity.class);
-                    intentFriendRequests.putExtra(AppConstants.CURRENT_USER, currentUser);
-                    intentFriendRequests.putExtra(FriendsRequestsListActivity.NUMBER_OF_FRIENDS_REQUESTS,
-                            currentUser.getNumOfFriendsRequests());
-                    activity.startActivity(intentFriendRequests);
+                    fragment = new UserFriendRequestsFragment();
                     break;
                 case 4:
                     fragment = new UserBasicSearchFragment();
@@ -245,7 +240,7 @@ public class NavigationDrawer implements NavigationDrawerController{
 
             fragments[position] = fragment;
 
-            if(fragment == null) {
+            if (fragment == null) {
                 return;
             }
         }
@@ -280,7 +275,7 @@ public class NavigationDrawer implements NavigationDrawerController{
         activity.logout();
     }
 
-    private void promptUserForProfilePictureUpdate(){
+    private void promptUserForProfilePictureUpdate() {
         SharedPreferences sharedPref = activity.getSharedPreferences(
                 AppConstants.SHARED_PREF_FILE,
                 Context.MODE_PRIVATE);
@@ -296,7 +291,6 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
     private boolean startTimer() {
-
         fetchRequestsAndMessagesTimer = new Timer("FetchRequestsAndMessagesTimer", true);
         fetchRequestsAndMessagesTimer.scheduleAtFixedRate(
                 new FetchRequestsAndMessagesTask(),
@@ -307,12 +301,6 @@ public class NavigationDrawer implements NavigationDrawerController{
     }
 
     private class FetchRequestsAndMessagesTask extends TimerTask {
-        int friendRequestsVisibility, messagesVisibility;
-
-        private boolean hasChanged = false;
-
-        public FetchRequestsAndMessagesTask() {
-        }
 
         @Override
         public void run() {
@@ -325,38 +313,21 @@ public class NavigationDrawer implements NavigationDrawerController{
                     Pair<Integer, Integer> pair = sr.getResult();
 
                     StringBuilder sbFriendsRequests = new StringBuilder();
-                    StringBuilder sbMessages = new StringBuilder();
-
-                    if (pair.first != null && pair.first > 0) {
+                    if (pair.first > 0) {
                         if (pair.first > 99) {
                             sbFriendsRequests.append("99+");
                         } else {
                             sbFriendsRequests.append(pair.first);
                         }
+                    }
 
-                        if(currentUser.getNumOfFriendsRequests() != pair.first) {
-                            hasChanged = true;
-                        } else {
-                            hasChanged = false;
-                        }
-
-                        friendRequestsVisibility = View.VISIBLE;
+                    // Value has changed
+                    if (currentUser.getNumOfFriendsRequests() != pair.first) {
                         currentUser.setNumOfFriendsRequests(pair.first);
 
                         NavDrawerItem item = navDrawerItems[NavigationDrawerItems.FRIENDS_REQUESTS.index];
                         item.setSubtext(sbFriendsRequests.toString());
-                    } else {
-                        friendRequestsVisibility = View.INVISIBLE;
-                        sbFriendsRequests.append(0);
 
-                        if(pair.first == 0) {
-                            hasChanged = false;
-                        } else {
-                            hasChanged = true;
-                        }
-                    }
-
-                    if(hasChanged) {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -364,17 +335,6 @@ public class NavigationDrawer implements NavigationDrawerController{
                             }
                         });
                     }
-
-                    if (pair.second != null && pair.second > 0) {
-                        if (pair.second > 99)
-                            sbMessages.append("99+");
-                        else
-                            sbMessages.append(pair.second);
-                    } else {
-                        messagesVisibility = View.INVISIBLE;
-                        sbMessages.append(0);
-                    }
-
                 }
             } catch (ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());

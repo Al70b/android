@@ -9,7 +9,7 @@ import android.view.View;
 import com.al70b.R;
 import com.al70b.core.MyApplication;
 import com.al70b.core.adapters.GuestHomePageAdapter;
-import com.al70b.core.extended_widgets.circle_page_indicator.CirclePageIndicator;
+import com.al70b.core.extended_widgets.page_indicators.CirclePageIndicator;
 
 public class GuestHomeActivity extends FragmentActivity {
 

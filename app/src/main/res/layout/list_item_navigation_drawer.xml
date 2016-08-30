@@ -19,8 +19,8 @@
     android:background="@drawable/list_item_background_navigation"
     android:layoutDirection="rtl"
     android:orientation="horizontal"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <LinearLayout
         android:id="@+id/layout_image_view_navigation_drawer_list"
@@ -49,6 +49,7 @@
         android:paddingEnd="13dp"
         android:paddingStart="13dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/selector_list_item_text_color"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -60,8 +61,8 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:gravity="center"
-        android:textColor="@color/dark_red"
-        android:textSize="15sp"
+        android:textColor="@color/selector_list_item_text_color"
+        android:textSize="16sp"
         android:visibility="gone" />
 
 </RelativeLayout>

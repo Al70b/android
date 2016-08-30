@@ -62,7 +62,7 @@ public class NavDrawerItem {
     }
 
     public void setSubtext(String subtext) {
-        if(subtext == null) {
+        if(subtext == null || subtext.trim().isEmpty()) {
             hasSubtext = false;
         } else {
             hasSubtext = true;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.al70b.core.extended_widgets.circle_page_indicator;
+package com.al70b.core.extended_widgets.page_indicators;
 
 import android.content.Context;
 import android.content.res.Resources;
