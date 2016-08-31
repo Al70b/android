@@ -33,6 +33,7 @@ public class UserFriendRequestsFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
 
+
         // bind sliding tab layout with xml tag, and set the previously created view pager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) viewGroup.findViewById(R.id.sliding_tabs_friendsRequestsA);
         slidingTabLayout.setDistributeEvenly(true);

@@ -61,6 +61,8 @@ public class MembersListActivity extends Activity {
 
     private MembersRecycleViewAdapter mAdapter;
 
+    private boolean isSuggestedProfiles = false;
+
     // wrapper for the method to call on loading more members
     private Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>> methodToCall;
 
@@ -85,6 +87,8 @@ public class MembersListActivity extends Activity {
             if (actionBar != null) {
                 actionBar.setTitle(getString(R.string.suggested_profiles));
             }
+
+            isSuggestedProfiles = true;
         }
         currentUser = ((MyApplication) getApplication()).getCurrentUser();
 
@@ -99,22 +103,6 @@ public class MembersListActivity extends Activity {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(4, this));
         mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(2, this));
-        /*loadMoreRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                int space = (int) Utils.convertDpToPixel(2, getApplicationContext());
-                outRect.left = space;
-                outRect.right = space;
-                outRect.bottom = space;
-
-                // Add top margin only for the first item to avoid double space between items
-                if (parent.getChildLayoutPosition(view) == 0) {
-                    outRect.top = space;
-                } else {
-                    outRect.top = 0;
-                }
-            }
-        });*/
         loadMoreRecyclerView.setLayoutManager(mLayoutManager);
 
         // create list for received members from server, and an membersListAdapter
@@ -156,6 +144,16 @@ public class MembersListActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_members_list, menu);
+
+        MenuItem item = menu.findItem(R.id.action_members_list_close);
+        if(isSuggestedProfiles) {
+            item.setIcon(R.drawable.ic_action_arrow_left);
+            item.setTitle(R.string.continue_to_your_profile);
+        } else {
+            item.setIcon(R.drawable.ic_action_cancel);
+            item.setTitle(R.string.close);
+        }
+
         return true;
     }
 

@@ -24,7 +24,8 @@ public final class ServerConstants {
         public static final String SERVER_FUNC_LOAD_MORE_MESSAGES = "getMessagesByUserId";
         public static final String SERVER_FUNC_GET_USER_STAT = "getUserStats";
         public static final String SERVER_FUNC_MARK_MESSAGE_AS_READ = "markMessageAsReadBySenderId";
-        public static final String SERVER_FUNC_GET_PENDING_FRIEND_REQUESTS = "getUserPendingReceivedFriendRequests";
+        public static final String SERVER_FUNC_GET_PENDING_RECEIVED_FRIEND_REQUESTS = "getUserPendingReceivedFriendRequests";
+        public static final String SERVER_FUNC_GET_PENDING_SENT_FRIEND_REQUESTS = "getUserPendingSentFriendRequests";
         public static final String SERVER_FUNC_GET_ONLINE_FRIENDS = "getOnlineFriends";
         public static final String SERVER_FUNC_GET_USERS_ADVANCED = "getUsersAdvanced";
         public static final String SERVER_FUNC_GET_MATCHING_PROFILE = "getMatchingProfile";

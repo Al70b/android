@@ -178,7 +178,7 @@ public class UserSentFriendRequestsFragment extends Fragment {
 
                 ServerResponse<Pair<Boolean, List<OtherUser>>> sr =
                         new RequestsInterface(getActivity())
-                                .getUserPendingReceivedRequests(currentUser, page, RESULTS_PER_PAGE, null);
+                                .getUserPendingSentRequests(currentUser, page, RESULTS_PER_PAGE, null);
 
                 // if request returned successfully
                 if (sr.isSuccess()) {

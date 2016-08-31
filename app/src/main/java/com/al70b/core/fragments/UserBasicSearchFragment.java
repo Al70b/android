@@ -66,24 +66,25 @@ public class UserBasicSearchFragment extends Fragment {
 
                 if (male || female) {
                     // get interested in gender
-                    if (male && female)
+                    if (male && female) {
                         gender = 3;
-                    else if (female)
+                    } else if (female) {
                         gender = 2;
-                    else
+                    } else {
                         gender = 1;
+                    }
 
                     // parse given age, if empty use default
-                    if (!editTextFrom.getText().toString().trim().isEmpty())
+                    if (!editTextFrom.getText().toString().trim().isEmpty()) {
                         from = Integer.parseInt(editTextFrom.getText().toString());
-                    else {
+                    } else {
                         from = AppConstants.MIN_MEMBER_AGE;
                     }
 
                     // parse given age, if empty use default
-                    if (!editTextTo.getText().toString().trim().isEmpty())
+                    if (!editTextTo.getText().toString().trim().isEmpty()) {
                         to = Integer.parseInt(editTextTo.getText().toString());
-                    else {
+                    } else {
                         to = AppConstants.MAX_MEMBER_AGE;
                     }
 

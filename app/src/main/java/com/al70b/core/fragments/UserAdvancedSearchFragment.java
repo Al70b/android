@@ -49,6 +49,7 @@ public class UserAdvancedSearchFragment extends Fragment {
     public static final String SMOKING = "smoking";
     public static final String PICTURES_ONLY = "pictures_only";
     public static final String ONLINE_ONLY = "online_only";
+    public static final String NOT_IMPORTANT = "NOT_IMPORTANT";
 
     private Context context;
 
@@ -227,10 +228,11 @@ public class UserAdvancedSearchFragment extends Fragment {
 
                 // selected gender
                 ArrayList<Integer> listGenderInterests = new ArrayList<Integer>();
-                if (checkBoxMale.isChecked())
+                if (checkBoxMale.isChecked()) {
                     listGenderInterests.add(1);
-                if (checkBoxFemale.isChecked())
+                } if (checkBoxFemale.isChecked()) {
                     listGenderInterests.add(2);
+                }
 
                 if (listGenderInterests.size() == 0) {
                     Toast.makeText(getActivity(), getString(R.string.error_choose_interest), Toast.LENGTH_SHORT).show();
@@ -239,34 +241,39 @@ public class UserAdvancedSearchFragment extends Fragment {
 
                 // selected country
                 String country = spinnerCountry.getSelectedItem().toString();
-                if (country.compareTo(getString(R.string.all_countries)) == 0)
+                if (country.compareTo(getString(R.string.all_countries)) == 0) {
                     country = null;
-                else
+                } else {
                     country = translator.translate(country, translator.getDictionary().COUNTRIES);
+                }
 
                 // age and height
                 Integer ageFrom, ageTo, heightFrom, heightTo;
-                if (editTextAgeFrom.getText().toString().isEmpty())
-                    ageFrom = null;
-                else
+                if (editTextAgeFrom.getText().toString().trim().isEmpty()) {
+                    ageFrom = AppConstants.MIN_MEMBER_AGE;
+                } else {
                     ageFrom = Integer.parseInt(editTextAgeFrom.getText().toString());
+                }
 
-                if (editTextAgeTo.getText().toString().isEmpty())
-                    ageTo = null;
-                else
+                if (editTextAgeTo.getText().toString().trim().isEmpty()) {
+                    ageTo = AppConstants.MAX_MEMBER_AGE;
+                } else {
                     ageTo = Integer.parseInt(editTextAgeTo.getText().toString());
+                }
 
-                if (editTextHeightFrom.getText().toString().isEmpty())
-                    heightFrom = null;
-                else
+                if (editTextHeightFrom.getText().toString().trim().isEmpty()) {
+                    heightFrom = AppConstants.MIN_HEIGHT;
+                } else {
                     heightFrom = Integer.parseInt(editTextHeightFrom.getText().toString());
+                }
 
-                if (editTextHeightTo.getText().toString().isEmpty())
-                    heightTo = null;
-                else
+                if (editTextHeightTo.getText().toString().isEmpty()) {
+                    heightTo = AppConstants.MAX_HEIGHT;
+                } else {
                     heightTo = Integer.parseInt(editTextHeightTo.getText().toString());
+                }
 
-                if (ageFrom != null && ageFrom < AppConstants.MIN_MEMBER_AGE) {
+                if (ageFrom < AppConstants.MIN_MEMBER_AGE) {
                     Toast.makeText(getActivity(), getString(R.string.error_should_be_older_than_min_age), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -277,7 +284,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                 for (CheckBox ch : checkBoxListEducation) {
                     if (ch.isChecked()) {
                         if (ch.getTag() != null
-                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                                && ((String) ch.getTag()).compareTo(NOT_IMPORTANT) == 0) {
                             listEducation.clear();
                             break;
                         }
@@ -292,7 +299,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                 for (CheckBox ch : checkBoxListReligion) {
                     if (ch.isChecked()) {
                         if (ch.getTag() != null
-                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                                && ((String) ch.getTag()).compareTo(NOT_IMPORTANT) == 0) {
                             listReligion.clear();
                             break;
                         }
@@ -307,7 +314,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                 for (CheckBox ch : checkBoxListAlcohol) {
                     if (ch.isChecked()) {
                         if (ch.getTag() != null
-                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                                && ((String) ch.getTag()).compareTo(NOT_IMPORTANT) == 0) {
                             listAlcohol.clear();
                             break;
                         }
@@ -322,7 +329,7 @@ public class UserAdvancedSearchFragment extends Fragment {
                 for (CheckBox ch : checkBoxListSmoking) {
                     if (ch.isChecked()) {
                         if (ch.getTag() != null
-                                && ((String) ch.getTag()).compareTo("NOT_IMPORTANT") == 0) {
+                                && ((String) ch.getTag()).compareTo(NOT_IMPORTANT) == 0) {
                             listSmoking.clear();
                             break;
                         }
@@ -433,7 +440,7 @@ public class UserAdvancedSearchFragment extends Fragment {
 
         // set userID for this check box to use with the map
         chkBoxNotImportant.setId(list.indexOf(chkBoxNotImportant));
-        chkBoxNotImportant.setTag("NOT_IMPORTANT");
+        chkBoxNotImportant.setTag(NOT_IMPORTANT);
         chkBoxNotImportant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

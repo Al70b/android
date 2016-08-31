@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layoutDirection="ltr"
-    android:background="@color/shadowed_white">
+    android:background="@android:color/white">
 
     <com.al70b.core.extended_widgets.SlidingTabLayout
         android:id="@+id/sliding_tabs_user_data"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:overScrollMode="never"/>
 
 </LinearLayout>

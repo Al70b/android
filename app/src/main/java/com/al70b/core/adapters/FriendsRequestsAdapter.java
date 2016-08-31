@@ -151,6 +151,14 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
             }
         });
 
+        if(otherUser.getFriendStatus().isNoFriendRequest()) {
+            holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_red));
+        } else if(otherUser.getFriendStatus().isFriend()){
+            holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_green));
+        } else {
+            holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+        }
+
         return row;
     }
     private View getViewSentFriendRequest(int position, View row, ViewGroup parent) {
@@ -198,6 +206,14 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
             }
         });
 
+        if(otherUser.getFriendStatus().isNoFriendRequest()) {
+            holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_red));
+            holder.imgBtnCancel.setVisibility(View.GONE);
+        } else {
+            holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+            holder.imgBtnCancel.setVisibility(View.VISIBLE);
+        }
+
         return row;
     }
 
@@ -242,6 +258,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                         currentUser.getUserID(),
                         currentUser.getAccessToken()
                         , otherUser.getUserID());
+                otherUser.getFriendStatus().setValue(OtherUser.FriendStatus.FRIENDS);
             } catch (ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());
             }
@@ -269,8 +286,8 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                     holder.imgBtnAccept.setEnabled(false);
                     holder.imgBtnReject.setEnabled(false);
 
+                    notifyDataSetChanged();
 
-                    holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_green));
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -285,7 +302,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 }
                             });
                         }
-                    }, 3000);
+                    }, 4000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request), Toast.LENGTH_SHORT).show();
@@ -322,6 +339,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                         currentUser.getUserID(),
                         currentUser.getAccessToken()
                         , otherUser.getUserID());
+                otherUser.getFriendStatus().setValue(OtherUser.FriendStatus.NONE);
             } catch (ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());
             }
@@ -349,7 +367,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                     holder.imgBtnReject.setEnabled(false);
                     holder.imgBtnAccept.setEnabled(false);
 
-                    holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_red));
+                    notifyDataSetChanged();
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -364,7 +382,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 }
                             });
                         }
-                    }, 3000);
+                    }, 4000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request),
@@ -389,7 +407,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
         @Override
         protected void onPreExecute() {
             holder.progressBarCancel.setVisibility(View.VISIBLE);
-            holder.imgBtnCancel.setEnabled(false);
+            holder.imgBtnCancel.setVisibility(View.GONE);
         }
 
         @Override
@@ -401,6 +419,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                         currentUser.getUserID(),
                         currentUser.getAccessToken()
                         , otherUser.getUserID());
+                otherUser.getFriendStatus().setValue(OtherUser.FriendStatus.NONE);
             } catch (ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());
             }
@@ -414,18 +433,16 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                 // error occurred
                 Toast.makeText(context, getString(R.string.error_server_connection_falied), Toast.LENGTH_SHORT).show();
                 holder.progressBarCancel.setVisibility(View.GONE);
-                holder.imgBtnCancel.setEnabled(true);
+                holder.imgBtnCancel.setVisibility(View.VISIBLE);
             } else {
-
                 if (serverResponse.isSuccess()) {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.friend_request_was_canceled,
                             otherUser.getName()), Toast.LENGTH_SHORT).show();
 
-                    holder.imgBtnCancel.setEnabled(false);
                     holder.progressBarCancel.setVisibility(View.GONE);
 
-                    holder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.trans_bright_red));
+                    notifyDataSetChanged();
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -435,17 +452,18 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 public void run() {
                                     // remove user from list of friends requests, and update adapter
                                     friendsRequests.remove(otherUser);
+
                                     notifyDataSetChanged();
                                 }
                             });
                         }
-                    }, 3000);
+                    }, 4000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request),
                             Toast.LENGTH_SHORT).show();
                     holder.progressBarCancel.setVisibility(View.GONE);
-                    holder.imgBtnCancel.setEnabled(true);
+                    holder.imgBtnCancel.setVisibility(View.VISIBLE);
                 }
             }
         }

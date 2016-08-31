@@ -453,6 +453,7 @@
     <string name="step_x_out_of_y">خطوه %1$s من %2$s</string>
     <string name="suggested_profiles">ملفات مقترحة</string>
     <string name="my_account">حسابي</string>
+    <string name="continue_to_your_profile">تابع لصفحتك</string>
 
 
 </resources>

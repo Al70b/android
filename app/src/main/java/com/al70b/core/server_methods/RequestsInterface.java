@@ -1056,7 +1056,7 @@ public class RequestsInterface {
             jsonArgs.put(KEYS.SERVER.PAGE, page);
             jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultsPerPage);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_PENDING_FRIEND_REQUESTS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_PENDING_RECEIVED_FRIEND_REQUESTS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
                 @Override
                 public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
 
@@ -1070,6 +1070,58 @@ public class RequestsInterface {
                         JSONObject jsonUser = jsonResult.getJSONObject(iterator.next());
                         OtherUser user = new OtherUser(context).basicParseJSONToUser(jsonUser, responseCallback);
                         user.getFriendStatus().setValue(OtherUser.FriendStatus.RECEIVED_REQUEST_PENDING);
+                        users.add(user);
+                    }
+
+                    return new Pair<Boolean, List<OtherUser>>(last, users);
+                }
+
+                @Override
+                public Pair<Boolean, List<OtherUser>> parseResult(JSONArray jsonResult) throws JSONException {
+                    if (jsonResult == null || jsonResult.length() == 0)
+                        return new Pair<Boolean, List<OtherUser>>(true, new ArrayList<OtherUser>());
+                    else
+                        return parseResult(jsonResult.toJSONObject(null));
+                }
+            });
+
+        } catch (JSONException ex) {
+            Log.d("JSON - Requests", ex.toString());
+        }
+
+        // in case server response wasn't parsed appropriately
+        if (sr == null)
+            throw new ServerResponseFailedException();
+
+        return sr;
+    }
+    public ServerResponse<Pair<Boolean, List<OtherUser>>> getUserPendingSentRequests(CurrentUser user,
+                                                                                         int page, int resultsPerPage,
+                                                                                         final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
+        // turn arguments to JSONObject of arguments
+        JSONObject jsonArgs = new JSONObject();
+
+        ServerResponse<Pair<Boolean, List<OtherUser>>> sr = null;
+        try {
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultsPerPage);
+
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_PENDING_SENT_FRIEND_REQUESTS, jsonArgs, new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
+                @Override
+                public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
+
+                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                    jsonResult.remove(KEYS.SERVER.LAST);
+                    List<OtherUser> users = new ArrayList<>();
+
+                    Iterator<String> iterator = jsonResult.keys();
+
+                    while (iterator.hasNext()) {
+                        JSONObject jsonUser = jsonResult.getJSONObject(iterator.next());
+                        OtherUser user = new OtherUser(context).basicParseJSONToUser(jsonUser, responseCallback);
+                        user.getFriendStatus().setValue(OtherUser.FriendStatus.SENT_REQUEST_PENDING);
                         users.add(user);
                     }
 
