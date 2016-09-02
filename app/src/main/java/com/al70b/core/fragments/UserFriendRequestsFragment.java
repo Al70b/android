@@ -17,18 +17,16 @@ import com.al70b.core.extended_widgets.SlidingTabLayout;
  */
 public class UserFriendRequestsFragment extends Fragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
+    private ViewPager mViewPager;
+    private FriendsRequestsPageAdapter mPagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_friend_requests_parent, container, false);
 
-        ViewPager mViewPager = (ViewPager) viewGroup.findViewById(R.id.view_pager_friendsRequestsA);
-        FriendsRequestsPageAdapter mPagerAdapter = new FriendsRequestsPageAdapter(
+        mViewPager = (ViewPager) viewGroup.findViewById(R.id.view_pager_friendsRequestsA);
+        mPagerAdapter = new FriendsRequestsPageAdapter(
                 getActivity().getSupportFragmentManager(), getActivity());
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
@@ -48,5 +46,13 @@ public class UserFriendRequestsFragment extends Fragment {
         return viewGroup;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(mViewPager != null && mPagerAdapter != null) {
+            mViewPager.setCurrentItem(mPagerAdapter.getCount() - 1);
+        }
+    }
 
 }

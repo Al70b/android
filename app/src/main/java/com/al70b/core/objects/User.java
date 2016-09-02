@@ -376,6 +376,7 @@ public class User implements Serializable {
 
         // initialize empty list of pictures
         pictures = new ArrayList<>();
+        profilePicture = null;
 
         // parse pictures json from user to list of json objects
         List<JSONObject> listOfJSONS = KEYS.parseJSONArray(jsonArray);

@@ -118,11 +118,13 @@ public class NavigationDrawer implements NavigationDrawerController {
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // go to user's fragment
-                selectItem(NavigationDrawerItems.PROFILE.index);
-
+                // go to user's pictures fragment
                 if (currentShownFragment instanceof UserDataFragment) {
                     ((UserDataFragment) currentShownFragment).goToMyPictures();
+                    activity.closeDrawers();
+                } else {
+                    UserDataFragment.raiseGoToMyPicturesFlag();
+                    selectItem(NavigationDrawerItems.PROFILE.index);
                 }
             }
         });

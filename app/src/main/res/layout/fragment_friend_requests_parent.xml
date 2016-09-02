@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="ltr"
+    android:background="@android:color/white">
 
     <com.al70b.core.extended_widgets.SlidingTabLayout
         android:id="@+id/sliding_tabs_friendsRequestsA"
@@ -11,12 +12,11 @@
         android:layout_height="wrap_content"
         android:background="@color/dark_red"/>
 
-    <android.support.v4.view.ViewPager
+    <com.al70b.core.extended_widgets.CustomViewPager
         android:id="@+id/view_pager_friendsRequestsA"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:overScrollMode="never"
-        />
-
+        android:background="@android:color/white"
+        android:overScrollMode="never"/>
 </LinearLayout>

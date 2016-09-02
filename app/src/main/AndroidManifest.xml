@@ -70,8 +70,7 @@
             android:name=".core.activities.UserHomeActivity"
             android:label="@string/title_activity_user_home"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.AppThemeUserMode"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/AppTheme.AppThemeUserMode" />
         <activity
             android:name=".core.activities.MemberProfileActivity"
             android:label="@string/title_activity_member_profile"

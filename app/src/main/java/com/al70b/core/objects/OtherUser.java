@@ -1,6 +1,7 @@
 package com.al70b.core.objects;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.al70b.R;
 import com.al70b.core.misc.KEYS;
@@ -17,6 +18,7 @@ import java.io.Serializable;
  */
 public class OtherUser extends User {
 
+    private static final String TAG = "OtherUser";
     private FriendStatus friendStatus;
 
     public OtherUser(Context context) {
@@ -57,12 +59,13 @@ public class OtherUser extends User {
 
             String thumbPath = jsonObject.getString("main_photo");
             String thumbName = thumbPath.substring(thumbPath.lastIndexOf('/') + 1);
-            if (thumbPath.trim().length() == 0 || thumbPath.compareTo("null") == 0)
-                profilePicture = new Picture(userID, null);
-            else
+            if (thumbPath.trim().length() == 0 || thumbPath.compareTo("null") == 0) {
+                profilePicture = null;
+            } else {
                 profilePicture = new Picture(userID, thumbName);
+            }
         } catch (JSONException ex) {
-
+            Log.e(TAG, ex.toString());
         }
         return this;
     }

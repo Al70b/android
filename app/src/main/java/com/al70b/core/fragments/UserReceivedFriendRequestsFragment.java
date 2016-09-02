@@ -43,7 +43,7 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
     private CurrentUser currentUser;
 
     // #page from server
-    private int page = 1;
+    private int page;
 
     private List<OtherUser> listOfFriendRequests;
     private FriendsRequestsAdapter friendsRequestsAdapter;
@@ -72,6 +72,7 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
         layoutLoading = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_loading);
         layoutFailedToLoad = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_failed_loading);
 
+        tvEmptyList.setText(getString(R.string.no_received_friends_requests));
         loadMoreListView.setEmptyView(tvEmptyList);
         listOfFriendRequests = new ArrayList<OtherUser>();
         friendsRequestsAdapter = new FriendsRequestsAdapter(getActivity(), R.layout.list_item_received_friend_request,
@@ -120,15 +121,19 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
             }
         });
 
-        // update title with number of friends requests
-        //updateTitle();
+
         return viewGroup;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        page = 1;
         new LoadMoreFriendsRequestsTask().execute();
     }
 

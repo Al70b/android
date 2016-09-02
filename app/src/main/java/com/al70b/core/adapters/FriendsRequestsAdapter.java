@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 
+import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.misc.Enums;
 import com.al70b.core.objects.CurrentUser;
@@ -120,6 +121,15 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                 .into(holder.profilePicture);
 
         holder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());
+        holder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(otherUser.isProfilePictureSet()) {
+                    DisplayPictureDialog dialog = new DisplayPictureDialog(context, otherUser.getProfilePicturePath());
+                    dialog.show();
+                }
+            }
+        });
 
         holder.imgBtnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,6 +213,16 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
             @Override
             public boolean onLongClick(View v) {
                 return true;
+            }
+        });
+
+        holder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(otherUser.isProfilePictureSet()) {
+                    DisplayPictureDialog dialog = new DisplayPictureDialog(context, otherUser);
+                    dialog.show();
+                }
             }
         });
 
@@ -302,7 +322,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 }
                             });
                         }
-                    }, 4000);
+                    }, 3 * 1000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request), Toast.LENGTH_SHORT).show();
@@ -382,7 +402,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 }
                             });
                         }
-                    }, 4000);
+                    }, 3 * 1000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request),
@@ -457,7 +477,7 @@ public class FriendsRequestsAdapter extends ArrayAdapter<OtherUser> {
                                 }
                             });
                         }
-                    }, 4000);
+                    }, 3 * 1000);
                 } else {
                     // inform that requests was approved
                     Toast.makeText(context, getString(R.string.failed_respond_to_friend_request),

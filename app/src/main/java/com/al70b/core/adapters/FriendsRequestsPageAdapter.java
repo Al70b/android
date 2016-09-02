@@ -32,10 +32,10 @@ public class FriendsRequestsPageAdapter extends FragmentPagerAdapter {
         if(f == null) {
             switch (position) {
                 case 0:
-                    f = new UserReceivedFriendRequestsFragment();
+                    f = new UserSentFriendRequestsFragment();
                     break;
                 case 1:
-                    f = new UserSentFriendRequestsFragment();
+                    f = new UserReceivedFriendRequestsFragment();
                     break;
             }
             fragments[position] = f;

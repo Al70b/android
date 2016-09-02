@@ -198,8 +198,8 @@
     </string-array>
 
     <string-array name="friends_requests">
-        <item>طلبات مستقبَلة</item>
         <item>طلبات مرسلة</item>
+        <item>طلبات قادمة</item>
     </string-array>
 
     <string-array name="register_titles">
@@ -362,6 +362,8 @@
     <string name="reject_friend_request">رفض طلب الصداقة</string>
     <string name="failed_loading_friends">فش طلبات صداقة</string>
     <string name="no_friends_requests">لا يوجد لديك طلبات صداقة</string>
+    <string name="no_received_friends_requests">لا يوجد لديك طلبات صداقة مستقبلة</string>
+    <string name="no_sent_friends_requests">لا يوجد لديك طلبات صداقة مرسلة</string>
     <string name="not_connected_status">غير متصل</string>
     <string name="blocked_users">مستخدمون محظورون</string>
     <string name="blocked_users_list">قائمة المستخدمون المحظورون</string>
