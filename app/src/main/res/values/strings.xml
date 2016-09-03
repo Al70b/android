@@ -362,7 +362,7 @@
     <string name="reject_friend_request">رفض طلب الصداقة</string>
     <string name="failed_loading_friends">فش طلبات صداقة</string>
     <string name="no_friends_requests">لا يوجد لديك طلبات صداقة</string>
-    <string name="no_received_friends_requests">لا يوجد لديك طلبات صداقة مستقبلة</string>
+    <string name="no_received_friends_requests">لا يوجد لديك طلبات صداقة قادمة</string>
     <string name="no_sent_friends_requests">لا يوجد لديك طلبات صداقة مرسلة</string>
     <string name="not_connected_status">غير متصل</string>
     <string name="blocked_users">مستخدمون محظورون</string>

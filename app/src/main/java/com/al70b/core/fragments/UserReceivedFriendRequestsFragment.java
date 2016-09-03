@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by Naseem on 5/10/2015.
  */
-public class UserReceivedFriendRequestsFragment extends Fragment {
+public class UserReceivedFriendRequestsFragment extends Fragment implements IFragmentLifeCycle{
 
     private static final String TAG = "RecFriendsRequestsA";
     private static final int RESULTS_PER_PAGE = 10;
@@ -51,9 +51,6 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
     private LinearLayout layoutLoading;
     private LoadMoreListView loadMoreListView;
     private LinearLayout layoutFailedToLoad;
-
-    private int numOfFriendsRequests;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +81,6 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
                 switch (action) {
                     case ACCEPTED:
                     case REJECTED:
-                        numOfFriendsRequests -= 1;
                         break;
                 }
 
@@ -126,32 +122,15 @@ public class UserReceivedFriendRequestsFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onPauseFragment() {
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onResumeFragment() {
         page = 1;
+        //listOfFriendRequests.clear();
         new LoadMoreFriendsRequestsTask().execute();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
-    private void updateTitle() {
-        String title = getString(R.string.friends_requests_str);
-
-        if (numOfFriendsRequests > 0 && numOfFriendsRequests < 1000) {
-            title = title.concat("  (" + numOfFriendsRequests + ")");
-        } else if (numOfFriendsRequests < 0) {
-            title = title.concat("  (...)");
-        }
-
     }
 
     private class LoadMoreFriendsRequestsTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {

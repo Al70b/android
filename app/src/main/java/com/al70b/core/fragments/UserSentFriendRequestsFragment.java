@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by Naseem on 5/10/2015.
  */
-public class UserSentFriendRequestsFragment extends Fragment {
+public class UserSentFriendRequestsFragment extends Fragment implements IFragmentLifeCycle{
 
     private static final String TAG = "SentFriendsRequestsA";
     private static final int RESULTS_PER_PAGE = 10;
@@ -126,34 +126,15 @@ public class UserSentFriendRequestsFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onPauseFragment() {
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onResumeFragment() {
         page = 1;
+        //listOfFriendRequests.clear();
         new LoadMoreFriendsRequestsTask().execute();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
-
-
-    private void updateTitle() {
-        String title = getString(R.string.friends_requests_str);
-
-        if (numOfFriendsRequests > 0 && numOfFriendsRequests < 1000) {
-            title = title.concat("  (" + numOfFriendsRequests + ")");
-        } else if (numOfFriendsRequests < 0) {
-            title = title.concat("  (...)");
-        }
-
     }
 
     private class LoadMoreFriendsRequestsTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {

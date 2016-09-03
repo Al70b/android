@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class DisplayPictureDialog extends Dialog {
         setContentView(R.layout.dialog_display_picture);
         ImageView imgView = (ImageView) findViewById(R.id.img_view_display_picture_dialog);
         TextView txtViewName = (TextView) findViewById(R.id.tv_displayPictureD_username);
+        ImageButton imgBtnClose = (ImageButton) findViewById(R.id.img_btn_displayPictureD_close);
 
         if(otherUser != null) {
             txtViewName.setText(otherUser.getName());
@@ -62,6 +64,12 @@ public class DisplayPictureDialog extends Dialog {
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(imgView);
+        imgBtnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     @Override

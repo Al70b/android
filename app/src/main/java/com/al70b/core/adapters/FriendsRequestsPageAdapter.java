@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.al70b.R;
+import com.al70b.core.fragments.IFragmentLifeCycle;
 import com.al70b.core.fragments.UserReceivedFriendRequestsFragment;
 import com.al70b.core.fragments.UserSentFriendRequestsFragment;
 
@@ -16,32 +17,19 @@ public class FriendsRequestsPageAdapter extends FragmentPagerAdapter {
 
     private final int NUM_OF_PAGES = 2;
     private final String[] tabTitles;
-    private final Fragment[] fragments = new Fragment[NUM_OF_PAGES];
+    private Fragment[] fragments;
 
     public FriendsRequestsPageAdapter(FragmentManager fm, Context context) {
         super(fm);
 
         tabTitles = context.getResources().getStringArray(R.array.friends_requests);
+        createFragments();
     }
 
-    @Override
-    public Fragment getItem(int position) {
-
-        Fragment f = fragments[position];
-
-        if(f == null) {
-            switch (position) {
-                case 0:
-                    f = new UserSentFriendRequestsFragment();
-                    break;
-                case 1:
-                    f = new UserReceivedFriendRequestsFragment();
-                    break;
-            }
-            fragments[position] = f;
-        }
-
-        return f;
+    private void createFragments() {
+        fragments = new Fragment[NUM_OF_PAGES];
+        fragments[0] = new UserSentFriendRequestsFragment();
+        fragments[1] = new UserReceivedFriendRequestsFragment();
     }
 
     @Override
@@ -54,4 +42,8 @@ public class FriendsRequestsPageAdapter extends FragmentPagerAdapter {
         return tabTitles[position];
     }
 
+    @Override
+    public Fragment getItem(int position) {
+        return fragments[position];
+    }
 }
