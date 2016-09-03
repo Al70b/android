@@ -25,7 +25,6 @@ import org.w3c.dom.Text;
 public class DisplayPictureDialog extends Dialog {
 
     private static final String TAG = "DisplayPictureDialog";
-    public static final String THUMBNAIL_KEY = "DisplayPictureDialog.THUMBNAIL";
 
     private String path;
     private Context context;
@@ -46,7 +45,6 @@ public class DisplayPictureDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCanceledOnTouchOutside(true);
 
@@ -56,12 +54,13 @@ public class DisplayPictureDialog extends Dialog {
 
         if(otherUser != null) {
             txtViewName.setText(otherUser.getName());
-            path = otherUser.getProfilePicturePath();
+            path = otherUser.getProfilePictureThumbnailPath();
         }
 
         Glide.with(context)
                 .load(path)
                 .asBitmap()
+                .placeholder(R.drawable.avatar)
                 .into(imgView);
     }
 
@@ -72,11 +71,11 @@ public class DisplayPictureDialog extends Dialog {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(getWindow().getAttributes());
         lp.dimAmount = 0.2f;
-        lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-        lp.width = (int)Utils.convertDpToPixel(320, context);
+        lp.gravity = Gravity.CENTER;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = (int)Utils.convertDpToPixel(360, context);
-        //lp.horizontalMargin = (int)Utils.convertDpToPixel(12, context);
-        //lp.verticalMargin = (int) Utils.convertDpToPixel(12, context);
+        lp.horizontalMargin = (int)Utils.convertDpToPixel(20, context);
+        lp.y = -1 * (int)Utils.convertDpToPixel(24, context);
         getWindow().setAttributes(lp);
     }
 }

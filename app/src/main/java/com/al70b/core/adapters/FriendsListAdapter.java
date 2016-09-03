@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
 import com.bumptech.glide.Glide;
@@ -65,7 +66,7 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
             holder = (FriendItemHolder) row.getTag();
         }
 
-        OtherUser otherUser = friendsList.get(position);
+        final OtherUser otherUser = friendsList.get(position);
         OtherUser.FriendStatus friendStatus = otherUser.getFriendStatus();
 
         holder.name.setText(otherUser.getName());
@@ -75,6 +76,13 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
                 .into(holder.profilePicture);
+        holder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DisplayPictureDialog dialog = new DisplayPictureDialog(context, otherUser);
+                dialog.show();
+            }
+        });
 
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override

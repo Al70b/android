@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:layoutDirection="rtl"
-    android:clickable="true">
+    android:layout_height="80dp"
+    android:layoutDirection="rtl">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/list_item_friend_profile_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="4dp"
@@ -34,13 +33,26 @@
     </FrameLayout>
 
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/img_btn_list_item_friend_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toEndOf="@id/list_item_friend_profile_image"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="3dp"
+        android:background="@color/transparent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:src="@drawable/ic_action_overflow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/list_item_friend_profile_image"
+        android:layout_toStartOf="@id/img_btn_list_item_friend_more"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
@@ -48,31 +60,21 @@
             android:id="@+id/tv_list_item_friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
             android:lines="1"
-            android:textStyle="bold"
-            android:text="@string/full_name" />
+            android:padding="3dp"
+            android:text="@string/full_name"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_list_item_friend_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
             android:lines="1"
-            android:text="@string/more_info" />
+            android:padding="3dp"
+            android:text="@string/more_info"
+            android:textSize="15sp" />
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/img_btn_list_item_friend_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_action_overflow"
-        android:background="@color/transparent"/>
-
-
-
-
 </RelativeLayout>
