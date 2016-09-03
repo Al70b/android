@@ -33,6 +33,7 @@ public interface NavigationDrawerController {
 
     void navigateTo(Fragment fragment, Bundle bundle);
 
+    void navigateToUsersPictures();
     /*
        Summary: get main drawer layout of the navigation drawer
        Returns: ViewGroup object representing the drawer layout

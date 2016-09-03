@@ -19,6 +19,7 @@ import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.Picture;
 import com.al70b.core.objects.ServerResponse;
+import com.al70b.core.objects.User;
 import com.al70b.core.server_methods.UserServerRequestsCallable.Method;
 
 import org.json.JSONArray;
@@ -663,6 +664,14 @@ public class RequestsInterface {
     }
 
 
+    public ServerResponse<Pair<Boolean, List<OtherUser>>> getAllFriends(CurrentUser currentUser,
+                                                                        int page, int resultPerPage,
+                                                                        ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
+
+        return getUsers(currentUser.getUserID(), currentUser.getAccessToken(),
+                User.Gender.BOTH, AppConstants.MIN_MEMBER_AGE, AppConstants.MAX_MEMBER_AGE,
+                false, false, true, page, resultPerPage, responseCallback);
+    }
     /**
      * Advanced Users Search
      */

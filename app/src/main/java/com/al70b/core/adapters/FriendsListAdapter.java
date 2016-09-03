@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
 import com.bumptech.glide.Glide;
 
@@ -29,12 +30,17 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
 
     private int layout;
 
-    public FriendsListAdapter(Context context, int layout, List<OtherUser> friendsList) {
+    private CurrentUser currentUser;
+
+    public FriendsListAdapter(Context context, int layout,
+                              List<OtherUser> friendsList,
+                              CurrentUser currentUser) {
         super(context, layout, friendsList);
 
         this.friendsList = friendsList;
         this.context = context;
         this.layout = layout;
+        this.currentUser = currentUser;
     }
 
 
@@ -45,12 +51,10 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
         FriendItemHolder holder;
 
         if (row == null) {
-
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layout, parent, false);
 
             holder = new FriendItemHolder();
-
             holder.profilePicture = (CircleImageView) row.findViewById(R.id.list_item_friend_profile_image);
             holder.name = (TextView) row.findViewById(R.id.tv_list_item_friend_name);
             holder.address = (TextView) row.findViewById(R.id.tv_list_item_friend_info);
@@ -61,15 +65,12 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
             holder = (FriendItemHolder) row.getTag();
         }
 
-        final OtherUser otherUser = friendsList.get(position);
-        final OtherUser.FriendStatus friendStatus = otherUser.getFriendStatus();
+        OtherUser otherUser = friendsList.get(position);
+        OtherUser.FriendStatus friendStatus = otherUser.getFriendStatus();
 
         holder.name.setText(otherUser.getName());
-
         holder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());
-
         holder.address.setText(otherUser.getAddress().toString());
-
         Glide.with(context).load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
                 .placeholder(R.drawable.avatar)

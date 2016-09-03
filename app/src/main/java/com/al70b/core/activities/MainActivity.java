@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,55 +29,20 @@ public class MainActivity extends Activity {
 
     public static final String TAG = "MainActivity";
 
-    private Context context;
-
-    // object to handle server response
-    private ServerResponse<CurrentUser> serverResponse;
-
-    // widgets
-    private TextView textViewWelcomeUser;
-    private RelativeLayout layoutMain;
-    private ProgressBar progressBar;
-
-    // handler to show toast messages in threads
-    private int userID;
-    private String accessToken, email, name, password;
-    private CurrentUser user;
-
-    private boolean threadYield;
-
     // object to handle server requests
     private RequestsInterface requests;
 
-    // if server connection failed show a dialog with appropriate message and
-    // ask for retrying connection
-    private boolean tryAgain = true;
+    private MyApplication myApp;
+
+    private LoginAsyncTask loginAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // initialize environment
-        initializeEnvironment();
-
-        progressBar = (ProgressBar) findViewById(R.id.progress_ring_main_activity);
-        textViewWelcomeUser = (TextView) findViewById(R.id.text_view_main_welcome_user);
-        final TextView textViewAnotherAccount = (TextView) findViewById(R.id.text_view_main_sign_in_with_another);
-        textViewAnotherAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textViewAnotherAccount.setText(getString(R.string.loggingout));
-
-                // stop login thread
-                threadYield = true;
-
-                // clear data of the current user
-                logout();
-
-                startAppInGuestMode();
-            }
-        });
+        myApp = (MyApplication) getApplication();
+        requests = new RequestsInterface(this);
     }
 
 
@@ -85,109 +50,139 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
 
-        ((MyApplication) getApplication()).setAppVisible();
+        new LoginAsyncTask().execute();
+
+        myApp.setAppVisible();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private class LoginAsyncTask extends AsyncTask<Void, String, Boolean> {
+        // widgets
+        private TextView tvUserWelcomeMessage, tvLoginToAnotherAccount;
+        private ProgressBar progressBar;
+        private CurrentUser user;
 
-        // start a new thread to avoid work on gui thread and let progress circle show
-        LoginTask task = new LoginTask();
-        Thread t = new Thread(task);
-        t.start();
-    }
+        private String error = null;
 
-    private class LoginTask implements Runnable {
+        protected LoginAsyncTask() {
+            progressBar = (ProgressBar) findViewById(R.id.progress_ring_main_activity);
+            tvUserWelcomeMessage = (TextView) findViewById(R.id.text_view_main_welcome_user);
+            tvLoginToAnotherAccount = (TextView) findViewById(R.id.text_view_main_sign_in_with_another);
+            tvLoginToAnotherAccount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    tvLoginToAnotherAccount.setText(getString(R.string.loggingout));
+                    cancel(true);
+                }
+            });
+        }
 
-        public void run() {
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // initialize environment
+            initializeEnvironment();
 
             // user userID, access token, email, and saved profile via saved shared preferences, if exists
             SharedPreferences sharedPref = getSharedPreferences(
                     AppConstants.SHARED_PREF_FILE,
                     MainActivity.MODE_PRIVATE);
 
-            userID = sharedPref.getInt(KEYS.SHARED_PREFERENCES.USER_ID, -1);
-            accessToken = sharedPref.getString(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN, null);
-            email = sharedPref.getString(KEYS.SHARED_PREFERENCES.USERNAME, null);
-            name = sharedPref.getString(KEYS.SHARED_PREFERENCES.NAME, null);
-            password = sharedPref.getString(KEYS.SHARED_PREFERENCES.PASSWORD, null);
+            int userID = sharedPref.getInt(KEYS.SHARED_PREFERENCES.USER_ID, -1);
+            String accessToken = sharedPref.getString(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN, null);
+            String email = sharedPref.getString(KEYS.SHARED_PREFERENCES.USERNAME, null);
+            String name = sharedPref.getString(KEYS.SHARED_PREFERENCES.NAME, null);
+            String password = sharedPref.getString(KEYS.SHARED_PREFERENCES.PASSWORD, null);
 
             // check if user is already logged in by checking if user_id and access token
             // are saved in shared preferences
             if (userID != -1 && accessToken != null) {
                 // user details are saved, start application in user mode
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                // update welcome message with user's name welcome message
+                if(name != null) {
+                    publishProgress(name);
+                }
 
-                        progressBar.setVisibility(View.VISIBLE);
-
-                        // set welcome message to welcome user
-                        textViewWelcomeUser.setText(getString(R.string.welcome_user, name));
-                        textViewWelcomeUser.setOnClickListener(null);
-                    }
-                });
-
-                try {
-                    Thread.sleep(2000);
+                /*try {
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Log.e(TAG, ex.toString());
                 }
+                if(isCancelled()) {
+                    return null;
+                }*/
 
                 // create user object to hold data throughout the app
-                user = new CurrentUser(context, userID, accessToken, email, password);
+                user = new CurrentUser(MainActivity.this,
+                        userID, accessToken, email, password);
 
                 // set current user somewhere safe
-                ((MyApplication)getApplication()).setCurrentUser(user);
+                myApp.setCurrentUser(user);
 
-                boolean serverResponseOk;
-                do {
-                    try {
-                        // load user's information from server
-                        serverResponse = requests.getUserData(user);
-                    } catch (ServerResponseFailedException ex) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                // show dialog, if user chooses yes, try connecting again
-                                // else stop trying and jump to guest mode
-                                //showAlertDialog();
-                                handleNoConnectionOrTimedOut(this);
-                            }
-                        });
-                    }
-                    serverResponseOk = serverResponse != null;
-                } while (!serverResponseOk && tryAgain && !threadYield);
-
-                // server response is ok (not null)
-                if (serverResponse != null && serverResponse.isSuccess()) {
-                    // load user's data from server
-                    user = serverResponse.getResult();
-
-                    if (!threadYield)
-                        // start application in user mode
-                        startAppInUserMode(user);
-                } else {
-                    // show the toast
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(context, serverResponse.getErrorMsg(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                    if (serverResponse.getErrorMsg().compareTo(getString(R.string.error_no_response_time_out)) == 0)
-                        handleNoConnectionOrTimedOut(this);
+                ServerResponse<CurrentUser> serverResponse;
+                try {
+                    // load user's information from server
+                    serverResponse = requests.getUserData(user);
+                } catch (ServerResponseFailedException ex) {
+                    error = ex.toString();
+                    return false;
                 }
 
+                // server response is ok (not null)
+                if (serverResponse.isSuccess()) {
+                    // load user's data from server
+                    user = serverResponse.getResult();
+                    return true;
+                } else {
+                    error = serverResponse.getErrorMsg();
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... params) {
+            String name = params[0];
+
+            if(name != null) {
+                // set welcome message to welcome user
+                tvUserWelcomeMessage.setText(getString(R.string.welcome_user, name));
+                tvUserWelcomeMessage.setOnClickListener(null);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result) {
+                startAppInUserMode(user);
             } else {
+                if(error != null) {
+                    Toast.makeText(MainActivity.this, error,
+                            Toast.LENGTH_LONG).show();
+                }
+
                 // start application in guest mode
                 startAppInGuestMode();
             }
         }
+
+        @Override
+        protected void onCancelled(Boolean result) {
+            // clear data of the current user
+            logout();
+
+            startAppInGuestMode();
+        }
     }
 
+    /**
+     * Clear all data related to the previous user
+     */
     private void logout() {
         SharedPreferences sharedPref = getSharedPreferences(AppConstants.SHARED_PREF_FILE,
                 MODE_PRIVATE);
@@ -200,40 +195,16 @@ public class MainActivity extends Activity {
         editor.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
         editor.remove(KEYS.SHARED_PREFERENCES.USERNAME);
         editor.remove(KEYS.SHARED_PREFERENCES.NAME);
-        editor.remove("DONT_ASK");
+        editor.remove(KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD);
         editor.apply();
 
         if (userId >= 0 && accessToken != null) {
             new GcmModule(this, userId, accessToken).deleteRegistrationIdFromBackend();
         }
 
-        MyApplication myApp = ((MyApplication)getApplication());
         if (myApp != null) {
             myApp.setCurrentUser(null);
         }
-    }
-
-    private void handleNoConnectionOrTimedOut(final Runnable runnable) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.GONE);
-                textViewWelcomeUser.setText(getString(R.string.press_here_to_try_again));
-                threadYield = true;
-                textViewWelcomeUser.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        threadYield = false;
-                        onResume();
-                    }
-                });
-
-            }
-        });
-    }
-
-    private void setTryAgain(boolean tryAgain) {
-        this.tryAgain = tryAgain;
     }
 
     /**
@@ -242,7 +213,7 @@ public class MainActivity extends Activity {
      */
     private void startAppInGuestMode() {
         // start application in guest mode
-        startIntent(new Intent(context, GuestHomeActivity.class));
+        startIntent(new Intent(MainActivity.this, GuestHomeActivity.class));
     }
 
     /**
@@ -252,7 +223,7 @@ public class MainActivity extends Activity {
      */
     private void startAppInUserMode(CurrentUser user) {
         // start user home activity, pass user object to it
-        Intent intent = new Intent(this.context, UserHomeActivity.class);
+        Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
         intent.putExtra(KEYS.SHARED_PREFERENCES.USER, user);
         startIntent(intent);
     }
@@ -270,48 +241,26 @@ public class MainActivity extends Activity {
         finish();
     }
 
-    private void showAlertDialog() {
-       /* new AlertDialog.Builder(context)
-                .setTitle("Connection Failed")
-                .setMessage(getResources().getString(R.string.error_server_connection_falied))
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mainActivity.setTryAgain(true);
-                    }
-                })
-                .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        mainActivity.setTryAgain(false);
-                        mainActivity.startAppInGuestMode();
-                    }
-                })
-                .show();*/
-    }
-
-
     private void initializeEnvironment() {
-        context = getApplicationContext();
-
-        requests = new RequestsInterface(context.getApplicationContext());
+        Context context = getApplicationContext();
 
         // create directory for this app if it doesn't already exist
         File appDirectory = new File(context.getFilesDir() + AppConstants.THUMBNAILS_FOLDER_PATH);
 
         if (!appDirectory.exists()) {
-            appDirectory.mkdirs();
+            if(!appDirectory.mkdirs()){
+                Log.e(TAG, "Could not create directory for app al70b.");
+            }
         }
 
         // get translations to use in the app
-        ((MyApplication)getApplication()).setTranslator(Translator.getInstance(context));
+        myApp.setTranslator(Translator.getInstance(context));
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        ((MyApplication) getApplication()).setAppInvisible();
+        myApp.setAppInvisible();
     }
 }

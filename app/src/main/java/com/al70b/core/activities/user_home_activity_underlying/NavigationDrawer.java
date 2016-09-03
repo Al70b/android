@@ -27,9 +27,11 @@ import com.al70b.core.fragments.UserBasicSearchFragment;
 import com.al70b.core.fragments.UserCloseAccountFragment;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
+import com.al70b.core.fragments.UserFriendListFragment;
 import com.al70b.core.fragments.UserFriendRequestsFragment;
 import com.al70b.core.fragments.UserSettingsFragment;
 import com.al70b.core.misc.AppConstants;
+import com.al70b.core.misc.KEYS;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.NavDrawerItem;
 import com.al70b.core.objects.Pair;
@@ -118,14 +120,7 @@ public class NavigationDrawer implements NavigationDrawerController {
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // go to user's pictures fragment
-                if (currentShownFragment instanceof UserDataFragment) {
-                    ((UserDataFragment) currentShownFragment).goToMyPictures();
-                    activity.closeDrawers();
-                } else {
-                    UserDataFragment.raiseGoToMyPicturesFlag();
-                    selectItem(NavigationDrawerItems.PROFILE.index);
-                }
+                navigateToUsersPictures();
             }
         });
 
@@ -203,7 +198,6 @@ public class NavigationDrawer implements NavigationDrawerController {
         return navDrawerItems;
     }
 
-
     private static Fragment[] fragments = new Fragment[7];
 
     private void selectItem(int position) {
@@ -220,10 +214,7 @@ public class NavigationDrawer implements NavigationDrawerController {
                     fragment = new UserConversationsFragment();
                     break;
                 case 2:
-                    // Friends activity
-                    /*Intent intentFriends = new Intent(activity, FriendsListActivity.class);
-                    intentFriends.putExtra(AppConstants.CURRENT_USER, currentUser);
-                    activity.startActivity(intentFriends);*/
+                    fragment = new UserFriendListFragment();
                     break;
                 case 3:
                     fragment = new UserFriendRequestsFragment();
@@ -234,8 +225,6 @@ public class NavigationDrawer implements NavigationDrawerController {
                 case 5:
                     fragment = new UserAdvancedSearchFragment();
                     break;
-                case 6: // section: Others
-                    return;
                 default:
                     return;
             }
@@ -282,7 +271,7 @@ public class NavigationDrawer implements NavigationDrawerController {
                 AppConstants.SHARED_PREF_FILE,
                 Context.MODE_PRIVATE);
         boolean dontAsk = sharedPref.getBoolean(
-                AppConstants.DONT_ASK_FOR_PROFILE_PICTURE, false);
+                KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD, false);
 
         if (!dontAsk) {
             PromptUserForProfilePictureDialog dialog = new
@@ -380,6 +369,18 @@ public class NavigationDrawer implements NavigationDrawerController {
     @Override
     public void navigateTo(Fragment fragment, Bundle bundle) {
 
+    }
+
+    @Override
+    public void navigateToUsersPictures() {
+        // go to user's pictures fragment
+        if (currentShownFragment instanceof UserDataFragment) {
+            ((UserDataFragment) currentShownFragment).goToMyPictures();
+            activity.closeDrawers();
+        } else {
+            UserDataFragment.raiseGoToMyPicturesFlag();
+            selectItem(NavigationDrawerItems.PROFILE.index);
+        }
     }
 
     @Override

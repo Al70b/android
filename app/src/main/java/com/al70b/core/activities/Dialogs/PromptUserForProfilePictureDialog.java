@@ -16,6 +16,7 @@ import com.al70b.R;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.fragments.UserDataFragment;
 import com.al70b.core.misc.AppConstants;
+import com.al70b.core.misc.KEYS;
 
 /**
  * Created by Naseem on 6/25/2016.
@@ -45,37 +46,16 @@ public class PromptUserForProfilePictureDialog extends Dialog {
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // go to pictures fragment in user data fragment
-                activity.navigateTo(1);
-                Fragment f = activity.getVisibleFragment();
-
-                if(f instanceof UserDataFragment) {
-                    ((UserDataFragment)f).goToMyPictures();
-                }
-
-                if (chkBoxDont.isChecked()) {
-                    SharedPreferences sharedPref = activity.getSharedPreferences(
-                            AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(AppConstants.DONT_ASK_FOR_PROFILE_PICTURE, true);
-                    editor.apply();
-                }
-
+                handleDontAskAgainCheckBox(chkBoxDont);
                 dismiss();
+                activity.navigateToUsersPictures();
             }
         });
 
         btnNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chkBoxDont.isChecked()) {
-                    SharedPreferences sharedPref = activity.getSharedPreferences(
-                            AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(AppConstants.DONT_ASK_FOR_PROFILE_PICTURE, true);
-                    editor.apply();
-                }
-
+                handleDontAskAgainCheckBox(chkBoxDont);
                 dismiss();
             }
         });
@@ -92,5 +72,15 @@ public class PromptUserForProfilePictureDialog extends Dialog {
         super.show();
 
         getWindow().setAttributes(lp);
+    }
+
+    private void handleDontAskAgainCheckBox(CheckBox chkBoxDont) {
+        if (chkBoxDont.isChecked()) {
+            SharedPreferences sharedPref = activity.getSharedPreferences(
+                    AppConstants.SHARED_PREF_FILE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD, true);
+            editor.apply();
+        }
     }
 }

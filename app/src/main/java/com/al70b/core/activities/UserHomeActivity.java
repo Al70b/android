@@ -96,7 +96,7 @@ public class UserHomeActivity extends FragmentActivity {
         editor.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
         editor.remove(KEYS.SHARED_PREFERENCES.USERNAME);
         editor.remove(KEYS.SHARED_PREFERENCES.NAME);
-        editor.remove("DONT_ASK");
+        editor.remove(KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD);
         editor.apply();
 
         new GcmModule(this, currentUser).deleteRegistrationIdFromBackend();
@@ -126,11 +126,6 @@ public class UserHomeActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            Log.d("SavedInstanceState", "is not Null");
-        } else {
-            Log.d("SavedInstanceState", "is Null");
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
@@ -413,6 +408,8 @@ public class UserHomeActivity extends FragmentActivity {
     public Fragment getVisibleFragment() {
         return navigationDrawerController.getVisibleFragment();
     }
+
+    public void navigateToUsersPictures() { navigationDrawerController.navigateToUsersPictures();}
 
     public void updateProfilePictureInNavigationDrawer(int res) {
         navigationDrawerController.updateProfilePicture(res);
