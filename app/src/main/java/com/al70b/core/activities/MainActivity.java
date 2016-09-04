@@ -34,8 +34,6 @@ public class MainActivity extends Activity {
 
     private MyApplication myApp;
 
-    private LoginAsyncTask loginAsyncTask;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +77,8 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
+            tvUserWelcomeMessage.setVisibility(View.GONE);
+            tvLoginToAnotherAccount.setVisibility(View.GONE);
         }
 
         @Override
@@ -107,14 +107,14 @@ public class MainActivity extends Activity {
                     publishProgress(name);
                 }
 
-                /*try {
+                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Log.e(TAG, ex.toString());
                 }
                 if(isCancelled()) {
                     return null;
-                }*/
+                }
 
                 // create user object to hold data throughout the app
                 user = new CurrentUser(MainActivity.this,
@@ -152,6 +152,9 @@ public class MainActivity extends Activity {
             if(name != null) {
                 // set welcome message to welcome user
                 tvUserWelcomeMessage.setText(getString(R.string.welcome_user, name));
+                progressBar.setVisibility(View.GONE);
+                tvUserWelcomeMessage.setVisibility(View.VISIBLE);
+                tvLoginToAnotherAccount.setVisibility(View.VISIBLE);
                 tvUserWelcomeMessage.setOnClickListener(null);
             }
         }

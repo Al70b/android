@@ -79,8 +79,10 @@ public class FriendsListAdapter extends ArrayAdapter<OtherUser> {
         holder.profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DisplayPictureDialog dialog = new DisplayPictureDialog(context, otherUser);
-                dialog.show();
+                if(otherUser.isProfilePictureSet()) {
+                    DisplayPictureDialog dialog = new DisplayPictureDialog(context, otherUser);
+                    dialog.show();
+                }
             }
         });
 

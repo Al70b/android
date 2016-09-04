@@ -13,4 +13,11 @@
         <item>بحث سريع</item>
         <item>بحث متقدم</item>
     </string-array>
+    <string-array name="settings_list">
+        <item>شروط الإستخدام والخصوصية</item>
+        <item>إتصل بنا</item>
+        <item>من نحن</item>
+        <item>إغلاق الحساب</item>
+        <item>خروج</item>
+    </string-array>
 </resources>

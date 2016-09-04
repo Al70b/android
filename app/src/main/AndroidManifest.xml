@@ -49,6 +49,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -61,10 +62,11 @@
             android:label="@string/title_activity_login"
             android:parentActivityName=".core.activities.GuestHomeActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".core.activities.RegisterActivity"
+        <activity
+            android:name=".core.activities.RegisterActivity"
             android:label="@string/title_Activity_register"
             android:parentActivityName=".core.activities.GuestHomeActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".core.activities.UserHomeActivity"
             android:label="@string/title_activity_user_home"
@@ -112,7 +114,8 @@
         <service android:name=".core.notifications.GcmMessageHandler" />
 
         <activity android:name=".core.activities.UsersListActivity" />
-
+        <activity android:name=".core.activities.SettingsActivity" />
+        <activity android:name=".core.activities.CloseAccountActivity"></activity>
     </application>
 
 </manifest>

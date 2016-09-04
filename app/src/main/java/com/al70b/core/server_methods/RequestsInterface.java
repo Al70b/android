@@ -1052,6 +1052,40 @@ public class RequestsInterface {
         return sr;
     }
 
+    public ServerResponse<String> closeUserAccount(CurrentUser user) throws ServerResponseFailedException {
+        // turn arguments to JSONObject of arguments
+        JSONObject jsonArgs = new JSONObject();
+
+        ServerResponse<String> sr = null;
+        try {
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_CLOSE_ACCOUNT
+                    , jsonArgs, new ParseResultInterface<String>() {
+                        @Override
+                        public String parseResult(JSONObject jsonResult) throws JSONException {
+                            return jsonResult.toString();
+                        }
+
+                        @Override
+                        public String parseResult(JSONArray jsonResult) throws JSONException {
+                            return "";
+                        }
+
+                    });
+
+        } catch (JSONException ex) {
+            Log.d("JSON - Requests", ex.toString());
+        }
+
+        // in case server response wasn't parsed appropriately
+        if (sr == null)
+            throw new ServerResponseFailedException();
+
+        return sr;
+    }
+
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getUserPendingReceivedRequests(CurrentUser user,
                                                                                          int page, int resultsPerPage,
                                                                                          final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {

@@ -38,6 +38,7 @@ public final class ServerConstants {
         public static final String SERVER_FUNC_GET_MATCHING_PROFILES = "getMatchingProfiles";
         public static final String SERVER_FUNC_REGISTER_CLIEND_ID = "registerClientId";
         public static final String SERVER_FUNC_UNREGISTER_CLIEND_ID = "unregisterClientId";
+        public static final String SERVER_FUNC_CLOSE_ACCOUNT = "closeAccount";
     }
 
     public static final class CONSTANTS {

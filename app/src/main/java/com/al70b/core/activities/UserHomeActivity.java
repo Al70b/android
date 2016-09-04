@@ -69,7 +69,7 @@ public class UserHomeActivity extends FragmentActivity {
     public boolean toUserData;
 
     // boolean representing the the application is logging out of this user account
-    private boolean logginOut;
+    public static boolean loggingOut = false;
 
     private MenuItem chatItem;                                  // menu item that is highlighted when message received
 
@@ -85,26 +85,11 @@ public class UserHomeActivity extends FragmentActivity {
      * -
      */
     public void logout() {
-        logginOut = true;
-
         friendsAndChatDrawerController.logout();
-
-        SharedPreferences sharedPref = getSharedPreferences(AppConstants.SHARED_PREF_FILE,
-                MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(KEYS.SHARED_PREFERENCES.USER_ID);
-        editor.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
-        editor.remove(KEYS.SHARED_PREFERENCES.USERNAME);
-        editor.remove(KEYS.SHARED_PREFERENCES.NAME);
-        editor.remove(KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD);
-        editor.apply();
 
         new GcmModule(this, currentUser).deleteRegistrationIdFromBackend();
 
-        MyApplication myApp = ((MyApplication) getApplication());
-        if (myApp != null) {
-            myApp.setCurrentUser(null);
-        }
+        deleteSavedUserData(this);
 
         // show a toast appropriate logout message
         Toast.makeText(this, getString(R.string.logout_message),
@@ -116,6 +101,23 @@ public class UserHomeActivity extends FragmentActivity {
 
         // close this activity
         finish();
+    }
+
+    public static void deleteSavedUserData(Activity activity) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(AppConstants.SHARED_PREF_FILE,
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(KEYS.SHARED_PREFERENCES.USER_ID);
+        editor.remove(KEYS.SHARED_PREFERENCES.ACCESS_TOKEN);
+        editor.remove(KEYS.SHARED_PREFERENCES.USERNAME);
+        editor.remove(KEYS.SHARED_PREFERENCES.NAME);
+        editor.remove(KEYS.SHARED_PREFERENCES.DONT_ASK_FOR_PROFILE_PICTURE_UPLOAD);
+        editor.apply();
+
+        MyApplication myApp = ((MyApplication) activity.getApplication());
+        if (myApp != null) {
+            myApp.setCurrentUser(null);
+        }
     }
 
     public void restartApplication() {
@@ -245,6 +247,11 @@ public class UserHomeActivity extends FragmentActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        if(loggingOut) {
+            loggingOut = false;
+            logout();
+        }
 
         // start currentUser statistics job
         navigationDrawerController.activityStart();

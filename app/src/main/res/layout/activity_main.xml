@@ -32,7 +32,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:textColor="#d41d1d"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:visibility="gone"/>
 
         <ProgressBar
             android:id="@+id/progress_ring_main_activity"
@@ -89,6 +90,7 @@
             android:layout_above="@id/layout_mainA_stam"
             android:text="@string/sign_in_with_a_different_email"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

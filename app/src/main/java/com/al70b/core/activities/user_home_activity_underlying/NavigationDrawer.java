@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
+import com.al70b.core.activities.SettingsActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
@@ -109,6 +111,15 @@ public class NavigationDrawer implements NavigationDrawerController {
         // Drawer Header
         ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_header);
         CircleImageView cmUserProfilePicture = (CircleImageView) navHeader.findViewById(R.id.circle_image_view_drawer_profile_image);
+        ImageButton imgBtnSettings = (ImageButton) navHeader.findViewById(R.id.img_btn_drawer_profile_settings);
+
+        imgBtnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, SettingsActivity.class);
+                activity.startActivity(intent);
+            }
+        });
 
         // Drawer Main List
         navDrawerList = (ListView) navDrawerLayout.findViewById(R.id.list_navigation_drawer);

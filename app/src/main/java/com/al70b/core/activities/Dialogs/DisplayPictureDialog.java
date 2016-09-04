@@ -80,9 +80,10 @@ public class DisplayPictureDialog extends Dialog {
         lp.copyFrom(getWindow().getAttributes());
         lp.dimAmount = 0.2f;
         lp.gravity = Gravity.CENTER;
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = (int)Utils.convertDpToPixel(360, context);
-        lp.horizontalMargin = (int)Utils.convertDpToPixel(20, context);
+
+        int widthInDP = (int)context.getResources().getDisplayMetrics().xdpi;
+        lp.width = (int)Utils.convertDpToPixel(widthInDP - 70, context);
+        lp.height = (int)Utils.convertDpToPixel(widthInDP - 50, context);
         lp.y = -1 * (int)Utils.convertDpToPixel(24, context);
         getWindow().setAttributes(lp);
     }
