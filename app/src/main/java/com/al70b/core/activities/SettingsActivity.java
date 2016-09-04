@@ -38,8 +38,6 @@ public class SettingsActivity extends Activity {
                 switch (position) {
                     case 0:
                         intent = new Intent(SettingsActivity.this, TermsActivity.class);
-                        //intent.putExtra(TermsActivity.DISPLAYING, )
-                        message = "Show Terms Activity";
                         break;
                     case 1:
                         intent = new Intent(SettingsActivity.this, TermsActivity.class);
@@ -50,8 +48,7 @@ public class SettingsActivity extends Activity {
                         message = "Show Who are we";
                         break;
                     case 3:
-                        intent = new Intent(SettingsActivity.this, TermsActivity.class);
-                        message = "Show Close account page";
+                        intent = new Intent(SettingsActivity.this, CloseAccountActivity.class);
                         break;
                     case 4:
                         UserHomeActivity.loggingOut = true;
