@@ -521,6 +521,7 @@
     <string name="close_account">إغلاق الحساب</string>
     <string name="close_account_info">في حال قمت بإغلاق حسابك، لن يكون حسابك مرئي في أي قسم من أقسام الموقع والتطبيق.\nيمكنك دائمًا إعادة فتح الحساب من جديد وببساطة، وذلك عن طريق الدخول الى حسابك بواسطة معلومات الدخول التي بحوزتك الان.</string>
     <string name="close_account_was_successful">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
+    <string name="close_account_was_successfull">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
 
 
 </resources>

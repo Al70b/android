@@ -20,6 +20,7 @@ import com.inscripts.cometchat.sdk.CometChat;
 import com.inscripts.interfaces.Callbacks;
 import com.inscripts.utils.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,7 +76,6 @@ public class FriendConversationActivity extends AbstractUserConversationActivity
                                 // previous message is also end message
                                 // remove bitmap and hide
                                 ((EndMessage) lastMessage).setProfilePictureInvisible();
-                                ((EndMessage) lastMessage).removeProfilePictureBitmap();
                             }
                         }
 
@@ -269,24 +269,80 @@ public class FriendConversationActivity extends AbstractUserConversationActivity
     }
 
     @Override
-    List<Message> getHistory(int messagesFetchedLimit) {
-        long otherUserID = (long) otherUser.getUserID();
-        List<Message> list = new ArrayList<>();
-
-        cometChat.getChatHistory(otherUserID, -1L, new Callbacks() {
+    void getHistory(final long idOfLastMessage, int messagesFetchedLimit, final MyCallback myCallback) {
+        cometChat.getChatHistory((long)otherUser.getUserID(), idOfLastMessage, new Callbacks() {
             @Override
             public void successCallback(JSONObject jsonObject) {
                 Log.d(TAG, "Getting history: " + jsonObject.toString());
 
+                List<Message> list = new ArrayList<Message>();
+                try {
+                    JSONArray jsonArray = jsonObject.getJSONArray("history");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject temp = jsonArray.getJSONObject(i);
+
+                        int id, senderID, messageType;
+                        long dateTime;
+                        String message;
+
+                        id = temp.getInt("id");
+                        senderID = temp.getInt("from");
+                        message = temp.getString("message");
+                        dateTime = temp.getLong("sent");
+                        messageType = temp.getInt("message_type");
+
+                        // if message is either of these two, just ignore
+                        if (!(messageType == Message.Type.REGULAR || messageType == Message.Type.VIDEO_CALL_INCOMING_CALL))
+                            continue;
+
+                        Message msg;
+                        if (senderID == otherUser.getUserID()) {
+                            // message from other user to current user
+                            msg = new EndMessage(id, message, dateTime, messageType);
+                        } else {
+                            // the other way around
+                            msg = new Message(id, message, dateTime, messageType);
+                        }
+
+                        // message is fetched from server, thus it is inactive & fetched
+
+                        msg.setMessageInactive();
+                        msg.setMessageFetched();
+
+                        if (i > 0 && msg instanceof EndMessage) {
+                            Message previousMessage;
+
+                            if (list.size() == 0) {
+                                previousMessage = mListMessages.get(mListMessages.size() - 1);
+                            } else {
+                                // already there is a message
+                                previousMessage = list.get(list.size() - 1);
+                            }
+
+                            if (previousMessage.isUserMessage())
+                                ((EndMessage) msg).setProfilePictureVisible();
+                            else if (!msg.isUserMessage() && messageType == Message.Type.REGULAR) {
+                                // previous message is an end message
+                                ((EndMessage) previousMessage).setProfilePictureInvisible();
+                                ((EndMessage) msg).setProfilePictureVisible();
+                            }
+                        }
+                        list.add(msg);
+                    }
+                } catch (JSONException ex) {
+                    Log.e(TAG, ex.toString());
+                }
+
+                myCallback.onSuccess(list);
             }
 
             @Override
             public void failCallback(JSONObject jsonObject) {
                 Log.e(TAG, "Getting history failed: " + jsonObject.toString());
+                myCallback.onFail(jsonObject);
             }
         });
-
-        return list;
     }
 
 

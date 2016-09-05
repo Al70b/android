@@ -47,7 +47,6 @@
         android:textSize="22sp"
         android:visibility="gone" />
 
-
     <!-- loading FAILED_TO_SEND layout -->
     <LinearLayout
         android:id="@+id/layout_userMembersA_failed_loading"

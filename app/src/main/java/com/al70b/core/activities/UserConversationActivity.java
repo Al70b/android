@@ -102,12 +102,10 @@ public class UserConversationActivity extends AbstractUserConversationActivity {
     }
 
     @Override
-    List<Message> getHistory(int messagesFetchedLimit) {
+    void getHistory(long idOfLastMessage, int messagesFetchedLimit, MyCallback callback) {
         long otherUserID = (long) otherUser.getUserID();
         List<Message> list = new ArrayList<>();
 
-
-        return list;
     }
 
 

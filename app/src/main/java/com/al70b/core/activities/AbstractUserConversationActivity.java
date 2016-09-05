@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -87,9 +89,11 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
 
         currentUser = (CurrentUser) bundle.getSerializable(CURRENT_USER);
         assert currentUser != null : "Current user passed to activity cannot be null";
+        currentUser.setContext(this);
 
         otherUser = (OtherUser) bundle.getSerializable(OTHER_USER);
         assert otherUser != null : "Other user passed to activity cannot be null!";
+        otherUser.setContext(this);
 
         inflateActionBar();
 
@@ -182,6 +186,10 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
                             // scroll to the latest message sent
                             pulledListView.setSelection(mListMessages.size() - 1);
                         }
+                    }
+
+                    @Override
+                    void onSuccess(List<Message> list) {
                     }
 
                     @Override
@@ -292,7 +300,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
 
         ActionBar actionBar = getActionBar();
 
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setCustomView(layout);
@@ -302,7 +310,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
 
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (Build.VERSION.SDK_INT > 5
                 && keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
@@ -333,7 +341,7 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         super.onStart();
 
         // start fetching history
-        pulledListView.onRefresh();
+        //pulledListView.onRefresh();
     }
 
     @Override
@@ -341,11 +349,14 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
         super.onStop();
     }
 
+    private long idOfLastMessage = -1;
 
     /**
      * this class implements the "load more messages" functionality
      */
     private class PullToRefreshDataTask extends AsyncTask<Void, Void, List<Message>> {
+
+        private final CountDownLatch methodLatch = new CountDownLatch(1);
 
         @Override
         protected void onPreExecute() {
@@ -364,24 +375,46 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
                 return null;
             }
 
-            List<Message> fetchedMessages = getHistory(NUMBER_OF_FETCHED_MESSAGES_EACH_TIME);
-            Log.d(TAG, String.format("Fetched %1$s new messages", String.valueOf(fetchedMessages.size())));
+            getHistory(idOfLastMessage, NUMBER_OF_FETCHED_MESSAGES_EACH_TIME, new MyCallback() {
+                @Override
+                void onSuccess(JSONObject result) {
+                }
 
-            mListMessages.addAll(fetchedMessages);
+                @Override
+                void onSuccess(final List<Message> result) {
+                    if(!result.isEmpty()) {
+                        Message firstMessage = result.get(0);
+                        idOfLastMessage = firstMessage.getMessageID();
+                    }
+                    mListMessages.addAll(0, result);
 
-            return fetchedMessages;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (result.isEmpty()) {
+                                pulledListView.setNoMore(true);
+                            } else {
+                                messagesListAdapter.notifyDataSetChanged();
+                                pulledListView.setSelection(messagesListAdapter.getCount() - 1);
+                                pulledListView.onRefreshComplete();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                void onFail(JSONObject result) {
+                    Log.e(TAG, result.toString());
+                }
+            });
+
+            //Log.d(TAG, String.format("Fetched %1$s new messages", String.valueOf(fetchedMessages.size())));
+
+            return null;
         }
 
         @Override
         protected void onPostExecute(List<Message> result) {
-            if (result.isEmpty()) {
-                pulledListView.setNoMore(true);
-            } else {
-                messagesListAdapter.notifyDataSetChanged();
-                pulledListView.setSelection(messagesListAdapter.getCount() - 1);
-                pulledListView.onRefreshComplete();
-            }
-
             super.onPostExecute(result);
         }
     }
@@ -391,6 +424,8 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
 
     public abstract class MyCallback {
         abstract void onSuccess(JSONObject result);
+
+        abstract void onSuccess(List<Message> result);
 
         abstract void onFail(JSONObject result);
     }
@@ -410,5 +445,6 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
      *
      * @return List of newly fetched messages if exist
      */
-    abstract List<Message> getHistory(int messagesFetchedLimit);
+    abstract void getHistory(long idOfLastMessage, int messagesFetchedLimit, MyCallback callback);
+
 }
