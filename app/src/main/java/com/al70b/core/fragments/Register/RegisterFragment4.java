@@ -53,7 +53,6 @@ public class RegisterFragment4 extends Fragment {
         final ImageButton btnValidPasswordSyntax = (ImageButton) viewGroup.findViewById(R.id.btn_register_invalid_password_syntax);
         final ImageButton btnValidRetypePassword = (ImageButton) viewGroup.findViewById(R.id.btn_register_invalid_retype_password_syntax);
         final CheckBox chkBoxAcceptTermsOfUse = (CheckBox) viewGroup.findViewById(R.id.check_box_register_accept_terms_of_use);
-        CheckBox chkBoxAcceptAdvertisement = (CheckBox) viewGroup.findViewById(R.id.check_box_register_accept_advertisement);
         final Button btnNext = (Button) viewGroup.findViewById(R.id.btn_register_next_5);
         Button btnPrev = (Button) viewGroup.findViewById(R.id.btn_register_prev_5);
 
@@ -76,14 +75,6 @@ public class RegisterFragment4 extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 acceptedTermsOfUse = isChecked;
-            }
-        });
-
-        chkBoxAcceptAdvertisement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // set email and password
-                activity.registerAcceptedAdvertisement(isChecked);
             }
         });
 

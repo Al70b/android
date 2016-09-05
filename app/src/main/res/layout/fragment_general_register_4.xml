@@ -131,16 +131,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="17sp" />
 
-                <CheckBox
-                    android:id="@+id/check_box_register_accept_advertisement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    android:padding="3dp"
-                    android:text="@string/accept_to_receive_ad_messages"
-                    android:textColor="@android:color/black"
-                    android:textSize="17sp" />
-
             </LinearLayout>
         </RelativeLayout>
 

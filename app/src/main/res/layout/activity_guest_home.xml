@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/layout_guestHomeA_header"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="160dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/img_view_guestHome_icon"
             android:layout_width="180dp"
-            android:layout_height="140dp"
+            android:layout_height="130dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="4dp"
             android:layout_gravity="center"
@@ -68,6 +68,7 @@
         android:layout_below="@id/layout_guestHomeA_header"
         android:layout_above="@id/layout_guestHomeA_footer"
         android:overScrollMode="never"
+        android:paddingBottom="10dp"
         />
 
     <com.al70b.core.extended_widgets.page_indicators.CirclePageIndicator

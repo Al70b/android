@@ -133,10 +133,6 @@ public class RegisterActivity extends FragmentActivity {
         updateTitle();
     }
 
-    public void registerAcceptedAdvertisement(boolean isChecked) {
-        registeringUser.setAcceptAdvertisement(isChecked);
-    }
-
     public CurrentUser getRegisteringUser() {
         return registeringUser;
     }
