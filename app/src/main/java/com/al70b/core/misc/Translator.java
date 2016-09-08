@@ -29,6 +29,7 @@ import java.util.Map;
  */
 public class Translator implements Serializable {
 
+    private static final String TAG = Translator.class.getSimpleName();
     public static Translator translator;
     private transient Context context;
     private TranslatorDictionary dictionary;
@@ -101,8 +102,11 @@ public class Translator implements Serializable {
                 translator.useServerTranslations(sr.getResult());
 
             } catch (JSONException ex) {
+                Log.e(TAG, ex.toString());
             } catch (ParseException ex) {
+                Log.e(TAG, ex.toString());
             }
+
         } else if (localDateStr != null) {      // could not connect to server
             // a previous translation was saved, use it
             translator.useLastSavedTranslation();
@@ -172,6 +176,7 @@ public class Translator implements Serializable {
             try {
                 list.add(arr.getString(i));
             } catch (JSONException ex) {
+                Log.e(TAG, ex.toString());
             }
         }
         return translate(list, dic);
@@ -239,14 +244,14 @@ public class Translator implements Serializable {
         // write dictionary to a file for future use
         new StorageOperations(context).writeDictionaryToStorage(dictionary);
 
-        Log.v("Translation", "Using server's translation.");
+        Log.d(TAG, "Using server's translation.");
     }
 
     public void useLastSavedTranslation() {
         // load translation from file in storage
         dictionary = new StorageOperations(context).loadDictionaryFromStorage();
 
-        Log.v("Translation", "Using last saved translation.");
+        Log.d(TAG, "Using last saved translation.");
     }
 
     public void useDefaultTranslation() {
@@ -264,7 +269,7 @@ public class Translator implements Serializable {
         for (String s : temp)
             dictionary.SOCIAL_STATUS.add(new Word(s.hashCode() + "", s));
 
-        Log.v("Translation", "Using default translation.");
+        Log.d(TAG, "Using default translation.");
     }
 
     private List<Word> fillListWithValues(JSONObject jsonObject, List<Word> listOfWords) throws JSONException {

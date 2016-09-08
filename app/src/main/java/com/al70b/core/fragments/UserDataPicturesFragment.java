@@ -26,10 +26,10 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
+import com.al70b.core.activities.Dialogs.GeneralQuestionAlertDialog;
 import com.al70b.core.activities.DisplayPictureActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
-import com.al70b.core.activities.Dialogs.QuestionAlert;
 import com.al70b.core.adapters.UserImageAdapter;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.ImageHandler;
@@ -317,7 +317,7 @@ public class UserDataPicturesFragment extends Fragment {
     }
 
     private void promptForSetAsProfilePicture(final Picture pic) {
-        final QuestionAlert alert = new QuestionAlert(activity, activity.getResources().getString(R.string.question)
+        final GeneralQuestionAlertDialog alert = new GeneralQuestionAlertDialog(activity, activity.getResources().getString(R.string.question)
                 , activity.getResources().getString(R.string.set_as_profile_picture), -1, R.string.yes, R.string.no);
 
         alert.show();

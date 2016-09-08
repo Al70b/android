@@ -163,7 +163,7 @@ public class OtherUser extends User {
                     break;
                 case NONE:
                     drawableResID = R.drawable.ic_action_add_person;
-                    drawableResIDActionBar = R.drawable.ic_action_add_person_holo_light;
+                    drawableResIDActionBar = R.drawable.ic_action_add_person;
                     stringResID = R.string.send_friend_request;
                     break;
             }

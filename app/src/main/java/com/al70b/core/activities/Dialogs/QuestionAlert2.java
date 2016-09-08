@@ -73,9 +73,9 @@ public class QuestionAlert2 extends Dialog {
         setCanceledOnTouchOutside(true);
 
         setContentView(R.layout.alert_question2);
-        TextView txtViewTitle = (TextView) findViewById(R.id.text_view_dialog_question_title);
+        TextView txtViewTitle = (TextView) findViewById(R.id.text_view_dialog_question2_title);
         TextView txtViewMessage = (TextView) findViewById(R.id.text_view_dialog_question_message);
-        ImageView imgView = (ImageView) findViewById(R.id.image_view_alert_question_icon);
+        ImageView imgView = (ImageView) findViewById(R.id.image_view_alert_question2_icon);
         chkBoxDonot = (CheckBox) findViewById(R.id.chk_box_dialog_question_dont_ask_me);
         btnPositive = (Button) findViewById(R.id.btn_dialog_question_positive);
         btnNegative = (Button) findViewById(R.id.btn_dialog_question_negative);

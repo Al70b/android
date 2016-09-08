@@ -4,47 +4,35 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.al70b.R;
 import com.al70b.core.misc.AppConstants;
 
-/**
- * Created by Naseem on 7/7/2016.
- */
-public class TermsActivity extends Activity {
+public class AboutUsActivity extends Activity {
 
     private ProgressBar pb;
     private WebView webView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_terms_of_use);
+        setContentView(R.layout.activity_about_us);
 
         ActionBar actionBar = getActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
 
-        webView = (WebView) findViewById(R.id.web_view_terms_of_use);
-        pb = (ProgressBar) findViewById(R.id.progress_bar_web_view_terms_of_use);
+        webView = (WebView) findViewById(R.id.web_view_about_us);
+        pb = (ProgressBar) findViewById(R.id.progress_bar_web_view_about_us);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(AppConstants.TERMS_OF_USE_URL);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_terms_of_use, menu);
-
-        return true;
+        webView.loadUrl(AppConstants.ABOUT_US_URL);
     }
 
     @Override

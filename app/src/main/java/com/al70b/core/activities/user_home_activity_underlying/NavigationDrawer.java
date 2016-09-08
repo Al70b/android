@@ -12,26 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
 import com.al70b.core.activities.SettingsActivity;
 import com.al70b.core.activities.UserHomeActivity;
-import com.al70b.core.activities.UsersListActivity;
 import com.al70b.core.adapters.NavigationDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
-import com.al70b.core.fragments.UserAdvancedSearchFragment;
-import com.al70b.core.fragments.UserBasicSearchFragment;
-import com.al70b.core.fragments.UserCloseAccountFragment;
 import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
 import com.al70b.core.fragments.UserFriendListFragment;
 import com.al70b.core.fragments.UserFriendRequestsFragment;
-import com.al70b.core.fragments.UserSettingsFragment;
+import com.al70b.core.fragments.UserSearchFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.objects.CurrentUser;
@@ -87,8 +81,7 @@ public class NavigationDrawer implements NavigationDrawerController {
         CONVERSATIONS(1),
         FRIENDS(2),
         FRIENDS_REQUESTS(3),
-        BASIC_SEARCH(4),
-        ADVANCED_SEARCH(5);
+        SEARCH(4);
 
         NavigationDrawerItems(int index) {
             this.index = index;
@@ -175,11 +168,11 @@ public class NavigationDrawer implements NavigationDrawerController {
         navDrawerItems[NavigationDrawerItems.PROFILE.index] = new NavDrawerItem(
                 drawerValues[NavigationDrawerItems.PROFILE.index],
                 currentUser.isMale() ?
-                        R.drawable.ic_action_profile_male :
-                        R.drawable.ic_action_profile_female
+                        R.drawable.ic_action_user :
+                        R.drawable.ic_action_user
                 , currentUser.isMale() ?
-                R.drawable.ic_action_profile_male :
-                R.drawable.ic_action_profile_female);
+                R.drawable.ic_action_user :
+                R.drawable.ic_action_user);
 
         // Conversations
         navDrawerItems[NavigationDrawerItems.CONVERSATIONS.index] = new NavDrawerItem(
@@ -189,23 +182,17 @@ public class NavigationDrawer implements NavigationDrawerController {
         // Friends
         navDrawerItems[NavigationDrawerItems.FRIENDS.index] = new NavDrawerItem(
                 drawerValues[NavigationDrawerItems.FRIENDS.index],
-                R.drawable.ic_action_friends, R.drawable.ic_action_friends);
+                R.drawable.ic_action_users, R.drawable.ic_action_users);
 
         // Friends Requests
         navDrawerItems[NavigationDrawerItems.FRIENDS_REQUESTS.index] = new NavDrawerItem(
                 drawerValues[NavigationDrawerItems.FRIENDS_REQUESTS.index],
-                R.drawable.ic_action_friends_requests, R.drawable.ic_action_friends_requests);
+                R.drawable.ic_action_user_add, R.drawable.ic_action_user_add);
 
-        // Basic Search
-        navDrawerItems[NavigationDrawerItems.BASIC_SEARCH.index] = new NavDrawerItem(
-                drawerValues[NavigationDrawerItems.BASIC_SEARCH.index],
-                R.drawable.ic_action_basic_search, R.drawable.ic_action_basic_search);
-
-        // Advanced Search
-        navDrawerItems[NavigationDrawerItems.ADVANCED_SEARCH.index] = new NavDrawerItem(
-                drawerValues[NavigationDrawerItems.ADVANCED_SEARCH.index],
-                R.drawable.ic_action_advanced_search, R.drawable.ic_action_advanced_search);
-
+        // Search
+        navDrawerItems[NavigationDrawerItems.SEARCH.index] = new NavDrawerItem(
+                drawerValues[NavigationDrawerItems.SEARCH.index],
+                R.drawable.ic_action_search, R.drawable.ic_action_search);
         return navDrawerItems;
     }
 
@@ -231,10 +218,7 @@ public class NavigationDrawer implements NavigationDrawerController {
                     fragment = new UserFriendRequestsFragment();
                     break;
                 case 4:
-                    fragment = new UserBasicSearchFragment();
-                    break;
-                case 5:
-                    fragment = new UserAdvancedSearchFragment();
+                    fragment = new UserSearchFragment();
                     break;
                 default:
                     return;

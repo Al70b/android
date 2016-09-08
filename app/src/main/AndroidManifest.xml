@@ -114,8 +114,21 @@
         <service android:name=".core.notifications.GcmMessageHandler" />
 
         <activity android:name=".core.activities.UsersListActivity" />
-        <activity android:name=".core.activities.SettingsActivity" />
-        <activity android:name=".core.activities.CloseAccountActivity"></activity>
+        <activity
+            android:name=".core.activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".core.activities.UserHomeActivity" />
+        <activity
+            android:name=".core.activities.CloseAccountActivity"
+            android:label="@string/title_activity_close_account"
+            android:parentActivityName=".core.activities.SettingsActivity" />
+        <activity
+            android:name=".core.activities.ContactUsActivity"
+            android:label="@string/title_activity_contact_us"
+            android:parentActivityName=".core.activities.SettingsActivity" />
+        <activity android:name=".core.activities.AboutUsActivity"
+            android:label="@string/title_activity_about_us"
+            android:parentActivityName=".core.activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

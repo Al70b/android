@@ -13,6 +13,7 @@ public final class ServerConstants {
         public static final String SERVER_FUNC_GET_USERS_STATIC = "getUsersStatic";
         public static final String SERVER_FUNC_GET_USER_DATA = "getUserData";
         public static final String SERVER_FUNC_GET_CONVERSATIONS = "getConversations";
+        public static final String SERVER_FUNC_GET_MESSAGES_BY_USER_ID = "getMessagesByUserId";
         public static final String SERVER_FUNC_GET_MEMBERS = "getUsers";
         public static final String SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST = "sendApproveFriendRequestById";
         public static final String SERVER_FUNC_GET_USER_PROFILE = "getUserProfile";
@@ -36,9 +37,10 @@ public final class ServerConstants {
         public static final String SERVER_FUNC_DELETE_PHOTO = "deletePhoto";
         public static final String SERVER_FUNC_FORGOT_PASSWORD = "forgotPassword";
         public static final String SERVER_FUNC_GET_MATCHING_PROFILES = "getMatchingProfiles";
-        public static final String SERVER_FUNC_REGISTER_CLIEND_ID = "registerClientId";
-        public static final String SERVER_FUNC_UNREGISTER_CLIEND_ID = "unregisterClientId";
+        public static final String SERVER_FUNC_REGISTER_CLIENT_ID = "registerClientId";
+        public static final String SERVER_FUNC_UNREGISTER_CLIENT_ID = "unregisterClientId";
         public static final String SERVER_FUNC_CLOSE_ACCOUNT = "closeAccount";
+        public static final String SERVER_FUNC_SEND_CONTACT_EMAIL = "sendContactEmail";
     }
 
     public static final class CONSTANTS {

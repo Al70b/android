@@ -97,6 +97,9 @@ public final class KEYS {
         public static final String STATUS_BUSY = "busy";
         public static final String LAST = "last";
         public static final String NEW_PASSWORD = "new_password";
+        public static final String SUBJECT = "subject";
+        public static final String CONTENT = "content";
+        public static final String FROM_EMAIL = "from_email";
     }
 
     public static final String PROFILE_PICTURE_BITMAP = "ProfilePicture Bitmap";

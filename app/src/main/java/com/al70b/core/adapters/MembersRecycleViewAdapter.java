@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.al70b.R;
 import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.activities.Dialogs.SendMessageDialog;
 import com.al70b.core.extended_widgets.LoadMoreRecyclerView;
+import com.al70b.core.misc.Utils;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.FriendButtonHandler;
 import com.al70b.core.objects.OtherUser;
@@ -114,6 +116,13 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
                 v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.card_view_item_member, parent, false);
                 vh = new ItemViewHolder(v);
+                ItemViewHolder itemViewHolder = (ItemViewHolder)vh;
+
+                int width = context.getResources().getDisplayMetrics().widthPixels;
+                width = (width / 2) - 20;
+                int height = width + 20;
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height);
+                itemViewHolder.profilePicture.setLayoutParams(lp);
         }
         return vh;
     }

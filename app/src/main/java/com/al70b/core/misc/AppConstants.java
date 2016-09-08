@@ -17,7 +17,8 @@ public class AppConstants {
     public static final String TRANSLATION_SHARED_PREF_KEY = "translation";
     public static final String CACHED_EMAILS_SHARED_PREF = "cachedEmails";
     public static final String DONT_ASK_FOR_PROFILE_PICTURE = "Dont.ask.for.profile.picture";
-    public static final String TERMS_OF_USE_URL = "http://al70b.com/terms.php";
+    public static final String TERMS_OF_USE_URL = "http://al70b.com/app-content/terms.php";
+    public static final String ABOUT_US_URL = "http://al70b.com/app-content/about.php";
 
     public static final int MAX_NUMBER_OF_PICTURES_PER_USER = 5;
     public static final int MAX_MEMBER_AGE = 100;
@@ -26,4 +27,5 @@ public class AppConstants {
     public static final int MAX_HEIGHT = 244;
 
     public static final String CURRENT_USER = "CURRENT_USER";
+
 }

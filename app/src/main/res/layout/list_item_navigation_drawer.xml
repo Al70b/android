@@ -35,7 +35,7 @@
             android:id="@+id/image_view_navigation_drawer_list"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_action_profile_male" />
+            android:src="@drawable/ic_action_user" />
     </LinearLayout>
 
     <TextView

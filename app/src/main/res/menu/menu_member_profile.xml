@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_item_member_profile_friend"
-        android:icon="@drawable/ic_action_add_person_holo_light"
+        android:icon="@drawable/ic_action_user_add_holo_dark"
         android:title="@string/send_friend_request"
         android:showAsAction="always" />
 

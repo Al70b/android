@@ -75,8 +75,10 @@ public class MyApplication extends MultiDexApplication {
 
     public Translator getTranslator() {
         if(myTranslator == null) {
-            Log.e(TAG, "No Translator is set to be fetched, exiting application!!");
-            System.exit(-1);
+            Log.d(TAG, "No Translator instance exists");
+
+            // get translations to use in the app
+            setTranslator(Translator.getInstance(getApplicationContext()));
         }
 
         return myTranslator;

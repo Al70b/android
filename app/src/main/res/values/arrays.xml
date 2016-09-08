@@ -10,14 +10,13 @@
         <item>محادثات</item>
         <item>أصدقائي</item>
         <item>طلبات الصداقة</item>
-        <item>بحث سريع</item>
-        <item>بحث متقدم</item>
+        <item>ملاءمات</item>
     </string-array>
     <string-array name="settings_list">
         <item>شروط الإستخدام والخصوصية</item>
-        <item>إتصل بنا</item>
         <item>من نحن</item>
+        <item>إتصل بنا</item>
         <item>إغلاق الحساب</item>
-        <item>خروج</item>
+        <item>خروج من حسابك</item>
     </string-array>
 </resources>

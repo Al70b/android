@@ -19,7 +19,7 @@ import com.al70b.R;
  * a progress bar on the right side and a var message to the left of the progress bar
  * no buttons or icons
  */
-public class QuestionAlert extends Dialog {
+public class GeneralQuestionAlertDialog extends Dialog {
 
     private Context context;
     private String title, message;
@@ -28,26 +28,26 @@ public class QuestionAlert extends Dialog {
     private WindowManager.LayoutParams lp;
     private Button btnPositive, btnNegative;
 
-    public QuestionAlert(Context context) {
+    public GeneralQuestionAlertDialog(Context context) {
         super(context);
 
         this.context = context;
     }
 
-    public QuestionAlert(Context context, String title, String message) {
+    public GeneralQuestionAlertDialog(Context context, String title, String message) {
         this(context);
 
         this.title = title;
         this.message = message;
     }
 
-    public QuestionAlert(Context context, String title, String message, int icon) {
+    public GeneralQuestionAlertDialog(Context context, String title, String message, int icon) {
         this(context, title, message);
 
         this.icon = icon;
     }
 
-    public QuestionAlert(Context context, String title, String message, int icon, int positive, int negative) {
+    public GeneralQuestionAlertDialog(Context context, String title, String message, int icon, int positive, int negative) {
         this(context, title, message);
 
         this.positive = positive;
@@ -55,11 +55,11 @@ public class QuestionAlert extends Dialog {
         this.icon = icon;
     }
 
-    public QuestionAlert(Context context, int titleID, int stringID) {
+    public GeneralQuestionAlertDialog(Context context, int titleID, int stringID) {
         this(context, context.getString(titleID), context.getString(stringID));
     }
 
-    public QuestionAlert(Context context, int titleID, int stringID, int icon) {
+    public GeneralQuestionAlertDialog(Context context, int titleID, int stringID, int icon) {
         this(context, context.getString(titleID), context.getString(stringID), icon);
     }
 
@@ -71,22 +71,32 @@ public class QuestionAlert extends Dialog {
         setCanceledOnTouchOutside(true);
 
         setContentView(R.layout.alert_question2);
-        TextView txtViewTitle = (TextView) findViewById(R.id.text_view_dialog_question_title);
-        TextView txtViewMessage = (TextView) findViewById(R.id.text_view_dialog_question_message);
-        ImageView imgView = (ImageView) findViewById(R.id.image_view_alert_question_icon);
+        TextView txtViewTitle = (TextView) findViewById(R.id.text_view_dialog_question2_title);
+        TextView txtViewMessage = (TextView) findViewById(R.id.text_view_dialog_question2_message);
+        ImageView imgView = (ImageView) findViewById(R.id.image_view_alert_question2_icon);
 
-        btnPositive = (Button) findViewById(R.id.btn_dialog_question_positive);
-        btnNegative = (Button) findViewById(R.id.btn_dialog_question_negative);
+        btnPositive = (Button) findViewById(R.id.btn_dialog_question2_positive);
+        btnNegative = (Button) findViewById(R.id.btn_dialog_question2_negative);
 
-        if (icon != -1)
+        if (icon != -1) {
             imgView.setImageResource(icon);
+            imgView.setVisibility(View.VISIBLE);
+        }
 
         txtViewTitle.setText(title);
         txtViewMessage.setText(message);
-        btnPositive.setText(positive);
-        btnNegative.setText(negative);
+
+        if(positive > 0) {
+            btnPositive.setText(positive);
+        }
+
+        if(negative > 0) {
+            btnNegative.setText(negative);
+        }
+
 
         lp = new WindowManager.LayoutParams();
+        lp.dimAmount = 0.4f;
         lp.copyFrom(getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -101,12 +111,14 @@ public class QuestionAlert extends Dialog {
     }
 
     public void setPositiveButton(View.OnClickListener l) {
-        if (btnPositive != null)
+        if (btnPositive != null) {
             btnPositive.setOnClickListener(l);
+        }
     }
 
     public void setNegativeButton(View.OnClickListener l) {
-        if (btnNegative != null)
+        if (btnNegative != null) {
             btnNegative.setOnClickListener(l);
+        }
     }
 }

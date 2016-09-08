@@ -9,6 +9,7 @@
     <string name="title_activity_member_profile">صفحة العضو</string>
     <string name="title_Activity_register">للرئيسية</string>
     <string name="title_activity_login">للرئيسية</string>
+    <string name="title_activity_settings">إعدادات</string>
     <string name="settings">خصائص</string>
     <string name="edTxtEmail">البريد الإلكتروني</string>
     <string name="password">كلمة المرور</string>
@@ -200,6 +201,11 @@
     <string-array name="friends_requests">
         <item>طلبات مرسلة</item>
         <item>طلبات قادمة</item>
+    </string-array>
+
+    <string-array name="search_options">
+        <item>بحث متقدم</item>
+        <item>بحث سريع</item>
     </string-array>
 
     <string-array name="register_titles">
@@ -459,7 +465,7 @@
     <string name="full_name">الإسم</string>
     <string name="more_info">الدولة، المدينة</string>
     <string name="no_friends">لا يوجد لديك أصدقاء حتى الآن</string>
-    <string name="title_activity_settings">Settings</string>
+
 
     <!-- Strings related to Settings -->
 
@@ -519,9 +525,22 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="close_account">إغلاق الحساب</string>
-    <string name="close_account_info">في حال قمت بإغلاق حسابك، لن يكون حسابك مرئي في أي قسم من أقسام الموقع والتطبيق.\nيمكنك دائمًا إعادة فتح الحساب من جديد وببساطة، وذلك عن طريق الدخول الى حسابك بواسطة معلومات الدخول التي بحوزتك الان.</string>
+    <string name="close_account_info_p1">في حال قمت بإغلاق حسابك، لن يكون حسابك مرئي في أي قسم من أقسام الموقع والتطبيق.</string>
+    <string name="close_account_info_p2">* يمكنك دائمًا إعادة فتح الحساب من جديد وذلك عن طريق الدخول الى حسابك بواسطة معلومات الدخول التي بحوزتك الان.</string>
     <string name="close_account_was_successful">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
     <string name="close_account_was_successfull">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
+    <string name="subject">الموضوع</string>
+    <string name="please_provide_subect_and_content">عليك إدخال عنوان ومحتوى أولًا</string>
+    <string name="your_message_was_sent_successfully">تم إرسال رسالتك بنجاح</string>
+    <string name="failed_to_send_your_message">لم ننجح بإرسال رسالتك، من فضلك حاول مرةً أخرى</string>
+    <string name="title_activity_close_account">إغلاق الحساب</string>
+    <string name="title_activity_contact_us">إتصل بنا</string>
+    <string name="title_activity_about_us">من نحن</string>
+    <string name="title">العنوان</string>
+    <string name="content">المحتوى</string>
+    <string name="are_you_sure_you_want_to_close_your_account">هل أنت متأكد من أنك تريد إغلاق حسابك؟</string>
+    <string name="logout_header">خروج من الحساب</string>
+    <string name="are_you_sure_you_want_to_log_out">هل أنت متأكد من أنك تريد الخروج من حسابك ؟</string>
 
 
 </resources>

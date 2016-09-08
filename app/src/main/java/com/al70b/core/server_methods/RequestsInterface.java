@@ -15,6 +15,8 @@ import com.al70b.core.misc.StorageOperations;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.Characteristics;
 import com.al70b.core.objects.CurrentUser;
+import com.al70b.core.objects.EndMessage;
+import com.al70b.core.objects.Message;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.Picture;
@@ -357,7 +359,7 @@ public class RequestsInterface {
     }
 
 
-    public ServerResponse<String> registerUser(CurrentUser user) throws ServerResponseFailedException{
+    public ServerResponse<String> registerUser(CurrentUser user) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -398,13 +400,13 @@ public class RequestsInterface {
         }
 
         // in case server response wasn't parsed appropriately
-        if(sr == null) {
+        if (sr == null) {
             throw new ServerResponseFailedException();
         }
         return sr;
     }
 
-        // turn arguments to JSONObject of arguments
+    // turn arguments to JSONObject of arguments
     public ServerResponse<ConversationItem[]> getConversations(final CurrentUser user, int page, int resultsPerPage) throws ServerResponseFailedException {
         JSONObject jsonArgs = new JSONObject();
 
@@ -465,6 +467,96 @@ public class RequestsInterface {
             throw new ServerResponseFailedException();
         return sr;
     }
+
+    public ServerResponse<List<Message>> getMessagesByUserId(final CurrentUser user, final long otherUserID, int page, int resultsPerPage) throws ServerResponseFailedException {
+        JSONObject jsonArgs = new JSONObject();
+
+        ServerResponse<List<Message>> sr = null;
+        try {
+            jsonArgs.put(KEYS.SERVER.USER_ID, user.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, user.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.ID, otherUserID);
+            jsonArgs.put(KEYS.SERVER.PAGE, page);
+            jsonArgs.put(KEYS.SERVER.RESULT_PER_PAGE, resultsPerPage);
+
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_MESSAGES_BY_USER_ID, jsonArgs, new ParseResultInterface<List<Message>>() {
+                @Override
+                public List<Message> parseResult(JSONObject jsonResult) throws JSONException {
+                    return null;
+                }
+
+                @Override
+                public List<Message> parseResult(JSONArray jsonArray) throws JSONException {
+                    List<Message> list = new ArrayList<Message>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject temp = jsonArray.getJSONObject(i);
+
+                        int id, senderID, messageType;
+                        long dateTime;
+                        String message;
+
+                        id = temp.getInt("id");
+                        senderID = temp.getInt("from");
+                        message = temp.getString("message");
+                        dateTime = temp.getLong("sent");
+                        messageType = temp.getInt("message_type");
+
+                        // if message is either of these two, just ignore
+                        if (!(messageType == Message.Type.REGULAR || messageType == Message.Type.VIDEO_CALL_INCOMING_CALL))
+                            continue;
+
+                        Message msg;
+                        if (senderID == otherUserID) {
+                            // message from other user to current user
+                            msg = new EndMessage(id, message, dateTime, messageType);
+                        } else {
+                            // the other way around
+                            msg = new Message(id, message, dateTime, messageType);
+                        }
+
+                        // message is fetched from server, thus it is inactive & fetched
+
+                        msg.setMessageInactive();
+                        msg.setMessageFetched();
+
+                           /* if (i > 0 && msg instanceof EndMessage) {
+                                Message previousMessage;
+
+                                if (list.size() == 0) {
+                                    previousMessage = mListMessages.get(mListMessages.size() - 1);
+                                } else {
+                                    // already there is a message
+                                    previousMessage = list.get(list.size() - 1);
+                                }
+
+                                if (previousMessage.isUserMessage())
+                                    ((EndMessage) msg).setProfilePictureVisible();
+                                else if (!msg.isUserMessage() && messageType == Message.Type.REGULAR) {
+                                    // previous message is an end message
+                                    ((EndMessage) previousMessage).setProfilePictureInvisible();
+                                    ((EndMessage) msg).setProfilePictureVisible();
+                                }
+                            }*/
+                        list.add(msg);
+                    }
+
+                    return list;
+                }
+
+            });
+
+        } catch (JSONException ex) {
+            Log.d("JSON - Requests", ex.toString());
+        } catch (Exception ex) {
+            Log.d("Execution - Requests", ex.toString());
+        }
+
+        // in case server response wasn't parsed appropriately
+        if (sr == null)
+            throw new ServerResponseFailedException();
+        return sr;
+    }
+
 
     public List<Bitmap> getProfilePictures(List<String> thumbnailsList, boolean saveToStorage) {
         // turn arguments to JSONObject of arguments
@@ -528,42 +620,6 @@ public class RequestsInterface {
         list.addAll(listOfBitmaps.values());
         return list;
     }
-
-    /*public void downloadRandomUsersPhotos(final List<String> thumbnailsList) {
-        // turn arguments to JSONObject of arguments
-
-
-        for (final String thumbnail : thumbnailsList) {
-            // start a new thread to handle this picture
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        JSONObject jsonArgs = new JSONObject();
-                        jsonArgs.put(KEYS.SHARED_PREFERENCES.PROFILE_PICTURE, thumbnail);
-                        ServerResponse<Bitmap> sr = doTheWork(Method.GET_PROFILE_PICTURE, jsonArgs, new ParseResultInterface<Bitmap>() {
-                            @Override
-                            public Bitmap parseResult(JSONObject jsonResult) throws JSONException {
-                                return (Bitmap) jsonResult.get(KEYS.SERVER.THUMBNAIL);
-                            }
-
-                            @Override
-                            public Bitmap parseResult(JSONArray jsonResult) throws JSONException {
-                                return null;
-                            }
-                        });
-
-                        if (sr != null && sr.isSuccess()) {
-                            GuestWelcomeFragment.addImageViewToLayout(sr.getResult());
-                        }
-                    } catch (JSONException ex) {
-                        Log.d("JSON - Requests", ex.toString());
-                    }
-                }
-            }).start();
-        }
-    }*/
 
 
     public List<Bitmap> getUserThumbnails(List<Picture> listOfPictures, int row, int numInRow) {
@@ -672,6 +728,7 @@ public class RequestsInterface {
                 User.Gender.BOTH, AppConstants.MIN_MEMBER_AGE, AppConstants.MAX_MEMBER_AGE,
                 false, false, true, page, resultPerPage, responseCallback);
     }
+
     /**
      * Advanced Users Search
      */
@@ -709,31 +766,69 @@ public class RequestsInterface {
 
             sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USERS_ADVANCED, jsonArgs,
                     new ParseResultInterface<Pair<Boolean, List<OtherUser>>>() {
-                @Override
-                public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
-                    List<OtherUser> users = new ArrayList<>();
+                        @Override
+                        public Pair<Boolean, List<OtherUser>> parseResult(JSONObject jsonResult) throws JSONException {
+                            List<OtherUser> users = new ArrayList<>();
 
-                    boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
-                    jsonResult.remove(KEYS.SERVER.LAST);
-                    Iterator<String> iterator = jsonResult.keys();
+                            boolean last = jsonResult.getBoolean(KEYS.SERVER.LAST);
+                            jsonResult.remove(KEYS.SERVER.LAST);
+                            Iterator<String> iterator = jsonResult.keys();
 
-                    while (iterator.hasNext()) {
-                        JSONObject jsonUser = jsonResult.getJSONObject(iterator.next());
-                        OtherUser user = new OtherUser(context).basicParseJSONToUser(jsonUser, responseCallback);
-                        users.add(user);
-                    }
+                            while (iterator.hasNext()) {
+                                JSONObject jsonUser = jsonResult.getJSONObject(iterator.next());
+                                OtherUser user = new OtherUser(context).basicParseJSONToUser(jsonUser, responseCallback);
+                                users.add(user);
+                            }
 
-                    return new Pair(last, users);
-                }
+                            return new Pair(last, users);
+                        }
 
-                @Override
-                public Pair<Boolean, List<OtherUser>> parseResult(JSONArray jsonResult) throws JSONException {
-                    if (jsonResult == null || jsonResult.length() == 0)
-                        return new Pair(true, new ArrayList<OtherUser>());
-                    else
-                        return parseResult(jsonResult.toJSONObject(null));
-                }
-            });
+                        @Override
+                        public Pair<Boolean, List<OtherUser>> parseResult(JSONArray jsonResult) throws JSONException {
+                            if (jsonResult == null || jsonResult.length() == 0)
+                                return new Pair(true, new ArrayList<OtherUser>());
+                            else
+                                return parseResult(jsonResult.toJSONObject(null));
+                        }
+                    });
+
+        } catch (JSONException ex) {
+            Log.d("JSON - Requests", ex.toString());
+        }
+
+        // in case server response wasn't parsed appropriately
+        if (sr == null)
+            throw new ServerResponseFailedException();
+
+        return sr;
+    }
+
+    public ServerResponse<String> sendMessage(
+            CurrentUser currentUser, long otherUserID, String content) throws ServerResponseFailedException {
+        // turn arguments to JSONObject of arguments
+        JSONObject jsonArgs = new JSONObject();
+
+        ServerResponse<String> sr = null;
+        try {
+            jsonArgs.put(KEYS.SERVER.USER_ID, currentUser.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, currentUser.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.ID, otherUserID);
+            jsonArgs.put(KEYS.SERVER.CONTENT, content);
+
+            sr = doTheWork(Method.REGULAR,
+                    ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST,
+                    jsonArgs, new ParseResultInterface<String>() {
+                        @Override
+                        public String parseResult(JSONObject jsonResult) throws JSONException {
+                            return jsonResult.toString();
+                        }
+
+                        @Override
+                        public String parseResult(JSONArray jsonResult) throws JSONException {
+                            return null;
+                        }
+
+                    });
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -760,17 +855,57 @@ public class RequestsInterface {
             sr = doTheWork(Method.REGULAR,
                     ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST,
                     jsonArgs, new ParseResultInterface<Integer>() {
-                @Override
-                public Integer parseResult(JSONObject jsonResult) throws JSONException {
-                    return jsonResult.getInt(KEYS.SERVER.RESULT);
-                }
+                        @Override
+                        public Integer parseResult(JSONObject jsonResult) throws JSONException {
+                            return jsonResult.getInt(KEYS.SERVER.RESULT);
+                        }
 
-                @Override
-                public Integer parseResult(JSONArray jsonResult) throws JSONException {
-                    return null;
-                }
+                        @Override
+                        public Integer parseResult(JSONArray jsonResult) throws JSONException {
+                            return null;
+                        }
 
-            });
+                    });
+
+        } catch (JSONException ex) {
+            Log.d("JSON - Requests", ex.toString());
+        }
+
+        // in case server response wasn't parsed appropriately
+        if (sr == null)
+            throw new ServerResponseFailedException();
+
+        return sr;
+    }
+
+    public ServerResponse<String> sendContactEmail(
+            CurrentUser currentUser, String subject, String content) throws ServerResponseFailedException {
+        // turn arguments to JSONObject of arguments
+        final JSONObject jsonArgs = new JSONObject();
+
+        ServerResponse<String> sr = null;
+        try {
+            jsonArgs.put(KEYS.SERVER.USER_ID, currentUser.getUserID());
+            jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, currentUser.getAccessToken());
+            jsonArgs.put(KEYS.SERVER.NAME, currentUser.getName());
+            jsonArgs.put(KEYS.SERVER.FROM_EMAIL, currentUser.getEmail());
+            jsonArgs.put(KEYS.SERVER.SUBJECT, subject);
+            jsonArgs.put(KEYS.SERVER.CONTENT, content);
+
+            sr = doTheWork(Method.REGULAR,
+                    ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_CONTACT_EMAIL,
+                    jsonArgs, new ParseResultInterface<String>() {
+                        @Override
+                        public String parseResult(JSONObject jsonResult) throws JSONException {
+                            return jsonResult.toString();
+                        }
+
+                        @Override
+                        public String parseResult(JSONArray jsonResult) throws JSONException {
+                            return null;
+                        }
+
+                    });
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -952,17 +1087,17 @@ public class RequestsInterface {
 
             sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UPDATE_PASSWORD
                     , jsonArgs, new ParseResultInterface<String>() {
-                @Override
-                public String parseResult(JSONObject jsonResult) throws JSONException {
-                    return null;//jsonResult.getInt(KEYS.RESULT);
-                }
+                        @Override
+                        public String parseResult(JSONObject jsonResult) throws JSONException {
+                            return null;//jsonResult.getInt(KEYS.RESULT);
+                        }
 
-                @Override
-                public String parseResult(JSONArray jsonResult) throws JSONException {
-                    return null;
-                }
+                        @Override
+                        public String parseResult(JSONArray jsonResult) throws JSONException {
+                            return null;
+                        }
 
-            });
+                    });
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -986,21 +1121,21 @@ public class RequestsInterface {
 
             sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_GET_USER_STAT
                     , jsonArgs, new ParseResultInterface<Pair<Integer, Integer>>() {
-                @Override
-                public Pair<Integer, Integer> parseResult(JSONObject jsonResult) throws JSONException {
+                        @Override
+                        public Pair<Integer, Integer> parseResult(JSONObject jsonResult) throws JSONException {
 
-                    int friendsRequest = jsonResult.optInt("friend_requests", 0);
-                    int unreadMessages = jsonResult.optInt("unread_messages", 0);
+                            int friendsRequest = jsonResult.optInt("friend_requests", 0);
+                            int unreadMessages = jsonResult.optInt("unread_messages", 0);
 
-                    return new Pair<>(friendsRequest, unreadMessages);
-                }
+                            return new Pair<>(friendsRequest, unreadMessages);
+                        }
 
-                @Override
-                public Pair<Integer, Integer> parseResult(JSONArray jsonResult) throws JSONException {
-                    return new Pair<>(-1, -1);
-                }
+                        @Override
+                        public Pair<Integer, Integer> parseResult(JSONArray jsonResult) throws JSONException {
+                            return new Pair<>(-1, -1);
+                        }
 
-            });
+                    });
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -1025,21 +1160,21 @@ public class RequestsInterface {
 
             sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_MARK_MESSAGE_AS_READ
                     , jsonArgs, new ParseResultInterface<String>() {
-                @Override
-                public String parseResult(JSONObject jsonResult) throws JSONException {
+                        @Override
+                        public String parseResult(JSONObject jsonResult) throws JSONException {
 
-                    int friendsRequest = jsonResult.optInt("friend_requests", -1);
-                    int unreadMessages = jsonResult.optInt("unread_messages", -1);
+                            int friendsRequest = jsonResult.optInt("friend_requests", -1);
+                            int unreadMessages = jsonResult.optInt("unread_messages", -1);
 
-                    return "";
-                }
+                            return "";
+                        }
 
-                @Override
-                public String parseResult(JSONArray jsonResult) throws JSONException {
-                    return "";
-                }
+                        @Override
+                        public String parseResult(JSONArray jsonResult) throws JSONException {
+                            return "";
+                        }
 
-            });
+                    });
 
         } catch (JSONException ex) {
             Log.d("JSON - Requests", ex.toString());
@@ -1138,9 +1273,10 @@ public class RequestsInterface {
 
         return sr;
     }
+
     public ServerResponse<Pair<Boolean, List<OtherUser>>> getUserPendingSentRequests(CurrentUser user,
-                                                                                         int page, int resultsPerPage,
-                                                                                         final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
+                                                                                     int page, int resultsPerPage,
+                                                                                     final ResponseCallback<Object> responseCallback) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -1577,7 +1713,7 @@ public class RequestsInterface {
             jsonArgs.put("registration_id", registrationID);
 
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_REGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_REGISTER_CLIENT_ID, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.toString();
@@ -1609,7 +1745,7 @@ public class RequestsInterface {
             jsonArgs.put(KEYS.SERVER.USER_ID, userId);
             jsonArgs.put(KEYS.SERVER.ACCESS_TOKEN, accessToken);
 
-            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UNREGISTER_CLIEND_ID, jsonArgs, new ParseResultInterface<String>() {
+            sr = doTheWork(Method.REGULAR, ServerConstants.FUNCTIONS.SERVER_FUNC_UNREGISTER_CLIENT_ID, jsonArgs, new ParseResultInterface<String>() {
                 @Override
                 public String parseResult(JSONObject jsonResult) throws JSONException {
                     return jsonResult.toString();
@@ -1648,10 +1784,13 @@ public class RequestsInterface {
     public static abstract class ResponseCallback<T> {
 
         // call this function after response received
-        public void call(){}
+        public void call() {
+        }
 
         // call this function after response received
-        public T call(T result){return result;}
+        public T call(T result) {
+            return result;
+        }
     }
 
 
