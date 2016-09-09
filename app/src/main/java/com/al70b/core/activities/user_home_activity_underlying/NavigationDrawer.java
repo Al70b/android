@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.Dialogs.PromptUserForProfilePictureDialog;
@@ -104,7 +108,7 @@ public class NavigationDrawer implements NavigationDrawerController {
         // Drawer Header
         ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_header);
         CircleImageView cmUserProfilePicture = (CircleImageView) navHeader.findViewById(R.id.circle_image_view_drawer_profile_image);
-        ImageButton imgBtnSettings = (ImageButton) navHeader.findViewById(R.id.img_btn_drawer_profile_settings);
+        final ImageButton imgBtnSettings = (ImageButton) navHeader.findViewById(R.id.img_btn_drawer_profile_settings);
 
         imgBtnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,11 +118,40 @@ public class NavigationDrawer implements NavigationDrawerController {
             }
         });
 
+        imgBtnSettings.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(activity, activity.getString(R.string.settings), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        imgBtnSettings.setOnTouchListener(new View.OnTouchListener() {
+            private Rect rect;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    imgBtnSettings.setColorFilter(Color.argb(60, 0, 0, 0));
+                    rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    imgBtnSettings.setColorFilter(Color.argb(0, 0, 0, 0));
+                }
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    if(!rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())){
+                        imgBtnSettings.setColorFilter(Color.argb(0, 0, 0, 0));
+                    }
+                }
+                return false;
+            }
+        });
+
         // Drawer Main List
         navDrawerList = (ListView) navDrawerLayout.findViewById(R.id.list_navigation_drawer);
 
         // Drawer Footer
-        //ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_footer);
+        ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_footer);
 
         // profile picture can be clicked, click activates changing the picture dialog
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {
@@ -199,9 +232,11 @@ public class NavigationDrawer implements NavigationDrawerController {
     private static Fragment[] fragments = new Fragment[7];
 
     private void selectItem(int position) {
+        String fragmentTag = position + "_" + UserHomeActivity.TAG_EXIT;
 
         // get fragment
-        Fragment fragment = fragments[position];
+        Fragment fragment = activity.getSupportFragmentManager()
+                .findFragmentByTag(fragmentTag);
 
         if (fragment == null) {
             switch (position) {
@@ -224,7 +259,7 @@ public class NavigationDrawer implements NavigationDrawerController {
                     return;
             }
 
-            fragments[position] = fragment;
+            //fragments[position] = fragment;
 
             if (fragment == null) {
                 return;
@@ -246,7 +281,7 @@ public class NavigationDrawer implements NavigationDrawerController {
         // insert the fragment by replacing any existing fragment
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, fragment, position + "_" + UserHomeActivity.TAG_EXIT)
+                .replace(R.id.content_frame, fragment, fragmentTag)
                 .commit();
 
         // close the drawer

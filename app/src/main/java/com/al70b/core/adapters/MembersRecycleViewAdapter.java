@@ -118,10 +118,9 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
                 vh = new ItemViewHolder(v);
                 ItemViewHolder itemViewHolder = (ItemViewHolder)vh;
 
-                int width = context.getResources().getDisplayMetrics().widthPixels;
-                width = (width / 2) - 20;
-                int height = width + 20;
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, height);
+                int x = context.getResources().getDisplayMetrics().widthPixels;
+                x = (x / 2);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(x, x);
                 itemViewHolder.profilePicture.setLayoutParams(lp);
         }
         return vh;

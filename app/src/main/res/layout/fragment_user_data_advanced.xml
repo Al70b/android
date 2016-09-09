@@ -309,7 +309,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/advanced_details_about_me_background"
+            android:background="@drawable/contact_us_message_background"
             android:minHeight="50dp"
             android:maxHeight="400dp"
 

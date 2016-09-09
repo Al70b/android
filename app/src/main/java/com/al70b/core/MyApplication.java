@@ -1,11 +1,13 @@
 package com.al70b.core;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.MainActivity;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.orm.SugarContext;
@@ -58,8 +60,10 @@ public class MyApplication extends MultiDexApplication {
 
     public CurrentUser getCurrentUser() {
         if(currentUser == null) {
-            Log.e(TAG, "No CurrentUser is set to be fetched, exiting application!!");
-            System.exit(-1);
+            Log.d(TAG, "No CurrentUser is set");
+
+           Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+           startActivity(intent);
         }
 
         return currentUser;

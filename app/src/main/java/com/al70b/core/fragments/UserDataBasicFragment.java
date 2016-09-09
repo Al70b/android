@@ -158,7 +158,8 @@ public class UserDataBasicFragment extends EditableDataFragment {
         editTextName.setText(textViewName.getText().toString());
         editTextCity.setText(textViewCity.getText().toString());
 
-        spinnerCountry.setSelection(((ArrayAdapter<String>) spinnerCountry.getAdapter()).getPosition(textViewCountry.getText().toString()));
+        spinnerCountry.setSelection(((ArrayAdapter<String>) spinnerCountry.getAdapter())
+                .getPosition(textViewCountry.getText().toString()));
     }
 
     @Override

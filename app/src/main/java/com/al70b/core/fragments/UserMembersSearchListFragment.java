@@ -1,47 +1,54 @@
-package com.al70b.core.activities;
+package com.al70b.core.fragments;
 
 import android.app.ActionBar;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
+import com.al70b.core.activities.MemberProfileActivity;
+import com.al70b.core.activities.UserHomeActivity;
+import com.al70b.core.adapters.FriendsListAdapter;
 import com.al70b.core.adapters.MembersRecycleViewAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.LoadMoreRecyclerView;
-import com.al70b.core.fragments.UserSearchAdvancedFragment;
-import com.al70b.core.fragments.UserSearchBasicFragment;
+import com.al70b.core.extended_widgets.pull_load_listview.LoadMoreListView;
 import com.al70b.core.misc.Utils;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
-import com.al70b.core.server_methods.RequestsInterface.ResponseCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class MembersListActivity extends Activity {
+/**
+ * Created by Naseem on 5/10/2015.
+ */
+public class UserMembersSearchListFragment extends Fragment {
 
     public static final String DATA_SOURCE = "com.al70b.MembersListActivity.DATA_SOURCE";
-    private static final String TAG = "MembersListActivity";
+    private static final String TAG = UserMembersSearchListFragment.class.getSimpleName();
     private static final int RESULTS_PER_PAGE = 10;
     private static final int PROFILE_VISIT_RESULT = 1;
+    public static final String FRAGMENT_TAG = "UserMembersSearchListFragment_TAG";
 
     private CurrentUser currentUser;
 
@@ -52,7 +59,6 @@ public class MembersListActivity extends Activity {
     private int page = 1;
 
     private List<OtherUser> listOfMembers;
-    //private MembersListAdapter membersListAdapter;
 
     private LinearLayout layoutLoading;
     //private LoadMoreListView loadMoreListView;
@@ -61,61 +67,55 @@ public class MembersListActivity extends Activity {
 
     private MembersRecycleViewAdapter mAdapter;
 
-    private boolean isSuggestedProfiles = false;
-
     // wrapper for the method to call on loading more members
     private Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>> methodToCall;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        currentUser = ((MyApplication)getActivity().getApplication()).getCurrentUser();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_members_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.activity_members_list, container, false);
 
         // get intent
-        Intent intent = getIntent();
+        final Bundle bundle = getArguments();
 
-        if (intent == null) {
-            Log.e(TAG, "Intent is null");
-            return;
+        if (bundle == null) {
+            Log.e(TAG, "Bundle is null");
+            return viewGroup;
         }
 
-        dataSource = intent.getStringExtra(MembersListActivity.DATA_SOURCE);
-
-        if (intent.getBooleanExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, false)) {
-            ActionBar actionBar = getActionBar();
-
-            if (actionBar != null) {
-                actionBar.setTitle(getString(R.string.suggested_profiles));
-            }
-
-            isSuggestedProfiles = true;
-        }
-        currentUser = ((MyApplication) getApplication()).getCurrentUser();
+        Context context = getContext();
+        dataSource = bundle.getString(DATA_SOURCE, null);
+        currentUser = ((MyApplication) getActivity().getApplication()).getCurrentUser();
 
         // relate widgets
-        loadMoreRecyclerView = (LoadMoreRecyclerView) findViewById(R.id.list_view_userMembersA);
-        TextView tvEmptyList = (TextView) findViewById(R.id.tv_members_list_empty_list);
-        layoutFailedToLoad = (LinearLayout) findViewById(R.id.layout_userMembersA_failed_loading);
-        layoutLoading = (LinearLayout) findViewById(R.id.layout_userMembersA_loading);
+        loadMoreRecyclerView = (LoadMoreRecyclerView) viewGroup.findViewById(R.id.list_view_userMembersA);
+        TextView tvEmptyList = (TextView) viewGroup.findViewById(R.id.tv_members_list_empty_list);
+        layoutFailedToLoad = (LinearLayout) viewGroup.findViewById(R.id.layout_userMembersA_failed_loading);
+        layoutLoading = (LinearLayout) viewGroup.findViewById(R.id.layout_userMembersA_loading);
 
         loadMoreRecyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
-        mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(4, this));
-        mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(2, this));
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 2);
+        mLayoutManager.offsetChildrenVertical((int) Utils.convertDpToPixel(4, context));
+        mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(2, context));
         loadMoreRecyclerView.setLayoutManager(mLayoutManager);
 
         // create list for received members from server, and an membersListAdapter
         listOfMembers = new ArrayList<>();
 
         // specify an adapter (see also next example)
-        mAdapter = new MembersRecycleViewAdapter(this, listOfMembers, currentUser);
+        mAdapter = new MembersRecycleViewAdapter(context, listOfMembers, currentUser);
         loadMoreRecyclerView.setAdapter(mAdapter);
         loadMoreRecyclerView.setOnLoadMoreListener(new LoadMoreRecyclerView.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 // Do the work to load more items at the end of list here
-                new LoadMoreMembersTask(dataSource).execute();
+                new LoadMoreMembersTask(dataSource, bundle).execute();
             }
         });
         mAdapter.setOnItemClickListener(new LoadMoreRecyclerView.OnItemClickListener() {
@@ -123,7 +123,7 @@ public class MembersListActivity extends Activity {
             public void onItemClick(View view, int position) {
                 OtherUser otherUser = (OtherUser)mAdapter.getItemAtPosition(position);
 
-                Intent intent = new Intent(MembersListActivity.this, MemberProfileActivity.class);
+                Intent intent = new Intent(getActivity(), MemberProfileActivity.class);
                 intent.putExtra(MemberProfileActivity.CURRENT_USER, currentUser);
                 intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
                 intent.putExtra(MemberProfileActivity.POSITION, position);
@@ -138,39 +138,8 @@ public class MembersListActivity extends Activity {
                 view.setVisibility(View.GONE);
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_members_list, menu);
-
-        MenuItem item = menu.findItem(R.id.action_members_list_close);
-        if(isSuggestedProfiles) {
-            item.setIcon(R.drawable.ic_action_arrow_left);
-            item.setTitle(R.string.continue_to_your_profile);
-        } else {
-            item.setIcon(R.drawable.ic_action_cancel);
-            item.setTitle(R.string.close);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_members_list_close) {
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return viewGroup;
     }
 
     @Override
@@ -178,16 +147,7 @@ public class MembersListActivity extends Activity {
         super.onStart();
 
         // the task for loading more members in the list
-        new LoadMoreMembersTask(dataSource).execute();
-
-        ((MyApplication) getApplication()).setAppVisible();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        ((MyApplication) getApplication()).setAppInvisible();
+        new LoadMoreMembersTask(dataSource, getArguments()).execute();
     }
 
 
@@ -195,9 +155,9 @@ public class MembersListActivity extends Activity {
 
         private boolean isNoMoreResult;
 
-        public LoadMoreMembersTask(String dataSource) {
+        public LoadMoreMembersTask(String dataSource, Bundle bundle) {
             if (methodToCall == null) {
-                methodToCall = initMethodToCall(dataSource, getIntent().getExtras());
+                methodToCall = initMethodToCall(dataSource, bundle);
             }
         }
 
@@ -277,7 +237,7 @@ public class MembersListActivity extends Activity {
                     loadMoreRecyclerView.setVisibility(View.GONE);
                 } else {
                     // there is data in the list so just show a toast message
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(getContext(),
                             getString(R.string.error_server_connection_falied),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -305,7 +265,7 @@ public class MembersListActivity extends Activity {
                 return new Callable<ServerResponse<Pair<Boolean, List<OtherUser>>>>() {
                     @Override
                     public ServerResponse<Pair<Boolean, List<OtherUser>>> call() throws ServerResponseFailedException {
-                        return new RequestsInterface(getApplicationContext())
+                        return new RequestsInterface(getContext())
                                 .getUsers(currentUser.getUserID(), currentUser.getAccessToken(),
                                         bundle.getInt(UserSearchBasicFragment.GENDER),
                                         bundle.getInt(UserSearchBasicFragment.AGE_FROM),
@@ -314,7 +274,7 @@ public class MembersListActivity extends Activity {
                                         bundle.getBoolean(UserSearchBasicFragment.ONLINE_ONLY),
                                         bundle.getBoolean(UserSearchBasicFragment.CLOSE_BY_ONLY),
                                         page, RESULTS_PER_PAGE,
-                                        new ResponseCallback<Object>() {
+                                        new RequestsInterface.ResponseCallback<Object>() {
                                             @Override
                                             public void call() {
                                                 loadMoreRecyclerView.post(new Runnable() {
@@ -334,7 +294,7 @@ public class MembersListActivity extends Activity {
                     @Override
                     public ServerResponse<Pair<Boolean, List<OtherUser>>> call() throws ServerResponseFailedException {
 
-                        return new RequestsInterface(getApplicationContext())
+                        return new RequestsInterface(getContext())
                                 .getUsersAdvanced(currentUser,
                                         bundle.getIntegerArrayList(UserSearchAdvancedFragment.GENDER),
                                         bundle.getInt(UserSearchAdvancedFragment.AGE_FROM),
@@ -349,7 +309,7 @@ public class MembersListActivity extends Activity {
                                         bundle.getBoolean(UserSearchAdvancedFragment.PICTURES_ONLY),
                                         bundle.getBoolean(UserSearchAdvancedFragment.ONLINE_ONLY),
                                         page, RESULTS_PER_PAGE,
-                                        new ResponseCallback<Object>() {
+                                        new RequestsInterface.ResponseCallback<Object>() {
                                             @Override
                                             public void call() {
                                                 loadMoreRecyclerView.post(new Runnable() {
@@ -369,4 +329,6 @@ public class MembersListActivity extends Activity {
         }
         ///////////////////////     END OF METHOD WRAPPER  /////////////////////
     }
+
+
 }

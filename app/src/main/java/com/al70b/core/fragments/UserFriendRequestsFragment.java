@@ -28,11 +28,9 @@ public class UserFriendRequestsFragment extends Fragment {
 
         mViewPager = (ViewPager) viewGroup.findViewById(R.id.view_pager_friendsRequestsA);
         mPagerAdapter = new FriendsRequestsPageAdapter(
-                getActivity().getSupportFragmentManager(), getActivity());
+                getChildFragmentManager(), getActivity());
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
-
-
 
         // bind sliding tab layout with xml tag, and set the previously created view pager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) viewGroup.findViewById(R.id.sliding_tabs_friendsRequestsA);
@@ -45,28 +43,7 @@ public class UserFriendRequestsFragment extends Fragment {
             }
         });
         slidingTabLayout.setViewPager(mViewPager);
-        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                IFragmentLifeCycle fragmentToShow = (IFragmentLifeCycle) mPagerAdapter.getItem(position);
-                fragmentToShow.onResumeFragment();
 
-                IFragmentLifeCycle fragmentToHide = (IFragmentLifeCycle)mPagerAdapter.getItem(currentPosition);
-                fragmentToHide.onPauseFragment();
-
-                currentPosition = position;
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         return viewGroup;
     }
 

@@ -101,37 +101,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:background="@color/red">
-
-<!--        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/et_friends_drawer_footer_status"
-                android:layout_width="0dp"
-                android:layout_weight="8"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                />
-
-            <ImageButton
-                android:id="@+id/img_btn_friends_drawer_footer_set"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_accept"
-                android:src="@android:color/transparent"/>
-        </LinearLayout>
-
-     <ImageButton
-            android:id="@+id/img_btn_friends_drawer_footer_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-         android:visibility="gone"/>-->
-
-
-
+        android:background="@color/dark_red">
     </RelativeLayout>
 </LinearLayout>

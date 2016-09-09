@@ -43,8 +43,8 @@ public class ContactUsActivity extends Activity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String subject = etSubject.toString();
-                String content = etContent.toString();
+                String subject = etSubject.getText().toString();
+                String content = etContent.getText().toString();
 
                 if(subject.trim().isEmpty() || content.trim().isEmpty()
                         || content.trim().length() < MINIMUM_CONTACT_MESSAGE_LENGTH) {

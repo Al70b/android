@@ -28,7 +28,7 @@ public class UserSearchFragment extends Fragment {
 
         mViewPager = (ViewPager) viewGroup.findViewById(R.id.view_pager_searchA);
         mPagerAdapter = new SearchPageAdapter(
-                getActivity().getSupportFragmentManager(), getActivity());
+                getChildFragmentManager(), getActivity());
         mViewPager.setOffscreenPageLimit(mPagerAdapter.getCount());
         mViewPager.setAdapter(mPagerAdapter);
 

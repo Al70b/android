@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Naseem on 6/26/2015.
  */
-public class UserAdvancedSearchFragment extends Fragment {
+public class UserSearchAdvancedFragment extends Fragment {
 
     public static final String DISPLAY_DATA_TOKEN = "AdvancedSearch";
     public static final String GENDER = "gender" ;
@@ -344,11 +344,12 @@ public class UserAdvancedSearchFragment extends Fragment {
                 withPicturesOnly = checkBoxPicturesOnly.isChecked();
                 onlineOnly = checkBoxOnlineOnly.isChecked();
 
-                Intent intent = new Intent(getActivity(), MembersListActivity.class);
-                intent.putExtra(MembersListActivity.DATA_SOURCE, DISPLAY_DATA_TOKEN);
+
+                Fragment fragment = new UserMembersSearchListFragment();
 
                 // create bundle
                 Bundle bundle = new Bundle();
+                bundle.putString(UserMembersSearchListFragment.DATA_SOURCE, DISPLAY_DATA_TOKEN);
                 bundle.putIntegerArrayList(GENDER, listGenderInterests);
                 bundle.putSerializable(AGE_FROM, ageFrom);
                 bundle.putSerializable(AGE_TO, ageTo);
@@ -361,9 +362,13 @@ public class UserAdvancedSearchFragment extends Fragment {
                 bundle.putStringArrayList(SMOKING, listSmoking);
                 bundle.putBoolean(PICTURES_ONLY, withPicturesOnly);
                 bundle.putBoolean(ONLINE_ONLY, onlineOnly);
-                intent.putExtras(bundle);
 
-                startActivity(intent);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.content_frame, fragment, UserMembersSearchListFragment.FRAGMENT_TAG)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 

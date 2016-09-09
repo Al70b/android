@@ -21,7 +21,7 @@ import com.al70b.core.objects.UserInterest;
 /**
  * Created by Naseem on 6/16/2015.
  */
-public class UserBasicSearchFragment extends Fragment {
+public class UserSearchBasicFragment extends Fragment {
 
     public static final String DISPLAY_DATA_TOKEN = "BasicSearch";
     public static final String GENDER = "gender";
@@ -96,9 +96,8 @@ public class UserBasicSearchFragment extends Fragment {
                         onlineOnly = checkBoxOnlineOnly.isChecked();
                         closeByOnly = checkBoxCloseBy.isChecked();
 
-                        // build intent and pass request
-                        Intent intent = new Intent(getActivity(), MembersListActivity.class);
-                        intent.putExtra(MembersListActivity.DATA_SOURCE, DISPLAY_DATA_TOKEN);
+                        // insert the fragment by replacing any existing fragment
+                        Fragment fragment = new UserMembersSearchListFragment();
 
                         // build bundle with data
                         Bundle bundle = new Bundle();
@@ -108,10 +107,14 @@ public class UserBasicSearchFragment extends Fragment {
                         bundle.putBoolean(PICTURES_ONLY, withPicturesOnly);
                         bundle.putBoolean(ONLINE_ONLY, onlineOnly);
                         bundle.putBoolean(CLOSE_BY_ONLY, closeByOnly);
-                        intent.putExtras(bundle);
+                        bundle.putString(UserMembersSearchListFragment.DATA_SOURCE, DISPLAY_DATA_TOKEN);
 
-                        // start activity
-                        startActivity(intent);
+                        fragment.setArguments(bundle);
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .add(R.id.content_frame, fragment, UserMembersSearchListFragment.FRAGMENT_TAG)
+                                .addToBackStack(null)
+                                .commit();
                     } else {
                         String msg;
 

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,10 +29,9 @@ import com.al70b.core.MyApplication;
 import com.al70b.core.activities.user_home_activity_underlying.FriendsAndChatDrawer;
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawer;
 import com.al70b.core.activities.user_home_activity_underlying.NavigationDrawerController;
-import com.al70b.core.fragments.BackPressedFragment;
-import com.al70b.core.fragments.UserBasicSearchFragment;
-import com.al70b.core.fragments.UserConversationsFragment;
 import com.al70b.core.fragments.UserDataFragment;
+import com.al70b.core.fragments.UserMembersSearchListFragment;
+import com.al70b.core.fragments.UserSearchBasicFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
 import com.al70b.core.notifications.GcmModule;
@@ -209,7 +209,7 @@ public class UserHomeActivity extends FragmentActivity {
 
     private void jumpToSuggestedProfiles(CurrentUser currentUser) {
         Intent intent = new Intent(UserHomeActivity.this, MembersListActivity.class);
-        intent.putExtra(MembersListActivity.DATA_SOURCE, UserBasicSearchFragment.DISPLAY_DATA_TOKEN);
+        intent.putExtra(MembersListActivity.DATA_SOURCE, UserSearchBasicFragment.DISPLAY_DATA_TOKEN);
         intent.putExtra(UserHomeActivity.KEY_SUGGESTED_PROFILES, true);
 
         int gender = currentUser.getUserInterest().getGenderInterest().getValue();
@@ -222,14 +222,14 @@ public class UserHomeActivity extends FragmentActivity {
 
         // build bundle with data
         Bundle bundle = new Bundle();
-        bundle.putInt(UserBasicSearchFragment.GENDER, gender);
-        bundle.putInt(UserBasicSearchFragment.AGE_FROM, from < AppConstants.MIN_MEMBER_AGE ?
+        bundle.putInt(UserSearchBasicFragment.GENDER, gender);
+        bundle.putInt(UserSearchBasicFragment.AGE_FROM, from < AppConstants.MIN_MEMBER_AGE ?
                 AppConstants.MIN_MEMBER_AGE : from);
-        bundle.putInt(UserBasicSearchFragment.AGE_TO, to > AppConstants.MAX_MEMBER_AGE ?
+        bundle.putInt(UserSearchBasicFragment.AGE_TO, to > AppConstants.MAX_MEMBER_AGE ?
                 AppConstants.MAX_MEMBER_AGE : to);
-        bundle.putBoolean(UserBasicSearchFragment.PICTURES_ONLY, true);
-        bundle.putBoolean(UserBasicSearchFragment.ONLINE_ONLY, false);
-        bundle.putBoolean(UserBasicSearchFragment.CLOSE_BY_ONLY, false);
+        bundle.putBoolean(UserSearchBasicFragment.PICTURES_ONLY, true);
+        bundle.putBoolean(UserSearchBasicFragment.ONLINE_ONLY, false);
+        bundle.putBoolean(UserSearchBasicFragment.CLOSE_BY_ONLY, false);
         intent.putExtras(bundle);
 
         // start activity
@@ -369,7 +369,7 @@ public class UserHomeActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment currentShownFragment = navigationDrawerController.getVisibleFragment();
+        Fragment currentShownFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
         // if a drawer is open probably currentUser meant to close it
         if (drawerLayout.isDrawerOpen(navigationDrawerController.getDrawerLayout()))
@@ -377,33 +377,38 @@ public class UserHomeActivity extends FragmentActivity {
         else if (drawerLayout.isDrawerOpen(friendsAndChatDrawerController.getDrawerLayout()))
             drawerLayout.closeDrawer(friendsAndChatDrawerController.getDrawerLayout());
         else {
-            if (currentShownFragment.getTag().compareTo(UserConversationsFragment.INTERNAL_CONVERSATION_TAG) == 0) {
-                boolean handled = ((BackPressedFragment) currentShownFragment).onBackPressed();
 
-                if (!handled)
-                    super.onBackPressed();
-            } else if (currentShownFragment.getTag().contains(TAG_EXIT)) {
-                // if no drawer is open
-                if (!backPressed) {
-                    // tell the currentUser to press again back to exit, prepare back pressed boolean
-                    Toast.makeText(this, getResources().getString(R.string.press_back_again_to_exit), Toast.LENGTH_SHORT).show();
-                    backPressed = true;
+            if(currentShownFragment instanceof UserMembersSearchListFragment) {
+                getSupportFragmentManager()
+                        .popBackStack();
+            }  else {
+                String tag = currentShownFragment.getTag();
+                if (tag != null && tag.contains(TAG_EXIT)) {
+                    // if no drawer is open
+                    if (!backPressed) {
+                        // tell the currentUser to press again back to exit, prepare back pressed boolean
+                        Toast.makeText(this,
+                                getResources().getString(R.string.press_back_again_to_exit),
+                                Toast.LENGTH_SHORT).show();
+                        backPressed = true;
 
-                    // the currentUser should press back in 3 seconds for otherwise
-                    // backPressed is back to false
-                    /*handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            backPressed = false;
-                        }
-                    }, 3 * 1000);*/
+                        // the currentUser should press back in 3 seconds for otherwise
+                        // backPressed is back to false
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                backPressed = false;
+                            }
+                        }, 3 * 1000);
+                    } else {
+                        // currentUser pressed back twice, close the application
+                        super.onBackPressed();
+                    }
                 } else {
-                    // currentUser pressed back twice, close the application
-                    super.onBackPressed();
+                    getSupportFragmentManager()
+                            .popBackStack();
                 }
-            } else {
-                // fragment that doesn't require exit from application
-                super.onBackPressed();
             }
         }
     }

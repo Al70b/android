@@ -2,11 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_navigation_drawer_footer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty Footer" />
-</LinearLayout>
+    android:layout_height="25dp"
+    android:background="@color/dark_red"
+    android:orientation="vertical"/>

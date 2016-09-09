@@ -26,15 +26,16 @@ import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Naseem on 5/10/2015.
  */
-public class UserReceivedFriendRequestsFragment extends Fragment implements IFragmentLifeCycle{
+public class UserFriendRequestsSentFragment extends Fragment implements IFragmentLifeCycle{
 
-    private static final String TAG = "RecFriendsRequestsA";
+    private static final String TAG = "SentFriendsRequestsA";
     private static final int RESULTS_PER_PAGE = 10;
 
     // used for when a user profile is visited and need to get friend status
@@ -51,6 +52,9 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
     private LinearLayout layoutLoading;
     private LoadMoreListView loadMoreListView;
     private LinearLayout layoutFailedToLoad;
+
+    private int numOfFriendsRequests;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,24 +73,25 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
         layoutLoading = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_loading);
         layoutFailedToLoad = (LinearLayout) viewGroup.findViewById(R.id.layout_friendsRequestsF_failed_loading);
 
-        tvEmptyList.setText(getString(R.string.no_received_friends_requests));
+        tvEmptyList.setText(getString(R.string.no_sent_friends_requests));
+
         loadMoreListView.setEmptyView(tvEmptyList);
         listOfFriendRequests = new ArrayList<OtherUser>();
-        friendsRequestsAdapter = new FriendsRequestsAdapter(getActivity(), R.layout.list_item_received_friend_request,
+        friendsRequestsAdapter = new FriendsRequestsAdapter(getActivity(), R.layout.list_item_sent_friend_request,
                 listOfFriendRequests, currentUser,
-                FriendsRequestsAdapter.FRIEND_REQUEST_TYPE.RECEIVED,
+                FriendsRequestsAdapter.FRIEND_REQUEST_TYPE.SENT,
                 new FriendsRequestsAdapter.OnFriendRequestAction() {
-            @Override
-            public void callback(Enums.FriendRequestAction action) {
-                switch (action) {
-                    case ACCEPTED:
-                    case REJECTED:
-                        break;
-                }
+                    @Override
+                    public void callback(Enums.FriendRequestAction action) {
+                        switch (action) {
+                            case ACCEPTED:
+                            case REJECTED:
+                                break;
+                        }
 
-                //updateTitle();
-            }
-        });
+                        //updateTitle();
+                    }
+                });
 
         loadMoreListView.setAdapter(friendsRequestsAdapter);
         loadMoreListView.setOnLoadMoreListener(new LoadMoreListView.OnLoadMoreListener() {
@@ -117,8 +122,13 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
             }
         });
 
-
         return viewGroup;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        new LoadMoreFriendsRequestsTask().execute();
     }
 
     @Override
@@ -128,9 +138,6 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
 
     @Override
     public void onResumeFragment() {
-        page = 1;
-        //listOfFriendRequests.clear();
-        new LoadMoreFriendsRequestsTask().execute();
     }
 
     private class LoadMoreFriendsRequestsTask extends AsyncTask<Void, Void, Pair<Boolean, String>> {
@@ -160,7 +167,7 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
 
                 ServerResponse<Pair<Boolean, List<OtherUser>>> sr =
                         new RequestsInterface(getActivity())
-                                .getUserPendingReceivedRequests(currentUser, page, RESULTS_PER_PAGE, null);
+                                .getUserPendingSentRequests(currentUser, page, RESULTS_PER_PAGE, null);
 
                 // if request returned successfully
                 if (sr.isSuccess()) {
@@ -236,6 +243,5 @@ public class UserReceivedFriendRequestsFragment extends Fragment implements IFra
             loadMoreListView.onLoadMoreComplete();
         }
     }
-
 
 }

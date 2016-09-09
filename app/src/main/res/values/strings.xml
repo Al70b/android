@@ -529,7 +529,7 @@
     <string name="close_account_info_p2">* يمكنك دائمًا إعادة فتح الحساب من جديد وذلك عن طريق الدخول الى حسابك بواسطة معلومات الدخول التي بحوزتك الان.</string>
     <string name="close_account_was_successful">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
     <string name="close_account_was_successfull">تم إغلاق حسابك بنجاح، جاري الخروج من حسابك</string>
-    <string name="subject">الموضوع</string>
+    <string name="subject">موضوع الرسالة</string>
     <string name="please_provide_subect_and_content">عليك إدخال عنوان ومحتوى أولًا</string>
     <string name="your_message_was_sent_successfully">تم إرسال رسالتك بنجاح</string>
     <string name="failed_to_send_your_message">لم ننجح بإرسال رسالتك، من فضلك حاول مرةً أخرى</string>
@@ -541,6 +541,7 @@
     <string name="are_you_sure_you_want_to_close_your_account">هل أنت متأكد من أنك تريد إغلاق حسابك؟</string>
     <string name="logout_header">خروج من الحساب</string>
     <string name="are_you_sure_you_want_to_log_out">هل أنت متأكد من أنك تريد الخروج من حسابك ؟</string>
+    <string name="close_my_account">إغلاق حسابي</string>
 
 
 </resources>

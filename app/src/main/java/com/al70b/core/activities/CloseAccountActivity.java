@@ -43,7 +43,7 @@ public class CloseAccountActivity extends Activity {
             public void onClick(View v) {
 
                 final GeneralQuestionAlertDialog dialog = new GeneralQuestionAlertDialog(
-                        thisActivity, getString(R.string.close_account),
+                        thisActivity, getString(R.string.info),
                         getString(R.string.are_you_sure_you_want_to_close_your_account));
 
                 dialog.show();

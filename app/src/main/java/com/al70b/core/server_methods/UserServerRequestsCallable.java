@@ -256,6 +256,11 @@ public class UserServerRequestsCallable implements Callable<JSONObject> {
                     jsonData.put("reason", String.format("%s", URLEncoder.encode(jsonData.getString("reason"), "UTF-8")));
             }
 
+            if (methodName.compareTo(ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_CONTACT_EMAIL) == 0) {
+                if (jsonData.has(KEYS.SERVER.CONTENT))
+                    jsonData.put(KEYS.SERVER.CONTENT, String.format("%s", URLEncoder.encode(jsonData.getString(KEYS.SERVER.CONTENT), "UTF-8")));
+            }
+
             urlParameters = "method=" + ServerConstants.CONSTANTS.METHOD_POST.toLowerCase() +
                     "&user_id=" + userID +
                     "&api_method=" + methodName +

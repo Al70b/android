@@ -52,7 +52,7 @@ public class SettingsActivity extends Activity {
                         break;
                     case 4:
                         final GeneralQuestionAlertDialog dialog = new GeneralQuestionAlertDialog(
-                                SettingsActivity.this, getString(R.string.logout_header),
+                                SettingsActivity.this, getString(R.string.info),
                                 getString(R.string.are_you_sure_you_want_to_log_out));
 
                         dialog.show();
