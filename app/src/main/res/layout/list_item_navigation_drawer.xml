@@ -50,7 +50,7 @@
         android:paddingStart="13dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/selector_list_item_text_color"
-        android:textSize="24sp"
+        android:textSize="21sp"
         android:textStyle="bold" />
 
     <TextView

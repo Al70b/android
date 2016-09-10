@@ -81,12 +81,6 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
 
         holder.txtTitle.setText(item.getTitle());
         updateItemStyle(holder, item);
-        /*if (item.isSection()) {
-            holder.txtTitle.setText(item.getTitle());
-        } else {
-            updateItemStyle(holder, item);
-        }*/
-        //holder.imgIcon.setImageResource(item.getIcon());
 
         if(item.hasSubtext()) {
             holder.txtSubtext.setText(item.getSubtext());
@@ -110,21 +104,10 @@ public class NavigationDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
             // this is the new highlighted item
             highlightedItem = navDrawerItem;
 
-            /*// update color and icon
-            if(holder.txtTitle != null) {
-                holder.txtTitle.setTextColor(getColor(R.color.white));
-                holder.txtSubtext.setTextColor(getColor(R.color.white));
-            }*/
-
             if(holder.imgIcon != null) {
                 holder.imgIcon.setImageResource(navDrawerItem.getIconFocused());
             }
         } else {
-            /*if (holder.txtTitle != null) {
-                holder.txtTitle.setTextColor(getColorStateList(R.color.selector_list_item_text_color));
-                holder.txtSubtext.setTextColor(getColor(R.color.selector_list_item_text_color));
-            }*/
-
             if(holder.imgIcon != null) {
                 // create states
                 StateListDrawable states = new StateListDrawable();

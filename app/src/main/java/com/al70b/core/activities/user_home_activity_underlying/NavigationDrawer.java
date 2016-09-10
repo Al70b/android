@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.al70b.R;
@@ -65,7 +66,7 @@ public class NavigationDrawer implements NavigationDrawerController {
     }
 
     // ui
-    private LinearLayout navDrawerLayout;
+    private RelativeLayout navDrawerLayout;
     private ListView navDrawerList;
 
     // navigation drawer items array
@@ -103,10 +104,10 @@ public class NavigationDrawer implements NavigationDrawerController {
 
         // relate navigation drawer components to xml elements
         // this is the main layout of the drawer
-        navDrawerLayout = (LinearLayout) root.findViewById(R.id.layout_navigation_drawer);
+        navDrawerLayout = (RelativeLayout) root.findViewById(R.id.layout_navigation_drawer);
 
         // Drawer Header
-        ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_header);
+        ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_drawer_navigation_header);
         CircleImageView cmUserProfilePicture = (CircleImageView) navHeader.findViewById(R.id.circle_image_view_drawer_profile_image);
         final ImageButton imgBtnSettings = (ImageButton) navHeader.findViewById(R.id.img_btn_drawer_profile_settings);
 
@@ -151,7 +152,7 @@ public class NavigationDrawer implements NavigationDrawerController {
         navDrawerList = (ListView) navDrawerLayout.findViewById(R.id.list_navigation_drawer);
 
         // Drawer Footer
-        ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_navigation_drawer_footer);
+        ViewGroup navFooter = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_drawer_navigation_footer);
 
         // profile picture can be clicked, click activates changing the picture dialog
         cmUserProfilePicture.setOnClickListener(new View.OnClickListener() {

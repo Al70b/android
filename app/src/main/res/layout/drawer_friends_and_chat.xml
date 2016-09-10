@@ -79,6 +79,7 @@
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="2dp"
+            android:listSelector="@drawable/selector_chat_list_item"
             android:layoutDirection="ltr"
             android:visibility="visible"
             />
@@ -99,8 +100,7 @@
     <RelativeLayout
         android:id="@+id/layout_chat_drawer_footer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_height="20dp"
         android:background="@color/dark_red">
     </RelativeLayout>
 </LinearLayout>

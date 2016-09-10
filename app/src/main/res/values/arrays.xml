@@ -3,6 +3,7 @@
     <string-array name="friend_item_commands" >
         <item >عرض الملف الشخصي</item>
         <item >حظر المستخدم</item>
+        <item >تبليغ عن مستخدم</item>
     </string-array>
 
     <string-array name="navigation_drawer_values">
@@ -18,5 +19,9 @@
         <item>إتصل بنا</item>
         <item>إغلاق الحساب</item>
         <item>خروج من حسابك</item>
+    </string-array>
+
+    <string-array name="chat_settings_options">
+        <item>قائمة المحظورون</item>
     </string-array>
 </resources>

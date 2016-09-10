@@ -3,32 +3,45 @@ package com.al70b.core.activities.user_home_activity_underlying;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.activities.Dialogs.BlockUserDialog;
+import com.al70b.core.activities.Dialogs.BlockedUsersListDialog;
+import com.al70b.core.activities.Dialogs.QuestionAlert2;
+import com.al70b.core.activities.Dialogs.ReportUserDialog;
 import com.al70b.core.activities.FriendConversationActivity;
+import com.al70b.core.activities.MemberProfileActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.adapters.FriendsAndChatDrawerAdapter;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.StatusList;
+import com.al70b.core.misc.Utils;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.EndMessage;
 import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.OtherUser;
+import com.al70b.core.objects.Pair;
+import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.objects.User;
 import com.al70b.core.server_methods.RequestsInterface;
+import com.inscripts.jsonphp.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +86,8 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
     private boolean loggingout = false;
 
+    private BlockedUsersListDialog blockedUsersListDialog;
+
     private void init() {
 
         // relate widgets to xml
@@ -80,7 +95,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
         // Connected Chat Layout
         layoutChatConnected = (LinearLayout) friendsAndChatDrawerLayout.findViewById(R.id.layout_friends_in_chat);
-        ListView chatListView = (ListView) layoutChatConnected.findViewById(R.id.list_view_friends_in_chat);
+        final ListView chatListView = (ListView) layoutChatConnected.findViewById(R.id.list_view_friends_in_chat);
         searchFriendEditText = (EditText) layoutChatConnected.findViewById(R.id.et_friends_drawer_search);
 
         // Disconnected Chat Layout
@@ -163,72 +178,39 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
             }
         });
 
-        imgBtnSettings.setOnClickListener(new View.OnClickListener() {
+        String[] overflowSettingsList = activity.getResources().getStringArray(R.array.chat_settings_options);
+        final ListPopupWindow popupWindow = new ListPopupWindow(activity);
 
-            //private AlertDialog ad;
-
+        popupWindow.setAdapter(new ArrayAdapter<String>(activity,
+                R.layout.list_item_settings,
+                overflowSettingsList));
+        popupWindow.setAnchorView(imgBtnSettings);
+        popupWindow.setModal(true);
+        popupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(activity.getApplicationContext(),
-                        "You clicked chat settings",
-                        Toast.LENGTH_SHORT).show();
-                /*
-                if (!CometChat.isLoggedIn())
-                    return;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final String[] ids = new String[blockedUsersList.size()];
-                final String[] names = new String[blockedUsersList.size()];
-
-                for (int i = 0; i < blockedUsersList.size(); i++) {
-                    Pair<String, String> p = blockedUsersList.get(i);
-                    ids[i] = p.first;
-                    names[i] = p.second;
+                switch (position) {
+                    case 0: // blocked user manager
+                        if (chatHandler.getBlockedUsersList().isEmpty()) {
+                            Toast.makeText(activity, getString(R.string.no_blocked_users), Toast.LENGTH_SHORT).show();
+                        } else {
+                            blockedUsersListDialog = new BlockedUsersListDialog(activity,
+                                    currentUser,
+                                    chatHandler);
+                            blockedUsersListDialog.show();
+                        }
+                        break;
                 }
 
-                if (blockedUsersList.size() > 0) {
-                    ad = buildAlertDialogWithList(getString(R.string.blocked_users), names,
-                            new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(final AdapterView parent, View view, final int position, long x) {
-                                    String id = ids[position];
-                                    final String name = names[position];
+                popupWindow.dismiss();
+            }
+        });
 
-                                    cometChat.unblockUser(id, new Callbacks() {
-                                        @Override
-                                        public void successCallback(JSONObject jsonObject) {
-                                            Toast.makeText(thisActivity, getString(R.string.unblock_user, name), Toast.LENGTH_SHORT).show();
-                                            // remove from the list
-                                            blockedUsersList.remove(position);
-
-                                            cometChat.getOnlineUsers(new Callbacks() {
-                                                @Override
-                                                public void successCallback(JSONObject jsonObject) {
-                                                    populateFriendsList(jsonObject);
-                                                }
-
-                                                @Override
-                                                public void failCallback(JSONObject jsonObject) {
-
-                                                }
-                                            });
-
-                                            if (blockedUsersList.size() == 0 && ad != null)
-                                                ad.dismiss();
-                                        }
-
-                                        @Override
-                                        public void failCallback(JSONObject jsonObject) {
-
-                                        }
-                                    });
-                                }
-                            });
-
-                    ad.show();
-                } else {
-                    /// no blocked users
-                    Toast.makeText(context, context.getString(R.string.no_blocked_users), Toast.LENGTH_SHORT).show();
-                }*/
+        imgBtnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.show();
             }
         });
 
@@ -262,13 +244,17 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
         // and set the listener for item click event
         chatListView.setOnItemClickListener(new FriendsDrawerItemClickListener());
-        //chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
+        chatListView.setOnItemLongClickListener(new FriendsDrawerItemLongClickListener());
 
         friendsAndChatDrawerLayout.requestFocus();
     }
 
     private String getString(int resource) {
         return activity.getResources().getString(resource);
+    }
+
+    private String getString(int resource, String... strings) {
+        return activity.getResources().getString(resource, strings);
     }
 
     private class MyChatHandlerEvents extends ChatHandler.ChatHandlerEvents {
@@ -393,6 +379,33 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 friendsAndChatDrawerAdapter.notifyDataSetChanged();
             }
         }
+
+        @Override
+        void onBlockUserResponse(boolean isBlocked, OtherUser otherUser) {
+            Toast.makeText(activity, getString(R.string.user_has_been_blocked, otherUser.getName()),
+                    Toast.LENGTH_SHORT).show();
+
+            if (blockedUsersListDialog != null && blockedUsersListDialog.isShowing()) {
+                blockedUsersListDialog.notifyAdapter();
+            }
+
+            friendsAndChatDrawerAdapter.remove(friendsAndChatDrawerAdapter.getItemByUserID((int) otherUser.getUserID()));
+            friendsAndChatDrawerAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        void onUnBlockUserResponse(boolean isUnBlocked, OtherUser otherUser) {
+            Toast.makeText(activity, getString(R.string.unblock_user, otherUser.getName()),
+                    Toast.LENGTH_SHORT).show();
+
+            if (blockedUsersListDialog != null && blockedUsersListDialog.isShowing()) {
+                if (chatHandler.getBlockedUsersList().isEmpty()) {
+                    blockedUsersListDialog.dismiss();
+                } else {
+                    blockedUsersListDialog.notifyAdapter();
+                }
+            }
+        }
     }
 
     @Override
@@ -429,89 +442,6 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         }
     }
 
-    /*private class FriendsDrawerItemLongClickListener implements ListView.OnItemLongClickListener {
-
-        AlertDialog ad;
-
-        private void dismissDialog() {
-            if (ad != null)
-                ad.dismiss();
-        }
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> var1, View var2, final int position, long var4) {
-            final FriendsDrawerItem fdi = friendsAndChatDrawerAdapter.getItem(position);
-            final int userID = fdi.id;
-            final String userName = fdi.name;
-            final String profilePicture = fdi.profilePicture.substring(fdi.profilePicture.lastIndexOf('/') + 1);
-
-            String names[] = new String[4];
-            names[0] = getString(R.string.visit_user_profile);
-            names[1] = getString(R.string.block_user);
-            names[2] = getString(R.string.report_a_user);
-            names[3] = getString(R.string.close);
-
-            AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    OtherUser otherUser = new OtherUser(thisActivity.getApplicationContext(), userID);
-                    otherUser.setName(userName);
-                    otherUser.addPhoto(new Picture(1, userID, null, profilePicture, null, true));
-                    otherUser.setProfilePicture(1);
-
-                    switch (i) {
-                        case 0:
-                            // show users page
-                            Intent intent = new Intent(thisActivity, MemberProfileActivity.class);
-
-                            intent.putExtra(MemberProfileActivity.CURRENT_USER, thisUser);
-                            intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
-                            intent.putExtra(MemberProfileActivity.POSITION, i);
-                            startActivity(intent);
-
-                            ad.dismiss();
-                            break;
-                        case 1:
-                            // block thisUser
-                            cometChat.blockUser(String.valueOf(userID), new Callbacks() {
-                                @Override
-                                public void successCallback(JSONObject jsonObject) {
-                                    Toast.makeText(thisActivity, getString(R.string.user_has_been_blocked, userName), Toast.LENGTH_SHORT).show();
-
-                                    blockedUsersList.add(new Pair<String, String>(String.valueOf(userID), fdi.name));
-
-                                    onlineFriends.remove(position - 1);
-
-                                    friendsDrawerAdapter.notifyDataSetChanged();
-
-                                    ad.dismiss();
-                                }
-
-                                @Override
-                                public void failCallback(JSONObject jsonObject) {
-
-                                }
-                            });
-                            break;
-                        case 2:
-                            ad.dismiss();
-
-                            ReportUserDialog alert = new ReportUserDialog(thisActivity, thisUser, otherUser);
-                            alert.show();
-                            break;
-                        case 3:
-                            ad.dismiss();
-                    }
-                }
-            };
-
-            ad = userCommandsAlert(userName, fdi.profilePicture, names, clickListener);
-
-            ad.show();
-            return true;
-        }
-    }*/
-
     // this class implements the click event listener for friends drawer list
     private class FriendsDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -541,38 +471,78 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 intent.putExtras(bundle);
                 activity.closeDrawers();
                 activity.startActivity(intent);
-            } catch(ServerResponseFailedException ex) {
+            } catch (ServerResponseFailedException ex) {
                 Log.e(TAG, ex.toString());
             }
         }
     }
 
+    private class FriendsDrawerItemLongClickListener implements ListView.OnItemLongClickListener {
 
+        private final String[] chatOptionsList;
 
-/*
-    private AlertDialog buildAlertDialogWithList(String titleStr, String[] list, ListView.OnItemClickListener itemClickListener) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(thisActivity);
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.dialog_list, null);
-        TextView title = (TextView) convertView.findViewById(R.id.text_view_alert_list_title);
+        public FriendsDrawerItemLongClickListener() {
+            chatOptionsList = activity.getResources().getStringArray(R.array.friend_item_commands);
+        }
 
-        title.setText(titleStr);
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            final FriendsDrawerItem fdi = friendsAndChatDrawerAdapter.getItem(position);
+            final int userID = fdi.id;
 
-        alertDialog.setView(convertView);
-        ListView lv = (ListView) convertView.findViewById(R.id.list_view_alert_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(thisActivity, android.R.layout.simple_list_item_1, list);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(itemClickListener);
+            final ListPopupWindow chatPopupWindow = new ListPopupWindow(activity);
+            chatPopupWindow.setAdapter(new ArrayAdapter<String>(activity,
+                    R.layout.list_item_settings,
+                    chatOptionsList));
+            chatPopupWindow.setAnchorView(view);
+            chatPopupWindow.setModal(true);
+            chatPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    OtherUser otherUser = new OtherUser(activity, userID);
+                    try {
+                        ServerResponse<OtherUser> sr = new RequestsInterface(activity)
+                                .getOtherUserData(currentUser.getUserID(), currentUser.getAccessToken(),
+                                        otherUser);
 
+                        if (sr.isSuccess()) {
+                            Log.d(TAG, "Successfully fetched user: " + sr.getResult().getName());
+                        } else {
+                            Log.e(TAG, sr.getErrorMsg());
+                            Toast.makeText(activity, sr.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (ServerResponseFailedException ex) {
+                        Log.e(TAG, ex.toString());
+                        Toast.makeText(activity, ex.toString(), Toast.LENGTH_SHORT).show();
+                    }
 
-        TextView view = new TextView(getApplicationContext());
-        view.setText(getString(R.string.close));
-        view.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ListView.LayoutParams.WRAP_CONTENT));
-        lv.addFooterView(view);
+                    switch (position) {
+                        case 0:
+                            Intent intent = new Intent(activity, MemberProfileActivity.class);
+                            intent.putExtra(MemberProfileActivity.CURRENT_USER, currentUser);
+                            intent.putExtra(MemberProfileActivity.OTHER_USER, otherUser);
+                            intent.putExtra(MemberProfileActivity.POSITION, position);
+                            activity.startActivity(intent);
+                            break;
+                        case 1:
+                            // block user
+                            BlockUserDialog blockUserDialog = new BlockUserDialog(activity, currentUser, otherUser,
+                                    chatHandler);
+                            blockUserDialog.show();
+                            break;
+                        case 2:
+                            // report user
+                            ReportUserDialog reportUserDialog = new ReportUserDialog(activity, currentUser, otherUser);
+                            reportUserDialog.show();
+                            break;
+                    }
 
-        final AlertDialog ad = alertDialog.create();
-        ad.setCanceledOnTouchOutside(true);
+                    chatPopupWindow.dismiss();
+                }
+            });
+            chatPopupWindow.show();
 
-        return ad;
-    }*/
+            return true;
+        }
+    }
 }

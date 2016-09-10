@@ -17,6 +17,7 @@ import com.al70b.core.objects.FriendsDrawerItem;
 import com.al70b.core.objects.Message;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Pair;
+import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 import com.al70b.core.server_methods.ServerConstants;
 import com.inscripts.cometchat.sdk.CometChat;
@@ -48,6 +49,7 @@ public class ChatHandler {
     private CurrentUser currentUser;
     private ChatHandlerEvents chatHandlerEvents;
     private List<FriendsDrawerItem> onlineFriendsList;
+    private List<OtherUser> blockedUsersList;
 
     public ChatHandler(Context context, CurrentUser currentUser,
                        List<FriendsDrawerItem> onlineFriendsList) {
@@ -64,6 +66,8 @@ public class ChatHandler {
         } else {
             this.onlineFriendsList = onlineFriendsList;
         }
+
+        blockedUsersList = new ArrayList<>();
 
         chatHandlerEvents = e;
 
@@ -85,7 +89,6 @@ public class ChatHandler {
         if (chatHandlerEvents != null) {
             login();
         }
-
 
         retryChatLoginTimer = new Timer();
         retryChatLoginTimer.scheduleAtFixedRate(new TimerTask() {
@@ -133,7 +136,7 @@ public class ChatHandler {
                         cometChatInstance.subscribe(true, new MySubscribeCallbacks());
 
                         // list of blocked users
-                        getBlockedUsers();
+                        requestBlockedUsersList();
 
                         chatHandlerEvents.runWithHandler(new ChatHandlerEvents.Callable() {
                             @Override
@@ -232,6 +235,44 @@ public class ChatHandler {
         return CometChat.isLoggedIn();
     }
 
+    public void blockUser(final OtherUser otherUser) {
+        cometChatInstance.blockUser(String.valueOf(otherUser.getUserID()), new Callbacks() {
+            @Override
+            public void successCallback(JSONObject jsonObject) {
+                chatHandlerEvents.onBlockUserResponse(true, otherUser);
+                blockedUsersList.add(otherUser);
+            }
+
+            @Override
+            public void failCallback(JSONObject jsonObject) {
+                Log.e(TAG, jsonObject.toString());
+                Toast.makeText(context, jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                chatHandlerEvents.onBlockUserResponse(false, otherUser);
+            }
+        });
+    }
+
+    public void unblockUser(final OtherUser otherUser) {
+        cometChatInstance.unblockUser(String.valueOf(otherUser.getUserID()), new Callbacks() {
+            @Override
+            public void successCallback(JSONObject jsonObject) {
+                chatHandlerEvents.onUnBlockUserResponse(true, otherUser);
+                blockedUsersList.remove(otherUser);
+            }
+
+            @Override
+            public void failCallback(JSONObject jsonObject) {
+                Log.e(TAG, jsonObject.toString());
+                Toast.makeText(context, jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                chatHandlerEvents.onUnBlockUserResponse(false, otherUser);
+            }
+        });
+    }
+
+    public List<OtherUser> getBlockedUsersList() {
+        return blockedUsersList;
+    }
+
     public static abstract class ChatHandlerEvents {
 
         private Handler handler;
@@ -274,15 +315,21 @@ public class ChatHandler {
         void onSetStatusResponse(boolean statusChanged, String result) {
         }
 
+        void onBlockUserResponse(boolean isBlocked, OtherUser otherUser) {
+        }
+
+        void onUnBlockUserResponse(boolean isUnBlocked, OtherUser otherUser) {
+        }
+
+        void onReceivedBlockedUsersList(List<Pair<Long,String>> list) {
+        }
+
         abstract void onChatConnectionFailed();
 
         abstract void onChatConnectionSucceeded();
     }
 
-    private void getBlockedUsers() {
-        // create blocked users list
-        final List<Pair> blockedUsersList = new ArrayList<>();
-
+    private void requestBlockedUsersList() {
         cometChatInstance.getBlockedUserList(new Callbacks() {
             @Override
             public void successCallback(JSONObject jsonObject) {
@@ -291,17 +338,38 @@ public class ChatHandler {
                 while (iterator.hasNext()) {
                     try {
                         JSONObject temp = jsonObject.getJSONObject(iterator.next());
-                        String id = temp.getString("id");
-                        String name = temp.getString("name");
+                        final long id = Long.parseLong(temp.getString("id"));
 
-                        blockedUsersList.add(new Pair<String, String>(id, name));
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                OtherUser otherUser = new OtherUser(context, (int)id);
+
+                                try {
+                                    ServerResponse sr = new RequestsInterface(context)
+                                            .getOtherUserData(currentUser.getUserID(),
+                                                    currentUser.getAccessToken(),
+                                                    otherUser);
+
+                                    if(sr.isSuccess()) {
+                                        blockedUsersList.add(otherUser);
+                                    } else {
+                                        Log.e(TAG, sr.getErrorMsg());
+                                    }
+                                } catch(ServerResponseFailedException ex) {
+                                    Log.e(TAG, ex.toString());
+                                }
+                            }
+                        }).start();
                     } catch (JSONException ex) {
+                        Log.e(TAG, ex.toString());
                     }
                 }
             }
 
             @Override
             public void failCallback(JSONObject jsonObject) {
+                Log.e(TAG, jsonObject.toString());
             }
         });
     }
@@ -322,7 +390,7 @@ public class ChatHandler {
 
                 id = receivedMessage.getInt("id");
                 final int otherUserID = receivedMessage.getInt("from");
-                // TODO handle icons
+
                 msg = receivedMessage.getString("message");
                 dateTime = receivedMessage.getLong("sent");
 

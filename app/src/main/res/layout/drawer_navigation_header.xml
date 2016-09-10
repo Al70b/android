@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_navigation_drawer_header"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="170dp"
     android:clickable="false"
-    android:paddingBottom="10dp"
+    android:paddingBottom="1dp"
     android:layoutDirection="rtl">
 
     <ImageButton
@@ -29,8 +29,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circle_image_view_drawer_profile_image"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_image_profile_picture"
             android:src="@drawable/avatar" />

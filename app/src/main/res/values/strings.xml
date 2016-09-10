@@ -542,6 +542,13 @@
     <string name="logout_header">خروج من الحساب</string>
     <string name="are_you_sure_you_want_to_log_out">هل أنت متأكد من أنك تريد الخروج من حسابك ؟</string>
     <string name="close_my_account">إغلاق حسابي</string>
+    <string name="unblockuser">إزالة الحظر</string>
+    <string name="report_user_dialog">تبليغ عن مستخدم</string>
+    <string name="please_provide_report_content">من فضلك أدخل سبب التبليغ عن المستخدم:</string>
+    <string name="report_content">من فضلك أدخل سبب التبليغ هنا</string>
+    <string name="report_the_user">تبليغ عن \"%1$s\"</string>
+    <string name="are_you_sure_you_want_to_block_user">هل أنت متأكد من أنك تريد حظر هذا المستخدم ؟</string>
+    <string name="block_the_user">حظر \"%1$s\"</string>
 
 
 </resources>

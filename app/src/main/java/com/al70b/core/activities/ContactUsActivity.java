@@ -18,6 +18,9 @@ import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.server_methods.RequestsInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ContactUsActivity extends Activity {
 
     private static final int MINIMUM_CONTACT_MESSAGE_LENGTH = 20;
@@ -54,6 +57,12 @@ public class ContactUsActivity extends Activity {
                 }
 
                 try {
+                    try {
+                        content = content.replace("\n", URLEncoder.encode("\n", "UTF-8"));
+                    } catch (UnsupportedEncodingException ex) {
+                        Log.e(TAG, ex.toString());
+                    }
+
                     ServerResponse<String> sr = new RequestsInterface(ContactUsActivity.this)
                             .sendContactEmail(currentUser, subject, content);
 

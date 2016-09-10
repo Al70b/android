@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/list_item_blocked_user_profile_image"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/avatar" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_blocked_user_profile_image"
+        android:layout_alignEnd="@id/list_item_blocked_user_profile_image"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/circle_image_small_with_border">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/list_item_blocked_user_status"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/status_online" />
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/btn_list_item_blocked_user_unblock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:text="@string/unblockuser"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/list_item_blocked_user_profile_image"
+        android:layout_toStartOf="@id/btn_list_item_blocked_user_unblock"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_list_item_blocked_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:lines="1"
+            android:padding="3dp"
+            android:text="@string/full_name"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

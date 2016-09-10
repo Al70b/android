@@ -82,8 +82,8 @@ public class DisplayPictureDialog extends Dialog {
         lp.gravity = Gravity.CENTER;
 
         int widthInDP = (int)context.getResources().getDisplayMetrics().xdpi;
-        lp.width = (int)Utils.convertDpToPixel(widthInDP - 70, context);
-        lp.height = (int)Utils.convertDpToPixel(widthInDP - 50, context);
+        lp.width = (int)Utils.convertDpToPixel(widthInDP - 60, context);
+        lp.height = (int)Utils.convertDpToPixel(widthInDP - 40, context);
         lp.y = -1 * (int)Utils.convertDpToPixel(24, context);
         getWindow().setAttributes(lp);
     }

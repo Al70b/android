@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
+import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.CustomViewPager;
 import com.al70b.core.extended_widgets.SlidingTabLayout;
@@ -192,13 +193,10 @@ public class MemberProfileActivity extends FragmentActivity {
         circleImageProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!otherUser.isProfilePictureSet())
-                    return;
-
-                Intent intent = new Intent(thisActivity, DisplayPictureActivity.class);
-                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, otherUser.getProfilePictureThumbnailPath());
-                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, otherUser.getProfilePicturePath());
-                startActivity(intent);
+                if(otherUser.isProfilePictureSet()) {
+                    DisplayPictureDialog dialog = new DisplayPictureDialog(MemberProfileActivity.this, otherUser);
+                    dialog.show();
+                }
             }
         });
 
