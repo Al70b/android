@@ -34,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int VIEW_TYPE_ITEM = 0;
+    private static final int VIEW_TYPE_ITEM = 0;
 
     private Context context;
     private List<OtherUser> data;
@@ -50,14 +50,12 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
         this.currentUser = currentUser;
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder
+    private class ItemViewHolder extends RecyclerView.ViewHolder
             implements LoadMoreRecyclerView.OnClickListener {
         TextView name, age, address;
         ImageView profilePicture, status;
-        ImageView imgViewMessage, imgViewFriendRequest;
-        ProgressBar pb;
 
-        public ItemViewHolder(View row) {
+        private ItemViewHolder(View row) {
             super(row);
 
             profilePicture = (ImageView) row.findViewById(R.id.imv_view_member_item_profile);
@@ -65,9 +63,6 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
             name = (TextView) row.findViewById(R.id.text_view_member_item_name);
             age = (TextView) row.findViewById(R.id.text_view_member_item_age);
             address = (TextView) row.findViewById(R.id.text_view_member_item_address);
-            imgViewFriendRequest = (ImageView) row.findViewById(R.id.image_view_members_item_add);
-            imgViewMessage = (ImageView) row.findViewById(R.id.image_view_members_item_send);
-            pb = (ProgressBar) row.findViewById(R.id.progress_bar_sending_friend_request);
 
             row.setOnClickListener(this);
         }
@@ -118,9 +113,12 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
                 vh = new ItemViewHolder(v);
                 ItemViewHolder itemViewHolder = (ItemViewHolder)vh;
 
-                int x = context.getResources().getDisplayMetrics().widthPixels;
-                x = (x / 2);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(x, x);
+                int screenWidthInPixels = context.getResources().getDisplayMetrics().widthPixels;
+                int x = screenWidthInPixels / 2;
+                int y = screenWidthInPixels / 2;
+                x -= Utils.convertDpToPixel(2, context);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(x, y);
+
                 itemViewHolder.profilePicture.setLayoutParams(lp);
         }
         return vh;
@@ -131,9 +129,9 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
         super.onBindViewHolder(holder, position);
 
         if(holder instanceof ItemViewHolder) {
-            final ItemViewHolder itemViewHolder = (ItemViewHolder)holder;
-            final OtherUser otherUser = data.get(position);
-            final OtherUser.FriendStatus friendStatus = otherUser.getFriendStatus();
+            ItemViewHolder itemViewHolder = (ItemViewHolder)holder;
+            OtherUser otherUser = data.get(position);
+            OtherUser.FriendStatus friendStatus = otherUser.getFriendStatus();
 
             itemViewHolder.name.setText(otherUser.getName());
             itemViewHolder.age.setText(context.getApplicationContext().getString(R.string.age_of, calculateAge(otherUser.getDateOfBirth())));
@@ -142,65 +140,10 @@ public class MembersRecycleViewAdapter extends LoadMoreRecyclerView.Adapter<Recy
             Glide.with(context).load(otherUser.getProfilePictureThumbnailPath())
                     .asBitmap()
                     .placeholder(R.drawable.avatar)
+                    .fitCenter()
                     .into(itemViewHolder.profilePicture);
 
-            /*itemViewHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!otherUser.isProfilePictureSet()) {
-                        return;
-                    }
-
-                    DisplayPictureDialog dialog = new DisplayPictureDialog(context,
-                            otherUser.getProfilePictureThumbnailPath());
-                    dialog.show();
-                }
-            });*/
-
             itemViewHolder.status.setImageResource(otherUser.getOnlineStatus().getResourceID());
-
-            itemViewHolder.imgViewMessage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SendMessageDialog alert = new SendMessageDialog(context, otherUser);
-                    alert.setCanceledOnTouchOutside(false);
-                    alert.show();
-                }
-            });
-
-            itemViewHolder.imgViewFriendRequest.setImageResource(friendStatus.getDrawableResourceID());
-
-            itemViewHolder.imgViewFriendRequest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final FriendButtonHandler friendHandler = new FriendButtonHandler();
-
-                    itemViewHolder.pb.setVisibility(View.VISIBLE);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            friendHandler.handle((Activity) context, currentUser, otherUser);
-
-                            itemViewHolder.imgViewFriendRequest.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    itemViewHolder.pb.setVisibility(View.INVISIBLE);
-                                    itemViewHolder.imgViewFriendRequest
-                                            .setImageResource(otherUser.getFriendStatus().getDrawableResourceID());
-                                }
-                            });
-                        }
-                    }).start();
-                }
-            });
-
-            itemViewHolder.imgViewFriendRequest.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    Toast.makeText(context.getApplicationContext(), otherUser.getFriendStatus().getStringResourceID(), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
         }
     }
 

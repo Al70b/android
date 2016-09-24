@@ -54,7 +54,7 @@ public class DisplayPictureDialog extends Dialog {
         TextView txtViewName = (TextView) findViewById(R.id.tv_displayPictureD_username);
         ImageButton imgBtnClose = (ImageButton) findViewById(R.id.img_btn_displayPictureD_close);
 
-        if(otherUser != null) {
+        if (otherUser != null) {
             txtViewName.setText(otherUser.getName());
             path = otherUser.getProfilePictureThumbnailPath();
         }
@@ -63,6 +63,7 @@ public class DisplayPictureDialog extends Dialog {
                 .load(path)
                 .asBitmap()
                 .placeholder(R.drawable.avatar)
+                .fitCenter()
                 .into(imgView);
         imgBtnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,15 +77,18 @@ public class DisplayPictureDialog extends Dialog {
     public void show() {
         super.show();
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(getWindow().getAttributes());
-        lp.dimAmount = 0.2f;
-        lp.gravity = Gravity.CENTER;
+        if (getWindow() != null) {
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(getWindow().getAttributes());
+            lp.dimAmount = 0.2f;
+            lp.gravity = Gravity.CENTER;
 
-        int widthInDP = (int)context.getResources().getDisplayMetrics().xdpi;
-        lp.width = (int)Utils.convertDpToPixel(widthInDP - 60, context);
-        lp.height = (int)Utils.convertDpToPixel(widthInDP - 40, context);
-        lp.y = -1 * (int)Utils.convertDpToPixel(24, context);
-        getWindow().setAttributes(lp);
+            float ratio = 2 / 3.0f; // 2/3rd of the width
+            int widthInPixels = context.getResources().getDisplayMetrics().widthPixels;
+            lp.width = (int)(widthInPixels * ratio);
+            lp.height = (int)(widthInPixels * ratio + Utils.convertDpToPixel(10, context));
+            lp.y = -1 * (int) Utils.convertDpToPixel(24, context);
+            getWindow().setAttributes(lp);
+        }
     }
 }

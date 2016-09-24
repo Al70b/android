@@ -803,8 +803,8 @@ public class RequestsInterface {
         return sr;
     }
 
-    public ServerResponse<String> sendMessage(
-            CurrentUser currentUser, long otherUserID, String content) throws ServerResponseFailedException {
+    public ServerResponse<String> sendMessage(CurrentUser currentUser,
+                                              long otherUserID, String content) throws ServerResponseFailedException {
         // turn arguments to JSONObject of arguments
         JSONObject jsonArgs = new JSONObject();
 
@@ -816,7 +816,7 @@ public class RequestsInterface {
             jsonArgs.put(KEYS.SERVER.CONTENT, content);
 
             sr = doTheWork(Method.REGULAR,
-                    ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_APPROVE_FRIEND_REQUEST,
+                    ServerConstants.FUNCTIONS.SERVER_FUNC_SEND_MESSAGE,
                     jsonArgs, new ParseResultInterface<String>() {
                         @Override
                         public String parseResult(JSONObject jsonResult) throws JSONException {

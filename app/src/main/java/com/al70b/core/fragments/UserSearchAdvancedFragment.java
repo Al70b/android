@@ -117,7 +117,11 @@ public class UserSearchAdvancedFragment extends Fragment {
         ArrayAdapter<String> countriesArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1,
                 countries);
         spinnerCountry.setAdapter(countriesArrayAdapter);
-        spinnerCountry.setSelection(countriesArrayAdapter.getPosition(currentUser.getAddress().getCountry()));
+
+        if(currentUser != null && currentUser.getAddress() != null) {
+            spinnerCountry.setSelection(countriesArrayAdapter.getPosition(currentUser.getAddress().getCountry()));
+        }
+
 
         // init list of checkboxes
         final List<CheckBox> checkBoxListEducation = new ArrayList<>();

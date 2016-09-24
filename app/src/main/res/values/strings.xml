@@ -251,7 +251,7 @@
     <string name="remove_friend_request">إلغاء طلب الصداقة</string>
 
     <string name="cancel_friend_request">إلغاء طلب الصداقة</string>
-    <string name="unfriend">ولّع طوشه</string>
+    <string name="unfriend">إلغاء الصداقة</string>
 
     <string name="unfriend_user_caution_message">هل أنت متأكد من أنك تريد حذف \"%1$s\" من قائمة أصدقاءك؟</string>
     <string name="friend_request_was_sent">تم إرسال طلب صداقة للمستخدم \"%1$s\"</string>
@@ -279,7 +279,7 @@
     <string name="question">إستعلام</string>
     <string name="yes">نعم</string>
     <string name="no">كلا</string>
-    <string name="uploading_your_photo_to_server">جاري رفع الصورة للمخدم...</string>
+    <string name="uploading_your_photo_to_server">جاري رفع الصورة...</string>
     <string name="error_fill_your_email">من فضلك إملأ بريدك الإلكتروني</string>
     <string name="save_as_fitting">حفظ لنظام الملائمة</string>
     <string name="advanced_search_header">هذه صفحة البحث المتقدم، يمكنك عمل \"بحث\" والحصول على النتائج بشكل فوريّ، أو يمكنك حفظ البحث المرغوب في خدمة نظام الملائمة الذي نقدمه.\nإن خدمة نظام الملائمة يسمح لك بحفظ بحث معيّن، وسيقوم النظام بإرسال بريد إلكتروني دوري كل أسبوع يحوي الأعضاء الملائمين لبحثك المحفوظ، كما وبإمكانك تعديل هذا البحث متى شئت  ليناسب مطلوبك.</string>
@@ -354,8 +354,8 @@
     <string name="status_message_changed_successfully">تم تغيير الحالة بنجاح</string>
     <string name="your_status_message">رسالة عامة</string>
     <string name="status_message_change_failed">فشل التطبيق في محاولة تغيير الرسالة العامة</string>
-    <string name="user_has_been_blocked">تم حظر المستخدم /\"%1$s\\\"</string>
-    <string name="unblock_user">تم رفع الحظر عن المستخدم \\\"%1$s\\\"</string>
+    <string name="user_has_been_blocked">تم حظر المستخدم \"%1$s\"</string>
+    <string name="unblock_user">تم رفع الحظر عن المستخدم \"%1$s\"</string>
     <string name="no_blocked_users">لا يوجد أي مستخدمين محظورين</string>
     <string name="error_logging_to_chat">لم يتمكن التطبيق من الإتصال بخادم التشات، الرجاء إعادة تشغيل التطبيق</string>
     <string name="title_activity_friends_list">الأصدقاء</string>
@@ -549,6 +549,12 @@
     <string name="report_the_user">تبليغ عن \"%1$s\"</string>
     <string name="are_you_sure_you_want_to_block_user">هل أنت متأكد من أنك تريد حظر هذا المستخدم ؟</string>
     <string name="block_the_user">حظر \"%1$s\"</string>
+    <string name="chat_settings">خصائص المحادثة الفورية</string>
+    <string name="your_message">أدخل رسالتك هنا</string>
+    <string name="send_message_to">مراسلة \"%1$s\"</string>
+    <string name="block">حظر</string>
+    <string name="report">أبلغ عن</string>
+    <string name="fits">ملاءمات</string>
 
 
 </resources>

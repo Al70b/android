@@ -21,7 +21,11 @@ import android.widget.TextView;
 
 import com.al70b.R;
 import com.al70b.core.MyApplication;
+import com.al70b.core.activities.Dialogs.BlockUserDialog;
 import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
+import com.al70b.core.activities.Dialogs.QuickUserMessageDialog;
+import com.al70b.core.activities.Dialogs.ReportUserDialog;
+import com.al70b.core.activities.user_home_activity_underlying.ChatHandler;
 import com.al70b.core.exceptions.ServerResponseFailedException;
 import com.al70b.core.extended_widgets.CustomViewPager;
 import com.al70b.core.extended_widgets.SlidingTabLayout;
@@ -105,7 +109,6 @@ public class MemberProfileActivity extends FragmentActivity {
                     .load(otherUser.getProfilePictureThumbnailPath())
                     .asBitmap()
                     .placeholder(R.drawable.avatar)
-                    .centerCrop()
                     .into(circleImageProfilePicture);
 
             final Runnable runnable = new Runnable() {
@@ -305,14 +308,12 @@ public class MemberProfileActivity extends FragmentActivity {
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.menu_item_member_profile_friend:
-
                 final PleaseWaitDialog alertWait = new PleaseWaitDialog(thisActivity, getString(R.string.sending_request ));
                 alertWait.show();
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         FriendButtonHandler friendButtonHandler = new FriendButtonHandler();
                         friendStatusChanged = friendButtonHandler.handle(thisActivity, currentUser, otherUser);
 
@@ -333,10 +334,20 @@ public class MemberProfileActivity extends FragmentActivity {
 
                 return true;
             case R.id.menu_item_member_profile_send_message:
-
-                SendMessageDialog alert = new SendMessageDialog(thisActivity, otherUser);
-                alert.setCanceledOnTouchOutside(false);
-                alert.show();
+                QuickUserMessageDialog quickUserMessageDialog = new QuickUserMessageDialog(MemberProfileActivity.this,
+                        currentUser, otherUser);
+                quickUserMessageDialog.show();
+                return true;
+            case R.id.menu_item_member_profile_block_user:
+                ChatHandler chatHandler = ((MyApplication)getApplication()).getChatHandler();
+                BlockUserDialog blockUserDialog = new BlockUserDialog(this,
+                        currentUser, otherUser, chatHandler);
+                blockUserDialog.show();
+                return true;
+            case R.id.menu_item_member_profile_report_user:
+                ReportUserDialog reportUserDialog = new ReportUserDialog(this,
+                        currentUser, otherUser);
+                reportUserDialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

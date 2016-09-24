@@ -31,6 +31,7 @@ import com.al70b.core.activities.DisplayPictureActivity;
 import com.al70b.core.activities.UserHomeActivity;
 import com.al70b.core.activities.Dialogs.PleaseWaitDialog;
 import com.al70b.core.adapters.UserImageAdapter;
+import com.al70b.core.extended_widgets.ExpandableHeightGridView;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.ImageHandler;
 import com.al70b.core.objects.CurrentUser;
@@ -62,7 +63,7 @@ public class UserDataPicturesFragment extends Fragment {
     private CurrentUser currentUser;
 
     // grid view and image adapter
-    private GridView gridView;
+    private ExpandableHeightGridView gridView;
     private UserImageAdapter adapter;
 
     // to hold profile image
@@ -91,7 +92,7 @@ public class UserDataPicturesFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_user_data_pictures, container, false);
         imgViewProfile = (ImageView) viewGroup.findViewById(R.id.image_view_user_data_pictures_profile);
-        gridView = (GridView) viewGroup.findViewById(R.id.grid_view_user_pictures);
+        gridView = (ExpandableHeightGridView) viewGroup.findViewById(R.id.grid_view_user_pictures);
 
         gridView.setEmptyView(viewGroup.findViewById(R.id.text_view_empty_grid_view));
 
@@ -110,6 +111,7 @@ public class UserDataPicturesFragment extends Fragment {
             adapter = new UserImageAdapter(activity, listOfPictures);
 
             gridView.setAdapter(adapter);
+            gridView.setExpanded(true);
         }
 
         if (currentUser != null && currentUser.isProfilePictureSet()) {
@@ -117,12 +119,12 @@ public class UserDataPicturesFragment extends Fragment {
             Glide.with(activity.getApplicationContext())
                     .load(profilePicture.getThumbnailFullPath())
                     .asBitmap()
-                    .fitCenter()
                     .placeholder(R.drawable.avatar)
                     .into(imgViewProfile);
         } else {
             imgViewProfile.setImageResource(R.drawable.avatar);
         }
+
 
         imgViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -528,14 +530,29 @@ public class UserDataPicturesFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath,
                     options);
 
+            if(bitmap == null) {
+                options.inSampleSize = 8;
+                bitmap = BitmapFactory.decodeFile(picturePath,
+                        options);
+
+                if(bitmap == null) {
+                    return null;
+                }
+            }
+
+            // bitmap was decoded successfully
+
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
             // Must compress the Image to reduce image size to make upload easy
-            bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-            byte[] byte_arr = stream.toByteArray();
+            if(bitmap.compress(Bitmap.CompressFormat.PNG, 70, stream)) {
+                byte[] byte_arr = stream.toByteArray();
 
-            // Encode Image to 64 base String
-            return Base64.encodeToString(byte_arr, 0);
+                // Encode Image to 64 base String
+                return Base64.encodeToString(byte_arr, 0);
+            }
+
+            return null;
         }
 
         private void uploadEncodedImage(String encodedImage) {

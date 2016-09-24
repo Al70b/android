@@ -13,7 +13,7 @@
         android:padding="4dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_view_report_user_icon"
+            android:id="@+id/image_view_quick_user_message_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -24,7 +24,7 @@
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/text_view_report_user_dialog_title"
+            android:id="@+id/text_view_quick_user_message_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -33,7 +33,7 @@
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
             android:paddingTop="2dp"
-            android:text="@string/report_user_dialog"
+            android:text="@string/send"
             android:textSize="22sp" />
     </LinearLayout>
 
@@ -51,14 +51,14 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/edit_text_alert_report_user_message"
+                android:id="@+id/edit_text_alert_quick_user_message_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="400"
-                android:minHeight="100dp"
-                android:inputType="textMultiLine"
                 android:maxLines="10"
                 android:verticalScrollbarPosition="left"
+                android:minHeight="100dp"
+                android:inputType="textMultiLine"
                 android:maxHeight="200dp"
                 android:background="@drawable/contact_us_message_background"
                 android:layout_margin="8dp"
@@ -66,7 +66,7 @@
                 android:textAlignment="viewStart"
                 android:gravity="top|start"
                 android:textColor="@android:color/black"
-                android:hint="@string/report_content"
+                android:hint="@string/your_message"
                 android:padding="8dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -78,7 +78,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/btn_alert_report_user_positive"
+            android:id="@+id/btn_alert_quick_user_message_positive"
             style="@style/button_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             android:text="@string/send" />
 
         <Button
-            android:id="@+id/btn_alert_report_user_negative"
+            android:id="@+id/btn_alert_quick_user_message_negative"
             style="@style/button_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.al70b.R;
 import com.al70b.core.activities.DisplayPictureActivity;
 import com.al70b.core.activities.MemberProfileActivity;
+import com.al70b.core.extended_widgets.ExpandableHeightGridView;
 import com.al70b.core.objects.OtherUser;
 import com.al70b.core.objects.Picture;
 import com.bumptech.glide.Glide;
@@ -56,7 +57,7 @@ public class MemberDataPicturesFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_member_data_pictures, container, false);
         ImageView imgViewProfile = (ImageView) viewGroup.findViewById(R.id.image_view_member_data_pictures_profile);
-        GridView gridView = (GridView) viewGroup.findViewById(R.id.grid_view_member_pictures);
+        ExpandableHeightGridView gridView = (ExpandableHeightGridView) viewGroup.findViewById(R.id.grid_view_member_pictures);
 
         gridView.setEmptyView(viewGroup.findViewById(R.id.text_view_member_empty_grid_view));
 
@@ -66,7 +67,6 @@ public class MemberDataPicturesFragment extends Fragment {
         Glide.with(getActivity().getApplicationContext())
                 .load(otherUser.getProfilePictureThumbnailPath())
                 .asBitmap()
-                .fitCenter()
                 .placeholder(R.drawable.avatar)
                 .into(imgViewProfile);
 
@@ -85,6 +85,7 @@ public class MemberDataPicturesFragment extends Fragment {
         });
 
         gridView.setAdapter(adapter);
+        gridView.setExpanded(true);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

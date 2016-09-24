@@ -56,6 +56,10 @@ public class RegisterFragment1 extends Fragment {
 
         clearableName.setEditTextHint(R.string.register_name);
 
+        if(nameRetrieve != null) {
+            clearableName.getEditText().setText(nameRetrieve);
+        }
+
         clearableName.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,7 +67,7 @@ public class RegisterFragment1 extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                nameRetrieve = clearableName.getEditText().getText().toString();
             }
 
             @Override

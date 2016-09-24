@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.al70b.core.fragments.UserFriendRequestsFragment;
 import com.al70b.core.fragments.UserSearchFragment;
 import com.al70b.core.misc.AppConstants;
 import com.al70b.core.misc.KEYS;
+import com.al70b.core.misc.Utils;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.NavDrawerItem;
 import com.al70b.core.objects.Pair;
@@ -105,6 +107,14 @@ public class NavigationDrawer implements NavigationDrawerController {
         // relate navigation drawer components to xml elements
         // this is the main layout of the drawer
         navDrawerLayout = (RelativeLayout) root.findViewById(R.id.layout_navigation_drawer);
+
+        int width, height;
+        width = activity.getResources().getDisplayMetrics().widthPixels;
+        width -= (int)Utils.convertDpToPixel(15, activity);
+        height = activity.getResources().getDisplayMetrics().heightPixels;
+        DrawerLayout.LayoutParams lp = new DrawerLayout.LayoutParams(width, height);
+        lp.gravity = Gravity.START;
+        navDrawerLayout.setLayoutParams(lp);
 
         // Drawer Header
         ViewGroup navHeader = (ViewGroup) navDrawerLayout.findViewById(R.id.layout_drawer_navigation_header);

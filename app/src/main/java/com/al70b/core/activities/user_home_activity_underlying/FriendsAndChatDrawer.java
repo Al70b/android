@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.al70b.R;
+import com.al70b.core.MyApplication;
 import com.al70b.core.activities.Dialogs.BlockUserDialog;
 import com.al70b.core.activities.Dialogs.BlockedUsersListDialog;
 import com.al70b.core.activities.Dialogs.QuestionAlert2;
@@ -41,6 +42,7 @@ import com.al70b.core.objects.Pair;
 import com.al70b.core.objects.ServerResponse;
 import com.al70b.core.objects.User;
 import com.al70b.core.server_methods.RequestsInterface;
+import com.bumptech.glide.util.Util;
 import com.inscripts.jsonphp.Block;
 
 import java.util.ArrayList;
@@ -126,6 +128,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         // initialize Comet chat and chat-events handler
         chatHandler = new ChatHandler(activity.getApplicationContext(), currentUser,
                 onlineFriendsList, new MyChatHandlerEvents());
+        ((MyApplication)activity.getApplication()).setChatHandler(chatHandler);
 
         // update online status and status message
         statusList.updateStatus(currentUser.getOnlineStatus().getStatus());
@@ -182,10 +185,11 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         final ListPopupWindow popupWindow = new ListPopupWindow(activity);
 
         popupWindow.setAdapter(new ArrayAdapter<String>(activity,
-                R.layout.list_item_settings,
+                R.layout.list_item_chat_item_menu,
                 overflowSettingsList));
         popupWindow.setAnchorView(imgBtnSettings);
         popupWindow.setModal(true);
+        popupWindow.setWidth((int)Utils.convertDpToPixel(170, activity));
         popupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -217,7 +221,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
         imgBtnSettings.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(activity, activity.getString(R.string.blocked_users_list),
+                Toast.makeText(activity, activity.getString(R.string.chat_settings),
                         Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -389,8 +393,10 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
                 blockedUsersListDialog.notifyAdapter();
             }
 
-            friendsAndChatDrawerAdapter.remove(friendsAndChatDrawerAdapter.getItemByUserID((int) otherUser.getUserID()));
-            friendsAndChatDrawerAdapter.notifyDataSetChanged();
+            if(friendsAndChatDrawerAdapter != null) {
+                friendsAndChatDrawerAdapter.remove(friendsAndChatDrawerAdapter.getItemByUserID((int) otherUser.getUserID()));
+                friendsAndChatDrawerAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -492,7 +498,7 @@ public class FriendsAndChatDrawer implements FriendsAndChatDrawerController {
 
             final ListPopupWindow chatPopupWindow = new ListPopupWindow(activity);
             chatPopupWindow.setAdapter(new ArrayAdapter<String>(activity,
-                    R.layout.list_item_settings,
+                    R.layout.list_item_chat_item_menu,
                     chatOptionsList));
             chatPopupWindow.setAnchorView(view);
             chatPopupWindow.setModal(true);

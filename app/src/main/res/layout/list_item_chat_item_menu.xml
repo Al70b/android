@@ -3,11 +3,10 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="25sp"
+    android:textSize="18sp"
     android:textColor="@color/selector_list_item_text_color"
-    android:textStyle="bold"
+    android:textStyle="normal"
     android:background="@drawable/list_item_simple_red"
-    android:paddingEnd="8dp"
-    android:paddingStart="8dp"
-    android:paddingTop="15dp"
-    android:paddingBottom="15dp"/>
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    android:padding="5dp"/>

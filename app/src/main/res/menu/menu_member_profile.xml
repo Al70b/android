@@ -12,4 +12,14 @@
         android:icon="@drawable/ic_action_send_message_holo_light"
         android:title="@string/send_message"
         android:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_member_profile_block_user"
+        android:title="@string/block"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_item_member_profile_report_user"
+        android:title="@string/report"
+        android:showAsAction="never" />
 </menu>

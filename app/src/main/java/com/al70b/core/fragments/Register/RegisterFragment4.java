@@ -112,6 +112,8 @@ public class RegisterFragment4 extends Fragment {
                 if (prevEmailInput != null) {
                     emailAlreadyExists = prevEmailInput.compareTo(s.toString()) == 0;
                 }
+
+                emailRetrieve = clearableEmail.getEditText().getText().toString();
             }
 
             @Override
@@ -262,14 +264,5 @@ public class RegisterFragment4 extends Fragment {
     public void onStart() {
         super.onStart();
 
-        /*
-        if (nextClicked) {
-
-            clearableEmail.getEditText().setText(GuestRegisterFragment.getRegisteringUser().getEmail());
-            clearablePassword.getEditText().setText("");
-            clearableRetypePassword.getEditText().setText("");
-
-            nextClicked = false;
-        }*/
     }
 }

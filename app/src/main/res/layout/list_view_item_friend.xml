@@ -14,6 +14,8 @@
         android:layout_marginEnd="3dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="4dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:src="@drawable/avatar" />
 
     <FrameLayout
@@ -29,7 +31,9 @@
             android:id="@+id/list_item_friend_profile_status"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:src="@drawable/status_online" />
+            android:src="@drawable/status_online"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </FrameLayout>
 
 

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.al70b.R;
 import com.al70b.core.activities.MainActivity;
+import com.al70b.core.activities.user_home_activity_underlying.ChatHandler;
 import com.al70b.core.misc.Translator;
 import com.al70b.core.objects.CurrentUser;
 import com.orm.SugarContext;
@@ -59,14 +60,25 @@ public class MyApplication extends MultiDexApplication {
     }
 
     public CurrentUser getCurrentUser() {
-        if(currentUser == null) {
+        if (currentUser == null) {
             Log.d(TAG, "No CurrentUser is set");
 
-           Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-           startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         return currentUser;
+    }
+
+    private ChatHandler chatHandler;
+
+    public ChatHandler getChatHandler() {
+        return chatHandler;
+    }
+
+    public void setChatHandler(ChatHandler chatHandler) {
+        this.chatHandler = chatHandler;
     }
 
 
@@ -78,7 +90,7 @@ public class MyApplication extends MultiDexApplication {
     }
 
     public Translator getTranslator() {
-        if(myTranslator == null) {
+        if (myTranslator == null) {
             Log.d(TAG, "No Translator instance exists");
 
             // get translations to use in the app

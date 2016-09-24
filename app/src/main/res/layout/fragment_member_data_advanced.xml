@@ -255,7 +255,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingEnd="5dp"
-                    android:paddingStart="3dp"
+                    android:paddingStart="5dp"
                     android:paddingTop="3dp"
                     android:text="@string/none"
                     android:textSize="18sp" />

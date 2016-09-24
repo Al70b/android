@@ -256,8 +256,8 @@ public class ChatHandler {
         cometChatInstance.unblockUser(String.valueOf(otherUser.getUserID()), new Callbacks() {
             @Override
             public void successCallback(JSONObject jsonObject) {
-                chatHandlerEvents.onUnBlockUserResponse(true, otherUser);
                 blockedUsersList.remove(otherUser);
+                chatHandlerEvents.onUnBlockUserResponse(true, otherUser);
             }
 
             @Override

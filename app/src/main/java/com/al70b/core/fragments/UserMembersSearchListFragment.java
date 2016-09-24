@@ -207,6 +207,9 @@ public class UserMembersSearchListFragment extends Fragment {
                 return;
             }
 
+            if(!isAdded()) {
+                return;
+            }
             //mAdapter.setDoneLoading();
 
             // result is surely not null, check if request succeeded

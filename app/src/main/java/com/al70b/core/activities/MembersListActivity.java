@@ -3,6 +3,7 @@ package com.al70b.core.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,7 +86,7 @@ public class MembersListActivity extends Activity {
             ActionBar actionBar = getActionBar();
 
             if (actionBar != null) {
-                actionBar.setTitle(getString(R.string.suggested_profiles));
+                actionBar.setTitle(getString(R.string.fits));
             }
 
             isSuggestedProfiles = true;
@@ -104,6 +105,15 @@ public class MembersListActivity extends Activity {
         mLayoutManager.offsetChildrenVertical((int)Utils.convertDpToPixel(4, this));
         mLayoutManager.offsetChildrenHorizontal((int)Utils.convertDpToPixel(2, this));
         loadMoreRecyclerView.setLayoutManager(mLayoutManager);
+        loadMoreRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                       RecyclerView.State state) {
+
+                outRect.bottom = (int)Utils.convertDpToPixel(3, MembersListActivity.this.getApplicationContext());
+            }
+        });
 
         // create list for received members from server, and an membersListAdapter
         listOfMembers = new ArrayList<>();

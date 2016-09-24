@@ -59,7 +59,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp">
+            android:padding="2dp">
 
 
             <TextView
@@ -85,12 +85,12 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="3dp"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/layout_mainA_stam"
             android:text="@string/sign_in_with_a_different_email"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

@@ -53,7 +53,6 @@ public class RegisterActivity extends FragmentActivity {
         if(actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(true);
         }
-        updateTitle();
 
         pickFragment(new RegisterFragment1());
         registeringUser = new CurrentUser(this);
@@ -81,9 +80,19 @@ public class RegisterActivity extends FragmentActivity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        currentStep = 1;
+        updateTitle();
+    }
+
+    @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
+            currentStep--;
+            updateTitle();
         } else {
             finish();
         }
@@ -136,4 +145,6 @@ public class RegisterActivity extends FragmentActivity {
     public CurrentUser getRegisteringUser() {
         return registeringUser;
     }
+
+
 }

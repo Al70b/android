@@ -27,9 +27,10 @@ import java.util.Calendar;
  */
 public class RegisterFragment3 extends Fragment {
 
-    private static Boolean genderMale;
+    private static Boolean genderMaleRetrieve;
     private static Calendar birthdateRetrieve;
-    private static Boolean genderInterestMale;
+    private static Boolean genderInterestMaleRetrieve;
+
     private boolean validBirthDate;
     private TextView txtViewBirthDate;
     private RadioGroup rd;
@@ -60,13 +61,6 @@ public class RegisterFragment3 extends Fragment {
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                genderMale = rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male;
-
-                genderInterestMale = rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male;
-
-                birthdateRetrieve = birthDate;
-
                 activity.getSupportFragmentManager()
                         .popBackStack();
                 activity.currentStep--;
@@ -78,6 +72,20 @@ public class RegisterFragment3 extends Fragment {
         ((RadioButton) rd.getChildAt(0)).setChecked(true);
         // default
         ((RadioButton) rdInterest.getChildAt(1)).setChecked(true);
+
+        rd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                genderMaleRetrieve = rd.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_male;
+            }
+        });
+
+        rdInterest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                genderInterestMaleRetrieve = rdInterest.getCheckedRadioButtonId() == R.id.radiobutton_register_gender_interest_male;
+            }
+        });
 
         // set on click listener for both the button and the text view
         txtViewBirthDate.setClickable(true);
@@ -116,31 +124,26 @@ public class RegisterFragment3 extends Fragment {
             }
         });
 
-        if (genderMale != null && birthdateRetrieve != null
-                && genderInterestMale != null) {
-            if (genderMale)
+        if(genderMaleRetrieve != null) {
+            if (genderMaleRetrieve)
                 rd.check(R.id.radiobutton_register_gender_male);
             else
                 rd.check(R.id.radiobutton_register_gender_female);
+        }
 
-            if (genderInterestMale)
+        if(genderInterestMaleRetrieve != null) {
+            if (genderInterestMaleRetrieve)
                 rdInterest.check(R.id.radiobutton_register_gender_interest_male);
             else
                 rdInterest.check(R.id.radiobutton_register_gender_interest_female);
-
-            birthDate = birthdateRetrieve;
-            if (birthDate == null) {
-                txtViewBirthDate.setText(R.string.register_choose_date);
-            } else {
-                txtViewBirthDate.setText(getDateAsString(birthDate));
-                validBirthDate = true;
-            }
-
-            genderMale = null;
-            genderInterestMale = null;
-            birthdateRetrieve = null;
         }
 
+        if(birthdateRetrieve != null) {
+            txtViewBirthDate.setText(getDateAsString(birthdateRetrieve));
+            validBirthDate = true;
+        } else {
+            txtViewBirthDate.setText(R.string.register_choose_date);
+        }
         return viewGroup;
     }
 
@@ -148,10 +151,6 @@ public class RegisterFragment3 extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (birthDate != null) {
-            txtViewBirthDate.setText(getDateAsString(birthDate));
-            validBirthDate = true;
-        }
     }
 
     private String getDateAsString(Calendar c) {
@@ -201,6 +200,7 @@ public class RegisterFragment3 extends Fragment {
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_should_be_above_18), Toast.LENGTH_SHORT).show();
                 txtViewToChange.setText(getString(R.string.register_choose_date));
                 validBirthDate = false;
+                birthdateRetrieve = null;
             } else {
                 if (birthDate == null) {
                     birthDate = Calendar.getInstance();
@@ -211,6 +211,7 @@ public class RegisterFragment3 extends Fragment {
                 txtViewToChange.setText(getDateAsString(birthDate));
 
                 validBirthDate = true;
+                birthdateRetrieve = birthDate;
             }
         }
     }

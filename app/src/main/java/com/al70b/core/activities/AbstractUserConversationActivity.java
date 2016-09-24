@@ -23,11 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.al70b.R;
+import com.al70b.core.activities.Dialogs.DisplayPictureDialog;
 import com.al70b.core.adapters.MessagesListAdapter;
 import com.al70b.core.extended_widgets.pull_load_listview.PullToRefreshListView;
 import com.al70b.core.objects.CurrentUser;
 import com.al70b.core.objects.Message;
 import com.al70b.core.objects.OtherUser;
+import com.bumptech.glide.Glide;
 import com.inscripts.Keyboards.SmileyKeyBoard;
 import com.inscripts.interfaces.EmojiClickInterface;
 
@@ -277,19 +279,22 @@ public abstract class AbstractUserConversationActivity extends FragmentActivity
 
         textViewTitle.setText(otherUser.getName());
 
+        Glide.with(this)
+                .load(otherUser.getProfilePictureThumbnailPath())
+                .asBitmap()
+                .placeholder(R.drawable.avatar)
+                .into(circleImageProfilePicture);
+
         circleImageProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!otherUser.isProfilePictureSet()) {
-                    return;
+                if(otherUser.isProfilePictureSet()) {
+                    DisplayPictureDialog dialog = new DisplayPictureDialog(AbstractUserConversationActivity.this, otherUser);
+                    dialog.show();
                 }
-
-                Intent intent = new Intent(AbstractUserConversationActivity.this, DisplayPictureActivity.class);
-                intent.putExtra(DisplayPictureActivity.THUMBNAIL_KEY, otherUser.getProfilePictureThumbnailPath());
-                intent.putExtra(DisplayPictureActivity.FULL_PICTURE_KEY, otherUser.getProfilePicturePath());
-                startActivity(intent);
             }
         });
+
 
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override

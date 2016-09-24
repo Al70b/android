@@ -41,6 +41,8 @@ public final class ServerConstants {
         public static final String SERVER_FUNC_UNREGISTER_CLIENT_ID = "unregisterClientId";
         public static final String SERVER_FUNC_CLOSE_ACCOUNT = "closeAccount";
         public static final String SERVER_FUNC_SEND_CONTACT_EMAIL = "sendContactEmail";
+        public static final String SERVER_FUNC_SEND_MESSAGE = "sendMessage";
+        public static final String SERVER_FUNC_GET_MESSAGES_WITH_USER = "getMessagesByUserId";
     }
 
     public static final class CONSTANTS {

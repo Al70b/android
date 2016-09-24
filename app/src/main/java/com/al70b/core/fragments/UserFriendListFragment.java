@@ -191,6 +191,10 @@ public class UserFriendListFragment extends Fragment {
                 return;
             }
 
+            if(!isAdded()) {
+                return;
+            }
+
             // result is not null, check if request succeeded
             if (result.first) {
                 loadMoreListView.setVisibility(View.VISIBLE);

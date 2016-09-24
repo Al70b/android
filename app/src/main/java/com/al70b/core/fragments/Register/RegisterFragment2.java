@@ -84,6 +84,7 @@ public class RegisterFragment2 extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                cityRetrieve = clearableCity.getEditText().getText().toString();
             }
 
             @Override
@@ -106,15 +107,16 @@ public class RegisterFragment2 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 country = adapter.getItem(i);
+                countryRetrieve = country;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                countryRetrieve = null;
             }
         });
 
-        String countryArabic = translator.translate(defaultCountry, translator.getDictionary().COUNTRIES);
-        spinnerCountry.setSelection(adapter.getPosition(countryArabic));
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,14 +137,17 @@ public class RegisterFragment2 extends Fragment {
         });
 
         clearableCity.getEditText().setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-        if (cityRetrieve != null && country != null) {
-            clearableCity.getEditText().setText(cityRetrieve);
-            spinnerCountry.setSelection(adapter.getPosition(countryRetrieve));
 
-            cityRetrieve = null;
-            countryRetrieve = null;
+        if(cityRetrieve != null) {
+            clearableCity.getEditText().setText(cityRetrieve);
         }
 
+        if(countryRetrieve != null) {
+            spinnerCountry.setSelection(adapter.getPosition(countryRetrieve));
+        } else {
+            String countryArabic = translator.translate(defaultCountry, translator.getDictionary().COUNTRIES);
+            spinnerCountry.setSelection(adapter.getPosition(countryArabic));
+        }
         return viewGroup;
     }
 
